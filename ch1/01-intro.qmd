@@ -1,0 +1,1051 @@
+---
+title: 'Introduction to Multivariate Data'
+author: 'Pulong Ma'
+format: 
+  html:
+    css: custom.css
+    toc: true
+    toc_depth: 3
+    number-sections: true
+    code-fold: true
+    callout-appearance: default
+---
+
+
+```{r, message=FALSE,warning=FALSE,echo=FALSE}
+# Preload some packages
+knitr::opts_chunk$set(echo = TRUE, message=FALSE)
+library(ggplot2)
+library(dplyr)
+```
+
+## Introduction to R and RStudio 
+
+
+### Getting Started
+To download <font style="font-family: serif">R</font>, please choose your preferred [CRAN mirror](https://cran.r-project.org/mirrors.html). Here I recommend the mirror [0-Cloud](https://cloud.r-project.org/) available at [https://cloud.r-project.org/](https://cloud.r-project.org/).
+
+#### Installing R on macOS
+For **macOS** users, below are the steps you need to install <font style="font-family: serif">R</font>.
+
+1. Install Xcode (e.g., via the App Store). Skip this step if your Mac already has Xcode installed. 
+2. Install [XQuartz](https://www.xquartz.org).
+3. Go to [https://cloud.r-project.org/](https://cloud.r-project.org/) and click "**Download R for macOS**."
+4. Click on the download link for the latest R version for macOS and follow the instruction
+
+#### Install R on Windows
+
+For **Windows** users, the following instructions guide you to install R. 
+
+1. Go to [https://cloud.r-project.org/](https://cloud.r-project.org/) and click "**Download R for Windows**."
+2. Click "**install R for the first time**."
+3. Choose a download mirror (any CRAN mirror will work).
+4. Click on the download link for the latest R version for Windows and follow the instruction
+
+
+#### Install RStudio 
+RStudio has multiple panes in the window, open by default: one for writing and editing code, another for executing it, another for plots produced or help, and another that lists the R data objects available. RStudio can be download for free at [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/). 
+
+### Introduction to R Programming 
+
+:::{.callout-important title="Some Tips: R Working Environment" collapse="true"}
+
+Whenever you work with R for data analysis, it is recommended to load all the packages used in the data analysis pipeline before the function `sessionInfo()`. In addition, if random numbers are generated, it is also recommended to set random seed to ensure reproducibility using `set.seed()`. 
+
+\tiny
+```{r}
+#| code-summary: R Working Environment 
+# load packages 
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(readr)
+library(lubridate)
+
+sessionInfo()
+```
+\normalsize 
+
+:::
+
+
+:::{.callout-note title="R is a Calculator" collapse="true"}
+```{r, results='asis'}
+# Numeric, logical, character types
+3.14159             # numeric
+T                   # logical, can also be TRUE
+F                   # logical, can also be FALSE 
+"Stat 4750/5750"    # character
+
+# Basic arithmetic operators
+1 + 2
+20 - 3
+2 * 6
+4 / 3
+2 ^ 4
+-3.14
+(1 + 2) * (3 / 4)  # use parenthesis
+2 == 1
+
+# Vector
+c()  # empty vector
+c(1, 2, 3, 4)
+1:4
+
+# Look up the function help, 3 ways:
+# Following 3 ways work for most functions
+          # 1. search in help pane
+?sum      # 2. use ?
+sum(1:4)  # 3. move your cursor to the function, then press F1, the easiest way
+
+# The 3rd way doesn't work for functions having some symbols, like +, ==, %*%
+          # 1. search in help pane
+?`+`      # 2. use ? but wrap the symbol with ``
+```
+:::
+
+:::{.callout-note title="R Objects" collapse="true"}
+```{r}
+# Assignment operator <-
+
+# Numeric class
+mynumbers <- 5:12
+mynumbers
+mynumbers + 2
+mynumbers * 10
+
+typeof(mynumbers)      # type of an object
+is.numeric(mynumbers)  # check if is numeric (both integer and double type are numeric)
+is.vector(mynumbers)   # check if is vector
+length(mynumbers)      # length of an object
+
+# Character class
+mytext <- c("hello", "class", "four") 
+mytext
+typeof(mytext)
+is.numeric(mytext)
+is.character(mytext)
+is.character(mynumbers)
+is.vector(mytext)
+length(mytext)
+
+# Logical class
+mylogic <- c(TRUE, FALSE, TRUE, TRUE)
+typeof(mylogic)
+
+# Factor class
+gender <- c("male", "female", "female", "female", "male") 
+gender
+is.vector(gender)
+is.character(gender)
+is.vector(gender)
+is.factor(gender)
+
+genderf <- factor(gender)
+genderf
+is.character(genderf)
+is.factor(genderf)
+
+summary(mynumbers)  # numeric: 5-number summary
+summary(mylogic)    # logical: count how many T and F
+summary(mytext)     # character:
+summary(genderf)    # factor: count the frequency
+
+# List class
+mylist <- list(1, "ABC", FALSE)
+mylist
+is.vector(mylist)
+is.list(mylist)
+length(mylist)
+```
+:::
+
+:::{.callout-note title="Working with Matrices" collapse="true"}
+```{r}
+# All elements should be the same type
+mydata <- matrix(c(140, 120, 160, 145, 125, 65, 60, 63, 66, 61), ncol = 2, byrow = FALSE) 
+mydata
+dim(mydata)  # dimensions
+
+colnames(mydata) <- c("Weight.lbs", "Height.in")
+rownames(mydata) <- c("a", "b", "c", "d", "e")
+mydata
+summary(mydata)  # summary of each column
+```
+::: 
+
+:::{.callout-note title="Working with Data Frames" collapse="true"}
+```{r}
+#| code-summary: Data Frames
+# Different columns can have different types
+df <- data.frame(Weight.lbs = c(140, 120, 160, 145, 125, 180, 165),
+                 Height.in = c(65, 60, 63, 66, 61, 70, 68),
+                 Gender = c(rep("Female", 5), rep("Male", 2)), stringsAsFactors = T)
+df
+dim(df)
+head(df)     # the first 6 rows
+summary(df)  # summary of each column
+str(df)      # structure of the data frame
+```
+
+a `tibble` is a modern implementation of a data frame, designed to be more user-friendly and efficient, especially when working with larger datasets. 
+```{r}
+#| code-summary: tibble 
+# install.packages("tibble")
+library(tibble)
+# create a tibble from an existing object
+as_tibble(df) 
+
+# create a new tibble 
+tibble(x=1:5, 
+       y=1.0,
+       z=x^2+y)
+
+# define a row-by-row tibble
+tribble(
+  ~x, ~y, ~z,
+  "a", 2, 1,
+  "b", 3, 4
+)
+```
+
+:::
+
+:::{.callout-note title="Operations on Matrix and Data Frame" collapse="true"}
+```{r}
+mydata[, 1]                     # extract the first column
+mydata[1, ]                     # extract the first row
+mydata[1:2, ]                   # extract the first two rows
+mydata[3, 2]                    # extract the element in the third row and the second column
+df[seq(1, 7, 2), ]              # extract every second row
+seq(1, 7, 2)
+subset(df, Gender == "Male")    # select based on value
+
+t(mydata)                       # transpose of matrix
+mydata[, 1] * mydata[, 2]       # element-wise multiplication
+mydata %*% t(mydata)            # matrix multiplication
+```
+
+:::
+
+:::{.callout-note title="Plotting with `ggplot2` Package" collapse="true"}
+```{r}
+library(ggplot2)
+data("USArrests")
+dat = USArrests %>% as_tibble()
+dat %>% 
+  ggplot(aes(x=UrbanPop, y=Murder)) + 
+  geom_point()
+
+```
+
+```{r}
+dat_long = dat %>%
+  tidyr::pivot_longer(1:4,names_to = "Variable", values_to = "Value") 
+head(dat_long)
+
+# faceted histogram
+ggplot(dat_long, aes(Value)) + 
+  geom_histogram(bins=20, fill="grey80", color="white") + 
+  facet_wrap(~Variable, scales="free") + 
+  labs(title = "Distributions by Variable")
+```
+
+:::
+
+
+
+
+## Course Outline
+
+- Introduction to Multivariate Data — *Chapter 1*
+- Numerical Summaries of Multivariate Data — *Chapter 1*
+- Plotting Multivariate Data — *Chapter 2*
+- Multivariate Normal Distribution — *Lecture Notes*
+- Comparing Centers of Distributions — *Lecture Notes*  
+  (Hotelling $T^2$, MANOVA, Repeated Measures)
+- Principal Component Analysis — *Chapter 3*  
+  (Summarizing data in lower dimensions)
+- Exploratory Factor Analysis — *Chapter 5*  
+  (What to do when the variables of interest cannot be directly observed.)
+- Multidimensional Scaling — *Chapter 4*
+- Cluster Analysis — *Chapter 6*
+- Discriminant Analysis and Classification — *Lecture Notes*  
+  (Including linear discriminants, logistic regression, classification trees, and random forests)
+
+## Objectives of Multivariate Analysis
+
+- **Understand dependencies among variables**: What is the nature of associations among variables?
+- **Prediction**: If variables are associated, then we might be able to predict the value of some of them given information on the others. (Statistical inference)
+- **Hypothesis testing**: Are differences in sets of response means for two or more groups large enough to be distinguished from sampling variation? (Statistical inference)
+- **Dimensionality reduction**: Can we reduce the dimensionality of the problem by considering a small number of (linear) combinations of a large number of measurements without losing important information?
+  - Principal Components
+  - Factor Analysis
+  - Multidimensional Scaling
+
+- **Grouping (Cluster Analysis)**: Identify groups of “similar” units using a common set of measured traits.
+
+- **Classification**: Classify units into previously defined groups using a common set of measured traits.
+
+## Organization of Data and Notation
+
+- $n$ = the number of observations or units  
+- $p$ = the number of variables measured on each unit  
+- If $p = 1$, then we are back in the usual univariate setting  
+- $x_{ik}$ = the $i$-th observation of the $k$-th variable  
+
+$$
+\text{Observations} \quad \overset{\text{Variables}}{
+\begin{bmatrix}
+x_{11} & x_{12} & \cdots & x_{1p} \\
+x_{21} & x_{22} & \cdots & x_{2p} \\
+\vdots & \vdots & \ddots & \vdots \\
+x_{n1} & x_{n2} & \cdots & x_{np}
+\end{bmatrix}
+}
+$$
+
+- Data matrix: 
+$$ X_{n \times p}=\left[ \begin{array}{cccc} x_{11} & x_{12} & \cdots & x_{1p} \\ x_{21} & x_{22} & \cdots & x_{2p} \\ \vdots & \vdots & & \vdots  \\ x_{n1} & x_{n2} & \cdots & x_{np}\end{array} \right ] $$ 
+
+- This can be written as $n$ rows or as $p$ columns 
+$$
+X_{n \times p} =
+\begin{bmatrix}
+\mathbf{x}_1^{\prime} \\
+\mathbf{x}_2^{\prime} \\
+\vdots \\
+\mathbf{x}_n^{\prime}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\mathbf{x}_1^{\top} \\
+\mathbf{x}_2^{\top} \\
+\vdots \\
+\mathbf{x}_n^{\top}
+\end{bmatrix}
+=
+\left[ \mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_p \right]
+$$
+where both $\prime$ and $\top$ represent matrix transpose. 
+
+:::{.callout-note title="R Code: Data Organization" collapse="true"}
+The matrix notation corresponds to data frame organization. 
+```{r}
+X = as.matrix(USArrests)
+dim(X)
+t(X[1:5,])
+```
+::: 
+
+
+## Descriptive Statistics
+
+### Definitions 
+:::{.callout-note title="Sample Mean"}
+- The sample mean of the $k$th variable ($k = 1,...,p$) is 
+$$
+\bar{x}_k = \frac{1}{n} \sum_{i = 1}^n x_{ik}
+$$
+
+::: 
+
+:::{.callout-note title="Sample Covariance and Sample Standard Deviation"}
+
+- The sample variance of the $k$th variable is
+$$
+s^2_k = \frac{1}{n-1} \sum_{i=1}^n (x_{ik} - \bar{x}_k)^2  
+$$
+- the sample standard deviation is given by
+$$
+s_k = \sqrt{s^2_k}
+$$
+
+-  We often use $s_{kk}$ to denote the sample variance for the $k$-th variable. Thus, 
+$$
+s^2_k = s_{kk} 
+$$  
+:::
+
+:::{.callout-note title="Sample Covariance and Sample Correlation"}
+
+- The sample covariance between variable $k$ and variable $j$ is computed as
+$$
+s_{jk} = \frac{1}{n-1} \sum_{i=1}^n (x_{ij} - \bar{x}_j) (x_{ik} - \bar{x}_k) 
+$$
+-  If variables $k$ and $j$ are independent, the population 
+covariance will be exactly zero, but the sample covariance 
+will vary about zero.
+
+-  The sample correlation between variables $k$ and $j$ is defined as
+$$
+r_{jk} = \frac{s_{jk}}{\sqrt{s_{jj}} \sqrt{s_{kk}}}
+$$
+- $r_{jk}$ is between -1 and 1.
+-  $r_{jk} = r_{kj}$ 
+- The sample correlation is equal to the sample covariance if measurements are standardized. 
+- The sample correlation $(r_{ij})$ will vary about the value of the population correlation $(\rho_{ij})$
+::: 
+
+
+
+:::{.callout-note title="R Code: Descriptive Statistics" collapse="true"}
+```{r}
+#| code-fold: false
+# load built-in US crime rates data
+data("USArrests") 
+dat = USArrests 
+head(dat)
+```
+
+```{r}
+#| code-summary: "Sample mean"
+mu = colMeans(dat)
+mu 
+
+library(dplyr)
+dat %>% 
+  summarise(across(where(is.numeric), mean))
+```
+
+```{r}
+#| code-summary: "Sample variance"
+s2 = apply(dat, 2, var)
+s2 
+
+# using dplyr
+dat %>% 
+  summarise(across(where(is.numeric), var))
+```
+
+```{r}
+#| code-summary: Sample standard deviation
+# compute standard deviation from data 
+s = apply(dat, 2, sd)  
+# or from sample variance 
+s = sqrt(s2)
+s 
+```
+
+```{r}
+#| code-summary: Sample covariance
+n = nrow(dat)
+s_jk = 1/(n-1) * sum((dat[,1] - mu[1]) * (dat[,2] - mu[2]))
+s_jk 
+```
+
+```{r}
+#| code-summary: Sample correlation
+r_jk = s_jk / sqrt(s2[1] * s2[2])
+```
+
+
+:::
+
+
+### Covariance and Correlation Measures
+
+- Covariance and correlation measure *linear association*.  
+  Other non-linear (or curved) relationships may exist among variables even if $r_{jk} = 0$.
+  
+- A population correlation of zero means *no linear association*,  
+  but it does not necessarily imply independence.
+  
+
+:::{.callout-note title="Correlation Measures Linear Association"}
+
+
+```{r, echo=FALSE}
+#| fig-width: 8
+#| fig-height: 2
+#| fig.align: center
+#| fig.margin: false
+# ---- Setup ----
+set.seed(1)
+library(MASS)      # for mvrnorm
+library(dplyr)
+library(ggplot2)
+
+# ---- Helper: simulate BVN with given correlation ----
+sim_bvn <- function(n_samples = 200, rho = 0, mean_vec = c(0, 0)) {
+  n_vars <- 2
+  Sigma <- matrix(rho, nrow = n_vars, ncol = n_vars)
+  diag(Sigma) <- 1
+  xy <- as.data.frame(MASS::mvrnorm(n = n_samples, mu = mean_vec, Sigma = Sigma))
+  names(xy) <- c("x", "y")
+  xy
+}
+
+# ---- Simulate panels at different correlations ----
+target_rhos <- c(-0.99, -0.7, 0, 0.5, 0.9)
+
+df <- lapply(target_rhos, function(rho) {
+  dd <- sim_bvn(n_samples = 250, rho = rho)
+  dd$rho_target <- rho
+  dd
+}) |>
+  bind_rows() |>
+  group_by(rho_target) |>
+  mutate(r_hat = cor(x, y)) |>
+  ungroup() |>
+  mutate(panel_lab = sprintf("Correlation r = %.2f", r_hat))
+
+# ---- Plot panels ----
+p_corr <- ggplot(df, aes(x, y)) +
+  geom_point(size = .8, alpha = 0.75) +
+  coord_equal() +
+  facet_wrap(~ panel_lab, nrow = 1) +
+  labs(x = NULL, y = NULL,
+       title = "Correlation shows linear association") +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid.minor = element_blank(),
+    strip.text = element_text(face = "bold"),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+p_corr
+
+```
+
+:::
+
+
+:::{.callout-note title="Nonlinear Dependence with (Near) Zero Correlation"}
+```{r, echo=FALSE}
+#| fig-width: 5
+#| fig-height: 3
+#| fig.align: center
+#| fig.margin: false
+set.seed(2)
+n_samples <- 300
+
+# Circle (dependent, r ~ 0)
+theta <- runif(n_samples, 0, 2*pi)
+r0 <- 1
+x_c <- r0 * cos(theta) + rnorm(n_samples, 0, 0.05)
+y_c <- r0 * sin(theta) + rnorm(n_samples, 0, 0.05)
+circle <- data.frame(x = x_c, y = y_c,
+                     ex = sprintf("Circle (r = %.2f)", cor(x_c, y_c)))
+
+# Parabola (dependent, r ~ 0)
+x_p <- runif(n_samples, -1.5, 1.5)
+y_p <- x_p^2 + rnorm(n_samples, 0, 0.15)
+parab <- data.frame(x = x_p, y = y_p,
+                    ex = sprintf("Parabola (r = %.2f)", cor(x_p, y_p)))
+
+nonlin <- bind_rows(circle, parab)
+
+p_nonlin <- ggplot(nonlin, aes(x, y)) +
+  geom_point(size = 1, alpha = 0.75) +
+  facet_wrap(~ ex, nrow = 1) +
+  labs(x = NULL, y = NULL,
+       title = "Nonlinear dependence with (near) zero correlation") +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid.minor = element_blank(),
+    strip.text = element_text(face = "bold"),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+p_nonlin
+
+```
+::: 
+
+
+### Matrix Organization of Descriptive Statistics 
+
+:::{.callout-note title="Sample Mean"}
+- Sample mean: $\bar{\mathbf{x}}$ is the $p \times 1$ vector of sample means:
+
+$$
+\bar{\mathbf{x}} =
+\begin{bmatrix}
+\bar{x}_1 \\
+\bar{x}_2 \\
+\vdots \\
+\bar{x}_p
+\end{bmatrix}
+$$
+
+- $\bar{\mathbf{x}}$ is an estimate of the vector of population means:
+
+$$
+\boldsymbol{\mu} =
+\begin{bmatrix}
+\mu_1 \\
+\mu_2 \\
+\vdots \\
+\mu_p
+\end{bmatrix}
+$$
+```{r}
+#| code-summary: "R Code: Sample Mean"
+X = as.matrix(USArrests)
+xbar = colMeans(X)
+xbar 
+```
+
+- Centered Data: $X_c = X - \mathbf{1}_n \bar{\mathbf{x}}^\top$
+
+```{r}
+#| code-summary: "R Code: Centered Data"
+n = nrow(X) 
+ones_n = matrix(1, n, ncol=1)
+Xc = X - ones_n %*% t(xbar)
+```
+
+:::
+
+:::{.callout-note title="Sample Covariance"}
+- $S$ is the $p \times p$ symmetric matrix of sample variances (on the diagonal)  and sample covariances (the off-diagonal elements):
+
+$$
+S =
+\begin{bmatrix}
+s_{11} & s_{12} & s_{13} & \cdots & s_{1p} \\
+s_{21} & s_{22} & s_{23} & \cdots & s_{2p} \\
+\vdots & \vdots & \vdots &        & \vdots \\
+s_{p1} & s_{p2} & s_{p3} & \cdots & s_{pp}
+\end{bmatrix}
+= \frac{1}{n-1} \sum_{i=1}^n (\mathbf{x}_i - \bar{\mathbf{x}})(\mathbf{x}_i - \bar{\mathbf{x}})^{\top} = \frac{1}{n-1} X_c^\top X_c 
+$$
+
+- $S$ is an estimate of the population covariance matrix:
+
+$$
+\Sigma =
+\begin{bmatrix}
+\sigma_{11} & \sigma_{12} & \sigma_{13} & \cdots & \sigma_{1p} \\ 
+\sigma_{21} & \sigma_{22} & \sigma_{23} & \cdots & \sigma_{2p} \\
+\vdots      & \vdots      & \vdots      &        & \vdots      \\
+\sigma_{p1} & \sigma_{p2} & \sigma_{p3} & \cdots & \sigma_{pp}
+\end{bmatrix}
+$$
+
+```{r}
+#| code-summary: "R Code: Sample Covariance"
+S = cov(X) 
+# or using matrix algebra
+S_mat = t(Xc)%*%Xc/(n-1)
+signif(cbind(S, S_mat),4)
+```
+
+::: 
+
+:::{.callout-note title="Sample Correlation"}
+
+- The $p \times p$ matrix of sample correlations is also symmetric:  
+
+$$
+R =
+\begin{bmatrix}
+1       & r_{12} & r_{13} & \cdots & r_{1p} \\ 
+r_{21}  & 1      & r_{23} & \cdots & r_{2p} \\
+\vdots  & \vdots & \vdots &        & \vdots \\
+r_{p1}  & r_{p2} & r_{p3} & \cdots & 1
+\end{bmatrix}
+= D^{-1/2} \, S \, D^{-1/2}
+$$
+
+- $D^{-1/2}$ is a diagonal matrix with $(j,j)$ entry $1/\sqrt{s_{jj}} = 1/s_j$, i.e.,  
+
+$$
+D^{-1/2} =
+\begin{bmatrix}
+\frac{1}{\sqrt{s_{11}}} & 0                       & 0                       & \cdots & 0 \\
+0                       & \frac{1}{\sqrt{s_{22}}} & 0                       & \cdots & 0 \\
+\vdots                  & \vdots                  & \vdots                  &        & \vdots \\
+0                       & 0                       & 0                       & \cdots & \frac{1}{\sqrt{s_{pp}}}
+\end{bmatrix}
+$$
+
+- $R$ is an estimate of the population correlation matrix 
+$$
+P =
+\begin{bmatrix}
+1          & \rho_{12} & \rho_{13} & \cdots & \rho_{1p} \\ 
+\rho_{21}  & 1         & \rho_{23} & \cdots & \rho_{2p} \\
+\vdots     & \vdots    & \vdots    &        & \vdots   \\
+\rho_{p1}  & \rho_{p2} & \rho_{p3} & \cdots & 1
+\end{bmatrix}
+$$
+
+```{r}
+#| code-summary: "R Code: Sample Correlation"
+R = cor(X)
+R
+```
+
+```{r}
+#| code-summary: "R Code: Pairwise Scatterplots and Correlations"
+
+GGally::ggpairs(dat)
+```
+
+::: 
+
+
+## Standardization
+
+
+### Standardized Data 
+:::{.callout-note title="Standardized Data"}
+- Suppose $x_{ij}$ is the measurement on the $j$-th outcome variable for the $i$-th subject in the data set.  
+The standardized value is  
+
+$$
+z_{ij} = \frac{x_{ij} - \bar{x}_{j}}{s_j}
+$$
+
+- The entire set of $p$ standardized responses for the $i$-th subject can be computed as  
+
+$$
+\mathbf{z}_i =
+\begin{bmatrix}
+z_{i1} \\
+z_{i2} \\
+\vdots \\
+z_{ip}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\dfrac{x_{i1} - \bar{x}_{1}}{s_1} \\
+\dfrac{x_{i2} - \bar{x}_{2}}{s_2} \\
+\vdots \\
+\dfrac{x_{ip} - \bar{x}_{p}}{s_p}
+\end{bmatrix}
+= D^{-1/2} (\mathbf{x}_i - \bar{\mathbf{x}})
+$$
+
+```{r}
+#| code-summary: "R Code: Standardized Data"
+
+s_j = sqrt(diag(S))
+
+Dsqrt = diag(1/s_j)
+
+# using matrix algebra
+Z =  (X -  matrix(1, nrow(X), 1) %*% matrix(xbar, 1)) %*% Dsqrt
+
+# using scale function 
+X_scaled = as.matrix(scale(X, center=TRUE, scale=TRUE))
+
+
+# using mutate function
+dat_scaled <- dat %>%
+  mutate(across(everything(), ~ (.x - mean(.x)) / sd(.x)))
+
+``` 
+
+```{r}
+p1 = ggplot(dat, aes(Murder, Assault)) + 
+  geom_point(alpha=0.8) + 
+  labs(title="Unscaled")
+
+p2 = ggplot(dat_scaled, aes(Murder, Assault)) + 
+  geom_point(alpha=.8) + 
+  labs(title="Standardized (z-scores)")
+
+patchwork::wrap_plots(p1, p2, ncol=1)
+```
+
+
+::: 
+
+
+
+### Standardized Population Mean 
+
+:::{.callout-note title="Standardized Population Mean"}
+- The vector of true means for a set of standardized responses is  
+a vector of zeros:
+
+$$
+E(\mathbf{z}_i) =
+E\begin{bmatrix}
+z_{i1} \\
+z_{i2} \\
+\vdots \\
+z_{ip}
+\end{bmatrix}
+=
+E\begin{bmatrix}
+\dfrac{x_{i1} - \bar{x}_{1}}{s_1} \\
+\dfrac{x_{i2} - \bar{x}_{2}}{s_2} \\
+\vdots \\
+\dfrac{x_{ip} - \bar{x}_{p}}{s_p}
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 \\
+0 \\
+\vdots \\
+0
+\end{bmatrix}
+$$
+
+- The vector of estimated means for a set of standardized responses  
+is also a vector of zeros.
+
+:::
+
+### Standardized Population Covariance
+
+:::{.callout-note title="Standardized Population Covariance"}
+
+- The true covariance matrix for a set of standardized responses is the population correlation matrix:
+
+$$
+\text{Var}(\mathbf{z}_i) = P =
+\begin{bmatrix}
+1 & \rho_{12} & \cdots & \rho_{1p} \\
+\rho_{21} & 1 & \cdots & \rho_{2p} \\
+\vdots & \vdots & \ddots & \vdots \\
+\rho_{p1} & \rho_{p2} & \cdots & 1
+\end{bmatrix}
+$$
+
+- An estimate of the true covariance matrix for a set of standardized responses is the sample correlation matrix:
+
+$$
+\widehat{\text{Var}(\mathbf{z}_i)} = R =
+\begin{bmatrix}
+1 & r_{12} & \cdots & r_{1p} \\
+r_{21} & 1 & \cdots & r_{2p} \\
+\vdots & \vdots & \ddots & \vdots \\
+r_{p1} & r_{p2} & \cdots & 1
+\end{bmatrix}
+= D^{-1/2} S D^{-1/2}
+$$
+
+::: 
+
+
+## Exercises 
+
+
+### Exercise 1: Data Types
+
+a. For each of the following commands, either explain why they should be errors, or explain the non-erroneous result.
+```
+    x <- c("5","12","7")
+    max(x)
+    sort(x)
+    sum(x)
+```
+
+b. For the next two commands, either explain their results, or why they
+should produce errors.
+```
+    y <- c("5",7,12)
+    y[2] + y[3]
+```
+
+c. For the next two commands, either explain their results, or why they should
+produce errors.
+```
+    z <- data.frame(z1="5",z2=7,z3=12)
+    z[1,2] + z[1,3]
+```
+
+:::{.callout-tip title="Partial Solution" collapse="true"}
+
+- `x` is binded to a vector of characters instead of            numerical values. The functions `max`, `sort`, `sum` should take numerical values as input, so the values in `x` are first converted from characters to numerical values implicitly and then the functions apply to these incorrect numerical values
+
+- `y` is a vector of characters, which cannot be used for addition
+
+- `z` is a data frame, but the variable `z1` is a character while `z2` and `z3` are numerical. Adding `z2` and `z3` will produce the correct results.
+
+
+::: 
+
+
+### Exercise 2: Linear Algebra
+
+Consider the linear system $A X = b$, where $A$ is an $n\times n$ positive definite matrix and $b$ is a $n$-dimensional vector, the unique solution is $X = A^{-1}b$. Please answer the following questions:
+
+a. Write an R function called `my_solver()` such that given inputs $A$ and $b$, the function `my_solver()` returns the solution of the linear system, i.e., `X <- my_solver(A, b)`. 
+
+b. Run the following code to get $A$ and $b$. 
+```
+    n = 100
+    set.seed(123)
+    A = rWishart(1, 150, diag(n))[ , ,1]
+    b = rnorm(n,1)
+```
+Then use your function `my_solver()` to produce the answer and verify your solution.  (hint: $AX$ should be equal to $b$)
+
+:::{.callout-tip title="Partial Solution" collapse="true"}
+
+```{r}
+my_solver <- function(A, b){
+  R = chol(A)
+  x = backsolve(R, backsolve(R, b, transpose=TRUE))
+  return(x)
+}
+
+n = 100
+set.seed(123)
+A = rWishart(1, 150, diag(n))[ , ,1]
+b = rnorm(n,1)
+x1 = my_solver(A, b)
+sum((A%*%x1-b)^2)
+
+```
+
+::: 
+
+### Exercise 3: Working with `ggplot2` Package
+
+EPA monitors Air Quality data across the entire U.S. The file `AQSdata.csv` contains daily PM 2.5 concentrations and other  information. Please answer the following questions using the `ggplot()` function for plotting. In addition make sure that all the x-axis and y-axis labels have 14 font size.
+
+a. Read the data file `AQSdata.csv` into R. 
+
+b. Generate density plots of PM2.5 concentrations grouped by `County` in one single panel, where each density should have its own color. What do you find from the figure? 
+
+c. Plot histograms of PM2.5 concentrations across different counties with one panel for one histogram. 
+
+d. Generate boxplots of PM2.5 concentrations by County. What would you say about the distributions?
+
+e. Reorder the boxplots above by the median value of PM2.5 concentrations. 
+
+f. Converting the Site ID to a factor and plot the historgram grouped by `Site ID`.
+
+g. Generate the time series plot for the monitoring Site ID 450190048.
+
+h. Plot time series of PM2.5 concentrations for all monitoring sites in one panel, where each site has its own color 
+
+i. Plot time series of PM2.5 concentrations across all monitoring sites in multiple panels, where one panel only has one site, and each row only has two panels.
+
+j. In the time series plot, there seems to be not enough space to hold the x-axis labels. One way to avoid this is to rotate the axis labels. Please rotate all the time labels 45 degree.
+
+
+:::{.callout-tip title="Partial Solution" collapse="true"}
+
+```{r}
+library(readr)
+library(lubridate)
+
+df = read_csv("AQSdata.csv")
+head(df)
+
+theme_mat = theme(axis.text=element_text(size=14),
+        axis.title=element_text(size=14,face="bold")
+        )
+df = rename(df, PM2.5=`Daily Mean PM2.5 Concentration`)
+ggplot(df) + 
+  geom_freqpoly(aes(x=PM2.5, y=after_stat(density), color=COUNTY), binwidth=2) + 
+  xlab("Daily PM2.5 concentration (ug/m3 LC)") + 
+  theme_mat
+
+ggplot(df) + 
+  geom_histogram(aes(x=PM2.5), binwidth=.8) + 
+  facet_wrap(~COUNTY, ncol=3) + 
+  xlab("Daily PM2.5 concentration (ug/m3 LC)") + 
+  theme_mat
+
+ggplot(df) + 
+  geom_boxplot(aes(x=COUNTY, y=PM2.5)) + 
+  xlab("County") + 
+  ylab("Daily PM2.5 concentration (ug/m3 LC)") + 
+  theme_mat
+
+ggplot(df) + 
+  geom_boxplot(aes(x=reorder(COUNTY, PM2.5, FUN=median), y=PM2.5)) + 
+  xlab("County") + 
+  ylab("Daily PM2.5 concentration (ug/m3 LC)") + 
+  theme_mat
+
+df1 = df
+df1$`Site ID` =  as.factor(df$`Site ID`)
+ggplot(df1) + 
+  geom_freqpoly(aes(x=PM2.5, color=`Site ID`), binwidth=2) + 
+  xlab("Daily PM2.5 concentration (ug/m3 LC)") + 
+  theme_mat
+
+df1 %>% 
+  filter(`Site ID`==450190048) %>%
+  ggplot() + 
+  geom_line(aes(x=mdy(Date), y=PM2.5)) + 
+  labs(
+    x = "Time",
+    y = "Daily PM2.5 concentration (ug/m3 LC)"
+  ) + theme_mat
+
+df1 %>% 
+  ggplot() + 
+  geom_line(aes(x=mdy(Date), y=PM2.5, color=`Site ID`)) + 
+  labs(
+    x = "Time",
+    y = "Daily PM2.5 concentration (ug/m3 LC)"
+  ) + theme_mat
+
+g <- df1 %>% 
+  ggplot() + 
+  geom_line(aes(x=mdy(Date), y=PM2.5)) + 
+  facet_wrap(~`Site ID`, ncol=2) + 
+  labs(
+    x = "Time",
+    y = "Daily PM2.5 concentration (ug/m3 LC)"
+  ) + theme_mat
+print(g) 
+
+g + theme(axis.text.x = element_text(angle=45))
+```
+
+
+::: 
+
+### Exercise 4: Working with `dplyr` Package
+
+Continuing working with the above PM 2.5 data.
+
+a. Filter all the observations in the county Greenville. How many observations are there? 
+
+b. Filter all the observations in Greenville in August 2021
+
+c. Filter all the observations in Greenville in August 2021 and select the variables PM2.5 concentrations, Date,  latitude and longitude of sites
+
+d. Generate scatterplots of PM2.5 against latitude and longitude in two different panels
+
+:::{.callout-tip title="Partial Solution" collapse="true"}
+
+```{r}
+library(dplyr)
+
+df %>% 
+  filter(COUNTY=="Greenville")
+
+df %>% 
+  mutate(Date = mdy(Date),
+         YM = format_ISO8601(Date, precision="ym")
+  ) %>%
+  filter(COUNTY=="Greenville", YM=="2021-08") 
+
+df %>% 
+  mutate(Date = mdy(Date),
+         YM = format_ISO8601(Date, precision="ym")
+  ) %>%
+  filter(COUNTY=="Greenville", YM=="2021-08") %>% 
+  dplyr::select(PM2.5, Date, SITE_LATITUDE, SITE_LONGITUDE)
+
+df %>% 
+  dplyr::select(PM2.5, SITE_LATITUDE, SITE_LONGITUDE) %>% 
+  pivot_longer(cols=c("SITE_LATITUDE", "SITE_LONGITUDE"), 
+               names_to="variable", 
+               values_to="value") %>%
+  ggplot(aes(x=value, y=PM2.5)) + 
+  geom_point() + 
+  facet_wrap(~variable, scale="free") + 
+  xlab("") + 
+  ylab("Daily PM2.5 concentration (ug/m3 LC)") + 
+  theme_mat
+
+
+```
+
+::: 

@@ -1,0 +1,49 @@
+
+% Make knitr's verbatim OUTPUT smaller
+\usepackage{etoolbox}
+\AtBeginEnvironment{verbatim}{\small}   % use \footnotesize, \scriptsize, or \tiny if needed
+
+% If you ALSO want smaller code blocks (the shaded source code):
+\AtBeginEnvironment{Shaded}{\small}
+
+% (Optional) more control over verbatim:
+% \usepackage{fvextra}
+% \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,fontsize=\small}
+% \AtBeginEnvironment{Shaded}{\small}
+
+%\usepackage{bm}
+
+\newcommand{\bfx}{\mathbf{x}}
+\newcommand{\bfy}{\mathbf{y}}
+\newcommand{\bfz}{\mathbf{z}}
+
+\def\bfone{\mathbf{1}}
+\def\bfzero{\mathbf{0}}
+\def\bfY{\mathbf{Y}}
+\def\bfy{\mathbf{y}}
+\def\bfu{\mathbf{u}}
+\def\bfa{\mathbf{a}}
+\def\bfb{\mathbf{b}}
+\def\bfc{\mathbf{c}}
+\def\bfC{\mathbf{C}}
+\def\bfd{\mathbf{b}}
+
+\def\bfX{\mathbf{X}}
+\def\bfZ{\mathbf{Z}}
+\def\bfe{\mathbf{e}}
+\def\bfv{\mathbf{v}} 
+\def\bfm{\mathbf{m}}
+\def\bfQ{\mathbf{Q}}
+\def\bfQhat{\hat{Q}}
+\def\betahat{\hat{\beta}}
+\def\muhat{\hat{\mu}}
+
+\def\bfmu{\boldsymbol \mu}
+\def\bfbetahat{\hat{\boldsymbol \beta} }
+\def\bfbeta{\boldsymbol \beta}
+\def\bfepsilon{\boldsymbol \epsilon}
+\def\bftheta{\boldsymbol \theta}
+\def\bfdelta{\boldsymbol \delta}
+\def\bftau{\boldsymbol \tau}
+
+

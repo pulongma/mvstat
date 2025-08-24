@@ -1,0 +1,980 @@
+---
+title: 'Graphs and Data Visualization'
+author: 'Pulong Ma'
+format: 
+  html:
+    css: custom.css
+    toc: true
+    toc_depth: 3
+    number-sections: true
+    code-fold: true
+    callout-appearance: default
+---
+
+```{r, message=FALSE,warning=FALSE,echo=FALSE}
+# Preload some packages
+knitr::opts_chunk$set(echo = TRUE, message=FALSE)
+library(ggplot2)
+library(dplyr)
+library(reshape2)
+```
+
+
+
+
+
+
+
+## Introduction
+
+- Graphs reveal information about the center, shape, and spread of distributions.
+- They can also show typical and extreme outcomes, associations, and differences between groups.
+- Different data types require different graph types.
+
+## Categorical Data
+
+Categorical data types:
+
+- **Nominal**: no natural order (e.g., eye color, blood type).
+- **Ordinal**: ordered, but spacing not meaningful (e.g., therapy response).
+- **Interval**: ordered and evenly spaced (e.g., fruit count).
+
+### Bar Chart Example
+Bar chart is used for displaying categorical variables. 
+
+::: {.callout-tip title="R code" collapse="true"}
+
+
+
+
+
+```{r}
+#| code-fold: false
+#| eval: false
+colors <- c('Red', 'Pink', 'White')
+counts <- c(80, 60, 40)
+bar_df <- data.frame(Color = colors, Count = counts)
+ggplot(bar_df, aes(x = Color, y = Count)) +
+  geom_bar(stat = 'identity', fill = 'steelblue') +
+  theme_minimal() +
+  labs(title = 'Poinsettia Colors')
+```
+
+
+
+
+
+:::
+
+
+
+
+
+
+```{r, echo=FALSE}
+colors <- c('Red', 'Pink', 'White')
+counts <- c(80, 60, 40)
+bar_df <- data.frame(Color = colors, Count = counts)
+ggplot(bar_df, aes(x = Color, y = Count)) +
+  geom_bar(stat = 'identity', fill = 'steelblue') +
+  theme_minimal() +
+  labs(title = 'Poinsettia Colors')
+```
+
+
+
+
+
+
+::: {.callout-note title="Question"}
+What does the bar plot tell you about the color distribution for this poinsettia variety?
+:::
+
+## Quantitative Data
+
+- Measured on a numeric scale: e.g., weights, heights, cholesterol levels.
+- Use histograms, boxplots, dotplots, density plots.
+
+### Histogram Example (Tip Amounts)
+
+Histograms classify values into bins of equal width
+
+- Heights of bars represent relative frequencies
+
+::: {.callout-tip title="R code" collapse="true"}
+
+
+
+
+
+```{r}
+#| eval: false
+#| code-fold: false
+data("tips", package="reshape2")
+ggplot(tips, aes(x = tip)) +
+  geom_histogram(binwidth = 1, fill = 'orange', color = 'black') +
+  theme_minimal() +
+  labs(title = 'Histogram of Tip Amounts', x = 'Tip ($)', y = 'Count')
+```
+
+
+
+
+
+:::
+
+
+
+
+
+
+```{r, echo=FALSE}
+data("tips", package="reshape2")
+ggplot(tips, aes(x = tip)) +
+  geom_histogram(binwidth = 1, fill = 'orange', color = 'black') +
+  theme_minimal() +
+  labs(title = 'Histogram of Tip Amounts', x = 'Tip ($)', y = 'Count')
+```
+
+
+
+
+
+
+
+::: {.callout-note title="Question"}
+What does this histogram tell you about tips at this restaurant?
+:::
+
+::: {.callout-tip}
+- Center
+- Shape
+- Spread
+:::
+
+
+### Try Different Bin Widths
+
+::: {.callout-tip title="R code" collapse="true"}
+
+
+
+
+
+```{r}
+#| code-fold: false
+#| eval: false
+
+bw_list <- c(0.25, 0.5, 1.0)
+plots <- lapply(bw_list, function(bw) {
+  ggplot(tips, aes(x = tip)) +
+    geom_histogram(binwidth = bw, fill = 'lightblue', color = 'black') +
+    ggtitle(paste('Bin Width =', bw)) +
+    theme_minimal()
+})
+library(gridExtra)
+do.call(grid.arrange, c(plots, ncol = 1))
+```
+
+
+
+
+
+:::
+
+
+
+
+
+
+```{r, message=FALSE, echo=FALSE}
+bw_list <- c(0.25, 0.5, 1.0)
+plots <- lapply(bw_list, function(bw) {
+  ggplot(tips, aes(x = tip)) +
+    geom_histogram(binwidth = bw, fill = 'lightblue', color = 'black') +
+    ggtitle(paste('Bin Width =', bw)) +
+    theme_minimal()
+})
+library(gridExtra)
+do.call(grid.arrange, c(plots, ncol = 1))
+```
+
+
+
+
+
+
+### Boxplot
+Boxplot is graphical display of the five number data summary (minimum, Q1, median,
+Q3, maximum). It is good for comparing samples from different populations.
+
+::: {.callout-tip title="R code" collapse="true"}
+
+
+
+
+
+```{r}
+#| code-fold: false
+#| eval: false
+
+ggplot(tips, aes(y = tip)) +
+  geom_boxplot(fill = 'lightgreen') +
+  theme_minimal() +
+  labs(title = 'Boxplot of Tip Amounts', y = 'Tip ($)')
+```
+
+
+
+
+
+:::
+
+
+
+
+
+
+
+```{r, echo=FALSE}
+ggplot(tips, aes(y = tip)) +
+  geom_boxplot(fill = 'lightgreen') +
+  theme_minimal() +
+  labs(title = 'Boxplot of Tip Amounts', y = 'Tip ($)')
+```
+
+
+
+
+
+
+## One Quantitative & One Categorical
+
+Side by side box plot and dot plots can be used to compare
+distributions of a quantitative response variable for different levels of a categorical variable.
+
+::: {.callout-tip title="R code" collapse="true"}
+
+
+
+
+
+```{r}
+#| code-fold: false
+#| eval: false
+ggplot(tips, aes(x = day, y = tip)) +
+  geom_boxplot(fill = 'skyblue') +
+  theme_minimal() +
+  labs(title = 'Tip Amount by Day of Week')
+```
+
+
+
+
+
+:::
+
+
+
+
+
+
+```{r,echo=FALSE}
+ggplot(tips, aes(x = day, y = tip)) +
+  geom_boxplot(fill = 'skyblue') +
+  theme_minimal() +
+  labs(title = 'Tip Amount by Day of Week')
+```
+
+
+
+
+
+
+## Two Quantitative Variables
+
+Scatterplots convey information about associations between quantitative variables and also about unusual observations. 
+
+::: {.callout-tip title="R code" collapse="true"}
+
+
+
+
+
+```{r}
+#| code-fold: false
+#| eval: false
+
+
+tips$bill <- tips$total_bill
+ggplot(tips, aes(x = bill, y = tip)) +
+  geom_point() +
+  geom_smooth(method = 'lm', se = FALSE, col = 'red') +
+  theme_minimal() +
+  labs(title = 'Tip vs Bill Amount', x = 'Bill ($)', y = 'Tip ($)')
+```
+
+
+
+
+
+:::
+
+
+
+
+
+
+```{r}
+#| echo: false
+
+tips$bill <- tips$total_bill
+ggplot(tips, aes(x = bill, y = tip)) +
+  geom_point() +
+  geom_smooth(method = 'lm', se = FALSE, col = 'red') +
+  theme_minimal() +
+  labs(title = 'Tip vs Bill Amount', x = 'Bill ($)', y = 'Tip ($)')
+```
+
+
+
+
+
+
+- How is the tip related to the bill?
+- Which variable is the response? Which is the explanatory variable?
+- What type of relationship would you expect?
+
+
+
+
+## Exercises
+
+### Exercise 1: Bar Chart from Survey
+Create a bar chart for the following survey results:
+
+| Pet Type | Count |
+|----------|-------|
+| Dog      | 15    |
+| Cat      | 10    |
+| Fish     | 3     |
+| Bird     | 2     |
+
+Use `ggplot2` to visualize the data and describe what the chart tells you about pet preferences.
+
+::: {.callout-tip title="View Solution" collapse="true"}
+Here’s the R code to visualize the data using **ggplot2**:
+
+
+
+
+
+
+```{r}
+library(ggplot2)
+pet_df <- data.frame(
+  Pet = c("Dog", "Cat", "Fish", "Bird"),
+  Count = c(15, 10, 3, 2)
+)
+ggplot(pet_df, aes(x = Pet, y = Count, fill = Pet)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(title = "Pet Types", x = "Pet Type", y = "Count") +
+  scale_fill_brewer(palette = "Set2")
+```
+
+
+
+
+
+:::
+
+---
+
+### Exercise 2: Simulated Histogram
+Simulate 300 observations from a normal distribution with mean 70 and standard deviation 10.
+
+1. Plot a histogram using binwidth = 5 and 10.
+2. Overlay a density curve using `geom_density()`.
+3. Describe the center, spread, and shape of the distribution.
+
+::: {.callout-tip title="View Solution" collapse="true"}
+
+
+
+
+
+```{r}
+set.seed(4750)
+x <- rnorm(300, mean = 70, sd = 10)
+# Histogram with binwidth 5
+p1 <- ggplot(data.frame(x), aes(x = x)) +
+  geom_histogram(binwidth = 5, fill = "skyblue", color = "white", alpha = 0.7) +
+  geom_density(aes(y = after_stat(count)*5), color = "red", linewidth = 1.2) +
+  labs(title = "Histogram (binwidth = 5) with Density", x = "Value", y = "Count") +
+  theme_minimal()
+
+# Histogram with binwidth 10
+p2 <- ggplot(data.frame(x), aes(x = x)) +
+  geom_histogram(binwidth = 10, fill = "orange", color = "white", alpha = 0.7) +
+  geom_density(aes(y =  after_stat(count)*10), color = "red", linewidth = 1.2) +
+  labs(title = "Histogram (binwidth = 10) with Density", x = "Value", y = "Count") +
+  theme_minimal()
+
+library(patchwork)
+p1 / p2
+```
+
+
+
+
+
+:::
+
+---
+
+### Exercise 3: Boxplots by Group
+Simulate exam scores for two groups of students (Group A and Group B), each with 50 observations.
+
+1. Generate scores from `rnorm(50, mean=80, sd=5)` for Group A and `rnorm(50, mean=75, sd=7)` for Group B.
+2. Create a combined dataframe and make a boxplot comparing the two groups.
+3. Interpret differences in central tendency and variability.
+
+::: {.callout-tip title="View Solution" collapse="true"}
+Here is the R code and a sample interpretation:
+
+
+
+
+
+
+```{r}
+set.seed(4750)
+group_a <- rnorm(50, mean = 80, sd = 5)
+group_b <- rnorm(50, mean = 75, sd = 7)
+
+scores <- data.frame(
+  Score = c(group_a, group_b),
+  Group = rep(c("A", "B"), each = 50)
+)
+
+library(ggplot2)
+ggplot(scores, aes(x = Group, y = Score, fill = Group)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "Exam Scores by Group", y = "Score")
+```
+
+
+
+
+
+Interpretation:
+
+- Central tendency: Group A has a higher median and mean score than Group B.
+- Variability: Group B shows a wider spread (greater interquartile range and more outliers) compared to Group A, which aligns with the larger standard deviation used in its simulation.
+
+:::
+
+---
+
+### Exercise 4: Scatterplot with Regression
+Simulate a dataset of 100 observations where `x ~ runif(100, 0, 100)` and `y = 0.5 * x + rnorm(100, 0, 5)`.
+
+1. Create a scatterplot of `y` vs `x`.
+2. Add a regression line.
+3. Describe the relationship and interpret the slope.
+
+::: {.callout-tip title="View Solution" collapse="true"}
+
+
+
+
+
+```{r}
+set.seed(4750)
+x <- runif(100, 0, 100)
+y <- 0.5 * x + rnorm(100, 0, 5)
+data <- data.frame(x = x, y = y)
+
+ggplot(data, aes(x = x, y = y)) +
+  geom_point(color = "steelblue", alpha = 0.7) +
+  geom_smooth(method = "lm", se = TRUE, color = "red") +
+  labs(title = "Scatterplot of y vs x with Regression Line",
+       x = "x",
+       y = "y") +
+  theme_minimal()
+```
+
+
+
+
+
+
+Interpretation:
+
+- There is a strong positive linear relationship between `x` and `y`, as expected from the model.
+- The slope of the regression line is close to 0.5, indicating that, on average, each 1-unit increase in `x` results in a 0.5-unit increase in `y`.
+- The scatter around the regression line reflects the normal error term with standard deviation 5.
+:::
+
+---
+
+
+## Two Quantitative & One Categorical
+
+- **Grouping**:  a  graph consisting of a *single* panel with multiple variables differentiated using different visual characteristics such as color, shape, and size. 
+- **Faceting**: a graph consisting of several separate panels, with one for each level of the faceted variable, or combination of two faceted variables.
+
+
+
+
+
+
+```{r}
+#| code-summary: Grouping 
+ggplot(tips, aes(x = bill, y = tip, color = sex)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = 'lm', se = FALSE) +
+  labs(title = 'Tip vs Bill by Gender')
+```
+
+```{r}
+#| code-summary: Faceting 
+ggplot(tips, aes(x=bill, y=tip)) + 
+  geom_point(alpha=0.6) + 
+  geom_smooth(method = 'lm', se = FALSE) + 
+  facet_wrap(~ sex, ncol=2) + 
+  labs(title = 'Tip vs Bill by Gender')
+```
+
+
+
+
+
+
+- Does the relationship differ for men and women?
+
+
+## Two Quantitative & Two Categorical Variables
+
+
+
+
+
+
+```{r}
+#| code-summary: Grouping + Faceting 
+ggplot(tips, aes(x = bill, y = tip, color = sex)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_grid(smoker ~ .) +
+  labs(title = "Tip vs Bill by Sex and Smoking Status",
+       x = "Bill ($)", y = "Tip ($)")
+```
+
+```{r}
+#| code-summary: Faceting Only 
+ggplot(tips, aes(x = bill, y = tip, color = sex)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_grid(smoker ~ sex) +
+  labs(title = "Tip vs Bill by Sex and Smoking Status",
+       x = "Bill ($)", y = "Tip ($)")
+```
+
+
+
+
+
+
+## Three Variables 
+
+### 3D Scatterplot 
+
+
+
+
+
+
+```{r}
+library(plotly)
+data(mtcars)
+# Example with mtcars
+plot_ly(
+  data = mtcars,
+  x = ~mpg, y = ~hp, z = ~wt,
+  type = 'scatter3d',
+  mode = 'markers',
+  color = ~as.factor(cyl)
+)
+```
+
+
+
+
+
+
+### Bubble Chart
+
+
+
+
+
+```{r}
+ggplot(mtcars, 
+       aes(x=mpg, y=hp, size=wt)) + 
+  geom_point(alpha=.5, 
+             fill="red", 
+             color="black",
+             shape=21) + 
+  scale_size_continuous(range = c(1, 5)) 
+```
+
+
+
+
+
+
+## Scatterplot Matrix
+A scatterplot matrix (sometimes called a "pairs plot") is used to visualize the pairwise relationships between several quantitative variables in a dataset, all at once.
+
+- Each row and column represents one variable.
+- The off-diagonal panels show scatterplots for each pair of variables (e.g., x vs y, x vs z, y vs z).
+- The diagonal often shows the distribution of each variable (as a histogram, density, or boxplot).
+- You can optionally color points by a group or class variable.
+
+
+
+
+
+
+```{r}
+data(mtcars)
+library(GGally)
+GGally::ggpairs(
+  mtcars,
+  columns = c("mpg", "hp", "wt")
+)
+```
+
+```{r, include=FALSE,eval=FALSE}
+pairs(mtcars[,c("mpg", "hp", "wt")])
+```
+
+```{r}
+# compute correlations
+cor(mtcars[,c("mpg", "hp", "wt")])
+```
+
+
+
+
+
+
+## Parallel Coordinates 
+
+A parallel coordinates plot is a powerful visualization tool used for exploring and comparing multivariate data (data with several quantitative variables). It’s especially valuable when you want to see how patterns, clusters, or outliers appear across many variables at once.
+
+
+
+
+
+
+```{r}
+
+# Convert cyl to factor for coloring
+mtcars$cyl <- as.factor(mtcars$cyl)
+
+GGally::ggparcoord(
+  mtcars,
+  columns = c(1,4,6), # mpg, hp, wt
+  groupColumn = "cyl",
+  scale = "uniminmax",    # Normalize to [0,1] for fair comparison
+  showPoints = TRUE,
+  alphaLines = 0.6
+) +
+  scale_color_brewer(palette = "Dark2", name = "Cylinders") +
+  labs(title = "Parallel Coordinates Plot: mtcars (by cylinders)")
+
+```
+
+
+
+
+
+
+**Interpretation:**
+
+- Each line is a car.
+- The color indicates the number of cylinders.
+- Cars with more cylinders generally have lower mpg and higher hp and weight.
+
+
+## Exercises 
+
+### Exercise 1: Ames Housing Data 
+
+Load the Ames Housing data into R and answer the following questions: 
+
+
+
+
+
+```{r}
+#| code-fold: false
+Ames = read.csv("Ameshousing.csv")
+head(Ames)
+```
+
+
+
+
+
+
+a. Summary Statistics 
+  * How many homes were included in this study?  
+  * What are the names of the variables for which information was collected? 
+  *  Compute the median living area, the mean living area and the standard error for the mean living area for all of the houses in the data set.
+  * Compute the median living area, the mean living area and the standard error for the mean living area for the houses in each neighborhood.
+  * Compute the number of houses, mean sale price and the standard error of the mean sale price for houses with living areas less than 1800 square feet.
+  * Summarize in a paragraph the information in the correlation matrix about associations between sales price, lot size, living area, garage area, and number of rooms from the sample correlation matrix.
+
+:::{.callout-tip title="View Solution" collapse="true"}
+
+
+
+
+
+```{r}
+dim(Ames)[1]
+```
+
+```{r}
+names(Ames)
+```
+
+```{r}
+mean_LivingArea <- mean(Ames$LivingArea)
+mean_LivingArea
+median_LivingArea <- median(Ames$LivingArea)
+sderr_LivingArea <- sd(Ames$LivingArea)/ sqrt(length(Ames$LivingArea))
+sderr_LivingArea
+```
+
+```{r}
+mean_LivingArea <- tapply(Ames$LivingArea, Ames$Neighborhood, mean)
+mean_LivingArea
+
+median_LivingArea <- tapply(Ames$LivingArea, Ames$Neighborhood, median)
+median_LivingArea
+
+sd_LivingArea <- tapply(Ames$LivingArea, Ames$Neighborhood, sd)
+sderr_LivingArea <- sd_LivingArea / sqrt(tapply(Ames$LivingArea, Ames$Neighborhood, length))
+sderr_LivingArea
+```
+
+```{r}
+Ames2 <- Ames[ Ames$LivingArea<1800, ]
+n <- dim(Ames2)[1]
+cat("number of houses with living area < 1800: ", n)
+```
+
+```{r}
+mean_Saleprice <- mean(Ames2$SalePrice)
+cat("Mean Sale Price for Houses with Living Area < 1800: ", mean_Saleprice)
+```
+
+```{r}
+sderr_SalePrice <- sd(Ames2$SalePrice)/ sqrt(length(Ames2$SalePrice))
+cat("Stderror for Mean Sale Price: ", sderr_SalePrice)
+```
+
+
+
+
+
+
+:::
+
+b. Graphical Summaries 
+
+ * Create a scatterplot with a smooth curve passed through the points.
+ * Fit a least squares regression line to the data in the plot.
+ * What does the regression line indicate about sales prices of houses increase with living area?
+ * What information is provided by the plot with smooth curve?
+ * Add a new variable to the data frame that contains information on sales price divided by the living area in the house, i.e., the sales price per square foot of living area.
+ * Create a histogram for the price per square foot of living space.
+ * What does this histogram reveal about the distribution of costs per square foot of living space for houses sold in the Ames area? The description should be based on the shape, center and spread of the distribution. 
+ * Create separate plots of sales prices versus living space categorized for each neighborhood
+ * Construct side-by-side box plots to compare prices per square foot of living space across neighborhoods.
+ * Describe the relationship between sales price and total living area of house changes across the three neighborhoods.
+
+:::{.callout-tip title="View Solution" collapse="true"}
+
+
+
+
+
+
+```{r}
+library(ggplot2)
+Ames %>% 
+  ggplot(aes(x=LivingArea, y=SalePrice)) + 
+    geom_point(alpha=.7) + 
+    geom_smooth() + 
+    labs(
+      x="Living Area (sq ft)",
+      y="Sale Price (dollars)",
+      title="Sale Price vs Total Living Area"
+    )
+
+```
+
+```{r}
+lm(SalePrice ~ LivingArea, data = Ames)
+
+plot( Ames$LivingArea, Ames$SalePrice, 
+      xlab="Living Area (sq ft)", 
+      ylab="Sale Price (dollars)",
+      main = "Sale Price vs Total Living Area")
+abline(lm(SalePrice~LivingArea, data=Ames), lty=1)
+```
+
+
+
+
+
+
+* The slope of the regression suggests that the mean sale price of homes in the Ames area goes up by about 159.50 dollars for each additional square foot of living space.
+
+* The smooth curve indicates that there is an approximate straight line relationship between the mean home price and the living area of homes for homes with between 800 and 2000 square feet of living area, but the relationship curves up for larger home sizes. Also the variation in sale prices tends to increase with the amount of living area in the house.
+
+
+
+
+
+
+
+```{r}
+Ames$pricesqft  <-  Ames$SalePrice/Ames$LivingArea 
+head(Ames)
+```
+
+```{r}
+Ames %>% ggplot() + 
+  geom_histogram(aes(pricesqft), binwidth =20) 
+```
+
+
+
+
+
+
+* This histogram indicates that the distribution of costs per square foot of living space for houses sold in the Ames area is centered around \$145 per square foot. The distribution is skewed to the right and it appears to be bimodal with one mode around \$125 per square foot and another near \$165 pre sqaure foot. Most houses cost between \$100 and \$200 per square foot of living space.
+
+
+
+
+
+
+```{r}
+Ames %>% 
+  ggplot(aes(x=LivingArea, y=SalePrice)) + 
+  geom_point() + 
+  geom_smooth() + 
+  facet_grid( . ~ Neighborhood) + 
+  labs(
+    x="Living Area (sq ft)",
+    y="Sale Price (dollars)",
+    title="Sales Price vs Total Living Area"
+  )
+
+Ames %>% 
+  ggplot(aes(x=LivingArea, y=SalePrice)) + 
+  geom_point() + 
+  geom_smooth() + 
+  facet_grid(Neighborhood ~ .) + 
+  labs(
+    x="Living Area (sq ft)",
+    y="Sale Price (dollars)",
+    title="Sales Price vs Total Living Area"
+  )
+```
+
+```{r}
+Ames %>% 
+  ggplot(aes(x=Neighborhood, y=pricesqft)) + 
+  geom_boxplot() + 
+  labs(y="Sales Price per Square Foot")
+```
+
+
+
+
+
+
+* In all three neighborhoods sales prices tend to be larger for house with more living area. In the College Circle (CollgCr) and Northridge Heights (NridgHt) neighborhoods, there are strong linear relationships between these two variables. Because the slope is larger for houses in the Northridge Heights neighborhood, the price per square foot of living space is higher. There are more expensive houses in the Northridge Heights neighborhood. In Gilbert, the trend in sales prices is not so close to a straight line. There is little trend in sales prices for houses with less than 1,750 square feet of living space. There is also little trend in the sales prices for houses with living space above 1,900 square feet, but those houses are more expensive than house with less then 17,50 square feet. There is one relatively expensive house with about 1,750 square feet of living space that appears to be an outlier. Perhaps this house has an extremely large lot size or some additional buildings on the property. This should be investigated.
+
+:::
+
+
+### Exercise 2: Music Clips Data
+
+The music clips data is posted in `music-plusnew-sub.csv`. The data file has five quantitative variables containing audio information from 62 songs. The first two columns (`Artist`, `Type`) describe the artist and type of music. The raw data come from a time series for the sound produced by each music clip (track). For each time series the variance of amplitude, average amplitude, maximum amplitude, and two additional variables calculated from the spectral decomposition of the time series are calculated. The `Type` variable classifies the tracks as either `Rock`, `Classical` or `New Wave`, and there are 5 tracks that are not identified.
+
+* Read the data into a data frame, indicating that the row names are in column 1 of the data file and that column is not a variable. 
+* Obtain information on the dimensions of the data frame. Also list the column names. List the first six columns odf data.
+* First select a subset of the data that contains only classical and rock music. 
+* For classical and rock music make histograms for the avergae amplitude variable (`LAve`) faceted by `Type`. Set the `binwidth` to units of 10. How do the distributions of average amplitude values differ between classical and rock music?
+* Make a scatterplot of `LVar` vs `LAve`, with points colored by the type of music. Describe differences between the patterns of the points on the plot corresponding to Rock and Classical music.
+* Select three music types. The other songs have missing values for the music type.
+* Make a parallel coordinate plot
+* Reorder how the variables appear on the plot.
+
+:::{.callout-tip title="View Solution" collapse="true"}
+
+
+
+
+
+```{r}
+dat = read.csv("music-plusnew-sub.csv", row.names=1)  
+
+head(dat) 
+str(dat)
+summary(dat)
+
+table(dat$Type)
+
+df.sub = dat %>% 
+  dplyr::filter(Type=="Rock" | Type=="Classical")
+
+ggplot(df.sub, aes(LAve)) + 
+  geom_histogram(binwidth=10) + 
+  facet_wrap( ~ Type, ncol=1)
+
+ggplot(df.sub, aes(x=LVar, y=LAve, color=Type)) + 
+  geom_point()
+
+dat2 = dat %>% 
+  filter(Type=="Rock" | Type=="Classical" | Type=="New wave")
+head(dat2)
+
+GGally::ggparcoord(dat2, columns=3:7,
+                   groupColumn = "Type",
+                   title="Parallel Coordinate Plot: Music Types")
+
+
+GGally::ggparcoord(dat2, columns=c(4,3,5,6,7),
+                   groupColumn = "Type",
+                   title="Parallel Coordinate Plot: Music Types")
+```
+
+
+
+
+
+
+:::
+
