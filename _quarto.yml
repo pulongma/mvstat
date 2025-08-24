@@ -11,11 +11,11 @@ website:
       - text: "Preface"
         href: "index.qmd"
       - section: "Module 1: Introduction"
-        href: ch1/01-intro.qmd
+        href: docs/ch1/01-intro.qmd
       - section: "Module 2: Graphs and Data Visualization"
-        href: ch2/02-graphs.qmd
+        href: docs/ch2/02-graphs.qmd
       - section: "Module 3: Multivariate Normal Distribution"
-        href: ch3/03-MVN.qmd
+        href: docs/ch3/03-MVN.qmd
       # - href: ch4/04-Inference_for_Means.qmd
       # - href: ch5/05-Inference_for_Means_II.qmd 
       # - href: ch6/06-PCA.qmd

@@ -1,0 +1,799 @@
+---
+title: 'Principal Component Analysis'
+author: 'Pulong Ma'
+pdf-engine: xelatex
+html-math-method: katex
+format: 
+  html:
+    include-in-header:
+      - text: |
+          <script>
+            window.MathJax = {
+              loader: {
+                load: ['[tex]/amsmath', '[tex]/amssymb', '[tex]/amsfonts'],
+                '[tex]/color']
+              },
+              tex: {
+                packages: { '[+]': ['amsmath', 'amssymb', 'amsfonts', 'color'] }
+              }
+            };
+          </script>
+    css: custom.css
+    toc: true
+    toc_depth: 3
+    number-sections: true
+    code-fold: true
+    callout-appearance: default
+---
+
+```{r, message=FALSE,warning=FALSE, include=FALSE}
+# Preload some packages
+knitr::opts_chunk$set(echo = TRUE, message=FALSE)
+library(tidyverse)
+library(reshape2)
+library(dplyr)
+
+```
+
+
+## Why PCA?
+
+PCA is a powerful exploratory statistical too that can 
+
+- reduce many variables ($p$) into a few **linear combinations** (principal components) that preserve most variation,
+- build **summary indices** and **visualize structure** (clusters, outliers),
+- and serve as a first step before applying other statistical methods (e.g., **regression**, **clustering**, or **classification**).
+
+
+
+### Motivating Examples
+
+
+```{r}
+#| fig-cap: 'A 2-d example. The left figure is based on a set of 4,608 observations of two variables. Right figure is a 65$^\circ$ rotation of the left figure.'
+#| echo: false 
+knitr::include_graphics("./figures/Teapot.png")
+```
+
+
+
+```{r}
+#| fig-cap: 'A 3-d example. The top panel is based on a set of 36,876 observations of three variables. The bottom panel is a rotation of the top panel.'
+#| echo: false 
+knitr::include_graphics("./figures/triceratops.png")
+```
+
+
+
+:::{.call-tip title="Detecting the structure of high-dimensional data"}
+* Rotation can change the amount of information along different dimensions. 
+* Some rotations can provide more information than others. 
+* Rotation does not change the distances between points. 
+* PCA is a statistical tool to detect and visualize the structure of high-dimensional data and obtain its low-dimensional representation
+
+:::
+
+
+
+## Geometric Interpretation 
+
+### Basic Idea
+![](figures/PCA_intuition.png){.preview-image}
+
+* PCA searches for a line (e.g., the red dashed line) that minimizes the distances from the data points (circles) to the line.
+* Equivalently, PCA searches for a line (e.g., the red dashed line) that maximizes the distances from the projected points (cross signs) to origin. 
+* The average of the sum of squared distances is called the **eigenvalue**.
+* PC1 is the direction that captures the most variation in the data (or that makes the data looks the most spread out).
+* PC2 is the next best, but **perpendicular**, so it explains whatever variation PC1 does not capture. 
+* **PC scores** are just the **coordinates** of each point in that rotated system. 
+
+
+### Illustrating Example
+```{r}
+#| echo: FALSE
+#| label: pc-geometry
+#| fig-width: 6
+#| fig-height: 5
+#| warning: false
+#| fig-cap: "Geometric view of PCA for `iris` data: axes, variance, and projection. Arrows = PC directions at the mean; dashed line = projection (PC score) onto PC1."
+library(dplyr)
+library(ggplot2)
+library(grid)  # for unit()
+theme_set(theme_minimal(base_size = 12))
+
+# Data: pick two variables so we can see the geometry clearly
+df <- iris %>%
+  filter(Species == "versicolor") %>%
+  dplyr::select(Sepal.Length, Sepal.Width)
+
+# Centered matrix (no scaling so units stay in cm)
+X  <- scale(df, center = TRUE, scale = FALSE)
+S  <- cov(X)
+E  <- eigen(S)
+
+pc1 <- E$vectors[,1]
+pc2 <- E$vectors[,2]
+lam <- E$values
+ctr <- colMeans(df)
+
+# Choose arrow lengths proportional to sqrt(variance) for nice scaling
+k1 <- 2*sqrt(lam[1]); k2 <- 2*sqrt(lam[2])
+
+arrows <- tibble::tibble(
+  x0 = ctr[1], y0 = ctr[2],
+  x1 = ctr[1] + k1*pc1[1], y1 = ctr[2] + k1*pc1[2],
+  x2 = ctr[1] + k2*pc2[1], y2 = ctr[2] + k2*pc2[2]
+)
+
+# Pick one point and show its projection onto PC1
+pt   <- as.numeric(df[10, ])
+v    <- as.numeric(pt - ctr)
+t1   <- sum(v * pc1)               # signed distance along PC1
+proj <- ctr + t1*pc1               # projection point on PC1 axis
+
+# % variance explained (for labels)
+pve1 <- round(100*lam[1]/sum(lam))
+pve2 <- round(100*lam[2]/sum(lam))
+
+ggplot(df, aes(Sepal.Length, Sepal.Width)) +
+  geom_point(alpha = 0.8) +
+  # One-sigma-ish ellipse for geometry intuition
+  stat_ellipse(type = "norm", level = 0.68, color = "grey50") +
+  # PC axes as arrows from the data mean
+  geom_segment(data = arrows,
+               aes(x = x0, y = y0, xend = x1, yend = y1),
+               arrow = arrow(length = unit(0.02, "npc")), 
+               linewidth = 1.1, color = "steelblue") +
+  geom_segment(data = arrows,
+               aes(x = x0, y = y0, xend = x2, yend = y2),
+               arrow = arrow(length = unit(0.02, "npc")), 
+               linewidth = 1.1, color = "tomato") +
+  # Highlight one point and its orthogonal projection onto PC1
+  geom_point(aes(pt[1], pt[2]), color = "black", size = 3) +
+  geom_point(aes(proj[1], proj[2]), color = "steelblue", size = 3) +
+  geom_segment(aes(x = pt[1], y = pt[2], xend = proj[1], 
+                   yend = proj[2]),
+               linetype = "dashed", color = "steelblue") +
+  annotate("text", x = arrows$x1, y = arrows$y1,
+           label = paste0("PC1 (", pve1, "%)"),
+           hjust = -0.1, vjust = -0.6, color = "steelblue") +
+  annotate("text", x = arrows$x2, y = arrows$y2,
+           label = paste0("PC2 (", pve2, "%)"),
+           hjust = -0.1, vjust = -0.6, color = "tomato") 
+
+```
+
+
+:::{.callout-note title="Recap: Spectral Decomposition" collapse="true"}
+Recall from @sec-spectral-decomposition that for any $p\times p$ symmetric matrix $A$, its spectral decomposition is $$ A = \lambda_1 \mathbf{e}_1 \mathbf{e}_1^{\top} +  \lambda_2 \mathbf{e}_2 \mathbf{e}_2^{\top} +  \cdots +  \lambda_p \mathbf{e}_p \mathbf{e}_p^{\top} 
+$$
+
+* $\lambda_1\geq \lambda_2\geq \cdots \geq \lambda_p$ are eigenvalues of $A$.
+* $\mathbf{e}_j$'s are corresponding eigenvectors of $A$. 
+
+::: 
+
+### The Mathematics Behind PCA  
+
+- Let $X=(X_1, X_2, \ldots, X_p)^\top$ denote a random vector with covariance matrix $\Sigma$. 
+- We seek weight vectors $\mathbf{a}_1,\dots,\mathbf{a}_p$ and scores $Y_k = \mathbf{a}_k'X$ such that:
+  - $Y_1$ has **max variance** among all unit-length $\mathbf{a}_1$,
+  - $Y_2$ has max variance **subject to** being uncorrelated with $Y_1$,
+  - ... and so on.
+
+- Suppose that $\Sigma$ has spectral decomposition with eigenpairs $(\lambda_k, \mathbf{e}_k), k=1,\ldots, p,$ and $\lambda_1 \ge \cdots \ge \lambda_p$. 
+  - The $k$-th ***principal component (PC)*** is $Y_k = \mathbf{e}_k'X$.
+  - $\mathrm{Var}(Y_k) = \lambda_k$ represents the variance of the score $Y_k$.
+  - Proportion of total variance explained by PC $k$ is $\lambda_k / \sum_{j=1}^p \lambda_j$.
+  - $\mathbf{e}_k$ represents the PC direction with its elements called ***loadings***. 
+
+
+- In practice, we have multiple observations $\mathbf{x}_1, \ldots, \mathbf{x}_n$ from the random vector $X$. Same idea applies but with notations changed. 
+  - We seek weight vectors $\mathbf{a}_1,\dots,\mathbf{a}_p$ and scores $y_{ik} = \mathbf{a}_k^\top \mathbf{x}_i$ subject to the same constraints above. 
+  
+- PCA can be applied for raw data or standardized data (z-scores).  
+
+
+## PCA in Practice 
+
+### PCA via `prcomp` 
+
+
+Let's start by creating a simple 2D dataset where the two variables, `X1` and `X2`, are clearly correlated.
+
+```{r}
+#| label: original-data
+#| code-summary: "R Code: Simulation and Visualization"
+#| message: FALSE
+#| warning: FALSE
+#| eval: FALSE
+
+
+library(MASS)
+library(ggplot2)
+library(dplyr)
+
+set.seed(4750)
+
+# Create correlated data
+cov_matrix <- matrix(c(10, 8, 8, 10), nrow = 2)
+data_orig <- as.data.frame(MASS::mvrnorm(n = 200, mu = c(0, 0), 
+                                         Sigma = cov_matrix))
+colnames(data_orig) <- c("X1", "X2")
+
+ggplot(data_orig, aes(x = X1, y = X2)) +
+  geom_point(alpha = 0.7, color = "blue") +
+  coord_fixed(xlim = c(-10, 10), ylim = c(-10, 10)) +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0) +
+  labs(title = "Original Correlated Data") +
+  theme_bw()
+
+cov_orig <- cov(data_orig)
+cat("Original Covariance Matrix:\n")
+print(cov_orig)
+```
+
+```{r}
+#| code-summary: "R Code: Simulation and Visualization"
+#| message: FALSE
+#| warning: FALSE
+#| echo: FALSE 
+
+library(MASS)
+library(ggplot2)
+library(dplyr)
+
+set.seed(4750)
+
+# Create correlated data
+cov_matrix <- matrix(c(10, 8, 8, 10), nrow = 2)
+data_orig <- as.data.frame(MASS::mvrnorm(n = 200, mu = c(0, 0), 
+                                         Sigma = cov_matrix))
+colnames(data_orig) <- c("X1", "X2")
+
+ggplot(data_orig, aes(x = X1, y = X2)) +
+  geom_point(alpha = 0.7, color = "blue") +
+  coord_fixed(xlim = c(-10, 10), ylim = c(-10, 10)) +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0) +
+  labs(title = "Original Correlated Data") +
+  theme_bw()
+
+cov_orig <- cov(data_orig)
+cat("Original Covariance Matrix:\n")
+print(cov_orig)
+```
+
+
+The data points form a tilted oval shape, indicating a strong positive correlation between `X1` and `X2`. The covariance matrix confirms this, with a large positive off-diagonal value of **`r round(cov_orig[1,2], 2)`**. The variances of `X1` and `X2` are `r round(cov_orig[1,1], 2)` and `r round(cov_orig[2,2], 2)` respectively.
+
+
+
+
+Now, we perform PCA to find the new axes (the principal components) that best align with the data's spread.
+
+
+```{r}
+#| code-summary: "R Code: PCA"
+#| code-fold: false
+# Perform PCA
+fit <- prcomp(data_orig, center=TRUE)
+
+str(fit)
+```
+
+**Output interpretation:**
+
+* `sdev`: standard deviations of the PC scores (or square roots of eigenvalues of the covariance matrix). This variable can be used to produce `scree plot`, see @sec-scree-plot. 
+* `center`: The mean of each column of data matrix. 
+* `rotation`: The rotation matrix that contains the PC directions (or elements of eigenvectors). 
+* `x`: a $n\times p$ matrix of PC scores which is the centered and scaled (if requested) data multiplied by `rotation` matrix.
+
+```{r}
+#| code-summary: "R Code: Rotation Matrix"
+#| code-fold: FALSE 
+fit$rotation
+```
+
+The `fit$rotation` gives the PC directions with the PC1 in the first column, PC2 in the second column, and so on. 
+
+:::{.callout-note title="PCA via Spectral Decomposition" collapse="true"}
+The PCA via the `prcomp` can be performed via Spectral Decomposition with the R code below.  
+```{r}
+#| code-fold: false
+#| code-summary: 'R Code: PCA via Spectral Decomposition'
+
+X = as.matrix(data_orig)
+Xc = X - matrix(1, nrow(data_orig), ncol=1) %*% 
+  t(colMeans(data_orig))
+S = cov(Xc)
+E = eigen(S)
+E 
+Y = Xc%*%E$vectors
+head(Y)
+```
+
+* `E$values`:  the eigenvalues of covariance matrix of centered data, which are the same as the square of `fit$sdev`.
+* `E$vector`: the eigenvectors of covariance matrix of centered data, which are the same as `fit$rotation`. 
+* `Y`: a matrix of PC scores, which is the same as `fit$x`. 
+:::
+
+
+```{r}
+#| code-summary: "R Code: Visualize New Axes"
+
+ggplot(data_orig, aes(x = X1, y = X2)) +
+  geom_point(alpha = 0.7, color = "blue") +
+  coord_fixed(xlim = c(-10, 10), ylim = c(-10, 10)) +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0) +
+  # Add the principal component axes as red vectors
+  geom_segment(data = as.data.frame(fit$rotation), 
+               aes(x = 0, y = 0, xend = PC1*10, 
+                   yend = PC2*10), 
+               arrow = arrow(length = unit(0.2, "cm")), 
+               color = "red", linewidth = 1) +
+  annotate("text", x = 7, y = 8, label = "PC1 Axis", 
+           color = "red", size = 5) +
+  annotate("text", x = 8, y = -8, label = "PC2 Axis", 
+           color = "red", size = 5) +
+  labs(title = "Original Data with New PC Axes") +
+  theme_bw()
+```
+**Note:** PCA has found two new orthogonal axes. **PC1** points along the direction of maximum variance (the long axis of the data cloud), which is defined by (`r signif(fit$rotation[,1],2)`).   **PC2** is perpendicular to PC1 and points along the direction of the next largest variance, which is defined by  (`r signif(fit$rotation[,2],2)`). 
+
+
+
+### PC Scores 
+
+The final step is to project our original data points onto these new axes. This is equivalent to rotating the entire dataset so that the principal component axes become our new `x` and `y` axes. The resulting coordinates are the **principal component scores**.
+
+For $i$-th observation $\mathbf{x}_i$, the ***PC score*** $y_{ik}$ corresponding to the $k$-th PC is given by 
+$$
+\begin{aligned}
+y_{ik} &= \mathbf{e}_k^\top (\mathbf{x}_i -\bar{\mathbf{x}}) = \sum_{j=1}^p e_{kj} (x_{ij}-\bar{x}_j) = e_{k1}(x_{i1}-\bar{x}_1)  + \ldots + e_{kp}(x_{ip}-\bar{x}_p),
+\end{aligned}
+$$
+where $\mathbf{e}_k$ is the $k$-th eigenvector of centered data. PC score defined in the equation above provides a way to interpret its meaning.  
+
+* The coefficients in the eigenvector $\mathbf{e}_k$ are called ***loadings*** and determine how all the $p$ variables in each data point are weighted into the new data point (PC score). 
+* Each observation $\mathbf{x}_i$ is projected into the $k$-th PC axis direction defined by $\mathbf{e}_k$. 
+
+
+:::{.callout-note title="Interpretation of PC Scores"}
+
+- The sign of a PC score (e.g., $y_{ik}$) indicates which side (negative or positive) of the PC axis the data point is on (relative to the data mean).
+- The magnitude of a PC score measures how far the observation lies along that PC's direction.
+- For the $k$-th PC, $e_{kj}$ is called a ***loading***: 
+  * If $e_{kj}>0$ and an observation has a large positive score, it indicates an above average impact on variable $j$. 
+  * If $e_{kj}<0$ and the score is positive, it indicates an below average impact on variable $j$.
+  * A large negative score flips those statements. 
+- Near zero score means average impact along that PC.  
+  
+::: 
+
+```{r}
+#| code-fold: FALSE
+#| code-summary: "R Code: Rotated Data (PC Scores)"
+# PC Scores
+head(fit$x)
+
+# Calculate the new covariance matrix
+cov_rotated = cov(as.matrix(fit$x))
+cov_rotated 
+```
+
+The covariance of PC scores is a diagonal matrix theoretically because all the PC directions are perpendicular to each other. The off-diagonal element is now essentially **zero** (`r format(cov_rotated[1,2], scientific = TRUE, digits = 2)`). This is the magic of PCA! After the rotation, the new variables (PC1 and PC2) are **uncorrelated**.
+
+Furthermore, the variances have been redistributed. The variance is now maximized along the PC1 axis (`Var(PC1) = ` **`r round(cov_rotated[1,1], 2)`**) and minimized along the PC2 axis (`Var(PC2) = ` **`r round(cov_rotated[2,2], 2)`**). Notice that the total variance remains the same (`r round(sum(diag(cov_orig)), 2)` vs. `r round(sum(diag(cov_rotated)), 2)`). The figure below shows the PC scores on the PC axes. 
+
+```{r}
+#| code-summary: "R Code: Visualize PC Scores"
+df.PC = as.matrix(fit$x)
+ggplot(df.PC, aes(x = PC1, y = PC2)) +
+  geom_point(alpha = 0.7, color = "purple") +
+  coord_fixed(xlim = c(-10, 10), ylim = c(-5, 5)) +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0) +
+  labs(
+    title = "Rotated Data (Principal Component Scores)",
+    x = "PC1",
+    y = "PC2"
+  ) +
+  theme_bw()
+```
+
+
+
+
+
+
+
+### Biplot 
+
+A biplot is a 2-D plot that shows both observations and variables from a multivariate dataset on the same axes—most commonly the first two principal components (PC1 \& PC2). It is a compact way to read:
+
+  * where samples sit relative to each other (scores), and
+  * how variables relate to those axes (loadings).
+
+```{r}
+#| code-summary: "R Code: Biplot"
+#| code-fold: FALSE 
+
+library(factoextra)
+fviz_pca(fit,
+         repel=TRUE,
+         labelsize = 1.1, alpha=0.5) + 
+  labs(title="Biplot of simulated data") 
+```
+
+- The `fviz_pac` function produces a `ggplot2` graph. 
+- `Dim1` and `Dim2` are the first two principal component axes. 
+
+### Scree Plot {#sec-scree-plot}
+
+A `scree plot` shows the component variations against each component number so that it indicates how much the variations vary across different PCs. The component variations can be obtained via two ways: 
+
+- If the function `prcomp` is used for PCA, the component variation can be obtained via `prcomp`'s output `sdev`. 
+- If a spectral decomposition is used, the component variations are just eigenvalues of the sample covariance matrix.
+
+
+```{r}
+#| code-fold: false 
+#| code-summary: "R Code: Scree Plot"
+# use R built-in dataset `mtcars` (engines & performance)
+dat = mtcars[, c("mpg","disp","hp","wt","qsec")]
+fit.mtcars = prcomp(dat)
+
+summary(fit.mtcars)
+
+df.scree = data.frame(index=1:length(fit.mtcars$sdev), 
+                      var=fit.mtcars$sdev^2)
+p1 = ggplot(df.scree, aes(x=index, y=var)) + 
+  geom_point() + geom_line() + 
+  labs(x="Component Number", 
+       y="Component Variation")
+df.scree$eigenval = eigen(cov(dat))$values
+p2 = ggplot(df.scree, aes(x=index, y=eigenval)) + 
+  geom_point() + geom_line() + 
+  labs(x="Component Number", 
+       y="Component Variation")
+patchwork::wrap_plots(p1,p2,ncol=2) 
+```
+
+:::{.callout-note title="How Many PCs Do We Need?"}
+
+In practice, one can choose the number of PCs based on scree plot, since one can decide the trade-off between the number of PCs and the percentage of variations. This rule is often used in practice. 
+
+- If we keep a small number of PCs,  we could achieve substantial amoung of dimension reduction in the new datasets (PC scores); at the same time, the percentage of variation preserved might be small (say less than $80\%$), resulting in severe information loss. 
+- If we keep a large number of PCs, we could preserve most variations (say more than $95\%$) but there might be no computational gain in terms of dimension reduction. 
+- A good rule of thumb is to select the number of PCs such that at least 85\% of variation is captured. 
+
+:::
+
+
+### When to Standardize?
+
+- Standardize (work with the **correlation** matrix) when variables are on very different scales, 
+- or you want to emphasize **correlations** over raw variances. Otherwise, use the **covariance** matrix.
+
+
+### Example: Road Race Data
+
+:::{.callout-note title="Road Race Data"}
+This analysis examines scatter plot matrices and computes principal components for the 10k segments of a 100k road race. The data come from Everitt (1994) stored in the file `race100k.csv`. There is one line of data for each of 80 racers with eleven numbers on each line. The first ten columns give the times (minutes) to complete successive 10k segments of the race. The last column has the racer's age (in years). Answer the following questions. 
+
+```{r}
+#| code-fold: false
+dat = read.csv("race100k.csv")
+head(dat)
+```
+
+::: 
+
+
+* **Step: Data Visualization**: Use the pairs function to create a scatter plot matrix and interpret it. Note that the columns to be included in the plot are put into the variable `choose=c(1,2,6,11)`.  The `panel.smooth` function uses locally weighted regression to pass a smooth curve through each plot. The `abline` function uses least squares to fit a straight line to each plot. Including the line helps you to see if most of the marginal association between two variables on can be described by a straight line.
+
+:::{.callout-tip title="View Solution" collapse="true"}
+
+```{r}
+p1 = ncol(dat) 
+p = p1 - 1
+n = nrow(dat)
+
+choose = c(1,2,6,10,11)
+par(pch=1,cex=1.0)
+pairs(dat[ ,choose],
+      labels=c("0-10k time", 
+               "10-20k time",
+               "50-60k time", 
+               "90-100k time","age"),
+      panel=function(x,y){
+        panel.smooth(x,y) 
+        abline(lsfit(x,y),lty=2) 
+        })
+```
+
+- There is a very strong positive correlation between the times to complete the first two 10k legs of the race. 
+- The correlations of the completion times for the sixth and tenth segments of the race with the first segment of the race are weaker and they appear to be curved trends in the plots. 
+- Similar patterns exist for the relationship between the completion times for the second segment of the race with the completion times for the sixth and tenth segments of the race.
+- There is a moderately strong positive correlation between the completion times for the sixth and tenth segments of the race. 
+- There is a group of at nine runners who relatively long completion times (running relatively slowly) for the first two legs of the race but had middle completion times for the sixth and tenth legs of the race (average finishers).
+::: 
+
+* **Step: Perform PCA**: Compute principal components from the covariance matrix. 
+
+:::{.callout-tip title="View Solution" collapse="true"}
+
+```{r}
+#| code-summary: "PCA"
+fit = prcomp(dat[, -p1])
+``` 
+
+```{r}
+#| code-summary: "PC Score Standard Deviations"
+fit$sdev
+``` 
+
+```{r}
+#| code-summary: "PC Directions"
+fit$rotation
+```
+
+
+::: 
+
+* **Step: Interpret PCs**: Interpret the meanings of the first three principal components.
+
+:::{.callout-tip title="View Solution" collapse="true"}
+
+```{r}
+#| code-summary: "Heat Map"
+load_df <- as.data.frame(fit$rotation) |>
+  rownames_to_column("variable") |>
+  pivot_longer(-variable, names_to = "PC", values_to = "loading") |>
+  mutate(abs_loading = abs(loading))
+
+K = 3
+tops = load_df %>%
+  group_by(PC) %>%
+  slice_max(abs_loading, n = K, with_ties = FALSE) |>
+  ungroup() %>%
+  mutate(highlight = TRUE)
+
+load_df = load_df %>%
+  left_join(tops %>% dplyr::select(variable, PC, highlight),
+            by = c("variable", "PC")) %>%
+  mutate(highlight = ifelse(is.na(highlight), FALSE, TRUE))
+
+load_df = load_df %>%
+  mutate(PC_num = as.integer(str_extract(PC, "\\d+")),
+         PC = fct_reorder(PC, PC_num, .fun = min))  # PC1, PC2, PC3, ...
+
+ggplot(load_df, aes(PC, fct_rev(variable), fill = loading)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient2(
+    low = "tomato",
+    mid = "white",
+    high = "steelblue",
+    midpoint = 0
+  ) +
+  geom_point(
+    data = subset(load_df, highlight),
+    shape = 21,
+    size = 4,
+    stroke = 1.1,
+    color = "black",
+    fill = NA
+  ) +
+  labs(
+    x = NULL,
+    y = NULL,
+    fill = "Loading",
+    title = paste0("PCA loadings (top ", K, " loading per PC highlighted)")
+  )  +
+  theme_minimal(base_size = 12)
+``` 
+
+```{r}
+L = as.data.frame(fit$rotation[, 1:3]) %>% 
+  rownames_to_column("segment")
+L$km = seq(5, 95, by = 10)  # midpoints per 10k, adjust as you like
+
+ggplot(
+  L %>% 
+    tidyr::pivot_longer(
+      starts_with("PC"), 
+      names_to = "PC", 
+      values_to ="loading"),
+  aes(km, loading, color = PC)
+) +
+  geom_hline(yintercept = 0, color = "grey60") +
+  geom_line(linewidth = 1.1) + geom_point() +
+  labs(x = "Distance (km)", y = "Loading", 
+       title = "PCA loadings across the 100K race") +
+  theme_minimal()
+
+```
+
+Large values of the data indicates slower than average in a segment. If loadings for early segments are negative and late segments positive, a large positive score comes from a runner who runs fast in early segments and slow in late segments. A negative score has the reverse explanation (slow early, strong finish). We should not focus on the signs of PCs since flipping the sign of a PC reverses the signs of both its loadings and scores.  
+
+- PC1 indicates an overall performance component with emphasis on the completion times for the last six legs of the race. Runners with small values (large negative values) of this component were the fastest runners overall and runners with large values for this component were the slowest runner overall.
+- PC2  indicates that runners with large values for the second component had relatively fast (small) times for the first six legs of the race and relatively slow times for the last two legs of the race. These runners started relatively fast but finished relatively slow. Runners with negative values for this component started relatively slow and finished relatively fast. They conserved energy in the early stages of the race and had something left for a strong finish.
+- PC3 indicates that runners with large positive values for the third component were relatively slow for the first four legs of the race, ran relatively fast during the next four legs of the race, and then had a weak finish. Runners with negative values for this component started fast, ran relatively slow in the middle of the race, and finished strong.
+::: 
+
+* **Step: How Many PCs**: Calculate and report the total variation explained by each principal component, and the accumulative variation explained by the first three PCs.
+
+:::{.callout-tip title="View Solution" collapse="true"}
+
+```{r}
+#| code-summary: "PCA Fit Summary"
+summary(fit)
+```
+
+```{r}
+#| code-summary: "Scree Plot"
+plot(fit$sdev^2, 
+     xlab="Component Number",
+     ylab="Component Variance (eigenvalue)",
+    main="Scree Diagram", type="b")
+``` 
+::: 
+
+
+* **Step: Visualize PC Scores**: Plot component scores for the first three principal components. 
+
+:::{.callout-tip title="View Solution" collapse="true"}
+
+```{r}
+#| code-summary: "PC Scores"
+par(pch=1, cex=1)
+pairs(fit$x[,c(1,2,3)], labels=c("PC1","PC2","PC3"))
+
+# or use biplots
+g1 = factoextra::fviz_pca(fit,
+         axes = c(1,2), 
+         repel=TRUE,
+         labelsize = 1.1, alpha=0.5) 
+g2 = factoextra::fviz_pca(fit,
+         axes = c(1,3), 
+         repel=TRUE,
+         labelsize = 1.1, alpha=0.5) 
+g3 = factoextra::fviz_pca(fit,
+         axes = c(2,3), 
+         repel=TRUE,
+         labelsize = 1.1, alpha=0.5) 
+patchwork::wrap_plots(g1,g2,g3,ncol=2)
+
+```
+
+::: 
+
+* **Optional**: Perform PCA on standardized data. 
+
+:::{.callout-tip title="View Solution" collapse="true"}
+
+```{r}
+#| code-summary: "Standardization and Visualization"
+dat_sd = scale(dat, center=T, scale=T)
+   
+choose = c(1,2,5,10,11)
+
+pairs(
+  dat_sd[, choose],
+  labels = c("0-10k time", 
+             "10-20k time", 
+             "50-60k time", 
+             "90-100k time", 
+             "age"),
+  panel = function(x, y) {
+    panel.smooth(x, y)
+    abline(lsfit(x, y), lty = 2)
+  }
+)
+
+racecor = var(dat_sd)
+racecor
+``` 
+
+```{r}
+#| code-summary: "PCA on Standardized Data"
+fit1 = prcomp(dat_sd[,-p1])
+fit1$sdev
+plot(
+  fit1$sdev^2,
+  xlab = "Component Number",
+  ylab = "Component Variance (eigenvalue)",
+  main = "Scree Diagram",
+  type = "b"
+)
+
+```
+
+::: 
+
+* **Step: Follow-Up Findings**: Use the principal component scores from the raw data to look for differences among mature (`age < 40`) and senior (`age > 40`) runners. Mature runners will be indicated by `M` and senior runners will be indicated by `S`. Can we separate those two groups by using the first two principal component scores?
+
+:::{.callout-tip title="View Solution" collapse="true"}
+```{r}
+race.type <- rep("M", n)
+race.type[dat[, p1] >= 40] <- "S"
+race.col <- rep("red", n)
+race.col[dat[, p1] >= 40] <- "blue"
+
+plot(
+  fit$x[, 1],
+  fit$x[, 2],
+  xlab = "PC1: Overall speed",
+  ylab = "PC2: Change in speed ",
+  type = "n"
+)
+text(
+  fit$x[, 1],
+  fit$x[, 2],
+  labels = race.type,
+  cex = 0.9,
+  col = race.col
+)
+
+```
+
+The four fastest runners were mature runners who were consistently fast across all 10 segments of the race. The mature runners have the most variability in scores for the second principal component, and they have a greater tendency to start fast and finish slow than the senior runners.
+
+One interesting further statistical analysis would be using hypothesis testing to compare the two groups (mature and senior) based on the PC scores. 
+
+::: 
+
+:::{.callout-tip title="Further Note" collapse="true"}
+
+The above question provides one way to extract information from the data. In practice, we often need to define our own questions related to the dataset and perform statistical analyses. 
+
+Looking backwarks, if one is given the dataset without providing the research question, can you formulate a research question for the dataset and address it via PCA and multivariate statistical testing methods?  
+
+:::
+
+## Exercises
+
+### Exercise 1: `mtcars` Data
+
+Let us use the `mtcars` dataset to illustrate PCA. 
+```{r}
+#| code-fold: false 
+dat = mtcars[, c("mpg","disp","hp","wt","qsec")]
+head(dat)
+```
+
+:::{.callout-tip title="View Solution" collapse="true"}
+
+
+```{r}
+#| code-summary: "R Code: Scatterplot Matrix"
+GGally::ggpairs(dat)
+```
+
+
+As the scatterplot indicates that the variables are on very different scales, it is helpful to perform PCA on standardized data. 
+
+
+```{r}
+#| code-summary: "R Code: PCA via `prcomp`"
+fit = prcomp(dat, center=TRUE, scale=TRUE)
+summary(fit)
+```
+
+```{r}
+#| code-summary: "R Code: Scree Plot"
+plot(fit$sdev^2, xlab="Component Index", ylab="Component Variation")
+```
+
+```{r}
+#| code-summary: "R Code: Biplot"
+
+factoextra::fviz_pca_biplot(fit,
+    repel=TRUE,
+    labelsize = 1.2)
+```
+
+:::
