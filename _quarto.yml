@@ -3,17 +3,25 @@ project:
   output-dir: docs
   
 website:
-  title: "mvstat"
+  title: "Introduction to Multivariate Statistics"
+  navbar: 
+    left: 
+      - href: index.qmd
+        text: "Home"
   sidebar:
     style: "docked"
-    contents: 
-      - href: index.qmd
-        text: "mvstat"
-      - href: ch1/01-intro.qmd
-        text: "Lecture 1: Introduction"
-      - href: ch2/02-graphs.qmd
-        text: "Lecture 2: Visualization"
-      # - href: ch3/03-MVN.qmd
+    - id: section-01
+      contents: 
+        - href: ch1/01-intro.qmd
+          text: "Module 1: Introduction"
+    - id: section-02
+      contents:
+        - href: ch2/02-graphs.qmd
+          text: "Module 2: Graphs and Data Visualization"
+    - id: section-03
+      contents: 
+        - href: ch3/03-MVN.qmd
+          text: "Module 3: Multivariate Normal Distribution"
       # - href: ch4/04-Inference_for_Means.qmd
       # - href: ch5/05-Inference_for_Means_II.qmd 
       # - href: ch6/06-PCA.qmd
