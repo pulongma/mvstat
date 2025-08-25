@@ -8,7 +8,7 @@
 
 <meta name="author" content="Pulong Ma">
 
-<title>4&nbsp; Inference for Mean Vector – Introduction to Multivariate Data Analysis with R</title>
+<title>Inference for Mean Vector – Introduction to Multivariate Statistics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../ch5/05-Inference_for_Means_II.html" rel="next">
-<link href="../ch3/03-MVN.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -165,7 +163,7 @@ window.Quarto = {
 <link rel="stylesheet" href="custom.css">
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -174,7 +172,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ch4/04-Inference_for_Means.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Inference for Mean Vector</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ch4/04-Inference_for_Means.html">Module 4: Inference for Single Mean Vector</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -186,10 +184,10 @@ window.Quarto = {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Introduction to Multivariate Data Analysis with R</a> 
+      <a href="../">Introduction to Multivariate Statistics</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -208,43 +206,25 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch1/01-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Multivariate Data</span></span></a>
+ <span class="menu-text">Module 1: Introduction</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch2/02-graphs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Graphs and Data Visualization</span></span></a>
+ <span class="menu-text">Module 2: Graphs and Data Visualization</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch3/03-MVN.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multivariate Normal Distribution</span></span></a>
+ <span class="menu-text">Module 3: Multivariate Normal Distribution</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch4/04-Inference_for_Means.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Inference for Mean Vector</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../ch5/05-Inference_for_Means_II.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Inference for Multiple Mean Vectors</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../ch6/06-PCA.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../ch7/07-FactorAnalysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Factor Analysis</span></span></a>
+ <span class="menu-text">Module 4: Inference for Single Mean Vector</span></a>
   </div>
 </li>
     </ul>
@@ -254,47 +234,47 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="1">
-    <h2 id="toc-title">Table of contents</h2>
+    <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation"><span class="header-section-number">4.1</span> Motivation</a>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation"><span class="header-section-number">1</span> Motivation</a>
   <ul class="collapse">
-  <li><a href="#why-not-just-run-two-t-tests" id="toc-why-not-just-run-two-t-tests" class="nav-link" data-scroll-target="#why-not-just-run-two-t-tests"><span class="header-section-number">4.1.1</span> Why Not Just Run Two t-tests?</a></li>
-  <li><a href="#the-family-wise-error-rate-problem" id="toc-the-family-wise-error-rate-problem" class="nav-link" data-scroll-target="#the-family-wise-error-rate-problem"><span class="header-section-number">4.1.2</span> The Family-Wise Error Rate Problem</a></li>
+  <li><a href="#why-not-just-run-two-t-tests" id="toc-why-not-just-run-two-t-tests" class="nav-link" data-scroll-target="#why-not-just-run-two-t-tests"><span class="header-section-number">1.1</span> Why Not Just Run Two t-tests?</a></li>
+  <li><a href="#the-family-wise-error-rate-problem" id="toc-the-family-wise-error-rate-problem" class="nav-link" data-scroll-target="#the-family-wise-error-rate-problem"><span class="header-section-number">1.2</span> The Family-Wise Error Rate Problem</a></li>
   </ul></li>
-  <li><a href="#review-of-univariate-inference" id="toc-review-of-univariate-inference" class="nav-link" data-scroll-target="#review-of-univariate-inference"><span class="header-section-number">4.2</span> Review of Univariate Inference</a></li>
-  <li><a href="#generalizing-to-the-multivariate-case" id="toc-generalizing-to-the-multivariate-case" class="nav-link" data-scroll-target="#generalizing-to-the-multivariate-case"><span class="header-section-number">4.3</span> Generalizing to the Multivariate Case</a></li>
-  <li><a href="#hotellings-t2-test" id="toc-hotellings-t2-test" class="nav-link" data-scroll-target="#hotellings-t2-test"><span class="header-section-number">4.4</span> Hotelling’s <span class="math inline">T^2</span> Test</a>
+  <li><a href="#review-of-univariate-inference" id="toc-review-of-univariate-inference" class="nav-link" data-scroll-target="#review-of-univariate-inference"><span class="header-section-number">2</span> Review of Univariate Inference</a></li>
+  <li><a href="#generalizing-to-the-multivariate-case" id="toc-generalizing-to-the-multivariate-case" class="nav-link" data-scroll-target="#generalizing-to-the-multivariate-case"><span class="header-section-number">3</span> Generalizing to the Multivariate Case</a></li>
+  <li><a href="#hotellings-t2-test" id="toc-hotellings-t2-test" class="nav-link" data-scroll-target="#hotellings-t2-test"><span class="header-section-number">4</span> Hotelling’s <span class="math inline">T^2</span> Test</a>
   <ul class="collapse">
-  <li><a href="#hotellings-t2-statistic" id="toc-hotellings-t2-statistic" class="nav-link" data-scroll-target="#hotellings-t2-statistic"><span class="header-section-number">4.4.1</span> Hotelling’s <span class="math inline">T^2</span> Statistic</a></li>
-  <li><a href="#the-f-distribution-connection" id="toc-the-f-distribution-connection" class="nav-link" data-scroll-target="#the-f-distribution-connection"><span class="header-section-number">4.4.2</span> The <span class="math inline">F</span>-Distribution Connection</a></li>
-  <li><a href="#assumptions" id="toc-assumptions" class="nav-link" data-scroll-target="#assumptions"><span class="header-section-number">4.4.3</span> Assumptions</a></li>
-  <li><a href="#example-sweat-data" id="toc-example-sweat-data" class="nav-link" data-scroll-target="#example-sweat-data"><span class="header-section-number">4.4.4</span> Example: Sweat Data</a></li>
-  <li><a href="#exercise-iris-data" id="toc-exercise-iris-data" class="nav-link" data-scroll-target="#exercise-iris-data"><span class="header-section-number">4.4.5</span> Exercise: <code>Iris</code> data</a></li>
+  <li><a href="#hotellings-t2-statistic" id="toc-hotellings-t2-statistic" class="nav-link" data-scroll-target="#hotellings-t2-statistic"><span class="header-section-number">4.1</span> Hotelling’s <span class="math inline">T^2</span> Statistic</a></li>
+  <li><a href="#the-f-distribution-connection" id="toc-the-f-distribution-connection" class="nav-link" data-scroll-target="#the-f-distribution-connection"><span class="header-section-number">4.2</span> The <span class="math inline">F</span>-Distribution Connection</a></li>
+  <li><a href="#assumptions" id="toc-assumptions" class="nav-link" data-scroll-target="#assumptions"><span class="header-section-number">4.3</span> Assumptions</a></li>
+  <li><a href="#example-sweat-data" id="toc-example-sweat-data" class="nav-link" data-scroll-target="#example-sweat-data"><span class="header-section-number">4.4</span> Example: Sweat Data</a></li>
+  <li><a href="#exercise-iris-data" id="toc-exercise-iris-data" class="nav-link" data-scroll-target="#exercise-iris-data"><span class="header-section-number">4.5</span> Exercise: <code>Iris</code> data</a></li>
   </ul></li>
-  <li><a href="#confidence-regions-for-boldsymbolmu" id="toc-confidence-regions-for-boldsymbolmu" class="nav-link" data-scroll-target="#confidence-regions-for-boldsymbolmu"><span class="header-section-number">4.5</span> Confidence Regions for <span class="math inline">\boldsymbol{\mu}</span></a>
+  <li><a href="#confidence-regions-for-boldsymbolmu" id="toc-confidence-regions-for-boldsymbolmu" class="nav-link" data-scroll-target="#confidence-regions-for-boldsymbolmu"><span class="header-section-number">5</span> Confidence Regions for <span class="math inline">\boldsymbol{\mu}</span></a>
   <ul class="collapse">
-  <li><a href="#plot-confidence-ellipse-p2" id="toc-plot-confidence-ellipse-p2" class="nav-link" data-scroll-target="#plot-confidence-ellipse-p2"><span class="header-section-number">4.5.1</span> Plot Confidence Ellipse (<span class="math inline">p=2</span>)</a></li>
+  <li><a href="#plot-confidence-ellipse-p2" id="toc-plot-confidence-ellipse-p2" class="nav-link" data-scroll-target="#plot-confidence-ellipse-p2"><span class="header-section-number">5.1</span> Plot Confidence Ellipse (<span class="math inline">p=2</span>)</a></li>
   </ul></li>
-  <li><a href="#simultaneous-confidence-intervals" id="toc-simultaneous-confidence-intervals" class="nav-link" data-scroll-target="#simultaneous-confidence-intervals"><span class="header-section-number">4.6</span> Simultaneous Confidence Intervals</a>
+  <li><a href="#simultaneous-confidence-intervals" id="toc-simultaneous-confidence-intervals" class="nav-link" data-scroll-target="#simultaneous-confidence-intervals"><span class="header-section-number">6</span> Simultaneous Confidence Intervals</a>
   <ul class="collapse">
-  <li><a href="#t2-cis" id="toc-t2-cis" class="nav-link" data-scroll-target="#t2-cis"><span class="header-section-number">4.6.1</span> <span class="math inline">T^2</span> CIs</a></li>
-  <li><a href="#bonferroni-cis" id="toc-bonferroni-cis" class="nav-link" data-scroll-target="#bonferroni-cis"><span class="header-section-number">4.6.2</span> Bonferroni CIs</a></li>
-  <li><a href="#comparison-of-confidence-region-t2-ci-and-bonferroni-ci" id="toc-comparison-of-confidence-region-t2-ci-and-bonferroni-ci" class="nav-link" data-scroll-target="#comparison-of-confidence-region-t2-ci-and-bonferroni-ci"><span class="header-section-number">4.6.3</span> Comparison of Confidence Region, <span class="math inline">T^2</span> CI and Bonferroni CI</a></li>
-  <li><a href="#example-microwave-oven-data" id="toc-example-microwave-oven-data" class="nav-link" data-scroll-target="#example-microwave-oven-data"><span class="header-section-number">4.6.4</span> Example: Microwave Oven Data</a></li>
+  <li><a href="#t2-cis" id="toc-t2-cis" class="nav-link" data-scroll-target="#t2-cis"><span class="header-section-number">6.1</span> <span class="math inline">T^2</span> CIs</a></li>
+  <li><a href="#bonferroni-cis" id="toc-bonferroni-cis" class="nav-link" data-scroll-target="#bonferroni-cis"><span class="header-section-number">6.2</span> Bonferroni CIs</a></li>
+  <li><a href="#comparison-of-confidence-region-t2-ci-and-bonferroni-ci" id="toc-comparison-of-confidence-region-t2-ci-and-bonferroni-ci" class="nav-link" data-scroll-target="#comparison-of-confidence-region-t2-ci-and-bonferroni-ci"><span class="header-section-number">6.3</span> Comparison of Confidence Region, <span class="math inline">T^2</span> CI and Bonferroni CI</a></li>
+  <li><a href="#example-microwave-oven-data" id="toc-example-microwave-oven-data" class="nav-link" data-scroll-target="#example-microwave-oven-data"><span class="header-section-number">6.4</span> Example: Microwave Oven Data</a></li>
   </ul></li>
-  <li><a href="#sec-LinearCombinations" id="toc-sec-LinearCombinations" class="nav-link" data-scroll-target="#sec-LinearCombinations"><span class="header-section-number">4.7</span> Inference for Linear Combinations of Means</a>
+  <li><a href="#sec-LinearCombinations" id="toc-sec-LinearCombinations" class="nav-link" data-scroll-target="#sec-LinearCombinations"><span class="header-section-number">7</span> Inference for Linear Combinations of Means</a>
   <ul class="collapse">
-  <li><a href="#repeated-measures" id="toc-repeated-measures" class="nav-link" data-scroll-target="#repeated-measures"><span class="header-section-number">4.7.1</span> Repeated Measures</a></li>
-  <li><a href="#hotellings-t2-test-for-contrasts" id="toc-hotellings-t2-test-for-contrasts" class="nav-link" data-scroll-target="#hotellings-t2-test-for-contrasts"><span class="header-section-number">4.7.2</span> Hotelling’s <span class="math inline">T^2</span> Test for Contrasts</a></li>
-  <li><a href="#confidence-regions-for-linear-combinations-of-means" id="toc-confidence-regions-for-linear-combinations-of-means" class="nav-link" data-scroll-target="#confidence-regions-for-linear-combinations-of-means"><span class="header-section-number">4.7.3</span> Confidence Regions for Linear Combinations of Means</a></li>
-  <li><a href="#simultaneous-cis-for-linear-combinations-of-means" id="toc-simultaneous-cis-for-linear-combinations-of-means" class="nav-link" data-scroll-target="#simultaneous-cis-for-linear-combinations-of-means"><span class="header-section-number">4.7.4</span> Simultaneous CIs for Linear Combinations of Means</a></li>
+  <li><a href="#repeated-measures" id="toc-repeated-measures" class="nav-link" data-scroll-target="#repeated-measures"><span class="header-section-number">7.1</span> Repeated Measures</a></li>
+  <li><a href="#hotellings-t2-test-for-contrasts" id="toc-hotellings-t2-test-for-contrasts" class="nav-link" data-scroll-target="#hotellings-t2-test-for-contrasts"><span class="header-section-number">7.2</span> Hotelling’s <span class="math inline">T^2</span> Test for Contrasts</a></li>
+  <li><a href="#confidence-regions-for-linear-combinations-of-means" id="toc-confidence-regions-for-linear-combinations-of-means" class="nav-link" data-scroll-target="#confidence-regions-for-linear-combinations-of-means"><span class="header-section-number">7.3</span> Confidence Regions for Linear Combinations of Means</a></li>
+  <li><a href="#simultaneous-cis-for-linear-combinations-of-means" id="toc-simultaneous-cis-for-linear-combinations-of-means" class="nav-link" data-scroll-target="#simultaneous-cis-for-linear-combinations-of-means"><span class="header-section-number">7.4</span> Simultaneous CIs for Linear Combinations of Means</a></li>
   </ul></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">4.8</span> Exercises</a>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">8</span> Exercises</a>
   <ul class="collapse">
-  <li><a href="#exercise-1-iris-data-contd" id="toc-exercise-1-iris-data-contd" class="nav-link" data-scroll-target="#exercise-1-iris-data-contd"><span class="header-section-number">4.8.1</span> Exercise 1: <code>iris</code> Data, Cont’d</a></li>
-  <li><a href="#exercise-2-dogs-anesthetics-study-contd" id="toc-exercise-2-dogs-anesthetics-study-contd" class="nav-link" data-scroll-target="#exercise-2-dogs-anesthetics-study-contd"><span class="header-section-number">4.8.2</span> Exercise 2: Dogs Anesthetics Study, Cont’d</a></li>
-  <li><a href="#exercise-3-baseball-player-data" id="toc-exercise-3-baseball-player-data" class="nav-link" data-scroll-target="#exercise-3-baseball-player-data"><span class="header-section-number">4.8.3</span> Exercise 3: Baseball Player Data</a></li>
+  <li><a href="#exercise-1-iris-data-contd" id="toc-exercise-1-iris-data-contd" class="nav-link" data-scroll-target="#exercise-1-iris-data-contd"><span class="header-section-number">8.1</span> Exercise 1: <code>iris</code> Data, Cont’d</a></li>
+  <li><a href="#exercise-2-dogs-anesthetics-study-contd" id="toc-exercise-2-dogs-anesthetics-study-contd" class="nav-link" data-scroll-target="#exercise-2-dogs-anesthetics-study-contd"><span class="header-section-number">8.2</span> Exercise 2: Dogs Anesthetics Study, Cont’d</a></li>
+  <li><a href="#exercise-3-baseball-player-data" id="toc-exercise-3-baseball-player-data" class="nav-link" data-scroll-target="#exercise-3-baseball-player-data"><span class="header-section-number">8.3</span> Exercise 3: Baseball Player Data</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -304,7 +284,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Inference for Mean Vector</span></h1>
+<h1 class="title">Inference for Mean Vector</h1>
 </div>
 
 
@@ -327,8 +307,8 @@ window.Quarto = {
 </header>
 
 
-<section id="motivation" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="motivation"><span class="header-section-number">4.1</span> Motivation</h2>
+<section id="motivation" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="motivation"><span class="header-section-number">1</span> Motivation</h2>
 <p>Let’s look at the famous <code>iris</code> dataset. We’ll focus on the <code>setosa</code> species and two variables: <code>Sepal Length</code> and <code>Sepal Width</code>.</p>
 <p>A biologist might ask: “Is the mean vector of sepal measurements for <code>setosa</code> flowers equal to a specific standard, say <span class="math inline">\boldsymbol{\mu}_0 = [5.1, 3.6]'</span>?”</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Iris Data">
@@ -392,8 +372,8 @@ Iris Data
 </div>
 </div>
 </div>
-<section id="why-not-just-run-two-t-tests" class="level3" data-number="4.1.1">
-<h3 data-number="4.1.1" class="anchored" data-anchor-id="why-not-just-run-two-t-tests"><span class="header-section-number">4.1.1</span> Why Not Just Run Two t-tests?</h3>
+<section id="why-not-just-run-two-t-tests" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="why-not-just-run-two-t-tests"><span class="header-section-number">1.1</span> Why Not Just Run Two t-tests?</h3>
 <p>The “naive” approach is to test each variable separately.</p>
 <ol type="1">
 <li>Test <span class="math inline">H_0: \mu_{\text{Length}} = 5.1 \quad \text{v.s.} \quad H_1: \mu_{\text{Length}} \neq 5.1</span></li>
@@ -475,8 +455,8 @@ Why do we need a multivariate test?
 </div>
 </div>
 </section>
-<section id="the-family-wise-error-rate-problem" class="level3" data-number="4.1.2">
-<h3 data-number="4.1.2" class="anchored" data-anchor-id="the-family-wise-error-rate-problem"><span class="header-section-number">4.1.2</span> The Family-Wise Error Rate Problem</h3>
+<section id="the-family-wise-error-rate-problem" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="the-family-wise-error-rate-problem"><span class="header-section-number">1.2</span> The Family-Wise Error Rate Problem</h3>
 <p>If we conduct <span class="math inline">p</span> tests, each at a significance level <span class="math inline">\alpha</span>, the probability of making <em>at least one</em> Type I error (a false positive) skyrockets.</p>
 <p><span class="math display">
 \text{Pr}(\text{rejecting at least one} \, H_0: \mu_j = \mu_{0j} \, | \, \text{all}\, H_0\text{'s are true})= 1 - (1 - \alpha)^p </span></p>
@@ -487,8 +467,8 @@ Why do we need a multivariate test?
 </ul>
 </section>
 </section>
-<section id="review-of-univariate-inference" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="review-of-univariate-inference"><span class="header-section-number">4.2</span> Review of Univariate Inference</h2>
+<section id="review-of-univariate-inference" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="review-of-univariate-inference"><span class="header-section-number">2</span> Review of Univariate Inference</h2>
 <p>The one-sample <span class="math inline">t</span>-test answers a very common question: “Is the average of my sample significantly different from a known or claimed value?”</p>
 <p>Before we go multivariate, let’s review the one-sample <span class="math inline">t</span>-test for a mean <span class="math inline">\mu</span>.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="$t$-Test">
@@ -590,8 +570,8 @@ mean of x
 </div>
 </div>
 </section>
-<section id="generalizing-to-the-multivariate-case" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="generalizing-to-the-multivariate-case"><span class="header-section-number">4.3</span> Generalizing to the Multivariate Case</h2>
+<section id="generalizing-to-the-multivariate-case" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="generalizing-to-the-multivariate-case"><span class="header-section-number">3</span> Generalizing to the Multivariate Case</h2>
 <p>We upgrade our tools from scalars to vectors and matrices.</p>
 <ul>
 <li>The <strong>sample mean vector</strong> <span class="math inline">\bar{\mathbf{x}}</span> is a vector of the individual sample means. <span class="math display"> \bar{\mathbf{x}} = \begin{bmatrix} \bar{x}_1 \\ \vdots \\ \bar{x}_p \end{bmatrix} </span></li>
@@ -648,29 +628,29 @@ Sepal.Width    0.09921633  0.14368980</code></pre>
 </div>
 </div>
 </section>
-<section id="hotellings-t2-test" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="hotellings-t2-test"><span class="header-section-number">4.4</span> Hotelling’s <span class="math inline">T^2</span> Test</h2>
+<section id="hotellings-t2-test" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="hotellings-t2-test"><span class="header-section-number">4</span> Hotelling’s <span class="math inline">T^2</span> Test</h2>
 <p>This is the multivariate workhorse, analogous to the squared <span class="math inline">t</span>-statistic.</p>
-<section id="hotellings-t2-statistic" class="level3" data-number="4.4.1">
-<h3 data-number="4.4.1" class="anchored" data-anchor-id="hotellings-t2-statistic"><span class="header-section-number">4.4.1</span> Hotelling’s <span class="math inline">T^2</span> Statistic</h3>
+<section id="hotellings-t2-statistic" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="hotellings-t2-statistic"><span class="header-section-number">4.1</span> Hotelling’s <span class="math inline">T^2</span> Statistic</h3>
 <p>Hotelling’s <span class="math inline">T^2</span> statistic measures the “distance” between the sample mean vector <span class="math inline">\bar{\mathbf{x}}</span> and the hypothesized mean vector <span class="math inline">\boldsymbol{\mu}_0</span>, accounting for sample size and covariance.</p>
 <p><span class="math display"> T^2 = n(\bar{\mathbf{x}} - \boldsymbol{\mu}_0)^\top \mathbf{S}^{-1} (\bar{\mathbf{x}} - \boldsymbol{\mu}_0) </span></p>
 </section>
-<section id="the-f-distribution-connection" class="level3" data-number="4.4.2">
-<h3 data-number="4.4.2" class="anchored" data-anchor-id="the-f-distribution-connection"><span class="header-section-number">4.4.2</span> The <span class="math inline">F</span>-Distribution Connection</h3>
+<section id="the-f-distribution-connection" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="the-f-distribution-connection"><span class="header-section-number">4.2</span> The <span class="math inline">F</span>-Distribution Connection</h3>
 <p>The <span class="math inline">T^2</span> statistic is not directly used. Instead, it is rescaled to a familiar <span class="math inline">F</span>-statistic. Under <span class="math inline">H_0: \boldsymbol{\mu} = \boldsymbol{\mu}_0</span>,</p>
 <p><span class="math display"> \frac{n-p}{p(n-1)} T^2 \, \overset{H_0}\sim\, F_{p, n-p} </span></p>
 <p>We reject <span class="math inline">H_0</span> if our calculated F-statistic (or scaled <span class="math inline">T^2</span> statistic) is greater than the critical value <span class="math inline">F_{p, n-p, 1-\alpha}</span> at significance level <span class="math inline">\alpha</span>.</p>
 </section>
-<section id="assumptions" class="level3" data-number="4.4.3">
-<h3 data-number="4.4.3" class="anchored" data-anchor-id="assumptions"><span class="header-section-number">4.4.3</span> Assumptions</h3>
+<section id="assumptions" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="assumptions"><span class="header-section-number">4.3</span> Assumptions</h3>
 <ol type="1">
 <li>The observations <span class="math inline">\mathbf{x}_1, \dots, \mathbf{x}_n</span> are independently drawn from the same population distribution.</li>
 <li>The population distribution is multivariate normal (MVN): <span class="math inline">\mathbf{x}_i \overset{iid}{\sim} N_p(\boldsymbol{\mu}, {\Sigma}), i=1,\ldots, n</span>.</li>
 </ol>
 </section>
-<section id="example-sweat-data" class="level3" data-number="4.4.4">
-<h3 data-number="4.4.4" class="anchored" data-anchor-id="example-sweat-data"><span class="header-section-number">4.4.4</span> Example: Sweat Data</h3>
+<section id="example-sweat-data" class="level3" data-number="4.4">
+<h3 data-number="4.4" class="anchored" data-anchor-id="example-sweat-data"><span class="header-section-number">4.4</span> Example: Sweat Data</h3>
 <p>A study measured sweat rate, sodium content, and potassium content for 20 healthy females. Let’s test if the mean vector is <span class="math inline">\boldsymbol{\mu}_0 = [4, 50, 10]^\top</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sweat data</span></span>
@@ -881,8 +861,8 @@ R Function <code>HotellingsT2Test</code>
 </div>
 </div>
 </section>
-<section id="exercise-iris-data" class="level3" data-number="4.4.5">
-<h3 data-number="4.4.5" class="anchored" data-anchor-id="exercise-iris-data"><span class="header-section-number">4.4.5</span> Exercise: <code>Iris</code> data</h3>
+<section id="exercise-iris-data" class="level3" data-number="4.5">
+<h3 data-number="4.5" class="anchored" data-anchor-id="exercise-iris-data"><span class="header-section-number">4.5</span> Exercise: <code>Iris</code> data</h3>
 <p><strong>Background</strong></p>
 <p>Ronald Fisher’s <code>iris</code> dataset is a cornerstone of statistical analysis. Imagine a historical botanical guide from the 1930s describes the “type specimen” for the <em>Iris setosa</em> species as having a mean <strong>Sepal Length</strong> of <strong>5.1 cm</strong> and a mean <strong>Sepal Width</strong> of <strong>3.6 cm</strong>.</p>
 <p>Your task is to determine if the sample of 50 <em>Iris setosa</em> flowers from Fisher’s dataset is consistent with this historical description. You will use a Hotelling’s T² test with a significance level of <span class="math inline">\alpha = 0.05</span>.</p>
@@ -1116,8 +1096,8 @@ View Solution
 </div>
 </section>
 </section>
-<section id="confidence-regions-for-boldsymbolmu" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="confidence-regions-for-boldsymbolmu"><span class="header-section-number">4.5</span> Confidence Regions for <span class="math inline">\boldsymbol{\mu}</span></h2>
+<section id="confidence-regions-for-boldsymbolmu" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="confidence-regions-for-boldsymbolmu"><span class="header-section-number">5</span> Confidence Regions for <span class="math inline">\boldsymbol{\mu}</span></h2>
 <p>A confidence interval for a single mean becomes a <strong>confidence region</strong> (an ellipse for <span class="math inline">p=2</span>, an ellipsoid for <span class="math inline">p&gt;2</span>) for a mean vector. This confidence region is also known as <strong>joint confidence</strong>.</p>
 <p>A <span class="math inline">100(1-\alpha)\%</span> confidence region for <span class="math inline">\boldsymbol{\mu}</span> is the set of all vectors <span class="math inline">\boldsymbol \mu</span> satisfying: <span class="math display"> n(\bar{\mathbf{x}} - \boldsymbol{\mu})^\top {S}^{-1} (\bar{\mathbf{x}} - \boldsymbol{\mu}) \le \frac{p(n-1)}{n-p} F_{p, n-p, 1-\alpha} </span></p>
 <div class="callout callout-style-default callout-note callout-titled" title="Confidence Region">
@@ -1144,8 +1124,8 @@ Confidence Region
 </ul>
 </div>
 </div>
-<section id="plot-confidence-ellipse-p2" class="level3" data-number="4.5.1">
-<h3 data-number="4.5.1" class="anchored" data-anchor-id="plot-confidence-ellipse-p2"><span class="header-section-number">4.5.1</span> Plot Confidence Ellipse (<span class="math inline">p=2</span>)</h3>
+<section id="plot-confidence-ellipse-p2" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="plot-confidence-ellipse-p2"><span class="header-section-number">5.1</span> Plot Confidence Ellipse (<span class="math inline">p=2</span>)</h3>
 <p>Let’s plot the 95% confidence ellipse for our <code>setosa</code> variable</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -1160,15 +1140,15 @@ Confidence Region
 <p>Our hypothesized mean (red cross) falls outside the 95% confidence ellipse, which is consistent with rejecting the null hypothesis in the Hotelling’s <span class="math inline">T^2</span> test.</p>
 </section>
 </section>
-<section id="simultaneous-confidence-intervals" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="simultaneous-confidence-intervals"><span class="header-section-number">4.6</span> Simultaneous Confidence Intervals</h2>
+<section id="simultaneous-confidence-intervals" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="simultaneous-confidence-intervals"><span class="header-section-number">6</span> Simultaneous Confidence Intervals</h2>
 <p>If we reject <span class="math inline">H_0</span>, we want to know <em>which</em> variables contributed to the rejection. We need CIs that hold simultaneously for all <span class="math inline">p</span> variables with confidence level at least <span class="math inline">1-\alpha</span>.</p>
-<section id="t2-cis" class="level3" data-number="4.6.1">
-<h3 data-number="4.6.1" class="anchored" data-anchor-id="t2-cis"><span class="header-section-number">4.6.1</span> <span class="math inline">T^2</span> CIs</h3>
+<section id="t2-cis" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="t2-cis"><span class="header-section-number">6.1</span> <span class="math inline">T^2</span> CIs</h3>
 <p>The <span class="math inline">T^2</span> confidence intervals are derived from the Hotelling’s <span class="math inline">T^2</span> statistic. For each component <span class="math inline">\mu_i</span>: <span class="math display"> \bar{x}_i \pm \sqrt{\frac{p(n-1)}{n-p} F_{p, n-p, 1-\alpha}} \sqrt{\frac{s_{ii}}{n}} </span> where <span class="math inline">s_{ii}</span> is the <span class="math inline">(i,i)</span>-th entry of <span class="math inline">{S}</span>.</p>
 </section>
-<section id="bonferroni-cis" class="level3" data-number="4.6.2">
-<h3 data-number="4.6.2" class="anchored" data-anchor-id="bonferroni-cis"><span class="header-section-number">4.6.2</span> Bonferroni CIs</h3>
+<section id="bonferroni-cis" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="bonferroni-cis"><span class="header-section-number">6.2</span> Bonferroni CIs</h3>
 <p>Another way to construct individual confidence intervals for each <span class="math inline">\mu_i</span> is to use the <span class="math inline">t</span>-interval, but the combined set of individual <span class="math inline">t</span> intervals result in a simulatenous confidence level that is <strong><em>less than</em></strong> than the normal level <span class="math inline">1-\alpha</span>.</p>
 <p>To avoid this limitation, one can use the so-called Bonferroni confidence intervals: <span class="math display"> \bar{x}_i \pm t_{n-1, 1- \alpha/(2p)} \sqrt{\frac{s_{ii}}{n}} </span> where <span class="math inline">p</span> is the number of variables to be estimated.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="One-At-a-Time $t$ CI">
@@ -1187,8 +1167,8 @@ One-At-a-Time <span class="math inline">t</span> CI
 </div>
 </div>
 </section>
-<section id="comparison-of-confidence-region-t2-ci-and-bonferroni-ci" class="level3" data-number="4.6.3">
-<h3 data-number="4.6.3" class="anchored" data-anchor-id="comparison-of-confidence-region-t2-ci-and-bonferroni-ci"><span class="header-section-number">4.6.3</span> Comparison of Confidence Region, <span class="math inline">T^2</span> CI and Bonferroni CI</h3>
+<section id="comparison-of-confidence-region-t2-ci-and-bonferroni-ci" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="comparison-of-confidence-region-t2-ci-and-bonferroni-ci"><span class="header-section-number">6.3</span> Comparison of Confidence Region, <span class="math inline">T^2</span> CI and Bonferroni CI</h3>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -1200,8 +1180,8 @@ One-At-a-Time <span class="math inline">t</span> CI
 </div>
 </div>
 </section>
-<section id="example-microwave-oven-data" class="level3" data-number="4.6.4">
-<h3 data-number="4.6.4" class="anchored" data-anchor-id="example-microwave-oven-data"><span class="header-section-number">4.6.4</span> Example: Microwave Oven Data</h3>
+<section id="example-microwave-oven-data" class="level3" data-number="6.4">
+<h3 data-number="6.4" class="anchored" data-anchor-id="example-microwave-oven-data"><span class="header-section-number">6.4</span> Example: Microwave Oven Data</h3>
 <p>Manufacturers of a microwave oven are concerned about radiation emission. They measure radiation with the door closed and open from <span class="math inline">n=12</span> ovens. Test if the mean radiation levels are <span class="math inline">\boldsymbol{\mu}_0 = [0.15, 0.20]'</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate some plausible data</span></span>
@@ -1372,8 +1352,8 @@ Open       Open 0.1832896 0.3657812</code></pre>
 </div>
 </section>
 </section>
-<section id="sec-LinearCombinations" class="level2" data-number="4.7">
-<h2 data-number="4.7" class="anchored" data-anchor-id="sec-LinearCombinations"><span class="header-section-number">4.7</span> Inference for Linear Combinations of Means</h2>
+<section id="sec-LinearCombinations" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="sec-LinearCombinations"><span class="header-section-number">7</span> Inference for Linear Combinations of Means</h2>
 <p>In many scientific applications, one is interested in making statistical inference for a linear combination of the mean components (also called <em>mean contrast</em>) based on multivariate data. In such applications, we can test hypotheses about any linear combination of the mean components, <span class="math inline">H_0: \mathbf{c}'\boldsymbol{\mu} = c_0</span>. One can still apply previous methods to perform the test. This is useful for testing things like “Is the average of all means equal to 5?” or “Is the difference between mean 1 and mean 2 equal to zero?”</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Dogs Anesthetics Study (J. &amp; W. 2007)">
 <div class="callout-header d-flex align-content-center">
@@ -1489,8 +1469,8 @@ Step 1: Prepare and Visualize the Data
 </div>
 </div>
 </div>
-<section id="repeated-measures" class="level3" data-number="4.7.1">
-<h3 data-number="4.7.1" class="anchored" data-anchor-id="repeated-measures"><span class="header-section-number">4.7.1</span> Repeated Measures</h3>
+<section id="repeated-measures" class="level3" data-number="7.1">
+<h3 data-number="7.1" class="anchored" data-anchor-id="repeated-measures"><span class="header-section-number">7.1</span> Repeated Measures</h3>
 <p>A <strong>repeated measures</strong> study is a research design where the same participants are measured multiple times under different conditions or over a period of time</p>
 <p><strong>Key characteristics</strong></p>
 <ul>
@@ -1517,8 +1497,8 @@ Step 1: Prepare and Visualize the Data
 <p><strong>Key Challenge: Dependent Data</strong></p>
 <p>When the same subject is measured on <span class="math inline">p</span> different occasions or under <span class="math inline">p</span> different conditions, the measurements are <strong>not independent</strong>. A person’s score at time 1 is related to their score at time 2. Because of this dependency, we cannot directly apply previous methods on the data. However, we can still analyze this data by creating <strong>difference vectors</strong> and performing a one-sample Hotelling’s <span class="math inline">T^2</span> test on these differences.</p>
 </section>
-<section id="hotellings-t2-test-for-contrasts" class="level3" data-number="4.7.2">
-<h3 data-number="4.7.2" class="anchored" data-anchor-id="hotellings-t2-test-for-contrasts"><span class="header-section-number">4.7.2</span> Hotelling’s <span class="math inline">T^2</span> Test for Contrasts</h3>
+<section id="hotellings-t2-test-for-contrasts" class="level3" data-number="7.2">
+<h3 data-number="7.2" class="anchored" data-anchor-id="hotellings-t2-test-for-contrasts"><span class="header-section-number">7.2</span> Hotelling’s <span class="math inline">T^2</span> Test for Contrasts</h3>
 <div class="callout callout-style-default callout-tip callout-titled" title="Step 2: State Hypotheses">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1807,14 +1787,14 @@ Paired <span class="math inline">t</span>-Test
 </div>
 </div>
 </section>
-<section id="confidence-regions-for-linear-combinations-of-means" class="level3" data-number="4.7.3">
-<h3 data-number="4.7.3" class="anchored" data-anchor-id="confidence-regions-for-linear-combinations-of-means"><span class="header-section-number">4.7.3</span> Confidence Regions for Linear Combinations of Means</h3>
+<section id="confidence-regions-for-linear-combinations-of-means" class="level3" data-number="7.3">
+<h3 data-number="7.3" class="anchored" data-anchor-id="confidence-regions-for-linear-combinations-of-means"><span class="header-section-number">7.3</span> Confidence Regions for Linear Combinations of Means</h3>
 <p>A <span class="math inline">100(1-\alpha)\%</span> confidence region for any linear combination of population means, say <span class="math inline">C \boldsymbol{\mu}</span>, is the set of all vectors <span class="math inline">\boldsymbol \mu</span> satisfying: <span class="math display">
 n(C\bar{\mathbf{x}} - C\boldsymbol{\mu})^\top (CSC^\top)^{-1} (C\bar{\mathbf{x}} - C\boldsymbol{\mu}) \le \frac{(p-1)(n-1)}{n-p+1} F_{p-1, n-p+1, 1-\alpha}
 </span></p>
 </section>
-<section id="simultaneous-cis-for-linear-combinations-of-means" class="level3" data-number="4.7.4">
-<h3 data-number="4.7.4" class="anchored" data-anchor-id="simultaneous-cis-for-linear-combinations-of-means"><span class="header-section-number">4.7.4</span> Simultaneous CIs for Linear Combinations of Means</h3>
+<section id="simultaneous-cis-for-linear-combinations-of-means" class="level3" data-number="7.4">
+<h3 data-number="7.4" class="anchored" data-anchor-id="simultaneous-cis-for-linear-combinations-of-means"><span class="header-section-number">7.4</span> Simultaneous CIs for Linear Combinations of Means</h3>
 <p>After performing a multivariate test, we are often interested in more complex comparisons than just single means. We might want to test a <strong>linear combination</strong> of the population means, which takes the general form:</p>
 <p><span class="math display"> \mathbf{c}'\boldsymbol{\mu} = c_1\mu_1 + c_2\mu_2 + \dots + c_p\mu_p </span></p>
 <p>We can construct simultaneous confidence intervals for a set of <code>m</code> such combinations, where the <code>k</code>-th combination is defined by the coefficient vector <span class="math inline">\mathbf{c}_k = [c_{k1}, c_{k2}, \dots, c_{kp}]'</span>.</p>
@@ -1917,10 +1897,10 @@ Bonferroni CI
 </div>
 </section>
 </section>
-<section id="exercises" class="level2" data-number="4.8">
-<h2 data-number="4.8" class="anchored" data-anchor-id="exercises"><span class="header-section-number">4.8</span> Exercises</h2>
-<section id="exercise-1-iris-data-contd" class="level3" data-number="4.8.1">
-<h3 data-number="4.8.1" class="anchored" data-anchor-id="exercise-1-iris-data-contd"><span class="header-section-number">4.8.1</span> Exercise 1: <code>iris</code> Data, Cont’d</h3>
+<section id="exercises" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="exercises"><span class="header-section-number">8</span> Exercises</h2>
+<section id="exercise-1-iris-data-contd" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="exercise-1-iris-data-contd"><span class="header-section-number">8.1</span> Exercise 1: <code>iris</code> Data, Cont’d</h3>
 <p>Using the <code>iris</code> data, answer the following questions.</p>
 <ol type="a">
 <li>For the <code>versicolor</code> species, test if the mean vector for <code>Sepal.Length</code> and <code>Petal.Length</code> is equal to <span class="math inline">\boldsymbol{\mu}_0 = [6.0, 4.0]'</span>. Use <span class="math inline">\alpha=0.05</span>. If you reject the null hypothesis, construct 95% Bonferroni simultaneous CIs to determine which variable(s) differ from the hypothesized values.</li>
@@ -2077,8 +2057,8 @@ View Solution
 </div>
 </div>
 </section>
-<section id="exercise-2-dogs-anesthetics-study-contd" class="level3" data-number="4.8.2">
-<h3 data-number="4.8.2" class="anchored" data-anchor-id="exercise-2-dogs-anesthetics-study-contd"><span class="header-section-number">4.8.2</span> Exercise 2: Dogs Anesthetics Study, Cont’d</h3>
+<section id="exercise-2-dogs-anesthetics-study-contd" class="level3" data-number="8.2">
+<h3 data-number="8.2" class="anchored" data-anchor-id="exercise-2-dogs-anesthetics-study-contd"><span class="header-section-number">8.2</span> Exercise 2: Dogs Anesthetics Study, Cont’d</h3>
 <p>In the Dogs Anesthetics study, we have tested the main effects and the interaction effect with the contrast matrix to test that all the three differences (the Halothane effect, the CO2 effect, and the interaction effect) in the mean responses have mean zero. This is equivalent to testing the null hypothesis that all four anesthetics induce the same mean times between heartbeats. In fact, this problem can be formulated by comparing any possible pair of mean difference with zero.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
@@ -2097,7 +2077,7 @@ View Solution
 </div>
 </div>
 <ol type="1">
-<li>In <a href="#sec-LinearCombinations" class="quarto-xref"><span>Section 4.7</span></a>, we have used contrasts to test the hypothesis. Please justify why the hypothesis formulated via contrast is equivalent to test if all four anesthetics treatments induce the same mean times between heartbeats.</li>
+<li>In <a href="#sec-LinearCombinations" class="quarto-xref">Section&nbsp;7</a>, we have used contrasts to test the hypothesis. Please justify why the hypothesis formulated via contrast is equivalent to test if all four anesthetics treatments induce the same mean times between heartbeats.</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="View Solution">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-38-contents" aria-controls="callout-38" aria-expanded="false" aria-label="Toggle callout">
@@ -2111,8 +2091,8 @@ View Solution
 </div>
 <div id="callout-38" class="callout-38-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>We will use the same notation as defined in <a href="#sec-LinearCombinations" class="quarto-xref"><span>Section 4.7</span></a>: <span class="math inline">\boldsymbol{\mu}=(\mu_1, \mu_2, \mu_3, \mu_4)^\top</span> represents the mean times between heartbeats under the four treatments: high CO2 pressure + no Halothane, low CO2 pressure + no Halothane, high CO2 pressure + Halothane, low CO2 pressure + Halothane.</p>
-<p>From the null hypothesis in <a href="#sec-LinearCombinations" class="quarto-xref"><span>Section 4.7</span></a>, we have <span class="math display">
+<p>We will use the same notation as defined in <a href="#sec-LinearCombinations" class="quarto-xref">Section&nbsp;7</a>: <span class="math inline">\boldsymbol{\mu}=(\mu_1, \mu_2, \mu_3, \mu_4)^\top</span> represents the mean times between heartbeats under the four treatments: high CO2 pressure + no Halothane, low CO2 pressure + no Halothane, high CO2 pressure + Halothane, low CO2 pressure + Halothane.</p>
+<p>From the null hypothesis in <a href="#sec-LinearCombinations" class="quarto-xref">Section&nbsp;7</a>, we have <span class="math display">
 \begin{aligned}
 \mu_3 + \mu_4 &amp;= \mu_1 + \mu_2, \\
 \mu_1 + \mu_3 &amp;= \mu_2 + \mu_4,\\
@@ -2120,7 +2100,7 @@ View Solution
 \end{aligned}
 </span> Thus, after some algebra, we obtain that the above is true if and only if <span class="math inline">\mu_1=\mu_2=\mu_3=\mu_4</span>.</p>
 <p>Moreover, this constraint gives three independent/unique differences as other differences are just linear combinations of these three independent differences.</p>
-<p>So, the null hypothesis in <a href="#sec-LinearCombinations" class="quarto-xref"><span>Section 4.7</span></a> is also equivalent to test if all the tree independent/unique differences are zero.</p>
+<p>So, the null hypothesis in <a href="#sec-LinearCombinations" class="quarto-xref">Section&nbsp;7</a> is also equivalent to test if all the tree independent/unique differences are zero.</p>
 </div>
 </div>
 </div>
@@ -2446,8 +2426,8 @@ upper   4.618242  -69.24371  -96.79411  -30.54822  -51.60991  11.88889</code></p
 </div>
 </div>
 </section>
-<section id="exercise-3-baseball-player-data" class="level3" data-number="4.8.3">
-<h3 data-number="4.8.3" class="anchored" data-anchor-id="exercise-3-baseball-player-data"><span class="header-section-number">4.8.3</span> Exercise 3: Baseball Player Data</h3>
+<section id="exercise-3-baseball-player-data" class="level3" data-number="8.3">
+<h3 data-number="8.3" class="anchored" data-anchor-id="exercise-3-baseball-player-data"><span class="header-section-number">8.3</span> Exercise 3: Baseball Player Data</h3>
 <p><strong>Background</strong></p>
 <p>A sports science journal from the 1950s established a “classic” physical standard for professional baseball players, claiming the ideal physique had a mean height of <strong>72.5 inches</strong> and a mean weight of <strong>209 pounds</strong>. The data is from the <code>Lahman::People</code> dataset.</p>
 <p>Your task is to determine if the average physique of modern players has significantly changed from this historical benchmark using a Hotelling’s T² test with a significance level of <span class="math inline">\alpha = 0.05</span>. In the analysis, we assume that the random vector follows a multivariate distribution and carry out the analysis, although it actually fails the multivariate Shapiro-Wilk test.</p>
@@ -3190,18 +3170,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../ch3/03-MVN.html" class="pagination-link" aria-label="Multivariate Normal Distribution">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multivariate Normal Distribution</span></span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../ch5/05-Inference_for_Means_II.html" class="pagination-link" aria-label="Inference for Multiple Mean Vectors">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Inference for Multiple Mean Vectors</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 
 

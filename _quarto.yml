@@ -1,24 +1,29 @@
 project:
   type: website
   output-dir: docs
-  
+  render:
+    - index.qmd
+    - ch1/01-intro.qmd
+    - ch2/02-graphs.qmd
+    - ch3/03-MVN.qmd
+    - ch4/04-Inference_for_Means.qmd
+    
 website:
   title: "Introduction to Multivariate Statistics"
   sidebar:
     search: true
-    style: "docked"
-    contents: 
+    style: docked
+    contents:
       - text: "Preface"
-        href: "index.qmd"
-      - section: "Module 1: Introduction"
+        href: index.qmd
+      - text: "Module 1: Introduction"
         href: ch1/01-intro.qmd
-      - section: "Module 2: Graphs and Data Visualization"
-        href: docs/ch2/02-graphs.qmd
-      - section: "Module 3: Multivariate Normal Distribution"
-        href: docs/ch3/03-MVN.qmd
-      - section: "Module 4: Inference for Single Mean Vector"
-        href: docs/ch4/04-Inference_for_Means.qmd
-      # - href: ch4/04-Inference_for_Means.qmd
+      - text: "Module 2: Graphs and Data Visualization"
+        href: ch2/02-graphs.qmd
+      - text: "Module 3: Multivariate Normal Distribution"
+        href: ch3/03-MVN.qmd
+      - text: "Module 4: Inference for Single Mean Vector"
+        href: ch4/04-Inference_for_Means.qmd
       # - href: ch5/05-Inference_for_Means_II.qmd 
       # - href: ch6/06-PCA.qmd
       # - href: ch7/07-FactorAnalysis.qmd
