@@ -9,16 +9,19 @@ website:
     style: "docked"
     contents: 
       - text: "Preface"
-        href: "index.qmd"
+        href: index.qmd
       - section: "Module 1: Introduction"
-        href: ch1/01-intro.qmd
+        contents:
+          - href: ch1/01-intro.qmd
       - section: "Module 2: Graphs and Data Visualization"
-        href: docs/ch2/02-graphs.qmd
+        contents:
+          - href: ch2/02-graphs.qmd
       - section: "Module 3: Multivariate Normal Distribution"
-        href: docs/ch3/03-MVN.qmd
+        contents:
+          - href: ch3/03-MVN.qmd
       - section: "Module 4: Inference for Single Mean Vector"
-        href: docs/ch4/04-Inference_for_Means.qmd
-      # - href: ch4/04-Inference_for_Means.qmd
+        contents:
+          - href: ch4/04-Inference_for_Means.qmd
       # - href: ch5/05-Inference_for_Means_II.qmd 
       # - href: ch6/06-PCA.qmd
       # - href: ch7/07-FactorAnalysis.qmd
