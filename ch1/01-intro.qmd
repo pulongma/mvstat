@@ -270,7 +270,7 @@ ggplot(dat_long, aes(Value)) +
   (Summarizing data in lower dimensions)
 - Exploratory Factor Analysis — *Chapter 5*  
   (What to do when the variables of interest cannot be directly observed.)
-- Multidimensional Scaling — *Chapter 4*
+- Multi-Dimensional Scaling — *Chapter 4*
 - Cluster Analysis — *Chapter 6*
 - Discriminant Analysis and Classification — *Lecture Notes*  
   (Including linear discriminants, logistic regression, classification trees, and random forests)
@@ -281,9 +281,9 @@ ggplot(dat_long, aes(Value)) +
 - **Prediction**: If variables are associated, then we might be able to predict the value of some of them given information on the others. (Statistical inference)
 - **Hypothesis testing**: Are differences in sets of response means for two or more groups large enough to be distinguished from sampling variation? (Statistical inference)
 - **Dimensionality reduction**: Can we reduce the dimensionality of the problem by considering a small number of (linear) combinations of a large number of measurements without losing important information?
-  - Principal Components
-  - Factor Analysis
-  - Multidimensional Scaling
+  * Principal Components
+  * Factor Analysis
+  * Multidimensional Scaling
 
 - **Grouping (Cluster Analysis)**: Identify groups of “similar” units using a common set of measured traits.
 
@@ -831,10 +831,11 @@ $$
 
 
 ### Exercise 1: Data Types
+Common types of objects for data analysis are numeric, character, logical, factors, and dates. Character data do not have numerical values, such as names of people or words in a book, Logical data takes values of true or false and can be used to make decisions.
 
 a. For each of the following commands, either explain why they should be errors, or explain the non-erroneous result.
 ```
-    x <- c("5","12","7")
+    x <- c("1","2","3")
     max(x)
     sort(x)
     sum(x)
@@ -843,20 +844,20 @@ a. For each of the following commands, either explain why they should be errors,
 b. For the next two commands, either explain their results, or why they
 should produce errors.
 ```
-    y <- c("5",7,12)
+    y <- c("1",3,4)
     y[2] + y[3]
 ```
 
 c. For the next two commands, either explain their results, or why they should
 produce errors.
 ```
-    z <- data.frame(z1="5",z2=7,z3=12)
+    z <- data.frame(z1="1", z2=3, z3=5)
     z[1,2] + z[1,3]
 ```
 
-:::{.callout-tip title="Partial Solution" collapse="true"}
+:::{.callout-tip title="View Solution" collapse="true"}
 
-- `x` is binded to a vector of characters instead of            numerical values. The functions `max`, `sort`, `sum` should take numerical values as input, so the values in `x` are first converted from characters to numerical values implicitly and then the functions apply to these incorrect numerical values
+- `x` is bound to a vector of characters instead of            numerical values. The functions `max`, `sort`, `sum` should take numerical values as input, so the values in `x` are first converted from characters to numerical values implicitly and then the functions apply to these incorrect numerical values
 
 - `y` is a vector of characters, which cannot be used for addition
 
@@ -866,67 +867,170 @@ produce errors.
 ::: 
 
 
-### Exercise 2: Linear Algebra
+### Exercise 2: Working with Matrix and Data Frames
 
-Consider the linear system $A X = b$, where $A$ is an $n\times n$ positive definite matrix and $b$ is a $n$-dimensional vector, the unique solution is $X = A^{-1}b$. Please answer the following questions:
+1. A matrix is a 2D array, with rows and columns, much like you would have seen in linear algebra. Primarily we think of these as numeric objects. Arrays can have more than two dimensions. In multivariate analysis we are typically thinking of data in the form of a matrix, with samples/cases in the rows and variables represented as columns. Data frames are 2D arrays that could have multiple types of data in different columns. Lists are collections of possibly different length and different types of objects.
 
-a. Write an R function called `my_solver()` such that given inputs $A$ and $b$, the function `my_solver()` returns the solution of the linear system, i.e., `X <- my_solver(A, b)`. 
-
-b. Run the following code to get $A$ and $b$. 
+a. Create a matrix and print it out. 
+```{r}
+#| code-summary: "View Solution"
+dat = matrix(c(140, 120, 160, 145, 125, 
+               65, 60, 63, 66, 61), 
+             ncol = 2, byrow = FALSE) 
 ```
-    n = 100
-    set.seed(123)
-    A = rWishart(1, 150, diag(n))[ , ,1]
-    b = rnorm(n,1)
-```
-Then use your function `my_solver()` to produce the answer and verify your solution.  (hint: $AX$ should be equal to $b$)
 
-:::{.callout-tip title="Partial Solution" collapse="true"}
 
 ```{r}
+#| code-summary: "View Solution"
+dat # or print(dat) 
+```
+
+b. Rename the column names of a matrix.
+```{r}
+#| code-summary: "View Solution"
+
+colnames(dat) = c("weight.lbs", "Height.in")
+dat 
+```
+
+2. Data frames can store both columns of numeric data and columns of character data, columns of integers, and factors.
+
+a. Create a data frame with `Male` and `Female` observations, and print out the data frame. 
+```{r}
+#| code-summary: "View Solution"
+df = data.frame(
+  Weight.lbs = c(140, 120, 160, 145, 125,
+       180, 165), 
+  Height.in = c(65, 60, 63, 66, 61, 70, 68),
+  Gender = c(rep("Female", 5), rep("Male", 2))
+  ) 
+
+df
+```
+
+b. Get the rows and columns of a data frame.
+```{r}
+#| code-summary: "View Solution"
+dim(df)
+nrow(df)
+ncol(df)
+```
+
+c. Get summary statistics of a data frame.
+```{r}
+#| code-summary: "View Solution"
+summary(df)
+```
+
+3. Operations with Matrix and Data Frame 
+
+a. Extract the first row and second column of a matrix. 
+```{r}
+#| code-summary: "View Solution"
+dat[1,]
+dat[,2]
+```
+
+b. Subset the first two rows of a matrix
+```{r}
+#| code-summary: "View Solution"
+dat[1:2,]
+```
+
+c. Subset rows `1,3,5` of a matrix.
+```{r}
+#| code-summary: "View Solution"
+dat[c(1,3,5), ]
+```
+
+d. Select all the `Male` observations from a data frame. 
+```{r}
+#| code-summary: "View Solution"
+subset(df, Gender=="Male")
+```
+
+e. Transpose of a matrix
+```{r}
+#| code-summary: "View Solution"
+A = matrix(c(3,1,2,4), ncol=2)
+A
+```
+
+f. Matrix multiplication
+```{r}
+#| code-summary: "View Solution"
+B = matrix(c(1,2,3,4), ncol=2)
+A %*% B 
+B %*% A 
+```
+
+g. Matrix inversion 
+
+```{r}
+#| code-summary: "View Solution"
+solve(A)
+```
+
+### Exercise 3: Linear Algebra 
+1. Consider the linear system $A X = b$, where $A$ is an $n\times n$ positive definite matrix and $b$ is a $n$-dimensional vector, the unique solution is $X = A^{-1}b$. Please answer the following questions:
+
+  a. Write an R function called `my_solver()` such that given inputs $A$ and $b$, the function `my_solver()` returns the solution of the linear system, i.e., `X <- my_solver(A, b)`. 
+
+  b. Run the following code to get $A$ and $b$. 
+  ```
+  set.seed(123)
+  A = matrix(c(5,1,1,6), ncol=2)
+  n = nrow(A)
+  b = rnorm(n,1)
+  ```
+  Then use your function `my_solver()` to produce the answer and verify your solution.  (hint: $AX$ should be equal to $b$)
+
+
+```{r}
+#| code-summary: "View Solution"
+
 my_solver <- function(A, b){
-  R = chol(A)
-  x = backsolve(R, backsolve(R, b, transpose=TRUE))
+  x = solve(A, b)
   return(x)
 }
 
-n = 100
-set.seed(123)
-A = rWishart(1, 150, diag(n))[ , ,1]
+A = matrix(c(5,1,1,6), ncol=2)
+n = nrow(A)
 b = rnorm(n,1)
 x1 = my_solver(A, b)
 sum((A%*%x1-b)^2)
 
 ```
 
-::: 
 
-### Exercise 3: Working with `ggplot2` Package
+
+
+### Exercise 4: Working with `ggplot2` Package
 
 EPA monitors Air Quality data across the entire U.S. The file `AQSdata.csv` contains daily PM 2.5 concentrations and other  information. Please answer the following questions using the `ggplot()` function for plotting. In addition make sure that all the x-axis and y-axis labels have 14 font size.
 
 a. Read the data file `AQSdata.csv` into R. 
 
-b. Generate density plots of PM2.5 concentrations grouped by `County` in one single panel, where each density should have its own color. What do you find from the figure? 
+b. Generate density plots of `PM2.5` concentrations grouped by `County` in one single panel, where each density should have its own color. What do you find from the figure? 
 
-c. Plot histograms of PM2.5 concentrations across different counties with one panel for one histogram. 
+c. Plot histograms of `PM2.5` concentrations across different counties with one panel for one histogram. 
 
-d. Generate boxplots of PM2.5 concentrations by County. What would you say about the distributions?
+d. Generate boxplots of `PM2.5` concentrations by County. What would you say about the distributions?
 
-e. Reorder the boxplots above by the median value of PM2.5 concentrations. 
+e. Reorder the boxplots above by the median value of `PM2.5` concentrations. 
 
-f. Converting the Site ID to a factor and plot the historgram grouped by `Site ID`.
+f. Converting the Site ID to a factor and plot the histogram grouped by `Site ID`.
 
-g. Generate the time series plot for the monitoring Site ID 450190048.
+g. Generate the time series plot for the monitoring Site ID `450190048`.
 
-h. Plot time series of PM2.5 concentrations for all monitoring sites in one panel, where each site has its own color 
+h. Plot time series of `PM2.5` concentrations for all monitoring sites in one panel, where each site has its own color 
 
-i. Plot time series of PM2.5 concentrations across all monitoring sites in multiple panels, where one panel only has one site, and each row only has two panels.
+i. Plot time series of `PM2.5` concentrations across all monitoring sites in multiple panels, where one panel only has one site, and each row only has two panels.
 
 j. In the time series plot, there seems to be not enough space to hold the x-axis labels. One way to avoid this is to rotate the axis labels. Please rotate all the time labels 45 degree.
 
 
-:::{.callout-tip title="Partial Solution" collapse="true"}
+:::{.callout-tip title="View Solution" collapse="true"}
 
 ```{r}
 library(readr)
@@ -999,22 +1103,21 @@ print(g)
 g + theme(axis.text.x = element_text(angle=45))
 ```
 
-
 ::: 
 
-### Exercise 4: Working with `dplyr` Package
+### Exercise 5: Working with `dplyr` Package
 
 Continuing working with the above PM 2.5 data.
 
-a. Filter all the observations in the county Greenville. How many observations are there? 
+a. Filter all the observations in the county `Greenville`. How many observations are there? 
 
-b. Filter all the observations in Greenville in August 2021
+b. Filter all the observations in `Greenville` in August 2021
 
-c. Filter all the observations in Greenville in August 2021 and select the variables PM2.5 concentrations, Date,  latitude and longitude of sites
+c. Filter all the observations in `Greenville` in August 2021 and select the variables PM2.5 concentrations, Date,  latitude and longitude of sites
 
-d. Generate scatterplots of PM2.5 against latitude and longitude in two different panels
+d. Generate scatterplots of `PM2.5` against `latitude` and `longitude` in two different panels
 
-:::{.callout-tip title="Partial Solution" collapse="true"}
+:::{.callout-tip title="View Solution" collapse="true"}
 
 ```{r}
 library(dplyr)
