@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 book:
-  title: "Introduction to Multivariate Data Analysis with R"
+  title: "Introduction to Multivariate Data Analysis"
   author: "Pulong Ma"
   date: last-modified
   date-format: MMM, D, YYYY 

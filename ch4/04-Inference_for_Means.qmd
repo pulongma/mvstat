@@ -1,5 +1,5 @@
 ---
-title: 'Inference for Mean Vector'
+title: 'Inference for Single Mean Vector'
 author: 'Pulong Ma'
 format: 
   html:
