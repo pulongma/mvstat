@@ -25,15 +25,16 @@ library(dplyr)
 ### Getting Started
 To download <font style="font-family: serif">R</font>, please choose your preferred [CRAN mirror](https://cran.r-project.org/mirrors.html). Here I recommend the mirror [0-Cloud](https://cloud.r-project.org/) available at [https://cloud.r-project.org/](https://cloud.r-project.org/).
 
-#### Installing R on macOS
+**Installing R on macOS**
+
 For **macOS** users, below are the steps you need to install <font style="font-family: serif">R</font>.
 
 1. Install Xcode (e.g., via the App Store). Skip this step if your Mac already has Xcode installed. 
 2. Install [XQuartz](https://www.xquartz.org).
 3. Go to [https://cloud.r-project.org/](https://cloud.r-project.org/) and click "**Download R for macOS**."
-4. Click on the download link for the latest R version for macOS and follow the instruction
+4. Click on the download link for the latest R version for macOS and follow the instruction.
 
-#### Install R on Windows
+**Install R on Windows**: 
 
 For **Windows** users, the following instructions guide you to install R. 
 
@@ -43,7 +44,8 @@ For **Windows** users, the following instructions guide you to install R.
 4. Click on the download link for the latest R version for Windows and follow the instruction
 
 
-#### Install RStudio 
+**Install RStudio** 
+
 RStudio has multiple panes in the window, open by default: one for writing and editing code, another for executing it, another for plots produced or help, and another that lists the R data objects available. RStudio can be download for free at [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/). 
 
 ### Introduction to R Programming 

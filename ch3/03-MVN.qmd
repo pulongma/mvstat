@@ -33,7 +33,6 @@ library(dplyr)
 library(reshape2)
 ```
 
-# Chapter 3 {#sec-Chapter-3}
 
 ## Why Multivariate Normal?
 

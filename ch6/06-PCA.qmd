@@ -46,7 +46,7 @@ PCA is a powerful exploratory statistical too that can
 
 
 
-### Motivating Examples
+### Motivating Examples ([Saccenti 2023](https://doi.org/10.1111/test.12363))
 
 
 ```{r}
