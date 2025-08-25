@@ -23,8 +23,8 @@ website:
         href: ch5/05-Inference_for_Means_II.qmd 
       - text: "Module 6: Principal Component Analysis"
         href: ch6/06-PCA.qmd
-      - text: "Module 7: Factor Analysis"
-        href: ch7/07-FactorAnalysis.qmd
+      # - text: "Module 7: Factor Analysis"
+      #  href: ch7/07-FactorAnalysis.qmd
       # - href: summary.qmd
       # - href: references.qmd
 
