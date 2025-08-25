@@ -50,31 +50,44 @@ Let's look at the famous `iris` dataset. We'll focus on the `setosa` species and
 
 A biologist might ask: "Is the mean vector of sepal measurements for `setosa` flowers equal to a specific standard, say $\boldsymbol{\mu}_0 = [5.1, 3.6]'$?"
 
-::: {.callout-tip title="Iris Data" collapse="true"}
-
 ```{r}
 #| label: setup
 #| message: false
 #| warning: false
-
+#| code-summary: "R Code: Iris Data"
 library(ggplot2)
 library(DescTools) # For one-sample T2 test
 library(ellipse)   # For plotting confidence ellipses
 
 # Isolate the setosa data for the first two variables
-setosa_data <- iris[iris$Species == "setosa", 1:2]
-names(setosa_data) <- c("Sepal.Length", "Sepal.Width")
+setosa_data = iris[iris$Species == "setosa", 1:2]
+names(setosa_data) = c("Sepal.Length", "Sepal.Width")
 head(setosa_data)
+```
 
+```{r}
+#| code-summary: "Data Visualization: iris Data"
 # The hypothesized mean vector
-mu_0 <- c(5.1, 3.6)
+mu_0 = c(5.1, 3.6)
 
 # Plot the data
 ggplot(setosa_data, aes(x = Sepal.Length, y = Sepal.Width)) +
   geom_point(color = "purple", alpha = 0.7) +
-  geom_vline(xintercept = mu_0[1], linetype = "dashed", color = "red") +
-  geom_hline(yintercept = mu_0[2], linetype = "dashed", color = "red") +
-  annotate("point", x = mu_0[1], y = mu_0[2], color = "red", size = 5, shape = 4, stroke = 1.5) +
+  geom_vline(xintercept = mu_0[1],
+             linetype = "dashed",
+             color = "red") +
+  geom_hline(yintercept = mu_0[2],
+             linetype = "dashed",
+             color = "red") +
+  annotate(
+    "point",
+    x = mu_0[1],
+    y = mu_0[2],
+    color = "red",
+    size = 5,
+    shape = 4,
+    stroke = 1.5
+  ) +
   labs(
     title = "Sepal Measurements for Iris Setosa",
     subtitle = "Red crosshairs show the hypothesized mean vector [5.1, 3.6]",
@@ -83,7 +96,7 @@ ggplot(setosa_data, aes(x = Sepal.Length, y = Sepal.Width)) +
   ) +
   theme_minimal()
 ```
-:::
+
 
 
 ### Why Not Just Run Two t-tests?
@@ -93,9 +106,10 @@ The "naive" approach is to test each variable separately.
 1.  Test $H_0: \mu_{\text{Length}} = 5.1 \quad \text{v.s.} \quad H_1: \mu_{\text{Length}} \neq 5.1$
 2.  Test $H_0: \mu_{\text{Width}} = 3.6 \quad \text{v.s.} \quad H_1: \mu_{\text{Width}} \neq 3.6$
 
-::: {.callout-tip title="R code: one-sample $t$ test" collapse="true"}
+::: {.callout-tip title="R Code: One-Sample $t$ Test" collapse="true"}
 
 ```{r}
+#| code-summary: "R Code: One-Sample `t` Test"
 #| label: naive-ttests
 
 # Test 1: Sepal Length
@@ -108,16 +122,13 @@ t.test(setosa_data$Sepal.Width, mu = mu_0[2])
 
 :::
 
-
 **Individually, we would reject both null hypotheses at $\alpha = 0.05$. But this is misleading!**
 
 
 ::: {.callout-important title="Why do we need a multivariate test?" collapse="true"}
 
 1.  **The univariate approach doesn't answer the right question.** The research question is about the **mean vector** $\boldsymbol{\mu}$, not the individual means. The two t-tests do not provide a single measure of evidence (one p-value) against the single hypothesis $H_0: \boldsymbol{\mu} = \boldsymbol{\mu}_0$.
-
 2.  **It ignores the data's structure.** Sepal length and petal length are correlated. Taller flowers tend to have longer petals. The separate t-tests treat the variables as independent, which they are not. This ignores crucial information about the joint variability (or covariance) of the data.
-
 3.  **It cannot quantify the joint uncertainty.** The true "distance" of the sample mean vector from the hypothesized mean vector can only be properly measured by accounting for the covariance between variables. We need a method that can create a single **confidence region** (an ellipse) for the mean vector, which is impossible with two separate confidence intervals. 
 
 The multivariate approach provides a single, unified test for a single, unified hypothesis, while properly accounting for the relationships between the variables.
@@ -158,15 +169,12 @@ Before we go multivariate, let's review the one-sample $t$-test for a mean $\mu$
 To make the decision, we could either use the rejection region approach or the p-value approach. 
 
 * **Rejection Region**
-
-- If $|t|> |t_{n-1,1-\alpha/2}|$, we should reject $H_0$ at significance level $\alpha$; otherwise, we fail to reject $H_0$ at significance level $\alpha$ and conclude there is no sufficient evidence to detect the difference.
+  - If $|t|> |t_{n-1,1-\alpha/2}|$, we should reject $H_0$ at significance level $\alpha$; otherwise, we fail to reject $H_0$ at significance level $\alpha$ and conclude there is no sufficient evidence to detect the difference.
 
 * **P-Value**
-
-- The p-value is the probability of seeing a result as extreme as yours (or more extreme) if the claim (in null hypothesis) were actually true.
-
-- Small p-value (typically < 0.05): This result is very unlikely to happen by random chance alone. We reject the null hypothesis (H_0) and conclude there's a significant difference at level $\alpha$ (e.g., 0.05).
-- Large p-value (typically ≥ 0.05): This result is reasonably likely to happen by random chance. The difference you saw could just be noise. We fail to reject the null hypothesis at level $\alpha$ (e.g., 0.05). There is no sufficient evidence from the data to indicate the null hypothesis is wrong. 
+  - The p-value is the probability of seeing a result as extreme as yours (or more extreme) if the claim (in null hypothesis) were actually true.
+  - Small p-value (typically < 0.05): This result is very unlikely to happen by random chance alone. We reject the null hypothesis (H_0) and conclude there's a significant difference at level $\alpha$ (e.g., 0.05).
+  - Large p-value (typically ≥ 0.05): This result is reasonably likely to happen by random chance. The difference you saw could just be noise. We fail to reject the null hypothesis at level $\alpha$ (e.g., 0.05). There is no sufficient evidence from the data to indicate the null hypothesis is wrong. 
 
 :::
 
@@ -179,6 +187,7 @@ Let's test the coffee roaster's claim. We buy 10 bags and weigh them with data g
 
 
 ```{r}
+#| code-summary: "R Code: One-Sample `t` Test"
 #| echo: true
 #| message: false
 
@@ -196,7 +205,6 @@ test_result <- t.test(x = coffee_weights, mu = mu0)
 # Print the results
 print(test_result)
 ```
-
 **Interpreting the output**:
 
 1. $t=$`r signif(test_result$statistic,4)`: The sample mean is `r abs(signif(test_result$statistic,4))` standard errors *below* the hypothesized mean. That's a moderately strong signal. 
@@ -218,30 +226,20 @@ We upgrade our tools from scalars to vectors and matrices.
     $$
 
 
-::: {.callout-tip title="R Code" collapse="true"}
-
 ```{r}
 #| label: calc-mean-cov
 #| output: true 
+#| code-summary: "R Code: Sample Mean and Sample Covariance"
+n = nrow(setosa_data)
+p = ncol(setosa_data)
 
-# Sample size
-n <- nrow(setosa_data)
-# Number of variables
-p <- ncol(setosa_data)
-
-# Sample mean vector
-x_bar <- colMeans(setosa_data)
+x_bar = colMeans(setosa_data)
 cat("Sample Mean Vector (x_bar):", x_bar)
 
-# Sample covariance matrix
 S <- cov(setosa_data)
 cat("Sample Covariance Matrix (S):\n")
 S
 ```
-
-
-
-:::
 
 
 
@@ -273,7 +271,7 @@ A study measured sweat rate, sodium content, and potassium content for 20 health
 #| code-fold: false
 
 # sweat data
-sweat <- data.frame(
+sweat = data.frame(
     Rate = c(3.7, 5.7, 3.8, 3.2, 3.1, 4.6, 6.2, 3.4, 4.1, 5.5, 6.5, 4.5, 
              3.9, 4.5, 6.2, 4.1, 5.5, 6.0, 5.2, 4.8),
     Sodium = c(48.5, 65.1, 47.2, 31.1, 59.8, 37.8, 52.8, 43.2, 45.1,
@@ -283,7 +281,7 @@ sweat <- data.frame(
                   10.4, 11.2, 9.7, 8.8, 10.1, 12.3, 9.5, 11.3, 12.0,
                   10.8, 10.5)
 )
-mu0_sweat <- c(4, 50, 10)
+mu0_sweat = c(4, 50, 10)
 names(sweat) = c("x1", "x2", "x3")
 ```
 
@@ -437,10 +435,10 @@ Run a one-sample Hotelling's T$^2$ test on your prepared data using the historic
 #| code-summary: "R Code: Hotelling's T-squared Test"
 
 # Define the hypothesized mean vector from the historical guide
-hypothesized_mean <- c(5.1, 3.6)
+hypothesized_mean = c(5.1, 3.6)
 
 # Perform the test
-test_result <- DescTools::HotellingsT2Test(
+test_result = DescTools::HotellingsT2Test(
   x = setosa_data, 
   mu = hypothesized_mean)
 
@@ -463,7 +461,7 @@ The p-value is `r signif(test_result$p.value, 4)`. Since this p-value is less th
 
 
 
-**5. Visualize Your Conclusion**
+**5. Visualize the Conclusion**
 
 Create a scatter plot of `Sepal.Width` v.s. `Sepal.Length`. On the plot, mark the sample mean, the hypothesized mean, and add the 95% confidence ellipse. Explain how it supports your conclusion.
 
@@ -1220,8 +1218,8 @@ Using the `iris` data, answer the following questions.
 
 a. For the `versicolor` species, test if the mean vector for `Sepal.Length` and `Petal.Length` is equal to $\boldsymbol{\mu}_0 = [6.0, 4.0]'$. Use $\alpha=0.05$. If you reject the null hypothesis, construct 95% Bonferroni simultaneous CIs to determine which variable(s) differ from the hypothesized values.
 
+::: {.content-hidden when-format="pdf"}
 ::: {.callout-tip title="View Solution" collapse="true"}
-
 ```{r}
 #| label: ex1-solution
 #| code-fold: show
@@ -1266,15 +1264,15 @@ print(bonf_intervals)
 **Interpretation:** The CI for Sepal.Length (5.77 to 6.10) contains the hypothesized mean of 6.0. However, the CI for Petal.Length (4.11 to 4.41) does NOT contain its hypothesized mean of 4.0. Therefore, we conclude the overall mean vector is different because the mean Petal Length is significantly greater than 4.0.
 
 :::
-
+:::
 
 b. For the `setosa` species, construct simultaneous 95% confidence intervals for two linear combinations ($m=2$):
 
 *  **Difference:** $\mu_{Sepal.Length} - \mu_{Sepal.Width}$
 *  **Sum:** $\mu_{Sepal.Length} + \mu_{Sepal.Width}$
 
+::: {.content-hidden when-format="pdf"}
 ::: {.callout-tip title="View Solution" collapse="true"}
-
 ```{r}
 #| label: ci-linear-combo
 #| code-summary: "R Code: CI Calculation"
@@ -1333,6 +1331,7 @@ print(final_table)
 **Interpretation:** As shown in the table, the Bonferroni confidence intervals for both the "Difference" and the "Sum" are narrower than their T² counterparts, offering a more precise estimate for these specific comparisons.
 
 :::
+:::
 
 ### Exercise 2: Dogs Anesthetics Study, Cont'd
 
@@ -1353,6 +1352,8 @@ head(dogdat)
 
 1. In @sec-LinearCombinations, we have used contrasts to test the hypothesis. Please justify why the hypothesis formulated via contrast is equivalent to test if all four anesthetics treatments induce the same mean times between heartbeats. 
 
+
+::: {.content-hidden when-format="pdf"}
 ::: {.callout-tip title="View Solution" collapse="true"}
 
 We will use the same notation as defined in @sec-LinearCombinations: $\boldsymbol{\mu}=(\mu_1, \mu_2, \mu_3, \mu_4)^\top$ represents the mean times between heartbeats under the four treatments: high CO2 pressure + no Halothane, low CO2 pressure + no Halothane, high CO2 pressure + Halothane, low CO2 pressure + Halothane.  
@@ -1372,10 +1373,11 @@ Moreover, this constraint gives three independent/unique differences as other di
 So, the null hypothesis in @sec-LinearCombinations is also equivalent to test if all the tree independent/unique differences are zero. 
 
 ::: 
-
+::: 
 
 2. Write down the **null hypothesis ($H_0$)** and the **alternative hypothesis ($H_1$)** using population means only. 
 
+::: {.content-hidden when-format="pdf"}
 ::: {.callout-tip title="View Solution" collapse="true"}
 
 * **Null Hypothesis ($H_0$)**: The true mean times between heartbeats for each anesthetic  is the same: 
@@ -1386,10 +1388,11 @@ $$
 * **Alternative Hypothesis ($H_1$)**: At least one mean is not the same as one of the other means. 
 
 ::: 
-
+::: 
 
 3. Use box plots to compare the distributions of the values for the differences in mean times between heartbeats. 
 
+::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
 
 ```{r}
@@ -1404,14 +1407,14 @@ head(dat)
 boxplot(dat[, 6:8])
 ```
 
-
 ::: 
-
+:::
 
 
 
 4. Check Assumptions. 
 
+::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
 
 ```{r}
@@ -1432,19 +1435,21 @@ mvShapiroTest::mvShapiro.Test(as.matrix(dat[,6:8]))
 * The Shapiro-Wilk tests for univariate normality indicate that the distributions of the first and third sets of differences are not normal distributions.  The normal Q-Q plots indicate that those distributions are skewed to the left.
 
 :::
-
+:::
 
 5. Perform the Hotelling $T^2$ test for the null hypothesis.
 
+::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
 ```{r}
 DescTools::HotellingsT2Test(dat[,6:8], mu=c(0,0,0))
 ```
-
+:::
 :::
 
 6. To examine which mean is significant, we can investigate the simultaneous 95% confidence intervals for all six possible pairs of population mean differences: $\mu_1-\mu_2, \mu_1-\mu_3,\mu_1-\mu_4, \mu_2-\mu_3, \mu_2-\mu_4, \mu_3-\mu_4$. 
 
+::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
 ```{r}
 TB.conf.int <- function(X, level = 0.95)
@@ -1546,6 +1551,7 @@ TB.conf.int(dat[, 2:5])
 * Both sets of intervals provide at least 95% simultaneous coverage of the six differences in population means for difference between heartbeats, but the Bonferroni intervals are shorter than the T-squared intervals. 
 
 ::: 
+::: 
 
 
 
@@ -1563,6 +1569,7 @@ Your task is to determine if the average physique of modern players has signific
 
 Write the **null hypothesis ($H_0$)** and the **alternative hypothesis ($H_1$)** for this test using proper mathematical notation. Let $\boldsymbol{\mu}$ represent the true mean vector of `[height, weight]` for modern players.
 
+::: {.content-hidden when-format="pdf"}
 ::: {.callout-tip title="View Solution" collapse="true"}
 
 The hypotheses are formulated as:
@@ -1574,13 +1581,14 @@ The hypotheses are formulated as:
     $$H_1: \boldsymbol{\mu} \neq \begin{bmatrix} 72.5 \\ 209 \end{bmatrix}$$
     
 ::: 
-
+:::
 
 
 **2. Prepare the Data**
 
 Load the necessary R packages. From the `Lahman::People` dataset, create a final data frame that contains only the `height` and `weight` columns for players who debuted in the year 2010 or later, with any missing values removed.
 
+::: {.content-hidden when-format="pdf"}
 ::: {.callout-tip title="View Solution" collapse="true"}
 
 ```{r}
@@ -1606,13 +1614,14 @@ GGally::ggpairs(df)
 ```
 
 :::
-
+::: 
 
 
 **3. Check Key Assumptions**
 
 Create and examine histograms for both the `height` and `weight` distributions in your sample. Do they appear approximately normal?
 
+::: {.content-hidden when-format="pdf"}
 ::: {.callout-tip title="View Solution" collapse="true"}
 
 ```{r}
@@ -1641,13 +1650,14 @@ mvShapiroTest::mvShapiro.Test(as.matrix(df))
 **Interpretation:** Both distributions are mound-shaped and reasonably symmetric, supporting the assumption of approximate normality.
 
 :::
-
+:::
 
 
 **4. Perform the Statistical Test**
 
 Run a one-sample Hotelling's $T^2$ test on your prepared data using the historical standard as your hypothesized mean vector.
 
+::: {.content-hidden when-format="pdf"}
 ::: {.callout-tip title="View Solution" collapse="true"}
 
 ```{r}
@@ -1664,13 +1674,14 @@ print(test_result)
 ```
 
 :::
-
+:::
 
 
 **5. Interpret the Results**
 
 What is the p-value from your test? Based on this and $\alpha = 0.05$, do you reject or fail to reject the null hypothesis? State your conclusion in the context of the problem.
 
+::: {.content-hidden when-format="pdf"}
 ::: {.callout-tip title="View Solution" collapse="true"}
 
 The p-value is exceptionally small and far below the significance level of $\alpha = 0.05$.
@@ -1678,13 +1689,14 @@ The p-value is exceptionally small and far below the significance level of $\alp
 **Conclusion:** We **strongly reject the null hypothesis**. There is overwhelming statistical evidence to conclude that the average physique (the mean vector of height and weight) of modern baseball players is significantly different from the historical standard of 72 inches and 190 pounds.
 
 :::
-
+:::
 
 
 **6. Draw Conclusions Based on Confidence Region**
 
 Check if the hypothesized mean is in the 95% confidence ellipse. Explain how it supports your conclusion.
 
+::: {.content-hidden when-format="pdf"}
 ::: {.callout-tip title="View Solution" collapse="true"}
 
 ```{r}
@@ -1768,6 +1780,6 @@ print(ci_Bon)
 Based on simultaneous CIs (T2 or Bonferroni), the results indicates that there is a significantly individual difference in height  and weight at $\alpha=0.05$. 
 
 :::
-
+:::
 
 

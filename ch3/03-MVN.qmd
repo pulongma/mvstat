@@ -38,12 +38,11 @@ library(reshape2)
 
 The univariate normal distribution is fundamental in statistics. But real data usually involve multiple variables measured on the same subjects, and these are often correlated.
 
-::: {.callout-note title="Example"}
-Height and weight of students, or exam scores in different subjects.
-:::
+* Height and weight of students, or exam scores in different subjects.
 
-Recall that if $X$ has a normal distribution with mean $\mu$ and variance $\sigma^2$, then the formula for its density function is $$
-f(x) = \frac{1}{ \sqrt{2 \pi } \sigma} \exp \left(-\frac{1}{2\sigma^2} (x - \mu)^2 \right), \;\;\;\; -\infty < x < \infty.
+
+Recall that if a random variable $X$ has a normal distribution with mean $\mu$ and variance $\sigma^2$, its density function has the form $$
+f(x) = \frac{1}{ \sqrt{2 \pi } \sigma} \exp \left\{-\frac{1}{2\sigma^2} (x - \mu)^2 \right\}, \;\;\;\; -\infty < x < \infty.
 $$
 
 ## Matrix Background {#sec-matrix-background}
@@ -115,36 +114,27 @@ A %*% solve(A)
 
 ### Eigenvalues and Eigenvectors
 
-::: definition
-**Definition**: Given a $p \times p$ square matrix $A$, an eigenvector $\mathbf{v}$ and its corresponding eigenvalue $\lambda$ satisfy: $$  A \mathbf{v} = \lambda \mathbf{v}$$
+:::{.callout-note title="Definition"}
+Given a $p \times p$ square matrix $A$, an eigenvector $\mathbf{v}$ and its corresponding eigenvalue $\lambda$ satisfy: 
+$$A \mathbf{v} = \lambda \mathbf{v}$$
+
 :::
 
 **Interpretation:** Multiplying $A$ by its eigenvector $\mathbf{v}$ simply stretches or shrinks $\mathbf{v}$ by a factor $\lambda$—the direction of $\mathbf{v}$ does not change.
 
-#### Why Do They Matter?
+* **Why Do They Matter?**
 
--   Eigenvectors show the principal directions in which $A$ stretches or compresses space.
-
--   In statistics, the eigenvectors of a covariance matrix point in the directions of maximum variance (PCA axes).
-
--   The corresponding eigenvalues tell you how much variance there is in each direction as explained below.
-
--   Applications:
-
-    -   Diagnalizing matrices
-    -   Understanding quadratic forms
-    -   Principal Component Analysis (PCA)
-
+- Eigenvectors show the principal directions in which $A$ stretches or compresses the space.
+- In statistics, the eigenvectors of a covariance matrix gives the directions of maximum variance.
+- The corresponding eigenvalues tell you how much variance there is in each direction as explained below.
 
 #### Some Properties
 
--   If $(\lambda_j, \mathbf{e}_j)$ is an eigenvalue-eigenvector pair for a $p \times p$ matrix $A$, then by definition $$  A \mathbf{e}_j = \lambda_j \mathbf{e}_j$$
-
+- If $(\lambda_j, \mathbf{e}_j)$ is an eigenvalue-eigenvector pair for a $p \times p$ matrix $A$, by definition 
+$$A \mathbf{e}_j = \lambda_j \mathbf{e}_j.$$
 -   Eigenvectors are usually scaled to have length one, i.e., $1=\mathbf{e}_j^{'} \mathbf{e}_j = e_{j1}^2+e_{j2}^2 + \cdots + e_{jp}^2.$
-
--   Eigenvectors are mutually orthogonal, i.e., $\mathbf{e}_j^{'} \mathbf{e}_k = 0$ for any $j \ne k$
-
--   Also $(\lambda_j^{-1}, \mathbf{e}_j)$ is an eigenvalue-eigenvector pair of $A^{-1}$ when $A$ is positive definite and $A^{-1}$ exists.
+-   Eigenvectors are mutually orthogonal, i.e., $\mathbf{e}_j^{'} \mathbf{e}_k = 0$ for any $j \ne k$.
+-  $(\lambda_j^{-1}, \mathbf{e}_j)$ is an eigenvalue-eigenvector pair of $A^{-1}$ when $A$ is positive definite and $A^{-1}$ exists.
 
 
 ### Spectral Decomposition {#sec-spectral-decomposition}
@@ -159,13 +149,17 @@ $$
 -   $A^{-1/2} = \lambda_1^{-1/2} \mathbf{e}_1 \mathbf{e}_1^{\top} +  \lambda_2^{-1/2} \mathbf{e}_2 \mathbf{e}_2^{\top} +  \cdots +  \lambda_p^{-1/2} \mathbf{e}_p \mathbf{e}_p^{\top}$
 -   $A^{1/2} A^{1/2} = A$ and $A^{-1/2}A^{-1/2}=A^{-1}$.
 
-::: {.callout-tip title="R Code: Spectral Decomposition" collapse="true"}
 ```{r}
-A <- matrix(c(4, 2, 1, 3), nrow = 2)
-eig <- eigen(A)
+#| code-summary: "R Code: Create a Matrix"
+A = matrix(c(4, 2, 1, 3), nrow = 2)
+``` 
+
+```{r}
+#| code-summary: "R Code: Spectral Decomposition"
+eig = eigen(A)
 print(eig)
 ```
-:::
+
 
 ### Determinant of a $p\times p$ matrix
 
@@ -175,21 +169,19 @@ print(eig)
 -   The determinant of a positive definite matrix must be larger than zero.
 -   If at least one eigenvalue is zero and the inverse of the matrix does not exist, then the determinant of the matrix is zero.
 
-::: {.callout-note title="Exercise: Matrix Determinant" collapse="true"}
 
 ```{r}
-A = matrix(c(2,1,1,4), ncol=2, byrow=TRUE)
-
-# determinant
-## use det for small matrix only 
+#| code-summary: "Matrix Determinant: `det` for Small  Matrices"
 det(A) 
+```
 
-## use eigen decomposition for numerical stability 
+```{r}
+#| code-summary: "Matrix Determinant: Eigen Decomposition"
 E = eigen(A)
 prod(E$values)
 ```
 
-:::
+
 
 ## Probability Density Function of MVN
 
@@ -220,27 +212,23 @@ $$
 
 ::: {.callout-note title="Mahalanobis Distance"}
 The quadratic form $(\mathbf{x}-\boldsymbol\mu)^\top \Sigma^{-1}(\mathbf{x}-\boldsymbol\mu)$ in the density formula is the squared statistical distance of $\mathbf{x}$ from $\boldsymbol\mu$. It is often referred to as the square of the *Mahalanobis distance*.
-
 :::
 
-### Key Properties
+### Some Properties
 
 If $\mathbf{x} \sim N_p(\boldsymbol\mu, \Sigma)$, then the following statements are true:
 
 1.  Marginal distributions: Each variable is normally distributed, i.e., $x_i \sim N(\mu_i, \sigma_{ii})$.
-
 2.  Any linear combinations is normal: Let $a_1, \ldots, a_p \in \mathbb{R}$. Then $$\mathbf{a}^\top \mathbf{x} = \sum_{i=1}^p a_i x_i \sim N(\mathbf{a}^\top \boldsymbol \mu, \mathbf{a}^\top \Sigma \mathbf{a})$$
-
 3.  If $\mathbf{x} \sim N_p(\boldsymbol \mu, \Sigma)$, then $(\mathbf{x}-\boldsymbol\mu)^\top \Sigma^{-1}(\mathbf{x}-\boldsymbol\mu) \sim \chi_p^2$
-
 4.  Conditional distributions: Any subset of variables, conditional on others, is normal.
-
 5.  Elliptical contours: The joint density forms ellipses.
 
-:::{.callout-note title="Exercise: MVN Properties" collapse="true"}
+### R Exercise: MVN Properties
 
 ```{r}
 #| code-fold: false
+#| code-summary: "R Code: Simulate MVN"
 mu = c(0,0)
 Sigma = matrix(c(2,1,1,4),ncol=2, byrow=TRUE)
 a = c(1,1)
@@ -257,9 +245,8 @@ t(a) %*% x
 
 # quadratic form 
 t(x-mu)%*%solve(Sigma)%*%(x-mu)
-
 ```
-:::
+
 
 ## Visualizing the MVN in R
 
@@ -293,6 +280,7 @@ Try changing the covariance matrix $\Sigma$ in the code above.
 
 :::
 
+::: {.content-hidden when-format="pdf"}
 ::: {.callout-tip title="View Solution" collapse="true"}
 Let's visualize how changing the off-diagonal entries (correlation) in $\Sigma$ affects the bivariate normal:
 
@@ -320,17 +308,15 @@ plot(X_neg, main = "Negative correlation", xlab = "X1", ylab = "X2", col = rgb(1
 ```
 
 :::
-
+::: 
 
 
 ### Density Contour
 
 -   A set of all vectors $\mathbf{x}$ that correspond to a constant height of the density function forms an ellipsoid centered at $\boldsymbol\mu$.
-
 -   The MVN density is constant for all $\mathbf{x}$'s that are the same statistical distance from the population mean vector, i.e., all $\mathbf{x}$'s that satisfy $$
     \sqrt{(\mathbf{x}-\boldsymbol\mu)^\top \Sigma^{-1}(\mathbf{x}-\boldsymbol\mu)} = \text{constant}. 
     $$
-
 -   The axes of the ellipses are in the directions of the *eigenvectors* of $\Sigma$ and the length of the $j$-th longest axis is proportional to $\sqrt{\lambda_{j}}$, where $\lambda_{j}$ is the *eigenvalue* associated with the $j$-th eigenvector of $\Sigma$.
 
 ```{r}
@@ -397,31 +383,27 @@ ggplot() +
        x = "X1", y = "X2",
        caption = "Red & purple arrows: Eigenvectors; Ellipse axes ~  sqrt(eigenvalues)")
 ```
-
 **Interpretation:**
 
 -   The ellipse shows a constant-density contour for the MVN.
-
 -   The red and purple arrows indicate eigenvectors of $\Sigma$.
-
 -   The lengths of these arrows are proportional to $\sqrt{\lambda_j}$.
 
-::: {.callout-tip title="R Code: Bivariate normal density contour" collapse="true"}
 ```{r}
+#| code-summary: "R Code: Bivariate Normal Density Contour"
 library(mvtnorm)
 library(ggplot2)
 
-# Set mean and covariance
-mu <- c(0, 0)
-Sigma <- matrix(c(1, 0.7, 0.7, 1), 2)
+mu = c(0, 0)
+Sigma = matrix(c(1, 0.7, 0.7, 1), 2)
 
 # Create grid
-x <- seq(-3, 3, length=100)
-y <- seq(-3, 3, length=100)
-grid <- expand.grid(x = x, y = y)
+x = seq(-3, 3, length=100)
+y = seq(-3, 3, length=100)
+grid = expand.grid(x = x, y = y)
 
 # Compute density at each grid point
-grid$z <- mvtnorm::dmvnorm(as.matrix(grid), 
+grid$z = mvtnorm::dmvnorm(as.matrix(grid), 
                            mean = mu, sigma = Sigma)
 
 # Plot contours
@@ -433,12 +415,12 @@ ggplot(grid, aes(x = x, y = y, z = z)) +
   theme_minimal()
 
 ```
-:::
+
 
 ### 3D Surface Plot
 
-::: {.callout-tip title="R Code: 3D Surface Plot" collapse="true"}
 ```{r}
+#| code-summary: "R Code: 3D Surface Plot"
 library(plotly)
 
 z_matrix <- matrix(grid$z, nrow = length(x), byrow = FALSE)
@@ -455,31 +437,26 @@ plot_ly(x = x, y = y, z = z_matrix) %>%
                       zaxis = list(title = "Density")))
 
 ```
-:::
+
 
 ## Central $(1-\alpha)\times 100\%$ Region of MVN
 
 ### Properties of Density Contours
 
-::: {.callout-note title="Properties of density contours"}
+::: {.callout-note title="Definition"}
 -   The probability is $1 - \alpha$ that the value of a random vector will be inside the ellipsoid defined by $$
     (\mathbf{x}-\boldsymbol\mu)^\top \Sigma^{-1}(\mathbf{x}-\boldsymbol\mu) \leq \chi^2_{(p), 1-\alpha}
     $$ where $\chi^2_{(p),1-\alpha}$ is the upper $(100 \times \alpha)$ percentile of a chi-square distribution with $p$ degrees of freedom.
-
 -   This is smallest region that has probability $(1-\alpha)$ of containing a vector of observations randomly selected from the population.
-
 -   The $j$th axis of this ellipsoid is determined by the eigenvector associated with the $j$-th largest eigenvalue of $\Sigma$, for $j = 1,...,p$.
-
 -   The distance along the $j$-th axis from the center to the boundary of the ellipsoid is $$\sqrt{\lambda_j}  \left( \frac{2}{p \Gamma(p/2)} \right)^{1/p} \sqrt{ \chi^2_{(p), 1-\alpha}}$$
 :::
 
 ### Geometric Properties
 
 -   The ratio of the lengths of the major and minor axes is $$ \frac{\text{Length of major axis}}{\text{Length of minor axis}}=\frac{\sqrt{\lambda_1}}{\sqrt{\lambda_2}} $$
-
 -   The area of the ellipse containing the central $(1-\alpha) \times 100 \%$ of a bivariate normal population is $$
     area = \pi \chi^2_{(2), 1-\alpha} \sqrt{\lambda_1} \sqrt{\lambda_2} =\pi \chi^2_{(2),1-\alpha} |\Sigma|^{1/2} $$
-
 -   For $p$-dimensional normal distributions the hypervolume of the $p$-dimensional ellipsoid is $$\frac{2\pi^{p/2}}{p \Gamma(p/2)} \left[\chi^2_{(p),1-\alpha}\right]^{p/2} |\Sigma|^{1/2} $$
 
 ::: {.callout-note title="Gamma function" collapse="true"}
@@ -555,9 +532,7 @@ ggplot() +
 ### Generalized Variance
 
 -   Definition: $$|\Sigma|=\lambda_1\lambda_2\cdots\lambda_p $$
-
 -   The generalized variance measures the overall spread of the data in all directions at once.
-
 -   If any variable has no variation, or if there’s perfect linear dependence (collinearity), the generalized variance drops to zero (the volume “flattens”).
 
 ### Generalized Standard Deviation
@@ -574,9 +549,7 @@ $$
                    &= \lambda_1+\lambda_2+\cdots+\lambda_p 
     \end{aligned}
 $$
-
 -   This is the total marginal variability in all directions, but does not account for correlation.
-
 -   In the ellipsoid analogy, it’s the sum of the squared axis lengths (not the “volume”).
 
 ### Example: `iris` Dataset
@@ -591,25 +564,21 @@ X <- iris[, 1:4]
 head(X)
 ```
 
-::: {.callout-tip title="R Code: Overall Measures" collapse="true"}
 ```{r}
-#| code-summary: "R Code for Covariance"
+#| code-summary: "R Code: Covariance"
 # compute covariance 
 S <- cov(X)
 print(S)
 ```
 
-
-
 ```{r}
-#| code-summary: "R Code for Spectral Decomposition"
+#| code-summary: "R Code: Spectral Decomposition"
 eig <- eigen(S)
 lambda <- eig$values
 ```
 
-
 ```{r}
-#| code-summary: "R Code for Overall Measures"
+#| code-summary: "R Code: Overall Measures"
 
 # Generalized variance: product of eigenvalues
 gen_var <- prod(lambda)
@@ -627,13 +596,12 @@ print(t(result))
 ```
 
 
-:::
 
 ## Assessing Normality
 
 -   Assessing multivariate normality is difficult.
 -   If any single variable does not have a normal distribution, then the joint distribution of $p$ random variables cannot have a normal distribution.
--   We can check normality for each variable individually. If we reject normality for any variable then the joint distribution is not multivariate normal.\
+-   We can check normality for each variable individually. If we reject normality for any variable then the joint distribution is not multivariate normal.
 -   Also look at scatter plots of pairs of variables.
 -   Look for outliers.
 
@@ -660,7 +628,6 @@ for (i in 1:4) {
   qqline(iris[,i], col = "blue", lwd = 2)
 }
 ```
-
 **Interpretation:**
 
 -   If the points follow the line closely, that variable is approximately normal.
@@ -673,40 +640,38 @@ pairs(iris[,1:4], main = "Scatterplots: Iris Variables")
 ```
 
 **Interpretation:**
-
 -   Outliers, nonlinear patterns, or heavy tails in these scatterplots suggest deviations from the multivariate normal model.
 
 ### Shapiro-Wilk Test
 
-The Shapiro-Wilk test is a statistical test for normality.\
-If the $p$-value is small (typically $<0.05$), we reject the null hypothesis of normality.
+- The Shapiro-Wilk test is a statistical test for normality. If the $p$-value is small (typically $<0.05$), we reject the null hypothesis of normality.
 
-Test statistic: A weighted correlation between the $x_{(j)}$ and the $q_{(j)}$: $$
+- Test statistic: A weighted correlation between the $x_{(j)}$ and the $q_{(j)}$: 
+$$
 W = \left( \frac{\sum_{i = 1}^n a_j(x_{(i)} - \bar{x})(q_{(i)} - \bar{q}) }{\sqrt{\sum_{i = 1}^n a_j^2(x_{(i)} - \bar{x})^2}\sqrt{\sum_{i = 1}^n (q_{(i)} - \bar{q})^2}}  \right)^2.
 $$
-
--   We expect values of $W$ to be close to one if the sample arises from a normal population.
--   Reject the null hypothesis that data were sampled from a normal distribution if $W$ is too small.
--   This test has been extended to p-dimensional normal distributions
+- We expect values of $W$ to be close to one if the sample arises from a normal population.
+- Reject the null hypothesis that data were sampled from a normal distribution if $W$ is too small.
+- This test has been extended to p-dimensional normal distributions.
 
 ::: {.callout-important title="Shapiro-Wilk Test"}
 The Shapiro-Wilk test only checks marginal normality, not joint/multivariate normality when applied to each variable individually. This univariate test is implemented in the R function `shapiro.test`. To perform multivariate normaltiy check, we need to use the multivariate version of the Shapiro-Wilk test using the function `mvShapiro.Test` from the package `mvShapiroTest`.
 :::
 
-::: {.callout-tip title="R Code: Univariate Normality Test" collapse="true"}
 ```{r}
+#| code-summary: "R Code: Univariate Normality Test"
 # Shapiro-Wilk test for each of the four numeric iris variables
 apply(iris[, 1:4], 2, shapiro.test)
 ```
-:::
 
-::: {.callout-tip title="R Code: Multivariate Normality Test" collapse="true"}
+
 ```{r}
+#| code-summary: "R Code: Multivariate Normality Test"
 library(mvShapiroTest)
 # multivariate Shapiro-Wilk test 
 mvShapiro.Test(as.matrix(iris[, 1:4]))
 ```
-:::
+
 
 ::: {.callout-note title="Exercise: Assessing Normality with Real Data (`mtcars`)"}
 Using the `mtcars` dataset, explore the relationship between `mpg` (miles per gallon) and `hp` (horsepower):
@@ -718,6 +683,7 @@ Using the `mtcars` dataset, explore the relationship between `mpg` (miles per ga
 5.  Interpret your results: Does either variable appear to be normally distributed? Does the joint distribution appear approximately elliptical (as would be expected under bivariate normality)?
 :::
 
+::: {.content-hidden when-format="pdf"}
 ::: {.callout-tip title="View Solution" collapse="true"}
 ```{r}
 #| code-summary: "R Code: View Solution"
@@ -730,13 +696,11 @@ mu <- colMeans(X)
 Sigma <- cov(X)
 
 
-# 1. Scatterplot
 p <- ggplot(X, aes(x = mpg, y = hp)) +
   geom_point(size = 2, alpha = 0.7) +
   theme_minimal() +
   labs(title = "mtcars: mpg vs hp")
 
-# 2. Bivariate normal contours from sample mean/covariance
 x_seq <- seq(min(X$mpg) - 2, max(X$mpg) + 2, length = 100)
 y_seq <- seq(min(X$hp) - 10, max(X$hp) + 10, length = 100)
 grid <- expand.grid(mpg = x_seq, hp = y_seq)
@@ -752,7 +716,6 @@ get_density_level <- function(Sigma, p) {
 level_50 <- get_density_level(Sigma, 0.5)
 level_90 <- get_density_level(Sigma, 0.9)
 
-# Add contours: must add each contour in a separate geom_contour layer for color/linetype
 p + 
   geom_contour(data = grid, aes(z = z), breaks = level_50, 
                color = "blue", linetype = "solid", size = 1.2) +
@@ -760,13 +723,11 @@ p +
                color = "red", linetype = "dashed", size = 1.2) +
   labs(subtitle = "Blue: 50% contour | Red dashed: 90% contour")
 
-# 3. Q-Q plots (done in base graphics, outside ggplot)
 par(mfrow = c(1,2))
 qqnorm(X$mpg, main = "Normal Q-Q: mpg"); qqline(X$mpg, col = "blue")
 qqnorm(X$hp, main = "Normal Q-Q: hp"); qqline(X$hp, col = "blue")
 par(mfrow = c(1,1))
 
-# 4. univariate Shapiro-Wilk tests
 sw1 <- shapiro.test(X$mpg)
 sw2 <- shapiro.test(X$hp)
 cat("Shapiro-Wilk p-value for mpg:", signif(sw1$p.value, 3), "\n")
@@ -775,21 +736,15 @@ cat("Shapiro-Wilk p-value for hp:", signif(sw2$p.value, 3), "\n")
 # 5. multivariate Shapiro-Wilk test
 mvShapiro.Test(as.matrix(X[, c("mpg", "hp")]))
 ```
-
-
 ***Interpretation:***
 
 -   The scatterplot shows the relationship between mpg and hp (likely negative).
-
 -   The bivariate normal contours (fit from the data) show the estimated “ellipse” of the joint distribution.
-
 -   Q-Q plots help check whether each variable is approximately normal (look for straightness).
-
 -   Shapiro-Wilk p-values: $p < 0.05$ indicates non-normality; $p > 0.05$ suggests no evidence against normality.
-
 -   If either variable is non-normal or the scatterplot is strongly non-elliptical (e.g., curved, outliers), the joint distribution is not truly bivariate normal.
 :::
-
+::: 
 
 
 ### Transformations to Near Normality
@@ -820,8 +775,9 @@ If observations show gross departures from normality, it might be necessary to t
 
 ### Example: `iris` Data
 
-::: {.callout-note title="Visualizing Data Using Scatterplot and Marginal Dot Plots" collapse="true"}
+
 ```{r,message=FALSE, warning=FALSE}
+#| code-summary: "Visualizing Data Using Scatterplot and Marginal Dot Plots"
 library(ggplot2)
 library(dplyr)
 
@@ -853,10 +809,10 @@ ggplot(df,
 ```
 
 
-:::
 
-::: {.callout-note title="Detecting Outliers Using Mahalanobis Distances" collapse="true"}
+
 ```{r}
+#| code-summary: "Detecting Outliers Using Mahalanobis Distances"
 ## Finding mahalanobis distance
 xbar = colMeans(df[, 1:4])
 bvar = cov(df[,1:4])
@@ -872,13 +828,14 @@ cbind(df[flag,1:4], d_sqaure=dsq[flag])
 
 
 ```{r, message=FALSE, warning=FALSE}
+#| code-summary: "Scatterplot and Dot Plot"
 # Add flag for outliers
-df <- df %>%
+df = df %>%
   mutate(flag = dsq > cutoff)
 
 # Projections
-x_proj <- df %>% mutate(y = 2)
-y_proj <- df %>% mutate(x = 4)
+x_proj = df %>% mutate(y = 2)
+y_proj = df %>% mutate(x = 4)
 
 ggplot(df, aes(x = Sepal.Length, y = Sepal.Width)) +
   # Scatter plot with flagged points highlighted
@@ -916,8 +873,6 @@ ggplot(df, aes(x = Sepal.Length, y = Sepal.Width)) +
 ```
 
 
-:::
-
 
 ## Exercises
 
@@ -936,7 +891,7 @@ These data were taken from an example in the Johnson and Wichern book, Applied M
 * Perform normality check for all the variables.
 * Detect any possible outliers at level $\alpha =0.05$ for all the variables. 
 
-
+::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
 ```{r}
 dat = read.table("sweat.dat", header=F, 
@@ -1052,3 +1007,5 @@ sum(d2>cut2)
 ```
 
 ::: 
+::: 
+

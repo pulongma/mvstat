@@ -117,24 +117,24 @@ $$
 ### Pool Covariance
 :::{.callout-tip title="Pool Covariance" collapse="false"}
 - Point estimate of $\boldsymbol \mu_1 - \boldsymbol \mu_2$ is $\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2$.
-
 - The population covariance matrix of $\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2$ is 
 $$
 \text{Cov}(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2) = \text{Cov}(\bar{\mathbf{x}}_1) + \text{Cov}(\bar{\mathbf{x}}_2) = \frac{1}{n_1}\Sigma + \frac{1}{n_2}\Sigma,
 $$
-
 - The pooled estimate of the population covariance matrix is 
 $$
 S_{\text{pool}} = \frac{(n_1 - 1)}{(n_1 + n_2 - 2)} S_1 + \frac{(n_2 - 1)}{(n_1 + n_2 - 2)} S_2
 $$
+:::
 
 ```{r}
+#| code-summary: "R Code: Pooled Covariance"
 Delta = xbar1 - xbar2 
 Sp = (n1-1)/(n1+n2-2)*S1 + (n2-1)/(n1+n2-2)*S2
 print(Sp)
 ```
 
-:::
+
 
 ### Hotelling's $T^2$ Statistic
 
@@ -145,12 +145,14 @@ $$
 T^2 = (\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2 )'\left[\left(\frac{1}{n_1} + \frac{1}{n_2}\right) S_{\text{pool}}\right]^{-1}(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2)
 $$
 
+:::
+
 ```{r}
+#| code-summary: "R Code: T2 Statistic"
 T2 = drop(t(Delta) %*% solve((1/n1+1/n2) * Sp) %*% Delta)
 print(T2)
 ```
 
-:::
 
 ### Decision 
 
@@ -162,7 +164,7 @@ $$
 c^2:= \frac{(n_1 + n_2 -2)p}{(n_1 + n_2 - p - 1)}F_{(p, n_1 + n_2 -p -1), 1-\alpha}.
 $$
 
-  - **p-value**: p-value is less than $\alpha$. 
+  - **P-value**: The p-value is less than $\alpha$. 
 
 ```{r}
 alpha =0.05
@@ -171,7 +173,6 @@ p_val <- 1 - pf((T2 * (n1 + n2 - p - 1)) /
                   (p * (n1 + n2 - 2)), p, n1 + n2 - p - 1)
 cat("critical value:", c2, " with ", "p-value:", p_val, "\n")
 ```
-
 
 **Interpretation**: Since $T^2>c^2$, we reject $H_0$ at $\alpha=0.05$ and conclude that the population mean measures on  lather and mildness are statistically different, but at this point, we do not know which variable contributes to the difference. 
 
@@ -186,9 +187,12 @@ A $100(1-\alpha)\%$ confidence region for $\boldsymbol \mu_1 - \boldsymbol \mu_2
 $$
 (\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2 - (\boldsymbol \mu_1-\boldsymbol \mu_2))'\left[\left(\frac{1}{n_1} + \frac{1}{n_2}\right) S_{\text{pool}}\right]^{-1}(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2 - (\boldsymbol \mu_1-\boldsymbol \mu_2)) \leq c^2.
 $$
+::: 
+
 
 - Eigenvalues and eigenvectors of the pooled covariance matrix are 
 ```{r}
+#| code-summary: "R Code: Eigenvalues and Eigenvectors"
 eig_result = eigen(Sp)
 lambda1 = eig_result$values[1]
 names(eig_result$values) = c("lambda1", "lambda2")
@@ -197,6 +201,10 @@ print(eig_result$values)
 # Eigenvectors are 
 colnames(eig_result$vectors) = c("eigenvector 1", "eigenvector 2")
 print(eig_result$vectors)
+```
+
+```{r}
+#| code-summary: "R Code: Axes Lengths"
 
 # semi-major axis and  semi-minor axis: 
 axis=c(sqrt(eig_result$values[1]) * sqrt((1/n1+1/n2)*c2), sqrt(eig_result$values[2]) * sqrt((1/n1+1/n2)*c2))
@@ -207,8 +215,6 @@ print(axis)
 - The 95\% confidence ellipse for the difference between two population mean vectors 
   - is centered at $\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2$
   - extends $\sqrt{\lambda_1} \sqrt{(1/n_1+1/n_2)c^2} = 1.15$  and $\sqrt{\lambda_2} \sqrt{(1/n_1+1/n_2)c^2} = 0.65$ units in the first eigenvector and second eigenvector directions
-
-
 
 ```{r}
 #| echo: FALSE
@@ -239,17 +245,12 @@ ggplotly(gg)
 
 ```
 
-
-**Interpretation**: Because the origin $\mathbf{0}$ is not inside the ellipse, we conclude that the populations of soaps produced by the two processes are centered at different mean vectors. There appears to be no big difference in mildness means for soaps made by the two processes, but soaps made with the second process produce more lather on average.
-
+- **Interpretation**: Because the origin $\mathbf{0}$ is not inside the ellipse, we conclude that the populations of soaps produced by the two processes are centered at different mean vectors. There appears to be no big difference in mildness means for soaps made by the two processes, but soaps made with the second process produce more lather on average.
 
 
-:::
 
 
 ### Simultaneous CIs
-
-
 
 :::{.callout-tip title="Simultaneous CIs"}
 As in one population case, we can obtain simultaneous confidence intervals for any linear combination of the components of $\boldsymbol \mu_1 - \boldsymbol \mu_2$. 
@@ -272,7 +273,6 @@ where the vector $\mathbf{a}_j$ has zeros everywhere except for the one in the $
 * Typically, we would be interested in $m$ such comparisons.  
 
 
-
 **Simultaneous $T^2$ CIs for $\mu_{1j} - \mu_{2j}$:**
 
 $$
@@ -291,9 +291,10 @@ $$
 $$
 (\bar{x}_{1j} - \bar{x}_{2j}) \pm t_{(n_1 + n_2 -2), 1-\alpha/(2m)} \sqrt{\left(\frac{1}{n_1} + \frac{1}{n_2}\right) S_{\text{pool}, jj}}
 $$
-
+:::
 
 ```{r}
+#| code-summary: "R Code: T2 CIs"
 se_j = sqrt((1/n1+1/n2)* diag(Sp))
 # T2 CIs
 cval_T2 = sqrt(c2)
@@ -308,8 +309,11 @@ ci_T2 <- tibble(
   Lower = Estimate - HalfWidth,
   Upper = Estimate + HalfWidth
 )
-cat("T2 CI:")
 print(ci_T2)
+```
+
+```{r}
+#| code-summary: "R Code: Bonferroni CIs"
 
 ci_Bon <- tibble(
   Component = c("Lather", "Mildness"),
@@ -318,8 +322,6 @@ ci_Bon <- tibble(
   Lower = Estimate - HalfWidth,
   Upper = Estimate + HalfWidth
 )
-
-cat("Bonferroni CI:")
 
 print(ci_Bon)
 ```
@@ -363,8 +365,6 @@ ggplotly(gg)
 **Interpretation**: Based on simultaneous T2 CIs and Bonferroni CIs, the results confirm previous finding based on confidence ellipse that there appears to be no big difference in mildness means for soaps made by the two processes, but soaps made with the second process produce more lather on average. We also note that T2 CIs are wider than Bonferrorni CIs.
 
 
-:::
-
 ::: {.callout-warning title="One-At-a-Time CI" collapse="true"}
 
 Using the univariate approach, we can construct $t$-intervals for each of mean differences, and obtain the so-called ***one-at-a-time*** $t$ intervals
@@ -395,7 +395,7 @@ head(steel)
 
 a. State the research question(s) and define the null and alternative hypotheses using standard notations.  
 
-
+::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
 
 The research questions for this data can be stated as follows: 
@@ -406,9 +406,7 @@ The research questions for this data can be stated as follows:
 Based on the research questions, our objectives are to examine the data and test the null hypothesis that the vectors of means for yield point and ultimate strength are the same for the two rolling temperatures used to produce this type of steel.
 
 * Let $x_1$ denote the yield point and $x_2$ denote the ultimate strength. 
-
 * Let $\mathbf{x}_{1j}: =[x_{1j}, x_{2j}]^\top$ denote  the measured yield point and ultimate strength  under low rolling temperature for $j=1,\ldots, n_1$; and $\mathbf{x}_{2j}: =[x_{1j}, x_{2j}]^\top$ under high rolling temperature for $j=1,\ldots, n_2$. 
-
 * Let $\boldsymbol \mu_1, \boldsymbol \mu_2$ be the population mean vectors of yield point  and ultimate strength under low and high rolling temperature respectively: 
 $$
 \boldsymbol \mu_1: =[
@@ -425,9 +423,11 @@ H_1: \boldsymbol \mu_1 \neq \boldsymbol \mu_2
 $$
 
 :::
+:::
 
 b. Perform the statistical test. 
 
+::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
 
 * **Step 1: Prepare and Visualize the Data** 
@@ -452,8 +452,10 @@ plot(yield ~ strength, data = steel,
      pch = c(1, 16)[temp],
      cex = 1.5,
      main = "Yield vs. Strength by Temperature")
-abline(lm(strength ~ yield, data = subset(steel, temp == 1)), lty = 4, lwd = 2)
-abline(lm(strength ~ yield, data = subset(steel, temp == 2)), lty = 1, lwd = 2)
+abline(lm(strength ~ yield, data = subset(steel, temp == 1)), 
+       lty = 4, lwd = 2)
+abline(lm(strength ~ yield, data = subset(steel, temp == 2)), 
+       lty = 1, lwd = 2)
 legend("bottomright", c("Low Temp", "High Temp"),
        lty = c(4, 1), lwd = 2, pch = c(1, 16))
 
@@ -493,9 +495,11 @@ T2result
 
 
 :::
+:::
 
 c. Construct the confidence region and interpret the results
 
+::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
 
 ```{r, echo=FALSE}
@@ -591,9 +595,11 @@ The $95\%$ confidence ellipse for the difference between two population mean vec
 Since the origin 0 does not fall into the $95\%$ confidence ellipse, we conclude that the change in rolling temperature indeed affect the strength profile significantly at $\alpha=0.05$, which is consistent with the Hotelling's $T^2$ test. However, at this point we do not know whether individual variable would contribute to this change along. 
 
 :::
+:::
 
 d. Construct simultaneous $T^2$ and Bonferroni CIs and interpret the results. 
 
+::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
 
 ```{r}
@@ -637,7 +643,7 @@ print(ci_Bon)
 **Interpretation**: The simultaneous $T^2$ CIs and Bonferroni CIs do include the origin for each population mean parameter. While we get two seemingly contradictory results, they are not wrong. The key reason is that the (joint) confidence region obtained above effectively takes into account the correlation between these two variables: yield point and ultimate strength. From the scatter plot between these two variables, we also notice that there is a strong positive correlation under both rolling temperature. Thus, it is possible that $(0,0)$ is outside the $95\%$ confidence ellipse but all individual intervals would contain 0, indicating non-significant difference for individual variables (as these variables are highly correlated.) A powerful and correct way for multivariate test is to use the Hotelling's $T^2$ test or joint confidence region to detect a difference that the individual simultaneous intervals would miss. 
 
 :::
-
+:::
 
 ## Comparing Mean Vectors for Several Populations via MANOVA
 
@@ -690,7 +696,7 @@ The null hypothesis states that the true mean vectors for the full morphology pr
 
 Before testing, it is crucial to visualize the data. A pairs plot is excellent for this, as it shows the relationship between all variables for each species.
 
-::: {.callout-note title="Visualization" collapse="true"}
+
 ```{r}
 #| label: data-prep-manova
 #| code-summary: "R Code: Data Visualization"
@@ -701,9 +707,8 @@ library(dplyr)
 library(ggplot2)
 library(GGally)
 
-# The 'iris' dataset is built into R.
 data(iris)
-head(iris)
+#head(iris)
 g = length(levels(iris$Species))
 p = 4
   
@@ -716,17 +721,16 @@ ggpairs(
 labs(title = "Pairs Plot of Iris Measurements by Species") +
 theme_bw()
 ```
-The plot shows very clear separation between the three species, especially for the petal measurements. This gives us a strong indication that the null hypothesis will be rejected.
-:::
+**Interpretation**: The plot shows very clear separation between the three species, especially for the petal measurements. This gives us a strong indication that the null hypothesis will be rejected.
+
 
 ### Check Assumptions
 
 MANOVA relies on two key assumptions: multivariate normality within each group and the homogeneity of their covariance matrices.
 
-::: {.callout-tip title="Check Assumptions" collapse="true"}
 ```{r}
 #| label: check-assumptions-manova
-#| code-summary: "R Code: Assumption Checks"
+#| code-summary: "R Code: Normality Checks"
 
 # check univariate normaltiy 
 iris %>%
@@ -751,20 +755,18 @@ mntest[i] = mvShapiroTest::mvShapiro.Test(as.matrix(iris[iris$Species == i, -5])
 }
 # p values: 
 print(mntest)
-
-# check for Homogeneity of Covariance Matrices using Box's M-test.
-# Note: Box's M-test is very sensitive, especially with larger datasets.
-biotools::boxM(iris[, 1:4], iris$Species)
-
 ```
 
+```{r}
+#| code-summary: "R Code: Test Homogeneity of Covariance Matrices"
+# Note: Box's M-test is very sensitive, especially with larger datasets.
+biotools::boxM(iris[, 1:4], iris$Species)
+```
 **Interpretation:**
 
 * **Normality:** The p-values for all three species are relatively large (>0.01), indicating that the data within each group are roughly consistent with a multivariate normal distribution.
-
 * **Box's M-Test:** The p-value is very small (`p < 0.001`), indicating that the assumption of equal covariance matrices is **violated**. However, MANOVA is generally robust to this violation when group sizes are equal (as they are here, $n=50$ for each), so we can proceed, but we should acknowledge this limitation in a formal report.
 
-:::
 
 
 ### One-Way MANOVA
@@ -846,7 +848,6 @@ where
 ::: 
 
 
-::: {.callout-tip title="R Code for MANOVA Test" collapse="true"}
 ```{r}
 #| label: run-manova
 #| code-summary: "R Code: MANOVA Test"
@@ -863,7 +864,6 @@ summary(manova_fit, test = "Wilks")
 ```
 
 
-:::
 
 **Interpret the MANOVA Results** 
 
@@ -918,9 +918,9 @@ $$
 
 :::
 
-:::{.callout-tip title="R Code: Bonferroni CIs" collapse="true"}
 
 ```{r}
+#| code-summary: "R Code: Bonferroni CIs"
 library(dplyr)
 n = iris %>%
   count(Species) %>%
@@ -1020,11 +1020,10 @@ ggplot(all_intervals,
 **Interpretation**: This visualization makes the conclusions from our analysis immediately obvious:
 
 * **No intervals cross the zero line.** Every single error bar for every comparison is clearly to the left or right of the vertical dashed line.
-* This provides powerful visual evidence that, after controlling for all 12 comparisons, **all three iris species are significantly different from each other on all four measured variables**. For example, in the "versicolor vs. virginica" panel, the point for `Petal.Length` is around -1.3, and its confidence interval from approximately -1.6 to -1.0 is far from zero.
+* This provides powerful visual evidence that, after controlling for all 12 comparisons, **all three iris species are significantly different from each other on all four measured variables**. For example, in the `versicolor` v.s. `virginica` panel, the point for `Petal.Length` is around -1.3, and its confidence interval from approximately -1.6 to -1.0 is far from zero.
 * The simultaneous Bonferroni CIs confirm previous MANOVA test and provide more details on which variables are significantly different.
 
 
-:::
 
 
 ### Exercise: College Student Study
@@ -1042,6 +1041,7 @@ head(morel)
 
 a. State the hypotheses using standard notations. 
 
+::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
 
 The null hypothesis states that the true mean vectors of test scores are the same for all three student populations. The alternative states that at least two groups have different mean vectors.
@@ -1054,10 +1054,11 @@ The null hypothesis states that the true mean vectors of test scores are the sam
 
 
 ::: 
-
+::: 
 
 b. Visualize the data
 
+::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
 
 ```{r}
@@ -1083,11 +1084,12 @@ theme_bw()
 ```
 The plot suggests there may be differences. For example, the distribution of `math` scores for Architecture students appears shifted compared to the other groups.
 
-
 ::: 
+:::
 
 c. Check Assumptions
 
+::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
 
 ```{r}
@@ -1117,11 +1119,12 @@ print(mntest)
 biotools::boxM(df[, colnames(df) !="group"], df$group)
 
 ```
-
+:::
 :::
 
 d. Perform the one-way MANOVA test
 
+::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
 
 ```{r}
@@ -1139,22 +1142,23 @@ summary(fit.manova, test="Wilks")
 
 **Interpretation**: The p-value is less than our significance level of $\alpha = 0.05$. We therefore **reject the null hypothesis**. We conclude that there is a statistically significant difference in the mean academic profiles among the three groups of students (Technology, Architecture, and Medical Technology).
 
-
+:::
 :::
 
 e. Follow-up analysis with pairwise comparisons
 
+::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
 
 ```{r}
 n = df %>%
   count(group) %>%
-  pull(n, name=group)
+  pull(n, name = group)
 
 level = 0.95
-m = p*g*(g-1)/2
-level2 = 1-(1-level)/(2*m)
-dof = sum(n)-g 
+m = p * g * (g - 1) / 2
+level2 = 1 - (1 - level) / (2 * m)
+dof = sum(n) - g
 c_bon  = qt(level2, dof)
 
 # compute pooled sample covariance
@@ -1163,15 +1167,11 @@ Sp_ii = diag(Sp)
 
 df_summaries <- df %>%
   group_by(group) %>%
-  dplyr::summarise(
-    across(where(is.numeric), list(mean = mean, n = ~n())),
-    .groups = "drop"
-  )
+  dplyr::summarise(across(where(is.numeric), list(mean = mean, n = ~ n())), .groups = "drop")
 
-# Get all unique pairs 
+# Get all unique pairs
 group_pairs <- combn(unique(df$group), 2, simplify = FALSE)
 all_intervals <- purrr::map_df(group_pairs, function(pair) {
-  
   group1 <- pair[1]
   group2 <- pair[2]
   
@@ -1181,14 +1181,11 @@ all_intervals <- purrr::map_df(group_pairs, function(pair) {
   n1 <- summary1$math_n
   n2 <- summary2$math_n
   
-  mean_diffs <- as.numeric(dplyr::select(summary1, 
-                                         ends_with("_mean"))
-                           ) - 
-                as.numeric(dplyr::select(summary2, 
-                                         ends_with("_mean")))
+  mean_diffs <- as.numeric(dplyr::select(summary1, ends_with("_mean"))) -
+    as.numeric(dplyr::select(summary2, ends_with("_mean")))
   
-  margin_of_error <- c_bon * sqrt( (1/n1 + 1/n2) * Sp_ii )
-
+  margin_of_error <- c_bon * sqrt((1 / n1 + 1 / n2) * Sp_ii)
+  
   tibble(
     Comparison = paste(group1, "vs.", group2),
     Variable = names(Sp_ii),
@@ -1200,15 +1197,16 @@ all_intervals <- purrr::map_df(group_pairs, function(pair) {
 
 knitr::kable(all_intervals, digits = 3, caption = "Simultaneous 95% Bonferroni Confidence Intervals")
 
-ggplot(all_intervals, 
-       aes(x = Mean_Difference, 
-           y = Variable, color = Variable)) +
-  geom_errorbarh(aes(xmin = Lower_CI, xmax = Upper_CI), 
-                 height = 0.2, linewidth = 1) +
+ggplot(all_intervals,
+       aes(x = Mean_Difference, y = Variable, color = Variable)) +
+  geom_errorbarh(aes(xmin = Lower_CI, xmax = Upper_CI),
+                 height = 0.2,
+                 linewidth = 1) +
   geom_point(size = 3.5) +
-  geom_vline(xintercept = 0, linetype = "dashed", 
+  geom_vline(xintercept = 0,
+             linetype = "dashed",
              color = "black") +
-  facet_wrap(~ Comparison) +
+  facet_wrap( ~ Comparison) +
   labs(
     title = "Simultaneous 95% Bonferroni CIs",
     subtitle = "Intervals not crossing the dashed line (zero) are statistically significant.",
@@ -1216,11 +1214,12 @@ ggplot(all_intervals,
     y = "Measurement Variable"
   ) +
   theme_bw(base_size = 12) +
-  theme(legend.position = "none") 
+  theme(legend.position = "none")
 
 ```
 
-:::        
+:::
+:::
 
 ## Permulation Test 
 
@@ -1253,7 +1252,6 @@ Every permutation test follows the same fundamental logic:
 
 **Background:** We have data on the fuel efficiency (MPG) for a sample of 4-cylinder and 8-cylinder cars from the `mtcars` dataset. We want to test if there is a significant difference in the mean MPG between these two groups.
 
-::: {.callout-note title="View Solution" collapse="true"}
 ```{r}
 #| label: two-sample-perm
 #| code-summary: "R Code: Two-Sample Permutation Test"
@@ -1264,7 +1262,7 @@ library(dplyr)
 library(ggplot2)
 data(mtcars)
 
-# 1. Prepare the data
+# Prepare the data
 cars_data <- mtcars %>%
   filter(cyl %in% c(4, 8)) %>%
   dplyr::select(mpg, cyl)
@@ -1274,10 +1272,10 @@ group2 <- cars_data %>% filter(cyl == 8) %>% pull(mpg)
 n1 <- length(group1)
 n2 <- length(group2)
 
-# 2. Calculate the OBSERVED difference in means
+# Calculate the OBSERVED difference in means
 observed_diff <- mean(group1) - mean(group2)
 
-# 3. Create the Null Distribution
+# Create the Null Distribution
 set.seed(4750) # For reproducibility
 n_permutations <- 10000
 permutation_diffs <- numeric(n_permutations)
@@ -1320,7 +1318,7 @@ ggplot(data.frame(diffs = permutation_diffs),
 ```
 **Interpretation:** The observed difference (the red dashed line) is far out in the tail of the null distribution, and the p-value is effectively zero. This tells us that it is extremely unlikely to get a difference this large by random chance alone. We can confidently conclude that 4-cylinder cars have a significantly higher mean MPG than 8-cylinder cars.
 
-:::
+
 
 
 
@@ -1330,20 +1328,20 @@ ggplot(data.frame(diffs = permutation_diffs),
 
 The permutation logic is slightly different here: if there's no relationship between weight and MPG, then we should be able to shuffle the order of one variable without affecting the correlation.
 
-::: {.callout-note title="R Code: Testing Correlation" collapse="true"}
+
 
 ```{r}
 #| label: correlation-perm
 #| code-summary: "R Code: Correlation Permutation Test"
 
-# 1. Prepare the data
+# Prepare the data
 wt_data <- mtcars$wt
 mpg_data <- mtcars$mpg
 
-# 2. Calculate the OBSERVED correlation
+# Calculate the OBSERVED correlation
 observed_cor <- cor(wt_data, mpg_data)
 
-# 3. Create the Null Distribution
+# Create the Null Distribution
 set.seed(123)
 n_permutations <- 10000
 permutation_cors <- numeric(n_permutations)
@@ -1356,12 +1354,11 @@ for (i in 1:n_permutations) {
   permutation_cors[i] <- cor(wt_data, shuffled_mpg)
 }
 
-# 4. Calculate the p-value
+# Calculate the p-value
 p_value_cor <- sum(abs(permutation_cors) >= 
                      abs(observed_cor)) / n_permutations
 
 
-# --- Visualization of the Result ---
 ggplot(data.frame(cors = permutation_cors), aes(x = cors)) +
   geom_histogram(aes(y = ..density..), bins = 30, 
                  fill = "lightgreen", color = "black") +
@@ -1382,6 +1379,6 @@ ggplot(data.frame(cors = permutation_cors), aes(x = cors)) +
 ```
 **Interpretation:** The observed correlation of `r round(observed_cor, 2)` is an extreme outlier compared to the null distribution of correlations centered at zero. The p-value is effectively zero. We can conclude there is a highly significant negative correlation between a car's weight and its fuel efficiency.
 
-:::
+
 
 

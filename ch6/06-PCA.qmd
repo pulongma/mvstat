@@ -194,9 +194,7 @@ $$
 - PCA can be applied for raw data or standardized data (z-scores).  
 
 
-## PCA in Practice 
-
-### PCA via `prcomp` 
+## PCA via `prcomp` 
 
 
 Let's start by creating a simple 2D dataset where the two variables, `X1` and `X2`, are clearly correlated.
@@ -345,7 +343,7 @@ ggplot(data_orig, aes(x = X1, y = X2)) +
 
 
 
-### PC Scores 
+## PC Scores 
 
 The final step is to project our original data points onto these new axes. This is equivalent to rotating the entire dataset so that the principal component axes become our new `x` and `y` axes. The resulting coordinates are the **principal component scores**.
 
@@ -408,7 +406,7 @@ ggplot(df.PC, aes(x = PC1, y = PC2)) +
 
 
 
-
+## PC Plots
 
 ### Biplot 
 
@@ -479,25 +477,25 @@ In practice, one can choose the number of PCs based on scree plot, since one can
 - or you want to emphasize **correlations** over raw variances. Otherwise, use the **covariance** matrix.
 
 
-### Example: Road Race Data
+## Example: Road Race Data
 
 :::{.callout-note title="Road Race Data"}
 This analysis examines scatter plot matrices and computes principal components for the 10k segments of a 100k road race. The data come from Everitt (1994) stored in the file `race100k.csv`. There is one line of data for each of 80 racers with eleven numbers on each line. The first ten columns give the times (minutes) to complete successive 10k segments of the race. The last column has the racer's age (in years). Answer the following questions. 
+::: 
 
 ```{r}
+#| code-summary: "R Code: Load Data"
 #| code-fold: false
 dat = read.csv("race100k.csv")
 head(dat)
 ```
 
-::: 
-
-
-* **Step: Data Visualization**: Use the pairs function to create a scatter plot matrix and interpret it. Note that the columns to be included in the plot are put into the variable `choose=c(1,2,6,11)`.  The `panel.smooth` function uses locally weighted regression to pass a smooth curve through each plot. The `abline` function uses least squares to fit a straight line to each plot. Including the line helps you to see if most of the marginal association between two variables on can be described by a straight line.
-
-:::{.callout-tip title="View Solution" collapse="true"}
+:::{.callout-note title="Step 1: Data Visualization"}
+Use the pairs function to create a scatter plot matrix and interpret it. Note that the columns to be included in the plot are put into the variable `choose=c(1,2,6,11)`.  The `panel.smooth` function uses locally weighted regression to pass a smooth curve through each plot. The `abline` function uses least squares to fit a straight line to each plot. Including the line helps you to see if most of the marginal association between two variables on can be described by a straight line.
+:::
 
 ```{r}
+#| code-summary: "R Code: Data Visualization"
 p1 = ncol(dat) 
 p = p1 - 1
 n = nrow(dat)
@@ -514,45 +512,44 @@ pairs(dat[ ,choose],
         abline(lsfit(x,y),lty=2) 
         })
 ```
+**Interpretations**: 
 
-- There is a very strong positive correlation between the times to complete the first two 10k legs of the race. 
-- The correlations of the completion times for the sixth and tenth segments of the race with the first segment of the race are weaker and they appear to be curved trends in the plots. 
-- Similar patterns exist for the relationship between the completion times for the second segment of the race with the completion times for the sixth and tenth segments of the race.
-- There is a moderately strong positive correlation between the completion times for the sixth and tenth segments of the race. 
-- There is a group of at nine runners who relatively long completion times (running relatively slowly) for the first two legs of the race but had middle completion times for the sixth and tenth legs of the race (average finishers).
-::: 
+  - There is a very strong positive correlation between the times to complete the first two 10k legs of the race.  
+  - The correlations of the completion times for the sixth and tenth segments of the race with the first segment of the race are weaker and they appear to be curved trends in the plots. 
+  - Similar patterns exist for the relationship between the completion times for the second segment of the race with the completion times for the sixth and tenth segments of the race.
+  - There is a moderately strong positive correlation between the completion times for the sixth and tenth segments of the race. 
+  - There is a group of at nine runners who relatively long completion times (running relatively slowly) for the first two legs of the race but had middle completion times for the sixth and tenth legs of the race (average finishers).
 
-* **Step: Perform PCA**: Compute principal components from the covariance matrix. 
-
-:::{.callout-tip title="View Solution" collapse="true"}
+:::{.callout-note title="Step 2: Perform PCA"}
+Compute principal components from the covariance matrix. 
+:::
 
 ```{r}
-#| code-summary: "PCA"
+#| code-summary: "R Code: PCA"
 fit = prcomp(dat[, -p1])
 ``` 
 
 ```{r}
-#| code-summary: "PC Score Standard Deviations"
+#| code-summary: "R Code: PC Score Standard Deviations"
 fit$sdev
 ``` 
 
+\tiny 
 ```{r}
-#| code-summary: "PC Directions"
+#| code-summary: "R Code: PC Directions"
 fit$rotation
 ```
+\normalsize 
 
-
-::: 
-
-* **Step: Interpret PCs**: Interpret the meanings of the first three principal components.
-
-:::{.callout-tip title="View Solution" collapse="true"}
+:::{.callout-note title="Step 3: Interpret PCs"}
+Interpret the meanings of the first three principal components.
+:::
 
 ```{r}
-#| code-summary: "Heat Map"
-load_df <- as.data.frame(fit$rotation) |>
-  rownames_to_column("variable") |>
-  pivot_longer(-variable, names_to = "PC", values_to = "loading") |>
+#| code-summary: "R Code: Heat Map"
+load_df <- as.data.frame(fit$rotation) %>%
+  rownames_to_column("variable") %>%
+  pivot_longer(-variable, names_to = "PC", values_to = "loading") %>%
   mutate(abs_loading = abs(loading))
 
 K = 3
@@ -597,9 +594,10 @@ ggplot(load_df, aes(PC, fct_rev(variable), fill = loading)) +
 ``` 
 
 ```{r}
+#| code-summary: "R Code: PC Loadings"
 L = as.data.frame(fit$rotation[, 1:3]) %>% 
   rownames_to_column("segment")
-L$km = seq(5, 95, by = 10)  # midpoints per 10k, adjust as you like
+L$km = seq(5, 95, by = 10) # midpoints per 10k, adjust as you like
 
 ggplot(
   L %>% 
@@ -616,23 +614,22 @@ ggplot(
   theme_minimal()
 
 ```
-
-Large values of the data indicates slower than average in a segment. If loadings for early segments are negative and late segments positive, a large positive score comes from a runner who runs fast in early segments and slow in late segments. A negative score has the reverse explanation (slow early, strong finish). We should not focus on the signs of PCs since flipping the sign of a PC reverses the signs of both its loadings and scores.  
+**Interpretations**: Large values of the data indicates slower than average in a segment. If loadings for early segments are negative and late segments positive, a large positive score comes from a runner who runs fast in early segments and slow in late segments. A negative score has the reverse explanation (slow early, strong finish). We should not focus on the signs of PCs since flipping the sign of a PC reverses the signs of both its loadings and scores.  
 
 - PC1 indicates an overall performance component with emphasis on the completion times for the last six legs of the race. Runners with small values (large negative values) of this component were the fastest runners overall and runners with large values for this component were the slowest runner overall.
 - PC2  indicates that runners with large values for the second component had relatively fast (small) times for the first six legs of the race and relatively slow times for the last two legs of the race. These runners started relatively fast but finished relatively slow. Runners with negative values for this component started relatively slow and finished relatively fast. They conserved energy in the early stages of the race and had something left for a strong finish.
 - PC3 indicates that runners with large positive values for the third component were relatively slow for the first four legs of the race, ran relatively fast during the next four legs of the race, and then had a weak finish. Runners with negative values for this component started fast, ran relatively slow in the middle of the race, and finished strong.
-::: 
 
-* **Step: How Many PCs**: Calculate and report the total variation explained by each principal component, and the accumulative variation explained by the first three PCs.
+:::{.callout-note title="Step 4: How Many PCs"}
+Calculate and report the total variation explained by each principal component, and the accumulative variation explained by the first three PCs.
+:::
 
-:::{.callout-tip title="View Solution" collapse="true"}
-
+\tiny 
 ```{r}
 #| code-summary: "PCA Fit Summary"
 summary(fit)
 ```
-
+\normalsize
 ```{r}
 #| code-summary: "Scree Plot"
 plot(fit$sdev^2, 
@@ -640,12 +637,10 @@ plot(fit$sdev^2,
      ylab="Component Variance (eigenvalue)",
     main="Scree Diagram", type="b")
 ``` 
-::: 
 
-
-* **Step: Visualize PC Scores**: Plot component scores for the first three principal components. 
-
-:::{.callout-tip title="View Solution" collapse="true"}
+:::{.callout-note title="Step 5: Visualize PC Scores"}
+Plot component scores for the first three principal components. 
+:::
 
 ```{r}
 #| code-summary: "PC Scores"
@@ -669,11 +664,9 @@ patchwork::wrap_plots(g1,g2,g3,ncol=2)
 
 ```
 
-::: 
-
-* **Optional**: Perform PCA on standardized data. 
-
-:::{.callout-tip title="View Solution" collapse="true"}
+:::{.callout-note title="**Optional**: Perform PCA on Standardized Data"}
+This step is optional as all measurements have scales quite similar. 
+:::
 
 ```{r}
 #| code-summary: "Standardization and Visualization"
@@ -693,10 +686,15 @@ pairs(
     abline(lsfit(x, y), lty = 2)
   }
 )
+```
 
+\tiny 
+```{r}
+#| code-summary: "Correlation Matrix"
 racecor = var(dat_sd)
 racecor
 ``` 
+\normalsize
 
 ```{r}
 #| code-summary: "PCA on Standardized Data"
@@ -712,12 +710,12 @@ plot(
 
 ```
 
+:::{.callout-note title="Step 6: Follow-Up Findings"}
+Use the principal component scores from the raw data to look for differences among mature (`age < 40`) and senior (`age > 40`) runners. Mature runners will be indicated by `M` and senior runners will be indicated by `S`. Can we separate those two groups by using the first two principal component scores?
 ::: 
 
-* **Step: Follow-Up Findings**: Use the principal component scores from the raw data to look for differences among mature (`age < 40`) and senior (`age > 40`) runners. Mature runners will be indicated by `M` and senior runners will be indicated by `S`. Can we separate those two groups by using the first two principal component scores?
-
-:::{.callout-tip title="View Solution" collapse="true"}
 ```{r}
+#| code-summary: "PC Scores by Age Group"
 race.type <- rep("M", n)
 race.type[dat[, p1] >= 40] <- "S"
 race.col <- rep("red", n)
@@ -739,18 +737,16 @@ text(
 )
 
 ```
+**Interpretations**: 
 
-The four fastest runners were mature runners who were consistently fast across all 10 segments of the race. The mature runners have the most variability in scores for the second principal component, and they have a greater tendency to start fast and finish slow than the senior runners.
+- The four fastest runners were mature runners who were consistently fast across all 10 segments of the race. The mature runners have the most variability in scores for the second principal component, and they have a greater tendency to start fast and finish slow than the senior runners.
+- One interesting further statistical analysis would be using hypothesis testing to compare the two groups (mature and senior) based on the PC scores. 
 
-One interesting further statistical analysis would be using hypothesis testing to compare the two groups (mature and senior) based on the PC scores. 
 
-::: 
+:::{.callout-tip title="Reflections" collapse="true"}
 
-:::{.callout-tip title="Further Note" collapse="true"}
-
-The above question provides one way to extract information from the data. In practice, we often need to define our own questions related to the dataset and perform statistical analyses. 
-
-Looking backwarks, if one is given the dataset without providing the research question, can you formulate a research question for the dataset and address it via PCA and multivariate statistical testing methods?  
+- The above question provides one way to extract information from the data. In practice, we often need to define our own questions related to the dataset and perform statistical analyses. 
+- Looking backwarks, if one is given the dataset without providing the research question,  how can one formulate interesting research questions for the dataset and address them via PCA and multivariate statistical methods?  
 
 :::
 
@@ -758,21 +754,20 @@ Looking backwarks, if one is given the dataset without providing the research qu
 
 ### Exercise 1: `mtcars` Data
 
-Let us use the `mtcars` dataset to illustrate PCA. 
+Let us use the `mtcars` dataset to perform PCA and interpret the results. 
 ```{r}
 #| code-fold: false 
 dat = mtcars[, c("mpg","disp","hp","wt","qsec")]
 head(dat)
 ```
 
+::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
-
 
 ```{r}
 #| code-summary: "R Code: Scatterplot Matrix"
 GGally::ggpairs(dat)
 ```
-
 
 As the scatterplot indicates that the variables are on very different scales, it is helpful to perform PCA on standardized data. 
 
@@ -797,3 +792,5 @@ factoextra::fviz_pca_biplot(fit,
 ```
 
 :::
+:::
+

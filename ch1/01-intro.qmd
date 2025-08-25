@@ -146,7 +146,8 @@ mynumbers + 2
 mynumbers * 10
 
 typeof(mynumbers)      # type of an object
-is.numeric(mynumbers)  # check if is numeric (both integer and double type are numeric)
+# check if is numeric (both integer and double type are numeric)
+is.numeric(mynumbers)  
 is.vector(mynumbers)   # check if is vector
 length(mynumbers)      # length of an object
 
@@ -219,7 +220,7 @@ summary(df)  # summary of each column
 str(df)      # structure of the data frame
 ```
 
-a `tibble` is a modern implementation of a data frame, designed to be more user-friendly and efficient, especially when working with larger datasets. 
+a `tibble` is a modern implementation of a data frame, designed to be more user-friendly and efficient, especially when working with large datasets. 
 ```{r}
 #| code-summary: tibble 
 # install.packages("tibble")
@@ -259,7 +260,7 @@ mydata %*% t(mydata)            # matrix multiplication
 
 :::
 
-:::{.callout-note title="Plotting with `ggplot2` Package" collapse="true"}
+:::{.callout-note title="Plotting with the `ggplot2` Package" collapse="true"}
 ```{r}
 library(ggplot2)
 data("USArrests")
@@ -698,13 +699,11 @@ GGally::ggpairs(dat)
 - Suppose $x_{ij}$ is the measurement on the $j$-th outcome variable for the $i$-th subject in the data set.  
 
 - The standardized value is  
-
 $$
 z_{ij} = \frac{x_{ij} - \bar{x}_{j}}{s_j}
 $$
 
 - The entire set of $p$ standardized responses for the $i$-th subject can be computed as  
-
 $$
 \mathbf{z}_i =
 \begin{bmatrix}
@@ -853,6 +852,7 @@ produce errors.
     z[1,2] + z[1,3]
 ```
 
+::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
 
 - `x` is bound to a vector of characters instead of            numerical values. The functions `max`, `sort`, `sum` should take numerical values as input, so the values in `x` are first converted from characters to numerical values implicitly and then the functions apply to these incorrect numerical values
@@ -861,15 +861,16 @@ produce errors.
 
 - `z` is a data frame, but the variable `z1` is a character while `z2` and `z3` are numerical. Adding `z2` and `z3` will produce the correct results.
 
-
 ::: 
-
+:::
 
 ### Exercise 2: Working with Matrix and Data Frames
 
 1. A matrix is a 2D array, with rows and columns, much like you would have seen in linear algebra. Primarily we think of these as numeric objects. Arrays can have more than two dimensions. In multivariate analysis we are typically thinking of data in the form of a matrix, with samples/cases in the rows and variables represented as columns. Data frames are 2D arrays that could have multiple types of data in different columns. Lists are collections of possibly different length and different types of objects.
 
 a. Create a matrix and print it out. 
+
+::: {.content-hidden when-format="pdf"}
 ```{r}
 #| code-summary: "View Solution"
 dat = matrix(c(140, 120, 160, 145, 125, 
@@ -882,18 +883,24 @@ dat = matrix(c(140, 120, 160, 145, 125,
 #| code-summary: "View Solution"
 dat # or print(dat) 
 ```
+:::
 
 b. Rename the column names of a matrix.
+
+::: {.content-hidden when-format="pdf"}
 ```{r}
 #| code-summary: "View Solution"
 
 colnames(dat) = c("weight.lbs", "Height.in")
 dat 
 ```
+:::
 
 2. Data frames can store both columns of numeric data and columns of character data, columns of integers, and factors.
 
 a. Create a data frame with `Male` and `Female` observations, and print out the data frame. 
+
+::: {.content-hidden when-format="pdf"}
 ```{r}
 #| code-summary: "View Solution"
 df = data.frame(
@@ -905,69 +912,96 @@ df = data.frame(
 
 df
 ```
+:::
 
 b. Get the rows and columns of a data frame.
+
+::: {.content-hidden when-format="pdf"}
 ```{r}
 #| code-summary: "View Solution"
 dim(df)
 nrow(df)
 ncol(df)
 ```
+:::
 
 c. Get summary statistics of a data frame.
+
+::: {.content-hidden when-format="pdf"}
 ```{r}
 #| code-summary: "View Solution"
 summary(df)
 ```
+::: {.content-hidden when-format="pdf"}
 
 3. Operations with Matrix and Data Frame 
 
 a. Extract the first row and second column of a matrix. 
+
+::: {.content-hidden when-format="pdf"}
 ```{r}
 #| code-summary: "View Solution"
 dat[1,]
 dat[,2]
 ```
+:::
 
 b. Subset the first two rows of a matrix
+
+::: {.content-hidden when-format="pdf"}
 ```{r}
 #| code-summary: "View Solution"
 dat[1:2,]
 ```
+:::
 
 c. Subset rows `1,3,5` of a matrix.
+
+::: {.content-hidden when-format="pdf"}
 ```{r}
 #| code-summary: "View Solution"
 dat[c(1,3,5), ]
 ```
+:::
 
 d. Select all the `Male` observations from a data frame. 
+
+::: {.content-hidden when-format="pdf"}
 ```{r}
 #| code-summary: "View Solution"
 subset(df, Gender=="Male")
 ```
+:::
 
 e. Transpose of a matrix
+
+::: {.content-hidden when-format="pdf"}
 ```{r}
 #| code-summary: "View Solution"
 A = matrix(c(3,1,2,4), ncol=2)
 A
 ```
+:::
 
 f. Matrix multiplication
+
+::: {.content-hidden when-format="pdf"}
 ```{r}
 #| code-summary: "View Solution"
 B = matrix(c(1,2,3,4), ncol=2)
 A %*% B 
 B %*% A 
 ```
+::: 
 
 g. Matrix inversion 
 
+::: {.content-hidden when-format="pdf"}
 ```{r}
 #| code-summary: "View Solution"
 solve(A)
 ```
+::: 
 
 ### Exercise 3: Linear Algebra 
 1. Consider the linear system $A X = b$, where $A$ is an $n\times n$ positive definite matrix and $b$ is a $n$-dimensional vector, the unique solution is $X = A^{-1}b$. Please answer the following questions:
@@ -981,6 +1015,8 @@ b. Run the following code to get $A$ and $b$.
   b = rnorm(n,1)
   ```
   Then use your function `my_solver()` to produce the answer and verify your solution.  (hint: $AX$ should be equal to $b$)
+
+::: {.content-hidden when-format="pdf"}
 ```{r}
 #| code-summary: "View Solution"
 
@@ -995,7 +1031,7 @@ b = rnorm(n,1)
 x1 = my_solver(A, b)
 sum((A%*%x1-b)^2)
 ```
-
+::: 
 
 
 
@@ -1014,7 +1050,7 @@ h. Plot time series of `PM2.5` concentrations for all monitoring sites in one pa
 i. Plot time series of `PM2.5` concentrations across all monitoring sites in multiple panels, where one panel only has one site, and each row only has two panels.
 j. In the time series plot, there seems to be not enough space to hold the x-axis labels. One way to avoid this is to rotate the axis labels. Please rotate all the time labels 45 degree.
 
-
+::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
 
 ```{r}
@@ -1087,6 +1123,7 @@ g + theme(axis.text.x = element_text(angle = 45))
 ```
 
 ::: 
+:::
 
 ### Exercise 5: Working with `dplyr` Package
 
@@ -1097,6 +1134,7 @@ b. Filter all the observations in `Greenville` in August 2021
 c. Filter all the observations in `Greenville` in August 2021 and select the variables PM2.5 concentrations, Date,  latitude and longitude of sites
 d. Generate scatterplots of `PM2.5` against `latitude` and `longitude` in two different panels
 
+::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
 
 ```{r}
@@ -1132,3 +1170,4 @@ df %>%
 ```
 
 ::: 
+:::

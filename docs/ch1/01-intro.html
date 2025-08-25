@@ -65,6 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../ch2/02-graphs.html" rel="next">
 <link href="../index.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -206,6 +207,18 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../ch1/01-intro.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Multivariate Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch2/02-graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Graphs and Data Visualization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch3/03-MVN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multivariate Normal Distribution</span></span></a>
   </div>
 </li>
     </ul>
@@ -562,7 +575,8 @@ R Objects
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.numeric</span>(mynumbers)  <span class="co"># check if is numeric (both integer and double type are numeric)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check if is numeric (both integer and double type are numeric)</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">is.numeric</span>(mynumbers)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
@@ -914,7 +928,7 @@ Working with Data Frames
  $ Gender    : Factor w/ 2 levels "Female","Male": 1 1 1 1 1 2 2</code></pre>
 </div>
 </div>
-<p>a <code>tibble</code> is a modern implementation of a data frame, designed to be more user-friendly and efficient, especially when working with larger datasets.</p>
+<p>a <code>tibble</code> is a modern implementation of a data frame, designed to be more user-friendly and efficient, especially when working with large datasets.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>tibble</summary>
@@ -1077,13 +1091,13 @@ e 21465 18660 23843 22151 19346</code></pre>
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled" title="Plotting with `ggplot2` Package">
+<div class="callout callout-style-default callout-note callout-titled" title="Plotting with the `ggplot2` Package">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Plotting with <code>ggplot2</code> Package
+Plotting with the <code>ggplot2</code> Package
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1554,15 +1568,12 @@ Rape     0.56357883 0.6652412 0.41134124 1.0000000</code></pre>
 <h3 data-number="1.7.1" class="anchored" data-anchor-id="standardized-data-or-z-scores"><span class="header-section-number">1.7.1</span> Standardized Data (or <span class="math inline">z</span>-Scores)</h3>
 <ul>
 <li><p>Suppose <span class="math inline">x_{ij}</span> is the measurement on the <span class="math inline">j</span>-th outcome variable for the <span class="math inline">i</span>-th subject in the data set.</p></li>
-<li><p>The standardized value is</p></li>
-</ul>
-<p><span class="math display">
+<li><p>The standardized value is<br>
+<span class="math display">
 z_{ij} = \frac{x_{ij} - \bar{x}_{j}}{s_j}
-</span></p>
-<ul>
-<li>The entire set of <span class="math inline">p</span> standardized responses for the <span class="math inline">i</span>-th subject can be computed as</li>
-</ul>
-<p><span class="math display">
+</span></p></li>
+<li><p>The entire set of <span class="math inline">p</span> standardized responses for the <span class="math inline">i</span>-th subject can be computed as<br>
+<span class="math display">
 \mathbf{z}_i =
 \begin{bmatrix}
 z_{i1} \\
@@ -1578,7 +1589,8 @@ z_{ip}
 \dfrac{x_{ip} - \bar{x}_{p}}{s_p}
 \end{bmatrix}
 = D^{-1/2} (\mathbf{x}_i - \bar{\mathbf{x}})
-</span></p>
+</span></p></li>
+</ul>
 <div class="cell">
 <details class="code-fold">
 <summary>R Code: Standardized Data</summary>
@@ -2754,6 +2766,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../ch2/02-graphs.html" class="pagination-link" aria-label="Graphs and Data Visualization">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Graphs and Data Visualization</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
