@@ -328,28 +328,33 @@ X_{n \times p} =
 $$
 where both $\prime$ and $\top$ represent matrix transpose. 
 
-:::{.callout-note title="R Code: Data Organization" collapse="true"}
-The matrix notation corresponds to data frame organization. 
 ```{r}
+#| code-summary: "R Code: Data Organization"
 X = as.matrix(USArrests)
 dim(X)
+```
+
+
+```{r}
+#| code-summary: "R Code: Matrix Transpose"
 t(X[1:5,])
 ```
-::: 
+
+
 
 
 ## Descriptive Statistics
 
-### Definitions 
-:::{.callout-note title="Sample Mean"}
+### Sample Mean  
+
 - The sample mean of the $k$th variable ($k = 1,...,p$) is 
 $$
 \bar{x}_k = \frac{1}{n} \sum_{i = 1}^n x_{ik}
 $$
 
-::: 
 
-:::{.callout-note title="Sample Covariance and Sample Standard Deviation"}
+
+### Sample Variance and Sample Standard Deviation
 
 - The sample variance of the $k$th variable is
 $$
@@ -364,9 +369,9 @@ $$
 $$
 s^2_k = s_{kk} 
 $$  
-:::
 
-:::{.callout-note title="Sample Covariance and Sample Correlation"}
+
+### Sample Covariance and Sample Correlation
 
 - The sample covariance between variable $k$ and variable $j$ is computed as
 $$
@@ -384,7 +389,7 @@ $$
 -  $r_{jk} = r_{kj}$ 
 - The sample correlation is equal to the sample covariance if measurements are standardized. 
 - The sample correlation $(r_{ij})$ will vary about the value of the population correlation $(\rho_{ij})$
-::: 
+
 
 
 
@@ -555,9 +560,10 @@ p_nonlin
 ::: 
 
 
-### Matrix Organization of Descriptive Statistics 
+## Matrix Organization of Descriptive Statistics 
 
-:::{.callout-note title="Sample Mean"}
+### Sample Mean
+
 - Sample mean: $\bar{\mathbf{x}}$ is the $p \times 1$ vector of sample means:
 
 $$
@@ -597,9 +603,9 @@ ones_n = matrix(1, n, ncol=1)
 Xc = X - ones_n %*% t(xbar)
 ```
 
-:::
 
-:::{.callout-note title="Sample Covariance"}
+### Sample Covariance
+
 - $S$ is the $p \times p$ symmetric matrix of sample variances (on the diagonal)  and sample covariances (the off-diagonal elements):
 
 $$
@@ -633,9 +639,8 @@ S_mat = t(Xc)%*%Xc/(n-1)
 signif(cbind(S, S_mat),4)
 ```
 
-::: 
+### Sample Correlation
 
-:::{.callout-note title="Sample Correlation"}
 
 - The $p \times p$ matrix of sample correlations is also symmetric:  
 
@@ -685,16 +690,16 @@ R
 GGally::ggpairs(dat)
 ```
 
-::: 
 
 
 ## Standardization
 
 
-### Standardized Data 
-:::{.callout-note title="Standardized Data"}
+### Standardized Data (or $z$-Scores)
+
 - Suppose $x_{ij}$ is the measurement on the $j$-th outcome variable for the $i$-th subject in the data set.  
-The standardized value is  
+
+- The standardized value is  
 
 $$
 z_{ij} = \frac{x_{ij} - \bar{x}_{j}}{s_j}
@@ -741,6 +746,7 @@ dat_scaled <- dat %>%
 ``` 
 
 ```{r}
+#| code-summary: "R Code: Plotting the Data"
 p1 = ggplot(dat, aes(Murder, Assault)) + 
   geom_point(alpha=0.8) + 
   labs(title="Unscaled")
@@ -753,13 +759,12 @@ patchwork::wrap_plots(p1, p2, ncol=1)
 ```
 
 
-::: 
+
 
 
 
 ### Standardized Population Mean 
 
-:::{.callout-note title="Standardized Population Mean"}
 - The vector of true means for a set of standardized responses is  
 a vector of zeros:
 
@@ -790,11 +795,10 @@ $$
 - The vector of estimated means for a set of standardized responses  
 is also a vector of zeros.
 
-:::
+
 
 ### Standardized Population Covariance
 
-:::{.callout-note title="Standardized Population Covariance"}
 
 - The true covariance matrix for a set of standardized responses is the population correlation matrix:
 
@@ -821,7 +825,6 @@ r_{p1} & r_{p2} & \cdots & 1
 = D^{-1/2} S D^{-1/2}
 $$
 
-::: 
 
 
 ## Exercises 
@@ -971,9 +974,8 @@ solve(A)
 ### Exercise 3: Linear Algebra 
 1. Consider the linear system $A X = b$, where $A$ is an $n\times n$ positive definite matrix and $b$ is a $n$-dimensional vector, the unique solution is $X = A^{-1}b$. Please answer the following questions:
 
-  a. Write an R function called `my_solver()` such that given inputs $A$ and $b$, the function `my_solver()` returns the solution of the linear system, i.e., `X <- my_solver(A, b)`. 
-
-  b. Run the following code to get $A$ and $b$. 
+a. Write an R function called `my_solver()` such that given inputs $A$ and $b$, the function `my_solver()` returns the solution of the linear system, i.e., `X <- my_solver(A, b)`. 
+b. Run the following code to get $A$ and $b$. 
   ```
   set.seed(123)
   A = matrix(c(5,1,1,6), ncol=2)
@@ -981,8 +983,6 @@ solve(A)
   b = rnorm(n,1)
   ```
   Then use your function `my_solver()` to produce the answer and verify your solution.  (hint: $AX$ should be equal to $b$)
-
-
 ```{r}
 #| code-summary: "View Solution"
 
@@ -996,7 +996,6 @@ n = nrow(A)
 b = rnorm(n,1)
 x1 = my_solver(A, b)
 sum((A%*%x1-b)^2)
-
 ```
 
 
