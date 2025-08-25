@@ -1,10 +1,3 @@
----
-title: "Preface"
-format:
-  html:
-    number-sections: false  
-toc: false                   
----
 
 # Preface {.unnumbered}
 
