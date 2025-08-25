@@ -218,13 +218,13 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction-to-r-and-rstudio" id="toc-introduction-to-r-and-rstudio" class="nav-link active" data-scroll-target="#introduction-to-r-and-rstudio"><span class="header-section-number">1.1</span> Introduction to R and RStudio</a>
+  <li><a href="#course-outline" id="toc-course-outline" class="nav-link active" data-scroll-target="#course-outline"><span class="header-section-number">1.1</span> Course Outline</a></li>
+  <li><a href="#objectives-of-multivariate-analysis" id="toc-objectives-of-multivariate-analysis" class="nav-link" data-scroll-target="#objectives-of-multivariate-analysis"><span class="header-section-number">1.2</span> Objectives of Multivariate Analysis</a></li>
+  <li><a href="#introduction-to-r-and-rstudio" id="toc-introduction-to-r-and-rstudio" class="nav-link" data-scroll-target="#introduction-to-r-and-rstudio"><span class="header-section-number">1.3</span> Introduction to R and RStudio</a>
   <ul class="collapse">
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started"><span class="header-section-number">1.1.1</span> Getting Started</a></li>
-  <li><a href="#introduction-to-r-programming" id="toc-introduction-to-r-programming" class="nav-link" data-scroll-target="#introduction-to-r-programming"><span class="header-section-number">1.1.2</span> Introduction to R Programming</a></li>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started"><span class="header-section-number">1.3.1</span> Getting Started</a></li>
+  <li><a href="#introduction-to-r-programming" id="toc-introduction-to-r-programming" class="nav-link" data-scroll-target="#introduction-to-r-programming"><span class="header-section-number">1.3.2</span> Introduction to R Programming</a></li>
   </ul></li>
-  <li><a href="#course-outline" id="toc-course-outline" class="nav-link" data-scroll-target="#course-outline"><span class="header-section-number">1.2</span> Course Outline</a></li>
-  <li><a href="#objectives-of-multivariate-analysis" id="toc-objectives-of-multivariate-analysis" class="nav-link" data-scroll-target="#objectives-of-multivariate-analysis"><span class="header-section-number">1.3</span> Objectives of Multivariate Analysis</a></li>
   <li><a href="#organization-of-data-and-notation" id="toc-organization-of-data-and-notation" class="nav-link" data-scroll-target="#organization-of-data-and-notation"><span class="header-section-number">1.4</span> Organization of Data and Notation</a></li>
   <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics"><span class="header-section-number">1.5</span> Descriptive Statistics</a>
   <ul class="collapse">
@@ -277,10 +277,45 @@ window.Quarto = {
 </header>
 
 
-<section id="introduction-to-r-and-rstudio" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="introduction-to-r-and-rstudio"><span class="header-section-number">1.1</span> Introduction to R and RStudio</h2>
-<section id="getting-started" class="level3" data-number="1.1.1">
-<h3 data-number="1.1.1" class="anchored" data-anchor-id="getting-started"><span class="header-section-number">1.1.1</span> Getting Started</h3>
+<section id="course-outline" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="course-outline"><span class="header-section-number">1.1</span> Course Outline</h2>
+<ul>
+<li>Introduction to Multivariate Data — <em>Chapter 1</em></li>
+<li>Numerical Summaries of Multivariate Data — <em>Chapter 1</em></li>
+<li>Plotting Multivariate Data — <em>Chapter 2</em></li>
+<li>Multivariate Normal Distribution — <em>Lecture Notes</em></li>
+<li>Comparing Centers of Distributions — <em>Lecture Notes</em><br>
+(Hotelling <span class="math inline">T^2</span>, MANOVA, Repeated Measures)</li>
+<li>Principal Component Analysis — <em>Chapter 3</em><br>
+(Summarizing data in lower dimensions)</li>
+<li>Exploratory Factor Analysis — <em>Chapter 5</em><br>
+(What to do when the variables of interest cannot be directly observed.)</li>
+<li>Multi-Dimensional Scaling — <em>Chapter 4</em></li>
+<li>Cluster Analysis — <em>Chapter 6</em></li>
+<li>Discriminant Analysis and Classification — <em>Lecture Notes</em><br>
+(Including linear discriminants, logistic regression, classification trees, and random forests)</li>
+</ul>
+</section>
+<section id="objectives-of-multivariate-analysis" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="objectives-of-multivariate-analysis"><span class="header-section-number">1.2</span> Objectives of Multivariate Analysis</h2>
+<ul>
+<li><strong>Understand dependencies among variables</strong>: What is the nature of associations among variables?</li>
+<li><strong>Prediction</strong>: If variables are associated, then we might be able to predict the value of some of them given information on the others. (Statistical inference)</li>
+<li><strong>Hypothesis testing</strong>: Are differences in sets of response means for two or more groups large enough to be distinguished from sampling variation? (Statistical inference)</li>
+<li><strong>Dimensionality reduction</strong>: Can we reduce the dimensionality of the problem by considering a small number of (linear) combinations of a large number of measurements without losing important information?
+<ul>
+<li>Principal Components</li>
+<li>Factor Analysis</li>
+<li>Multidimensional Scaling</li>
+</ul></li>
+<li><strong>Grouping (Cluster Analysis)</strong>: Identify groups of “similar” units using a common set of measured traits.</li>
+<li><strong>Classification</strong>: Classify units into previously defined groups using a common set of measured traits.</li>
+</ul>
+</section>
+<section id="introduction-to-r-and-rstudio" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="introduction-to-r-and-rstudio"><span class="header-section-number">1.3</span> Introduction to R and RStudio</h2>
+<section id="getting-started" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="getting-started"><span class="header-section-number">1.3.1</span> Getting Started</h3>
 <p>To download <font style="font-family: serif">R</font>, please choose your preferred <a href="https://cran.r-project.org/mirrors.html">CRAN mirror</a>. Here I recommend the mirror <a href="https://cloud.r-project.org/">0-Cloud</a> available at <a href="https://cloud.r-project.org/">https://cloud.r-project.org/</a>.</p>
 <p><strong>Installing R on macOS</strong></p>
 <p>For <strong>macOS</strong> users, below are the steps you need to install <font style="font-family: serif">R</font>.</p>
@@ -301,8 +336,8 @@ window.Quarto = {
 <p><strong>Install RStudio</strong></p>
 <p>RStudio has multiple panes in the window, open by default: one for writing and editing code, another for executing it, another for plots produced or help, and another that lists the R data objects available. RStudio can be download for free at <a href="https://posit.co/download/rstudio-desktop/">https://posit.co/download/rstudio-desktop/</a>.</p>
 </section>
-<section id="introduction-to-r-programming" class="level3" data-number="1.1.2">
-<h3 data-number="1.1.2" class="anchored" data-anchor-id="introduction-to-r-programming"><span class="header-section-number">1.1.2</span> Introduction to R Programming</h3>
+<section id="introduction-to-r-programming" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="introduction-to-r-programming"><span class="header-section-number">1.3.2</span> Introduction to R Programming</h3>
 <div class="callout callout-style-default callout-important callout-titled" title="Some Tips: R Working Environment">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1103,41 +1138,6 @@ Plotting with <code>ggplot2</code> Package
 </div>
 </div>
 </section>
-</section>
-<section id="course-outline" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="course-outline"><span class="header-section-number">1.2</span> Course Outline</h2>
-<ul>
-<li>Introduction to Multivariate Data — <em>Chapter 1</em></li>
-<li>Numerical Summaries of Multivariate Data — <em>Chapter 1</em></li>
-<li>Plotting Multivariate Data — <em>Chapter 2</em></li>
-<li>Multivariate Normal Distribution — <em>Lecture Notes</em></li>
-<li>Comparing Centers of Distributions — <em>Lecture Notes</em><br>
-(Hotelling <span class="math inline">T^2</span>, MANOVA, Repeated Measures)</li>
-<li>Principal Component Analysis — <em>Chapter 3</em><br>
-(Summarizing data in lower dimensions)</li>
-<li>Exploratory Factor Analysis — <em>Chapter 5</em><br>
-(What to do when the variables of interest cannot be directly observed.)</li>
-<li>Multi-Dimensional Scaling — <em>Chapter 4</em></li>
-<li>Cluster Analysis — <em>Chapter 6</em></li>
-<li>Discriminant Analysis and Classification — <em>Lecture Notes</em><br>
-(Including linear discriminants, logistic regression, classification trees, and random forests)</li>
-</ul>
-</section>
-<section id="objectives-of-multivariate-analysis" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="objectives-of-multivariate-analysis"><span class="header-section-number">1.3</span> Objectives of Multivariate Analysis</h2>
-<ul>
-<li><p><strong>Understand dependencies among variables</strong>: What is the nature of associations among variables?</p></li>
-<li><p><strong>Prediction</strong>: If variables are associated, then we might be able to predict the value of some of them given information on the others. (Statistical inference)</p></li>
-<li><p><strong>Hypothesis testing</strong>: Are differences in sets of response means for two or more groups large enough to be distinguished from sampling variation? (Statistical inference)</p></li>
-<li><p><strong>Dimensionality reduction</strong>: Can we reduce the dimensionality of the problem by considering a small number of (linear) combinations of a large number of measurements without losing important information?</p>
-<ul>
-<li>Principal Components</li>
-<li>Factor Analysis</li>
-<li>Multidimensional Scaling</li>
-</ul></li>
-<li><p><strong>Grouping (Cluster Analysis)</strong>: Identify groups of “similar” units using a common set of measured traits.</p></li>
-<li><p><strong>Classification</strong>: Classify units into previously defined groups using a common set of measured traits.</p></li>
-</ul>
 </section>
 <section id="organization-of-data-and-notation" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="organization-of-data-and-notation"><span class="header-section-number">1.4</span> Organization of Data and Notation</h2>
@@ -2127,16 +2127,16 @@ b = rnorm(n,1)</code></pre>
 <h3 data-number="1.7.4" class="anchored" data-anchor-id="exercise-4-working-with-ggplot2-package"><span class="header-section-number">1.7.4</span> Exercise 4: Working with <code>ggplot2</code> Package</h3>
 <p>EPA monitors Air Quality data across the entire U.S. The file <code>AQSdata.csv</code> contains daily PM 2.5 concentrations and other information. Please answer the following questions using the <code>ggplot()</code> function for plotting. In addition make sure that all the x-axis and y-axis labels have 14 font size.</p>
 <ol type="a">
-<li><p>Read the data file <code>AQSdata.csv</code> into R.</p></li>
-<li><p>Generate density plots of <code>PM2.5</code> concentrations grouped by <code>County</code> in one single panel, where each density should have its own color. What do you find from the figure?</p></li>
-<li><p>Plot histograms of <code>PM2.5</code> concentrations across different counties with one panel for one histogram.</p></li>
-<li><p>Generate boxplots of <code>PM2.5</code> concentrations by County. What would you say about the distributions?</p></li>
-<li><p>Reorder the boxplots above by the median value of <code>PM2.5</code> concentrations.</p></li>
-<li><p>Converting the Site ID to a factor and plot the histogram grouped by <code>Site ID</code>.</p></li>
-<li><p>Generate the time series plot for the monitoring Site ID <code>450190048</code>.</p></li>
-<li><p>Plot time series of <code>PM2.5</code> concentrations for all monitoring sites in one panel, where each site has its own color</p></li>
-<li><p>Plot time series of <code>PM2.5</code> concentrations across all monitoring sites in multiple panels, where one panel only has one site, and each row only has two panels.</p></li>
-<li><p>In the time series plot, there seems to be not enough space to hold the x-axis labels. One way to avoid this is to rotate the axis labels. Please rotate all the time labels 45 degree.</p></li>
+<li>Read the data file <code>AQSdata.csv</code> into R.</li>
+<li>Generate density plots of <code>PM2.5</code> concentrations grouped by <code>County</code> in one single panel, where each density should have its own color. What do you find from the figure?</li>
+<li>Plot histograms of <code>PM2.5</code> concentrations across different counties with one panel for one histogram.</li>
+<li>Generate boxplots of <code>PM2.5</code> concentrations by County. What would you say about the distributions?</li>
+<li>Reorder the boxplots above by the median value of <code>PM2.5</code> concentrations.</li>
+<li>Converting the Site ID to a factor and plot the histogram grouped by <code>Site ID</code>.</li>
+<li>Generate the time series plot for the monitoring Site ID <code>450190048</code>.</li>
+<li>Plot time series of <code>PM2.5</code> concentrations for all monitoring sites in one panel, where each site has its own color</li>
+<li>Plot time series of <code>PM2.5</code> concentrations across all monitoring sites in multiple panels, where one panel only has one site, and each row only has two panels.</li>
+<li>In the time series plot, there seems to be not enough space to hold the x-axis labels. One way to avoid this is to rotate the axis labels. Please rotate all the time labels 45 degree.</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="View Solution">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
@@ -2177,14 +2177,17 @@ View Solution
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb200"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb200-1"><a href="#cb200-1" aria-hidden="true" tabindex="-1"></a>theme_mat <span class="ot">=</span> <span class="fu">theme</span>(<span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>),</span>
-<span id="cb200-2"><a href="#cb200-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">"bold"</span>)</span>
-<span id="cb200-3"><a href="#cb200-3" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb200-4"><a href="#cb200-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">rename</span>(df, <span class="at">PM2.5=</span><span class="st">`</span><span class="at">Daily Mean PM2.5 Concentration</span><span class="st">`</span>)</span>
-<span id="cb200-5"><a href="#cb200-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span> </span>
-<span id="cb200-6"><a href="#cb200-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_freqpoly</span>(<span class="fu">aes</span>(<span class="at">x=</span>PM2<span class="fl">.5</span>, <span class="at">y=</span><span class="fu">after_stat</span>(density), <span class="at">color=</span>COUNTY), <span class="at">binwidth=</span><span class="dv">2</span>) <span class="sc">+</span> </span>
-<span id="cb200-7"><a href="#cb200-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Daily PM2.5 concentration (ug/m3 LC)"</span>) <span class="sc">+</span> </span>
-<span id="cb200-8"><a href="#cb200-8" aria-hidden="true" tabindex="-1"></a>  theme_mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb200"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb200-1"><a href="#cb200-1" aria-hidden="true" tabindex="-1"></a>theme_mat <span class="ot">=</span> <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>),</span>
+<span id="cb200-2"><a href="#cb200-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span>
+<span id="cb200-3"><a href="#cb200-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">rename</span>(df, <span class="at">PM2.5 =</span> <span class="st">`</span><span class="at">Daily Mean PM2.5 Concentration</span><span class="st">`</span>)</span>
+<span id="cb200-4"><a href="#cb200-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span></span>
+<span id="cb200-5"><a href="#cb200-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_freqpoly</span>(<span class="fu">aes</span>(</span>
+<span id="cb200-6"><a href="#cb200-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> PM2<span class="fl">.5</span>,</span>
+<span id="cb200-7"><a href="#cb200-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">after_stat</span>(density),</span>
+<span id="cb200-8"><a href="#cb200-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> COUNTY</span>
+<span id="cb200-9"><a href="#cb200-9" aria-hidden="true" tabindex="-1"></a>  ), <span class="at">binwidth =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb200-10"><a href="#cb200-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Daily PM2.5 concentration (ug/m3 LC)"</span>) <span class="sc">+</span></span>
+<span id="cb200-11"><a href="#cb200-11" aria-hidden="true" tabindex="-1"></a>  theme_mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2195,10 +2198,10 @@ View Solution
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb201"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb201-1"><a href="#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span> </span>
-<span id="cb201-2"><a href="#cb201-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x=</span>PM2<span class="fl">.5</span>), <span class="at">binwidth=</span>.<span class="dv">8</span>) <span class="sc">+</span> </span>
-<span id="cb201-3"><a href="#cb201-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>COUNTY, <span class="at">ncol=</span><span class="dv">3</span>) <span class="sc">+</span> </span>
-<span id="cb201-4"><a href="#cb201-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Daily PM2.5 concentration (ug/m3 LC)"</span>) <span class="sc">+</span> </span>
+<div class="sourceCode cell-code" id="cb201"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb201-1"><a href="#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span></span>
+<span id="cb201-2"><a href="#cb201-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> PM2<span class="fl">.5</span>), <span class="at">binwidth =</span> .<span class="dv">8</span>) <span class="sc">+</span></span>
+<span id="cb201-3"><a href="#cb201-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> COUNTY, <span class="at">ncol =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb201-4"><a href="#cb201-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Daily PM2.5 concentration (ug/m3 LC)"</span>) <span class="sc">+</span></span>
 <span id="cb201-5"><a href="#cb201-5" aria-hidden="true" tabindex="-1"></a>  theme_mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
@@ -2210,10 +2213,10 @@ View Solution
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb202"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb202-1"><a href="#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span> </span>
-<span id="cb202-2"><a href="#cb202-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>COUNTY, <span class="at">y=</span>PM2<span class="fl">.5</span>)) <span class="sc">+</span> </span>
-<span id="cb202-3"><a href="#cb202-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"County"</span>) <span class="sc">+</span> </span>
-<span id="cb202-4"><a href="#cb202-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Daily PM2.5 concentration (ug/m3 LC)"</span>) <span class="sc">+</span> </span>
+<div class="sourceCode cell-code" id="cb202"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb202-1"><a href="#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span></span>
+<span id="cb202-2"><a href="#cb202-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> COUNTY, <span class="at">y =</span> PM2<span class="fl">.5</span>)) <span class="sc">+</span></span>
+<span id="cb202-3"><a href="#cb202-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"County"</span>) <span class="sc">+</span></span>
+<span id="cb202-4"><a href="#cb202-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Daily PM2.5 concentration (ug/m3 LC)"</span>) <span class="sc">+</span></span>
 <span id="cb202-5"><a href="#cb202-5" aria-hidden="true" tabindex="-1"></a>  theme_mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
@@ -2225,11 +2228,12 @@ View Solution
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb203"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb203-1"><a href="#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span> </span>
-<span id="cb203-2"><a href="#cb203-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(COUNTY, PM2<span class="fl">.5</span>, <span class="at">FUN=</span>median), <span class="at">y=</span>PM2<span class="fl">.5</span>)) <span class="sc">+</span> </span>
-<span id="cb203-3"><a href="#cb203-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"County"</span>) <span class="sc">+</span> </span>
-<span id="cb203-4"><a href="#cb203-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Daily PM2.5 concentration (ug/m3 LC)"</span>) <span class="sc">+</span> </span>
-<span id="cb203-5"><a href="#cb203-5" aria-hidden="true" tabindex="-1"></a>  theme_mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb203"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb203-1"><a href="#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span></span>
+<span id="cb203-2"><a href="#cb203-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(COUNTY, PM2<span class="fl">.5</span>, <span class="at">FUN =</span> median), </span>
+<span id="cb203-3"><a href="#cb203-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> PM2<span class="fl">.5</span>)) <span class="sc">+</span></span>
+<span id="cb203-4"><a href="#cb203-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"County"</span>) <span class="sc">+</span></span>
+<span id="cb203-5"><a href="#cb203-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Daily PM2.5 concentration (ug/m3 LC)"</span>) <span class="sc">+</span></span>
+<span id="cb203-6"><a href="#cb203-6" aria-hidden="true" tabindex="-1"></a>  theme_mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2242,9 +2246,9 @@ View Solution
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb204"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb204-1"><a href="#cb204-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">=</span> df</span>
 <span id="cb204-2"><a href="#cb204-2" aria-hidden="true" tabindex="-1"></a>df1<span class="sc">$</span><span class="st">`</span><span class="at">Site ID</span><span class="st">`</span> <span class="ot">=</span>  <span class="fu">as.factor</span>(df<span class="sc">$</span><span class="st">`</span><span class="at">Site ID</span><span class="st">`</span>)</span>
-<span id="cb204-3"><a href="#cb204-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df1) <span class="sc">+</span> </span>
-<span id="cb204-4"><a href="#cb204-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_freqpoly</span>(<span class="fu">aes</span>(<span class="at">x=</span>PM2<span class="fl">.5</span>, <span class="at">color=</span><span class="st">`</span><span class="at">Site ID</span><span class="st">`</span>), <span class="at">binwidth=</span><span class="dv">2</span>) <span class="sc">+</span> </span>
-<span id="cb204-5"><a href="#cb204-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Daily PM2.5 concentration (ug/m3 LC)"</span>) <span class="sc">+</span> </span>
+<span id="cb204-3"><a href="#cb204-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df1) <span class="sc">+</span></span>
+<span id="cb204-4"><a href="#cb204-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_freqpoly</span>(<span class="fu">aes</span>(<span class="at">x =</span> PM2<span class="fl">.5</span>, <span class="at">color =</span> <span class="st">`</span><span class="at">Site ID</span><span class="st">`</span>), <span class="at">binwidth =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb204-5"><a href="#cb204-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Daily PM2.5 concentration (ug/m3 LC)"</span>) <span class="sc">+</span></span>
 <span id="cb204-6"><a href="#cb204-6" aria-hidden="true" tabindex="-1"></a>  theme_mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
@@ -2256,14 +2260,12 @@ View Solution
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb205"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb205-1"><a href="#cb205-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="sc">%&gt;%</span> </span>
-<span id="cb205-2"><a href="#cb205-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Site ID</span><span class="st">`</span><span class="sc">==</span><span class="dv">450190048</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb205-3"><a href="#cb205-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb205-4"><a href="#cb205-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">mdy</span>(Date), <span class="at">y=</span>PM2<span class="fl">.5</span>)) <span class="sc">+</span> </span>
-<span id="cb205-5"><a href="#cb205-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb205-6"><a href="#cb205-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Time"</span>,</span>
-<span id="cb205-7"><a href="#cb205-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Daily PM2.5 concentration (ug/m3 LC)"</span></span>
-<span id="cb205-8"><a href="#cb205-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> theme_mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb205"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb205-1"><a href="#cb205-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="sc">%&gt;%</span></span>
+<span id="cb205-2"><a href="#cb205-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Site ID</span><span class="st">`</span> <span class="sc">==</span> <span class="dv">450190048</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb205-3"><a href="#cb205-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb205-4"><a href="#cb205-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">mdy</span>(Date), <span class="at">y =</span> PM2<span class="fl">.5</span>)) <span class="sc">+</span></span>
+<span id="cb205-5"><a href="#cb205-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Time"</span>, <span class="at">y =</span> <span class="st">"Daily PM2.5 concentration (ug/m3 LC)"</span>) <span class="sc">+</span> </span>
+<span id="cb205-6"><a href="#cb205-6" aria-hidden="true" tabindex="-1"></a>  theme_mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2274,13 +2276,11 @@ View Solution
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb206"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb206-1"><a href="#cb206-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="sc">%&gt;%</span> </span>
-<span id="cb206-2"><a href="#cb206-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb206-3"><a href="#cb206-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">mdy</span>(Date), <span class="at">y=</span>PM2<span class="fl">.5</span>, <span class="at">color=</span><span class="st">`</span><span class="at">Site ID</span><span class="st">`</span>)) <span class="sc">+</span> </span>
-<span id="cb206-4"><a href="#cb206-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb206-5"><a href="#cb206-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Time"</span>,</span>
-<span id="cb206-6"><a href="#cb206-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Daily PM2.5 concentration (ug/m3 LC)"</span></span>
-<span id="cb206-7"><a href="#cb206-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> theme_mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb206"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb206-1"><a href="#cb206-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="sc">%&gt;%</span></span>
+<span id="cb206-2"><a href="#cb206-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb206-3"><a href="#cb206-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">mdy</span>(Date), <span class="at">y =</span> PM2<span class="fl">.5</span>, <span class="at">color =</span> <span class="st">`</span><span class="at">Site ID</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb206-4"><a href="#cb206-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Time"</span>, <span class="at">y =</span> <span class="st">"Daily PM2.5 concentration (ug/m3 LC)"</span>) <span class="sc">+</span> </span>
+<span id="cb206-5"><a href="#cb206-5" aria-hidden="true" tabindex="-1"></a>  theme_mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2291,15 +2291,13 @@ View Solution
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb207"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb207-1"><a href="#cb207-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> df1 <span class="sc">%&gt;%</span> </span>
-<span id="cb207-2"><a href="#cb207-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb207-3"><a href="#cb207-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">mdy</span>(Date), <span class="at">y=</span>PM2<span class="fl">.5</span>)) <span class="sc">+</span> </span>
-<span id="cb207-4"><a href="#cb207-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span><span class="st">`</span><span class="at">Site ID</span><span class="st">`</span>, <span class="at">ncol=</span><span class="dv">2</span>) <span class="sc">+</span> </span>
-<span id="cb207-5"><a href="#cb207-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb207-6"><a href="#cb207-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Time"</span>,</span>
-<span id="cb207-7"><a href="#cb207-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Daily PM2.5 concentration (ug/m3 LC)"</span></span>
-<span id="cb207-8"><a href="#cb207-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> theme_mat</span>
-<span id="cb207-9"><a href="#cb207-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(g) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb207"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb207-1"><a href="#cb207-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> df1 <span class="sc">%&gt;%</span></span>
+<span id="cb207-2"><a href="#cb207-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb207-3"><a href="#cb207-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">mdy</span>(Date), <span class="at">y =</span> PM2<span class="fl">.5</span>)) <span class="sc">+</span></span>
+<span id="cb207-4"><a href="#cb207-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> <span class="st">`</span><span class="at">Site ID</span><span class="st">`</span>, <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb207-5"><a href="#cb207-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Time"</span>, <span class="at">y =</span> <span class="st">"Daily PM2.5 concentration (ug/m3 LC)"</span>) <span class="sc">+</span> </span>
+<span id="cb207-6"><a href="#cb207-6" aria-hidden="true" tabindex="-1"></a>  theme_mat</span>
+<span id="cb207-7"><a href="#cb207-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2310,7 +2308,7 @@ View Solution
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb208"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb208-1"><a href="#cb208-1" aria-hidden="true" tabindex="-1"></a>g <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">45</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb208"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb208-1"><a href="#cb208-1" aria-hidden="true" tabindex="-1"></a>g <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2328,10 +2326,10 @@ View Solution
 <h3 data-number="1.7.5" class="anchored" data-anchor-id="exercise-5-working-with-dplyr-package"><span class="header-section-number">1.7.5</span> Exercise 5: Working with <code>dplyr</code> Package</h3>
 <p>Continuing working with the above PM 2.5 data.</p>
 <ol type="a">
-<li><p>Filter all the observations in the county <code>Greenville</code>. How many observations are there?</p></li>
-<li><p>Filter all the observations in <code>Greenville</code> in August 2021</p></li>
-<li><p>Filter all the observations in <code>Greenville</code> in August 2021 and select the variables PM2.5 concentrations, Date, latitude and longitude of sites</p></li>
-<li><p>Generate scatterplots of <code>PM2.5</code> against <code>latitude</code> and <code>longitude</code> in two different panels</p></li>
+<li>Filter all the observations in the county <code>Greenville</code>. How many observations are there?</li>
+<li>Filter all the observations in <code>Greenville</code> in August 2021</li>
+<li>Filter all the observations in <code>Greenville</code> in August 2021 and select the variables PM2.5 concentrations, Date, latitude and longitude of sites</li>
+<li>Generate scatterplots of <code>PM2.5</code> against <code>latitude</code> and <code>longitude</code> in two different panels</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="View Solution">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
@@ -2350,8 +2348,8 @@ View Solution
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb209"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb209-1"><a href="#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb209-2"><a href="#cb209-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb209-3"><a href="#cb209-3" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
-<span id="cb209-4"><a href="#cb209-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(COUNTY<span class="sc">==</span><span class="st">"Greenville"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb209-3"><a href="#cb209-3" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb209-4"><a href="#cb209-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(COUNTY <span class="sc">==</span> <span class="st">"Greenville"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 937 × 20
@@ -2375,11 +2373,9 @@ View Solution
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb211"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
-<span id="cb211-2"><a href="#cb211-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Date =</span> <span class="fu">mdy</span>(Date),</span>
-<span id="cb211-3"><a href="#cb211-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">YM =</span> <span class="fu">format_ISO8601</span>(Date, <span class="at">precision=</span><span class="st">"ym"</span>)</span>
-<span id="cb211-4"><a href="#cb211-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb211-5"><a href="#cb211-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(COUNTY<span class="sc">==</span><span class="st">"Greenville"</span>, YM<span class="sc">==</span><span class="st">"2021-08"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb211"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb211-2"><a href="#cb211-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Date =</span> <span class="fu">mdy</span>(Date), <span class="at">YM =</span> <span class="fu">format_ISO8601</span>(Date, <span class="at">precision =</span> <span class="st">"ym"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb211-3"><a href="#cb211-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(COUNTY <span class="sc">==</span> <span class="st">"Greenville"</span>, YM <span class="sc">==</span> <span class="st">"2021-08"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 82 × 21
@@ -2403,12 +2399,10 @@ View Solution
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb213"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb213-1"><a href="#cb213-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
-<span id="cb213-2"><a href="#cb213-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Date =</span> <span class="fu">mdy</span>(Date),</span>
-<span id="cb213-3"><a href="#cb213-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">YM =</span> <span class="fu">format_ISO8601</span>(Date, <span class="at">precision=</span><span class="st">"ym"</span>)</span>
-<span id="cb213-4"><a href="#cb213-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb213-5"><a href="#cb213-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(COUNTY<span class="sc">==</span><span class="st">"Greenville"</span>, YM<span class="sc">==</span><span class="st">"2021-08"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb213-6"><a href="#cb213-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(PM2<span class="fl">.5</span>, Date, SITE_LATITUDE, SITE_LONGITUDE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb213"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb213-1"><a href="#cb213-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb213-2"><a href="#cb213-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Date =</span> <span class="fu">mdy</span>(Date), <span class="at">YM =</span> <span class="fu">format_ISO8601</span>(Date, <span class="at">precision =</span> <span class="st">"ym"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb213-3"><a href="#cb213-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(COUNTY <span class="sc">==</span> <span class="st">"Greenville"</span>, YM <span class="sc">==</span> <span class="st">"2021-08"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb213-4"><a href="#cb213-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(PM2<span class="fl">.5</span>, Date, SITE_LATITUDE, SITE_LONGITUDE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 82 × 4
@@ -2428,17 +2422,19 @@ View Solution
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb215"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
-<span id="cb215-2"><a href="#cb215-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(PM2<span class="fl">.5</span>, SITE_LATITUDE, SITE_LONGITUDE) <span class="sc">%&gt;%</span> </span>
-<span id="cb215-3"><a href="#cb215-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols=</span><span class="fu">c</span>(<span class="st">"SITE_LATITUDE"</span>, <span class="st">"SITE_LONGITUDE"</span>), </span>
-<span id="cb215-4"><a href="#cb215-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to=</span><span class="st">"variable"</span>, </span>
-<span id="cb215-5"><a href="#cb215-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to=</span><span class="st">"value"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb215-6"><a href="#cb215-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>value, <span class="at">y=</span>PM2<span class="fl">.5</span>)) <span class="sc">+</span> </span>
-<span id="cb215-7"><a href="#cb215-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb215-8"><a href="#cb215-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable, <span class="at">scale=</span><span class="st">"free"</span>) <span class="sc">+</span> </span>
-<span id="cb215-9"><a href="#cb215-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span> </span>
-<span id="cb215-10"><a href="#cb215-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Daily PM2.5 concentration (ug/m3 LC)"</span>) <span class="sc">+</span> </span>
-<span id="cb215-11"><a href="#cb215-11" aria-hidden="true" tabindex="-1"></a>  theme_mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb215"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb215-2"><a href="#cb215-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(PM2<span class="fl">.5</span>, SITE_LATITUDE, SITE_LONGITUDE) <span class="sc">%&gt;%</span></span>
+<span id="cb215-3"><a href="#cb215-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb215-4"><a href="#cb215-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">c</span>(<span class="st">"SITE_LATITUDE"</span>, <span class="st">"SITE_LONGITUDE"</span>),</span>
+<span id="cb215-5"><a href="#cb215-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"variable"</span>,</span>
+<span id="cb215-6"><a href="#cb215-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"value"</span></span>
+<span id="cb215-7"><a href="#cb215-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb215-8"><a href="#cb215-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">y =</span> PM2<span class="fl">.5</span>)) <span class="sc">+</span></span>
+<span id="cb215-9"><a href="#cb215-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb215-10"><a href="#cb215-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> variable, <span class="at">scale =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb215-11"><a href="#cb215-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb215-12"><a href="#cb215-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Daily PM2.5 concentration (ug/m3 LC)"</span>) <span class="sc">+</span></span>
+<span id="cb215-13"><a href="#cb215-13" aria-hidden="true" tabindex="-1"></a>  theme_mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
