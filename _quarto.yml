@@ -1,32 +1,23 @@
 project:
-  type: website
+  type: book
   output-dir: docs
 
-    
-website:
-  title: "Introduction to Multivariate Statistics"
-  sidebar:
-    search: true
-    style: docked
-    contents:
-      - text: "Preface"
-        href: index.qmd
-      - text: "Module 1: Introduction"
-        href: ch1/01-intro.qmd
-      - text: "Module 2: Graphs and Data Visualization"
-        href: ch2/02-graphs.qmd
-      - text: "Module 3: Multivariate Normal Distribution"
-        href: ch3/03-MVN.qmd
-      - text: "Module 4: Inference for Single Mean Vector"
-        href: ch4/04-Inference_for_Means.qmd
-      - text: "Module 5: Inference for Multiple Mean Vectors"
-        href: ch5/05-Inference_for_Means_II.qmd 
-      - text: "Module 6: Principal Component Analysis"
-        href: ch6/06-PCA.qmd
-      # - text: "Module 7: Factor Analysis"
-      #  href: ch7/07-FactorAnalysis.qmd
-      # - href: summary.qmd
-      # - href: references.qmd
+book:
+  title: "Introduction to Multivariate Data Analysis with R"
+  author: "Pulong Ma"
+  date: last-modified
+  date-format: MMM, D, YYYY 
+  chapters:
+    - index.qmd
+    - ch1/01-intro.qmd
+    - ch2/02-graphs.qmd
+    - ch3/03-MVN.qmd
+    - ch4/04-Inference_for_Means.qmd
+    - ch5/05-Inference_for_Means_II.qmd 
+    - ch6/06-PCA.qmd
+    #- ch7/07-FactorAnalysis.qmd
+    # - summary.qmd
+    # - references.qmd
 
 bibliography: references.bib
 
@@ -57,5 +48,4 @@ format:
     code-fold: true
     callout-appearance: default
     theme: cosmo
-
 

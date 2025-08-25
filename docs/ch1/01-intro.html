@@ -8,7 +8,7 @@
 
 <meta name="author" content="Pulong Ma">
 
-<title>Introduction to Multivariate Data – Introduction to Multivariate Statistics</title>
+<title>2&nbsp; Introduction to Multivariate Data – Introduction to Multivariate Data Analysis with R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,6 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../ch2/02-graphs.html" rel="next">
+<link href="../index.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -161,7 +163,7 @@ window.Quarto = {
 <link rel="stylesheet" href="custom.css">
 </head>
 
-<body class="nav-sidebar docked">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -170,7 +172,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ch1/01-intro.html">Module 1: Introduction</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ch1/01-intro.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Multivariate Data</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -182,10 +184,10 @@ window.Quarto = {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Introduction to Multivariate Statistics</a> 
+      <a href="../">Introduction to Multivariate Data Analysis with R</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -198,43 +200,43 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Preface</span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch1/01-intro.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Module 1: Introduction</span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Multivariate Data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch2/02-graphs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Module 2: Graphs and Data Visualization</span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Graphs and Data Visualization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch3/03-MVN.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Module 3: Multivariate Normal Distribution</span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multivariate Normal Distribution</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch4/04-Inference_for_Means.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Module 4: Inference for Single Mean Vector</span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Inference for Mean Vector</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch5/05-Inference_for_Means_II.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Module 5: Inference for Multiple Mean Vectors</span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Inference for Multiple Mean Vectors</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch6/06-PCA.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Module 6: Principal Component Analysis</span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></span></a>
   </div>
 </li>
     </ul>
@@ -244,35 +246,35 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="1">
-    <h2 id="toc-title">On this page</h2>
+    <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction-to-r-and-rstudio" id="toc-introduction-to-r-and-rstudio" class="nav-link active" data-scroll-target="#introduction-to-r-and-rstudio"><span class="header-section-number">1</span> Introduction to R and RStudio</a>
+  <li><a href="#introduction-to-r-and-rstudio" id="toc-introduction-to-r-and-rstudio" class="nav-link active" data-scroll-target="#introduction-to-r-and-rstudio"><span class="header-section-number">2.1</span> Introduction to R and RStudio</a>
   <ul class="collapse">
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started"><span class="header-section-number">1.1</span> Getting Started</a></li>
-  <li><a href="#introduction-to-r-programming" id="toc-introduction-to-r-programming" class="nav-link" data-scroll-target="#introduction-to-r-programming"><span class="header-section-number">1.2</span> Introduction to R Programming</a></li>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started"><span class="header-section-number">2.1.1</span> Getting Started</a></li>
+  <li><a href="#introduction-to-r-programming" id="toc-introduction-to-r-programming" class="nav-link" data-scroll-target="#introduction-to-r-programming"><span class="header-section-number">2.1.2</span> Introduction to R Programming</a></li>
   </ul></li>
-  <li><a href="#course-outline" id="toc-course-outline" class="nav-link" data-scroll-target="#course-outline"><span class="header-section-number">2</span> Course Outline</a></li>
-  <li><a href="#objectives-of-multivariate-analysis" id="toc-objectives-of-multivariate-analysis" class="nav-link" data-scroll-target="#objectives-of-multivariate-analysis"><span class="header-section-number">3</span> Objectives of Multivariate Analysis</a></li>
-  <li><a href="#organization-of-data-and-notation" id="toc-organization-of-data-and-notation" class="nav-link" data-scroll-target="#organization-of-data-and-notation"><span class="header-section-number">4</span> Organization of Data and Notation</a></li>
-  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics"><span class="header-section-number">5</span> Descriptive Statistics</a>
+  <li><a href="#course-outline" id="toc-course-outline" class="nav-link" data-scroll-target="#course-outline"><span class="header-section-number">2.2</span> Course Outline</a></li>
+  <li><a href="#objectives-of-multivariate-analysis" id="toc-objectives-of-multivariate-analysis" class="nav-link" data-scroll-target="#objectives-of-multivariate-analysis"><span class="header-section-number">2.3</span> Objectives of Multivariate Analysis</a></li>
+  <li><a href="#organization-of-data-and-notation" id="toc-organization-of-data-and-notation" class="nav-link" data-scroll-target="#organization-of-data-and-notation"><span class="header-section-number">2.4</span> Organization of Data and Notation</a></li>
+  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics"><span class="header-section-number">2.5</span> Descriptive Statistics</a>
   <ul class="collapse">
-  <li><a href="#definitions" id="toc-definitions" class="nav-link" data-scroll-target="#definitions"><span class="header-section-number">5.1</span> Definitions</a></li>
-  <li><a href="#covariance-and-correlation-measures" id="toc-covariance-and-correlation-measures" class="nav-link" data-scroll-target="#covariance-and-correlation-measures"><span class="header-section-number">5.2</span> Covariance and Correlation Measures</a></li>
-  <li><a href="#matrix-organization-of-descriptive-statistics" id="toc-matrix-organization-of-descriptive-statistics" class="nav-link" data-scroll-target="#matrix-organization-of-descriptive-statistics"><span class="header-section-number">5.3</span> Matrix Organization of Descriptive Statistics</a></li>
+  <li><a href="#definitions" id="toc-definitions" class="nav-link" data-scroll-target="#definitions"><span class="header-section-number">2.5.1</span> Definitions</a></li>
+  <li><a href="#covariance-and-correlation-measures" id="toc-covariance-and-correlation-measures" class="nav-link" data-scroll-target="#covariance-and-correlation-measures"><span class="header-section-number">2.5.2</span> Covariance and Correlation Measures</a></li>
+  <li><a href="#matrix-organization-of-descriptive-statistics" id="toc-matrix-organization-of-descriptive-statistics" class="nav-link" data-scroll-target="#matrix-organization-of-descriptive-statistics"><span class="header-section-number">2.5.3</span> Matrix Organization of Descriptive Statistics</a></li>
   </ul></li>
-  <li><a href="#standardization" id="toc-standardization" class="nav-link" data-scroll-target="#standardization"><span class="header-section-number">6</span> Standardization</a>
+  <li><a href="#standardization" id="toc-standardization" class="nav-link" data-scroll-target="#standardization"><span class="header-section-number">2.6</span> Standardization</a>
   <ul class="collapse">
-  <li><a href="#standardized-data" id="toc-standardized-data" class="nav-link" data-scroll-target="#standardized-data"><span class="header-section-number">6.1</span> Standardized Data</a></li>
-  <li><a href="#standardized-population-mean" id="toc-standardized-population-mean" class="nav-link" data-scroll-target="#standardized-population-mean"><span class="header-section-number">6.2</span> Standardized Population Mean</a></li>
-  <li><a href="#standardized-population-covariance" id="toc-standardized-population-covariance" class="nav-link" data-scroll-target="#standardized-population-covariance"><span class="header-section-number">6.3</span> Standardized Population Covariance</a></li>
+  <li><a href="#standardized-data" id="toc-standardized-data" class="nav-link" data-scroll-target="#standardized-data"><span class="header-section-number">2.6.1</span> Standardized Data</a></li>
+  <li><a href="#standardized-population-mean" id="toc-standardized-population-mean" class="nav-link" data-scroll-target="#standardized-population-mean"><span class="header-section-number">2.6.2</span> Standardized Population Mean</a></li>
+  <li><a href="#standardized-population-covariance" id="toc-standardized-population-covariance" class="nav-link" data-scroll-target="#standardized-population-covariance"><span class="header-section-number">2.6.3</span> Standardized Population Covariance</a></li>
   </ul></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">7</span> Exercises</a>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">2.7</span> Exercises</a>
   <ul class="collapse">
-  <li><a href="#exercise-1-data-types" id="toc-exercise-1-data-types" class="nav-link" data-scroll-target="#exercise-1-data-types"><span class="header-section-number">7.1</span> Exercise 1: Data Types</a></li>
-  <li><a href="#exercise-2-linear-algebra" id="toc-exercise-2-linear-algebra" class="nav-link" data-scroll-target="#exercise-2-linear-algebra"><span class="header-section-number">7.2</span> Exercise 2: Linear Algebra</a></li>
-  <li><a href="#exercise-3-working-with-ggplot2-package" id="toc-exercise-3-working-with-ggplot2-package" class="nav-link" data-scroll-target="#exercise-3-working-with-ggplot2-package"><span class="header-section-number">7.3</span> Exercise 3: Working with <code>ggplot2</code> Package</a></li>
-  <li><a href="#exercise-4-working-with-dplyr-package" id="toc-exercise-4-working-with-dplyr-package" class="nav-link" data-scroll-target="#exercise-4-working-with-dplyr-package"><span class="header-section-number">7.4</span> Exercise 4: Working with <code>dplyr</code> Package</a></li>
+  <li><a href="#exercise-1-data-types" id="toc-exercise-1-data-types" class="nav-link" data-scroll-target="#exercise-1-data-types"><span class="header-section-number">2.7.1</span> Exercise 1: Data Types</a></li>
+  <li><a href="#exercise-2-linear-algebra" id="toc-exercise-2-linear-algebra" class="nav-link" data-scroll-target="#exercise-2-linear-algebra"><span class="header-section-number">2.7.2</span> Exercise 2: Linear Algebra</a></li>
+  <li><a href="#exercise-3-working-with-ggplot2-package" id="toc-exercise-3-working-with-ggplot2-package" class="nav-link" data-scroll-target="#exercise-3-working-with-ggplot2-package"><span class="header-section-number">2.7.3</span> Exercise 3: Working with <code>ggplot2</code> Package</a></li>
+  <li><a href="#exercise-4-working-with-dplyr-package" id="toc-exercise-4-working-with-dplyr-package" class="nav-link" data-scroll-target="#exercise-4-working-with-dplyr-package"><span class="header-section-number">2.7.4</span> Exercise 4: Working with <code>dplyr</code> Package</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -282,7 +284,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Introduction to Multivariate Data</h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Multivariate Data</span></h1>
 </div>
 
 
@@ -305,13 +307,13 @@ window.Quarto = {
 </header>
 
 
-<section id="introduction-to-r-and-rstudio" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="introduction-to-r-and-rstudio"><span class="header-section-number">1</span> Introduction to R and RStudio</h2>
-<section id="getting-started" class="level3" data-number="1.1">
-<h3 data-number="1.1" class="anchored" data-anchor-id="getting-started"><span class="header-section-number">1.1</span> Getting Started</h3>
+<section id="introduction-to-r-and-rstudio" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="introduction-to-r-and-rstudio"><span class="header-section-number">2.1</span> Introduction to R and RStudio</h2>
+<section id="getting-started" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="getting-started"><span class="header-section-number">2.1.1</span> Getting Started</h3>
 <p>To download <font style="font-family: serif">R</font>, please choose your preferred <a href="https://cran.r-project.org/mirrors.html">CRAN mirror</a>. Here I recommend the mirror <a href="https://cloud.r-project.org/">0-Cloud</a> available at <a href="https://cloud.r-project.org/">https://cloud.r-project.org/</a>.</p>
-<section id="installing-r-on-macos" class="level4" data-number="1.1.1">
-<h4 data-number="1.1.1" class="anchored" data-anchor-id="installing-r-on-macos"><span class="header-section-number">1.1.1</span> Installing R on macOS</h4>
+<section id="installing-r-on-macos" class="level4" data-number="2.1.1.1">
+<h4 data-number="2.1.1.1" class="anchored" data-anchor-id="installing-r-on-macos"><span class="header-section-number">2.1.1.1</span> Installing R on macOS</h4>
 <p>For <strong>macOS</strong> users, below are the steps you need to install <font style="font-family: serif">R</font>.</p>
 <ol type="1">
 <li>Install Xcode (e.g., via the App Store). Skip this step if your Mac already has Xcode installed.</li>
@@ -320,8 +322,8 @@ window.Quarto = {
 <li>Click on the download link for the latest R version for macOS and follow the instruction</li>
 </ol>
 </section>
-<section id="install-r-on-windows" class="level4" data-number="1.1.2">
-<h4 data-number="1.1.2" class="anchored" data-anchor-id="install-r-on-windows"><span class="header-section-number">1.1.2</span> Install R on Windows</h4>
+<section id="install-r-on-windows" class="level4" data-number="2.1.1.2">
+<h4 data-number="2.1.1.2" class="anchored" data-anchor-id="install-r-on-windows"><span class="header-section-number">2.1.1.2</span> Install R on Windows</h4>
 <p>For <strong>Windows</strong> users, the following instructions guide you to install R.</p>
 <ol type="1">
 <li>Go to <a href="https://cloud.r-project.org/">https://cloud.r-project.org/</a> and click “<strong>Download R for Windows</strong>.”</li>
@@ -330,13 +332,13 @@ window.Quarto = {
 <li>Click on the download link for the latest R version for Windows and follow the instruction</li>
 </ol>
 </section>
-<section id="install-rstudio" class="level4" data-number="1.1.3">
-<h4 data-number="1.1.3" class="anchored" data-anchor-id="install-rstudio"><span class="header-section-number">1.1.3</span> Install RStudio</h4>
+<section id="install-rstudio" class="level4" data-number="2.1.1.3">
+<h4 data-number="2.1.1.3" class="anchored" data-anchor-id="install-rstudio"><span class="header-section-number">2.1.1.3</span> Install RStudio</h4>
 <p>RStudio has multiple panes in the window, open by default: one for writing and editing code, another for executing it, another for plots produced or help, and another that lists the R data objects available. RStudio can be download for free at <a href="https://posit.co/download/rstudio-desktop/">https://posit.co/download/rstudio-desktop/</a>.</p>
 </section>
 </section>
-<section id="introduction-to-r-programming" class="level3" data-number="1.2">
-<h3 data-number="1.2" class="anchored" data-anchor-id="introduction-to-r-programming"><span class="header-section-number">1.2</span> Introduction to R Programming</h3>
+<section id="introduction-to-r-programming" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="introduction-to-r-programming"><span class="header-section-number">2.1.2</span> Introduction to R Programming</h3>
 <div class="callout callout-style-default callout-important callout-titled" title="Some Tips: R Working Environment">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1138,8 +1140,8 @@ Plotting with <code>ggplot2</code> Package
 </div>
 </section>
 </section>
-<section id="course-outline" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="course-outline"><span class="header-section-number">2</span> Course Outline</h2>
+<section id="course-outline" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="course-outline"><span class="header-section-number">2.2</span> Course Outline</h2>
 <ul>
 <li>Introduction to Multivariate Data — <em>Chapter 1</em></li>
 <li>Numerical Summaries of Multivariate Data — <em>Chapter 1</em></li>
@@ -1157,8 +1159,8 @@ Plotting with <code>ggplot2</code> Package
 (Including linear discriminants, logistic regression, classification trees, and random forests)</li>
 </ul>
 </section>
-<section id="objectives-of-multivariate-analysis" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="objectives-of-multivariate-analysis"><span class="header-section-number">3</span> Objectives of Multivariate Analysis</h2>
+<section id="objectives-of-multivariate-analysis" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="objectives-of-multivariate-analysis"><span class="header-section-number">2.3</span> Objectives of Multivariate Analysis</h2>
 <ul>
 <li><p><strong>Understand dependencies among variables</strong>: What is the nature of associations among variables?</p></li>
 <li><p><strong>Prediction</strong>: If variables are associated, then we might be able to predict the value of some of them given information on the others. (Statistical inference)</p></li>
@@ -1173,8 +1175,8 @@ Plotting with <code>ggplot2</code> Package
 <li><p><strong>Classification</strong>: Classify units into previously defined groups using a common set of measured traits.</p></li>
 </ul>
 </section>
-<section id="organization-of-data-and-notation" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="organization-of-data-and-notation"><span class="header-section-number">4</span> Organization of Data and Notation</h2>
+<section id="organization-of-data-and-notation" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="organization-of-data-and-notation"><span class="header-section-number">2.4</span> Organization of Data and Notation</h2>
 <ul>
 <li><span class="math inline">n</span> = the number of observations or units<br>
 </li>
@@ -1253,10 +1255,10 @@ Rape        21.2   44.5    31.0     19.5       40.6</code></pre>
 </div>
 </div>
 </section>
-<section id="descriptive-statistics" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="descriptive-statistics"><span class="header-section-number">5</span> Descriptive Statistics</h2>
-<section id="definitions" class="level3" data-number="5.1">
-<h3 data-number="5.1" class="anchored" data-anchor-id="definitions"><span class="header-section-number">5.1</span> Definitions</h3>
+<section id="descriptive-statistics" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="descriptive-statistics"><span class="header-section-number">2.5</span> Descriptive Statistics</h2>
+<section id="definitions" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="definitions"><span class="header-section-number">2.5.1</span> Definitions</h3>
 <div class="callout callout-style-default callout-note callout-titled" title="Sample Mean">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1427,8 +1429,8 @@ Colorado      7.9     204       78 38.7</code></pre>
 </div>
 </div>
 </section>
-<section id="covariance-and-correlation-measures" class="level3" data-number="5.2">
-<h3 data-number="5.2" class="anchored" data-anchor-id="covariance-and-correlation-measures"><span class="header-section-number">5.2</span> Covariance and Correlation Measures</h3>
+<section id="covariance-and-correlation-measures" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="covariance-and-correlation-measures"><span class="header-section-number">2.5.2</span> Covariance and Correlation Measures</h3>
 <ul>
 <li><p>Covariance and correlation measure <em>linear association</em>.<br>
 Other non-linear (or curved) relationships may exist among variables even if <span class="math inline">r_{jk} = 0</span>.</p></li>
@@ -1478,8 +1480,8 @@ Nonlinear Dependence with (Near) Zero Correlation
 </div>
 </div>
 </section>
-<section id="matrix-organization-of-descriptive-statistics" class="level3" data-number="5.3">
-<h3 data-number="5.3" class="anchored" data-anchor-id="matrix-organization-of-descriptive-statistics"><span class="header-section-number">5.3</span> Matrix Organization of Descriptive Statistics</h3>
+<section id="matrix-organization-of-descriptive-statistics" class="level3" data-number="2.5.3">
+<h3 data-number="2.5.3" class="anchored" data-anchor-id="matrix-organization-of-descriptive-statistics"><span class="header-section-number">2.5.3</span> Matrix Organization of Descriptive Statistics</h3>
 <div class="callout callout-style-default callout-note callout-titled" title="Sample Mean">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1669,10 +1671,10 @@ Rape     0.56357883 0.6652412 0.41134124 1.0000000</code></pre>
 </div>
 </section>
 </section>
-<section id="standardization" class="level2" data-number="6">
-<h2 data-number="6" class="anchored" data-anchor-id="standardization"><span class="header-section-number">6</span> Standardization</h2>
-<section id="standardized-data" class="level3" data-number="6.1">
-<h3 data-number="6.1" class="anchored" data-anchor-id="standardized-data"><span class="header-section-number">6.1</span> Standardized Data</h3>
+<section id="standardization" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="standardization"><span class="header-section-number">2.6</span> Standardization</h2>
+<section id="standardized-data" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="standardized-data"><span class="header-section-number">2.6.1</span> Standardized Data</h3>
 <div class="callout callout-style-default callout-note callout-titled" title="Standardized Data">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1753,8 +1755,8 @@ z_{ip}
 </div>
 </div>
 </section>
-<section id="standardized-population-mean" class="level3" data-number="6.2">
-<h3 data-number="6.2" class="anchored" data-anchor-id="standardized-population-mean"><span class="header-section-number">6.2</span> Standardized Population Mean</h3>
+<section id="standardized-population-mean" class="level3" data-number="2.6.2">
+<h3 data-number="2.6.2" class="anchored" data-anchor-id="standardized-population-mean"><span class="header-section-number">2.6.2</span> Standardized Population Mean</h3>
 <div class="callout callout-style-default callout-note callout-titled" title="Standardized Population Mean">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1799,8 +1801,8 @@ is also a vector of zeros.</li>
 </div>
 </div>
 </section>
-<section id="standardized-population-covariance" class="level3" data-number="6.3">
-<h3 data-number="6.3" class="anchored" data-anchor-id="standardized-population-covariance"><span class="header-section-number">6.3</span> Standardized Population Covariance</h3>
+<section id="standardized-population-covariance" class="level3" data-number="2.6.3">
+<h3 data-number="2.6.3" class="anchored" data-anchor-id="standardized-population-covariance"><span class="header-section-number">2.6.3</span> Standardized Population Covariance</h3>
 <div class="callout callout-style-default callout-note callout-titled" title="Standardized Population Covariance">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1840,10 +1842,10 @@ r_{p1} &amp; r_{p2} &amp; \cdots &amp; 1
 </div>
 </section>
 </section>
-<section id="exercises" class="level2" data-number="7">
-<h2 data-number="7" class="anchored" data-anchor-id="exercises"><span class="header-section-number">7</span> Exercises</h2>
-<section id="exercise-1-data-types" class="level3" data-number="7.1">
-<h3 data-number="7.1" class="anchored" data-anchor-id="exercise-1-data-types"><span class="header-section-number">7.1</span> Exercise 1: Data Types</h3>
+<section id="exercises" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="exercises"><span class="header-section-number">2.7</span> Exercises</h2>
+<section id="exercise-1-data-types" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="exercise-1-data-types"><span class="header-section-number">2.7.1</span> Exercise 1: Data Types</h3>
 <ol type="a">
 <li>For each of the following commands, either explain why they should be errors, or explain the non-erroneous result.</li>
 </ol>
@@ -1882,8 +1884,8 @@ Partial Solution
 </div>
 </div>
 </section>
-<section id="exercise-2-linear-algebra" class="level3" data-number="7.2">
-<h3 data-number="7.2" class="anchored" data-anchor-id="exercise-2-linear-algebra"><span class="header-section-number">7.2</span> Exercise 2: Linear Algebra</h3>
+<section id="exercise-2-linear-algebra" class="level3" data-number="2.7.2">
+<h3 data-number="2.7.2" class="anchored" data-anchor-id="exercise-2-linear-algebra"><span class="header-section-number">2.7.2</span> Exercise 2: Linear Algebra</h3>
 <p>Consider the linear system <span class="math inline">A X = b</span>, where <span class="math inline">A</span> is an <span class="math inline">n\times n</span> positive definite matrix and <span class="math inline">b</span> is a <span class="math inline">n</span>-dimensional vector, the unique solution is <span class="math inline">X = A^{-1}b</span>. Please answer the following questions:</p>
 <ol type="a">
 <li><p>Write an R function called <code>my_solver()</code> such that given inputs <span class="math inline">A</span> and <span class="math inline">b</span>, the function <code>my_solver()</code> returns the solution of the linear system, i.e., <code>X &lt;- my_solver(A, b)</code>.</p></li>
@@ -1930,8 +1932,8 @@ Partial Solution
 </div>
 </div>
 </section>
-<section id="exercise-3-working-with-ggplot2-package" class="level3" data-number="7.3">
-<h3 data-number="7.3" class="anchored" data-anchor-id="exercise-3-working-with-ggplot2-package"><span class="header-section-number">7.3</span> Exercise 3: Working with <code>ggplot2</code> Package</h3>
+<section id="exercise-3-working-with-ggplot2-package" class="level3" data-number="2.7.3">
+<h3 data-number="2.7.3" class="anchored" data-anchor-id="exercise-3-working-with-ggplot2-package"><span class="header-section-number">2.7.3</span> Exercise 3: Working with <code>ggplot2</code> Package</h3>
 <p>EPA monitors Air Quality data across the entire U.S. The file <code>AQSdata.csv</code> contains daily PM 2.5 concentrations and other information. Please answer the following questions using the <code>ggplot()</code> function for plotting. In addition make sure that all the x-axis and y-axis labels have 14 font size.</p>
 <ol type="a">
 <li><p>Read the data file <code>AQSdata.csv</code> into R.</p></li>
@@ -2131,8 +2133,8 @@ Partial Solution
 </div>
 </div>
 </section>
-<section id="exercise-4-working-with-dplyr-package" class="level3" data-number="7.4">
-<h3 data-number="7.4" class="anchored" data-anchor-id="exercise-4-working-with-dplyr-package"><span class="header-section-number">7.4</span> Exercise 4: Working with <code>dplyr</code> Package</h3>
+<section id="exercise-4-working-with-dplyr-package" class="level3" data-number="2.7.4">
+<h3 data-number="2.7.4" class="anchored" data-anchor-id="exercise-4-working-with-dplyr-package"><span class="header-section-number">2.7.4</span> Exercise 4: Working with <code>dplyr</code> Package</h3>
 <p>Continuing working with the above PM 2.5 data.</p>
 <ol type="a">
 <li><p>Filter all the observations in the county Greenville. How many observations are there?</p></li>
@@ -2684,6 +2686,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../index.html" class="pagination-link" aria-label="Preface">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../ch2/02-graphs.html" class="pagination-link" aria-label="Graphs and Data Visualization">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Graphs and Data Visualization</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 

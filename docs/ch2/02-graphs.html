@@ -8,7 +8,7 @@
 
 <meta name="author" content="Pulong Ma">
 
-<title>Graphs and Data Visualization – Introduction to Multivariate Statistics</title>
+<title>3&nbsp; Graphs and Data Visualization – Introduction to Multivariate Data Analysis with R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,6 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../ch3/03-MVN.html" rel="next">
+<link href="../ch1/01-intro.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -127,7 +129,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="custom.css">
 </head>
 
-<body class="nav-sidebar docked">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -136,7 +138,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ch2/02-graphs.html">Module 2: Graphs and Data Visualization</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ch2/02-graphs.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Graphs and Data Visualization</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -148,10 +150,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Introduction to Multivariate Statistics</a> 
+      <a href="../">Introduction to Multivariate Data Analysis with R</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -164,43 +166,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Preface</span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch1/01-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Module 1: Introduction</span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Multivariate Data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch2/02-graphs.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Module 2: Graphs and Data Visualization</span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Graphs and Data Visualization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch3/03-MVN.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Module 3: Multivariate Normal Distribution</span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multivariate Normal Distribution</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch4/04-Inference_for_Means.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Module 4: Inference for Single Mean Vector</span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Inference for Mean Vector</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch5/05-Inference_for_Means_II.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Module 5: Inference for Multiple Mean Vectors</span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Inference for Multiple Mean Vectors</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch6/06-PCA.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Module 6: Principal Component Analysis</span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></span></a>
   </div>
 </li>
     </ul>
@@ -210,42 +212,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="1">
-    <h2 id="toc-title">On this page</h2>
+    <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
-  <li><a href="#categorical-data" id="toc-categorical-data" class="nav-link" data-scroll-target="#categorical-data"><span class="header-section-number">2</span> Categorical Data</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">3.1</span> Introduction</a></li>
+  <li><a href="#categorical-data" id="toc-categorical-data" class="nav-link" data-scroll-target="#categorical-data"><span class="header-section-number">3.2</span> Categorical Data</a>
   <ul class="collapse">
-  <li><a href="#bar-chart-example" id="toc-bar-chart-example" class="nav-link" data-scroll-target="#bar-chart-example"><span class="header-section-number">2.1</span> Bar Chart Example</a></li>
+  <li><a href="#bar-chart-example" id="toc-bar-chart-example" class="nav-link" data-scroll-target="#bar-chart-example"><span class="header-section-number">3.2.1</span> Bar Chart Example</a></li>
   </ul></li>
-  <li><a href="#quantitative-data" id="toc-quantitative-data" class="nav-link" data-scroll-target="#quantitative-data"><span class="header-section-number">3</span> Quantitative Data</a>
+  <li><a href="#quantitative-data" id="toc-quantitative-data" class="nav-link" data-scroll-target="#quantitative-data"><span class="header-section-number">3.3</span> Quantitative Data</a>
   <ul class="collapse">
-  <li><a href="#histogram-example-tip-amounts" id="toc-histogram-example-tip-amounts" class="nav-link" data-scroll-target="#histogram-example-tip-amounts"><span class="header-section-number">3.1</span> Histogram Example (Tip Amounts)</a></li>
-  <li><a href="#try-different-bin-widths" id="toc-try-different-bin-widths" class="nav-link" data-scroll-target="#try-different-bin-widths"><span class="header-section-number">3.2</span> Try Different Bin Widths</a></li>
-  <li><a href="#boxplot" id="toc-boxplot" class="nav-link" data-scroll-target="#boxplot"><span class="header-section-number">3.3</span> Boxplot</a></li>
+  <li><a href="#histogram-example-tip-amounts" id="toc-histogram-example-tip-amounts" class="nav-link" data-scroll-target="#histogram-example-tip-amounts"><span class="header-section-number">3.3.1</span> Histogram Example (Tip Amounts)</a></li>
+  <li><a href="#try-different-bin-widths" id="toc-try-different-bin-widths" class="nav-link" data-scroll-target="#try-different-bin-widths"><span class="header-section-number">3.3.2</span> Try Different Bin Widths</a></li>
+  <li><a href="#boxplot" id="toc-boxplot" class="nav-link" data-scroll-target="#boxplot"><span class="header-section-number">3.3.3</span> Boxplot</a></li>
   </ul></li>
-  <li><a href="#one-quantitative-one-categorical" id="toc-one-quantitative-one-categorical" class="nav-link" data-scroll-target="#one-quantitative-one-categorical"><span class="header-section-number">4</span> One Quantitative &amp; One Categorical</a></li>
-  <li><a href="#two-quantitative-variables" id="toc-two-quantitative-variables" class="nav-link" data-scroll-target="#two-quantitative-variables"><span class="header-section-number">5</span> Two Quantitative Variables</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">6</span> Exercises</a>
+  <li><a href="#one-quantitative-one-categorical" id="toc-one-quantitative-one-categorical" class="nav-link" data-scroll-target="#one-quantitative-one-categorical"><span class="header-section-number">3.4</span> One Quantitative &amp; One Categorical</a></li>
+  <li><a href="#two-quantitative-variables" id="toc-two-quantitative-variables" class="nav-link" data-scroll-target="#two-quantitative-variables"><span class="header-section-number">3.5</span> Two Quantitative Variables</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">3.6</span> Exercises</a>
   <ul class="collapse">
-  <li><a href="#exercise-1-bar-chart-from-survey" id="toc-exercise-1-bar-chart-from-survey" class="nav-link" data-scroll-target="#exercise-1-bar-chart-from-survey"><span class="header-section-number">6.1</span> Exercise 1: Bar Chart from Survey</a></li>
-  <li><a href="#exercise-2-simulated-histogram" id="toc-exercise-2-simulated-histogram" class="nav-link" data-scroll-target="#exercise-2-simulated-histogram"><span class="header-section-number">6.2</span> Exercise 2: Simulated Histogram</a></li>
-  <li><a href="#exercise-3-boxplots-by-group" id="toc-exercise-3-boxplots-by-group" class="nav-link" data-scroll-target="#exercise-3-boxplots-by-group"><span class="header-section-number">6.3</span> Exercise 3: Boxplots by Group</a></li>
-  <li><a href="#exercise-4-scatterplot-with-regression" id="toc-exercise-4-scatterplot-with-regression" class="nav-link" data-scroll-target="#exercise-4-scatterplot-with-regression"><span class="header-section-number">6.4</span> Exercise 4: Scatterplot with Regression</a></li>
+  <li><a href="#exercise-1-bar-chart-from-survey" id="toc-exercise-1-bar-chart-from-survey" class="nav-link" data-scroll-target="#exercise-1-bar-chart-from-survey"><span class="header-section-number">3.6.1</span> Exercise 1: Bar Chart from Survey</a></li>
+  <li><a href="#exercise-2-simulated-histogram" id="toc-exercise-2-simulated-histogram" class="nav-link" data-scroll-target="#exercise-2-simulated-histogram"><span class="header-section-number">3.6.2</span> Exercise 2: Simulated Histogram</a></li>
+  <li><a href="#exercise-3-boxplots-by-group" id="toc-exercise-3-boxplots-by-group" class="nav-link" data-scroll-target="#exercise-3-boxplots-by-group"><span class="header-section-number">3.6.3</span> Exercise 3: Boxplots by Group</a></li>
+  <li><a href="#exercise-4-scatterplot-with-regression" id="toc-exercise-4-scatterplot-with-regression" class="nav-link" data-scroll-target="#exercise-4-scatterplot-with-regression"><span class="header-section-number">3.6.4</span> Exercise 4: Scatterplot with Regression</a></li>
   </ul></li>
-  <li><a href="#two-quantitative-one-categorical" id="toc-two-quantitative-one-categorical" class="nav-link" data-scroll-target="#two-quantitative-one-categorical"><span class="header-section-number">7</span> Two Quantitative &amp; One Categorical</a></li>
-  <li><a href="#two-quantitative-two-categorical-variables" id="toc-two-quantitative-two-categorical-variables" class="nav-link" data-scroll-target="#two-quantitative-two-categorical-variables"><span class="header-section-number">8</span> Two Quantitative &amp; Two Categorical Variables</a></li>
-  <li><a href="#three-variables" id="toc-three-variables" class="nav-link" data-scroll-target="#three-variables"><span class="header-section-number">9</span> Three Variables</a>
+  <li><a href="#two-quantitative-one-categorical" id="toc-two-quantitative-one-categorical" class="nav-link" data-scroll-target="#two-quantitative-one-categorical"><span class="header-section-number">3.7</span> Two Quantitative &amp; One Categorical</a></li>
+  <li><a href="#two-quantitative-two-categorical-variables" id="toc-two-quantitative-two-categorical-variables" class="nav-link" data-scroll-target="#two-quantitative-two-categorical-variables"><span class="header-section-number">3.8</span> Two Quantitative &amp; Two Categorical Variables</a></li>
+  <li><a href="#three-variables" id="toc-three-variables" class="nav-link" data-scroll-target="#three-variables"><span class="header-section-number">3.9</span> Three Variables</a>
   <ul class="collapse">
-  <li><a href="#d-scatterplot" id="toc-d-scatterplot" class="nav-link" data-scroll-target="#d-scatterplot"><span class="header-section-number">9.1</span> 3D Scatterplot</a></li>
-  <li><a href="#bubble-chart" id="toc-bubble-chart" class="nav-link" data-scroll-target="#bubble-chart"><span class="header-section-number">9.2</span> Bubble Chart</a></li>
+  <li><a href="#d-scatterplot" id="toc-d-scatterplot" class="nav-link" data-scroll-target="#d-scatterplot"><span class="header-section-number">3.9.1</span> 3D Scatterplot</a></li>
+  <li><a href="#bubble-chart" id="toc-bubble-chart" class="nav-link" data-scroll-target="#bubble-chart"><span class="header-section-number">3.9.2</span> Bubble Chart</a></li>
   </ul></li>
-  <li><a href="#scatterplot-matrix" id="toc-scatterplot-matrix" class="nav-link" data-scroll-target="#scatterplot-matrix"><span class="header-section-number">10</span> Scatterplot Matrix</a></li>
-  <li><a href="#parallel-coordinates" id="toc-parallel-coordinates" class="nav-link" data-scroll-target="#parallel-coordinates"><span class="header-section-number">11</span> Parallel Coordinates</a></li>
-  <li><a href="#exercises-1" id="toc-exercises-1" class="nav-link" data-scroll-target="#exercises-1"><span class="header-section-number">12</span> Exercises</a>
+  <li><a href="#scatterplot-matrix" id="toc-scatterplot-matrix" class="nav-link" data-scroll-target="#scatterplot-matrix"><span class="header-section-number">3.10</span> Scatterplot Matrix</a></li>
+  <li><a href="#parallel-coordinates" id="toc-parallel-coordinates" class="nav-link" data-scroll-target="#parallel-coordinates"><span class="header-section-number">3.11</span> Parallel Coordinates</a></li>
+  <li><a href="#exercises-1" id="toc-exercises-1" class="nav-link" data-scroll-target="#exercises-1"><span class="header-section-number">3.12</span> Exercises</a>
   <ul class="collapse">
-  <li><a href="#exercise-1-ames-housing-data" id="toc-exercise-1-ames-housing-data" class="nav-link" data-scroll-target="#exercise-1-ames-housing-data"><span class="header-section-number">12.1</span> Exercise 1: Ames Housing Data</a></li>
-  <li><a href="#exercise-2-music-clips-data" id="toc-exercise-2-music-clips-data" class="nav-link" data-scroll-target="#exercise-2-music-clips-data"><span class="header-section-number">12.2</span> Exercise 2: Music Clips Data</a></li>
+  <li><a href="#exercise-1-ames-housing-data" id="toc-exercise-1-ames-housing-data" class="nav-link" data-scroll-target="#exercise-1-ames-housing-data"><span class="header-section-number">3.12.1</span> Exercise 1: Ames Housing Data</a></li>
+  <li><a href="#exercise-2-music-clips-data" id="toc-exercise-2-music-clips-data" class="nav-link" data-scroll-target="#exercise-2-music-clips-data"><span class="header-section-number">3.12.2</span> Exercise 2: Music Clips Data</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -255,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Graphs and Data Visualization</h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Graphs and Data Visualization</span></h1>
 </div>
 
 
@@ -278,24 +280,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="introduction" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
+<section id="introduction" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">3.1</span> Introduction</h2>
 <ul>
 <li>Graphs reveal information about the center, shape, and spread of distributions.</li>
 <li>They can also show typical and extreme outcomes, associations, and differences between groups.</li>
 <li>Different data types require different graph types.</li>
 </ul>
 </section>
-<section id="categorical-data" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="categorical-data"><span class="header-section-number">2</span> Categorical Data</h2>
+<section id="categorical-data" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="categorical-data"><span class="header-section-number">3.2</span> Categorical Data</h2>
 <p>Categorical data types:</p>
 <ul>
 <li><strong>Nominal</strong>: no natural order (e.g., eye color, blood type).</li>
 <li><strong>Ordinal</strong>: ordered, but spacing not meaningful (e.g., therapy response).</li>
 <li><strong>Interval</strong>: ordered and evenly spaced (e.g., fruit count).</li>
 </ul>
-<section id="bar-chart-example" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="bar-chart-example"><span class="header-section-number">2.1</span> Bar Chart Example</h3>
+<section id="bar-chart-example" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="bar-chart-example"><span class="header-section-number">3.2.1</span> Bar Chart Example</h3>
 <p>Bar chart is used for displaying categorical variables.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="R code">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
@@ -345,14 +347,14 @@ Question
 </div>
 </section>
 </section>
-<section id="quantitative-data" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="quantitative-data"><span class="header-section-number">3</span> Quantitative Data</h2>
+<section id="quantitative-data" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="quantitative-data"><span class="header-section-number">3.3</span> Quantitative Data</h2>
 <ul>
 <li>Measured on a numeric scale: e.g., weights, heights, cholesterol levels.</li>
 <li>Use histograms, boxplots, dotplots, density plots.</li>
 </ul>
-<section id="histogram-example-tip-amounts" class="level3" data-number="3.1">
-<h3 data-number="3.1" class="anchored" data-anchor-id="histogram-example-tip-amounts"><span class="header-section-number">3.1</span> Histogram Example (Tip Amounts)</h3>
+<section id="histogram-example-tip-amounts" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="histogram-example-tip-amounts"><span class="header-section-number">3.3.1</span> Histogram Example (Tip Amounts)</h3>
 <p>Histograms classify values into bins of equal width</p>
 <ul>
 <li>Heights of bars represent relative frequencies</li>
@@ -419,8 +421,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="try-different-bin-widths" class="level3" data-number="3.2">
-<h3 data-number="3.2" class="anchored" data-anchor-id="try-different-bin-widths"><span class="header-section-number">3.2</span> Try Different Bin Widths</h3>
+<section id="try-different-bin-widths" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="try-different-bin-widths"><span class="header-section-number">3.3.2</span> Try Different Bin Widths</h3>
 <div class="callout callout-style-default callout-tip callout-titled" title="R code">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -457,8 +459,8 @@ R code
 </div>
 </div>
 </section>
-<section id="boxplot" class="level3" data-number="3.3">
-<h3 data-number="3.3" class="anchored" data-anchor-id="boxplot"><span class="header-section-number">3.3</span> Boxplot</h3>
+<section id="boxplot" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="boxplot"><span class="header-section-number">3.3.3</span> Boxplot</h3>
 <p>Boxplot is graphical display of the five number data summary (minimum, Q1, median, Q3, maximum). It is good for comparing samples from different populations.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="R code">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
@@ -492,8 +494,8 @@ R code
 </div>
 </section>
 </section>
-<section id="one-quantitative-one-categorical" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="one-quantitative-one-categorical"><span class="header-section-number">4</span> One Quantitative &amp; One Categorical</h2>
+<section id="one-quantitative-one-categorical" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="one-quantitative-one-categorical"><span class="header-section-number">3.4</span> One Quantitative &amp; One Categorical</h2>
 <p>Side by side box plot and dot plots can be used to compare distributions of a quantitative response variable for different levels of a categorical variable.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="R code">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
@@ -526,8 +528,8 @@ R code
 </div>
 </div>
 </section>
-<section id="two-quantitative-variables" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="two-quantitative-variables"><span class="header-section-number">5</span> Two Quantitative Variables</h2>
+<section id="two-quantitative-variables" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="two-quantitative-variables"><span class="header-section-number">3.5</span> Two Quantitative Variables</h2>
 <p>Scatterplots convey information about associations between quantitative variables and also about unusual observations.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="R code">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
@@ -567,10 +569,10 @@ R code
 <li>What type of relationship would you expect?</li>
 </ul>
 </section>
-<section id="exercises" class="level2" data-number="6">
-<h2 data-number="6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">6</span> Exercises</h2>
-<section id="exercise-1-bar-chart-from-survey" class="level3" data-number="6.1">
-<h3 data-number="6.1" class="anchored" data-anchor-id="exercise-1-bar-chart-from-survey"><span class="header-section-number">6.1</span> Exercise 1: Bar Chart from Survey</h3>
+<section id="exercises" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">3.6</span> Exercises</h2>
+<section id="exercise-1-bar-chart-from-survey" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="exercise-1-bar-chart-from-survey"><span class="header-section-number">3.6.1</span> Exercise 1: Bar Chart from Survey</h3>
 <p>Create a bar chart for the following survey results:</p>
 <table class="caption-top table">
 <thead>
@@ -639,8 +641,8 @@ View Solution
 </div>
 <hr>
 </section>
-<section id="exercise-2-simulated-histogram" class="level3" data-number="6.2">
-<h3 data-number="6.2" class="anchored" data-anchor-id="exercise-2-simulated-histogram"><span class="header-section-number">6.2</span> Exercise 2: Simulated Histogram</h3>
+<section id="exercise-2-simulated-histogram" class="level3" data-number="3.6.2">
+<h3 data-number="3.6.2" class="anchored" data-anchor-id="exercise-2-simulated-histogram"><span class="header-section-number">3.6.2</span> Exercise 2: Simulated Histogram</h3>
 <p>Simulate 300 observations from a normal distribution with mean 70 and standard deviation 10.</p>
 <ol type="1">
 <li>Plot a histogram using binwidth = 5 and 10.</li>
@@ -694,8 +696,8 @@ View Solution
 </div>
 <hr>
 </section>
-<section id="exercise-3-boxplots-by-group" class="level3" data-number="6.3">
-<h3 data-number="6.3" class="anchored" data-anchor-id="exercise-3-boxplots-by-group"><span class="header-section-number">6.3</span> Exercise 3: Boxplots by Group</h3>
+<section id="exercise-3-boxplots-by-group" class="level3" data-number="3.6.3">
+<h3 data-number="3.6.3" class="anchored" data-anchor-id="exercise-3-boxplots-by-group"><span class="header-section-number">3.6.3</span> Exercise 3: Boxplots by Group</h3>
 <p>Simulate exam scores for two groups of students (Group A and Group B), each with 50 observations.</p>
 <ol type="1">
 <li>Generate scores from <code>rnorm(50, mean=80, sd=5)</code> for Group A and <code>rnorm(50, mean=75, sd=7)</code> for Group B.</li>
@@ -751,8 +753,8 @@ View Solution
 </div>
 <hr>
 </section>
-<section id="exercise-4-scatterplot-with-regression" class="level3" data-number="6.4">
-<h3 data-number="6.4" class="anchored" data-anchor-id="exercise-4-scatterplot-with-regression"><span class="header-section-number">6.4</span> Exercise 4: Scatterplot with Regression</h3>
+<section id="exercise-4-scatterplot-with-regression" class="level3" data-number="3.6.4">
+<h3 data-number="3.6.4" class="anchored" data-anchor-id="exercise-4-scatterplot-with-regression"><span class="header-section-number">3.6.4</span> Exercise 4: Scatterplot with Regression</h3>
 <p>Simulate a dataset of 100 observations where <code>x ~ runif(100, 0, 100)</code> and <code>y = 0.5 * x + rnorm(100, 0, 5)</code>.</p>
 <ol type="1">
 <li>Create a scatterplot of <code>y</code> vs <code>x</code>.</li>
@@ -807,8 +809,8 @@ View Solution
 <hr>
 </section>
 </section>
-<section id="two-quantitative-one-categorical" class="level2" data-number="7">
-<h2 data-number="7" class="anchored" data-anchor-id="two-quantitative-one-categorical"><span class="header-section-number">7</span> Two Quantitative &amp; One Categorical</h2>
+<section id="two-quantitative-one-categorical" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="two-quantitative-one-categorical"><span class="header-section-number">3.7</span> Two Quantitative &amp; One Categorical</h2>
 <ul>
 <li><strong>Grouping</strong>: a graph consisting of a <em>single</em> panel with multiple variables differentiated using different visual characteristics such as color, shape, and size.</li>
 <li><strong>Faceting</strong>: a graph consisting of several separate panels, with one for each level of the faceted variable, or combination of two faceted variables.</li>
@@ -850,8 +852,8 @@ View Solution
 <li>Does the relationship differ for men and women?</li>
 </ul>
 </section>
-<section id="two-quantitative-two-categorical-variables" class="level2" data-number="8">
-<h2 data-number="8" class="anchored" data-anchor-id="two-quantitative-two-categorical-variables"><span class="header-section-number">8</span> Two Quantitative &amp; Two Categorical Variables</h2>
+<section id="two-quantitative-two-categorical-variables" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="two-quantitative-two-categorical-variables"><span class="header-section-number">3.8</span> Two Quantitative &amp; Two Categorical Variables</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Grouping + Faceting</summary>
@@ -889,10 +891,10 @@ View Solution
 </div>
 </div>
 </section>
-<section id="three-variables" class="level2" data-number="9">
-<h2 data-number="9" class="anchored" data-anchor-id="three-variables"><span class="header-section-number">9</span> Three Variables</h2>
-<section id="d-scatterplot" class="level3" data-number="9.1">
-<h3 data-number="9.1" class="anchored" data-anchor-id="d-scatterplot"><span class="header-section-number">9.1</span> 3D Scatterplot</h3>
+<section id="three-variables" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="three-variables"><span class="header-section-number">3.9</span> Three Variables</h2>
+<section id="d-scatterplot" class="level3" data-number="3.9.1">
+<h3 data-number="3.9.1" class="anchored" data-anchor-id="d-scatterplot"><span class="header-section-number">3.9.1</span> 3D Scatterplot</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -909,12 +911,12 @@ View Solution
 </details>
 <div class="cell-output-display">
 <div class="plotly html-widget html-fill-item" id="htmlwidget-86af7ab3e76761da5a2b" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-86af7ab3e76761da5a2b">{"x":{"visdat":{"89d36fb17498":["function () ","plotlyVisDat"]},"cur_data":"89d36fb17498","attrs":{"89d36fb17498":{"x":{},"y":{},"z":{},"mode":"markers","color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter3d"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"mpg"},"yaxis":{"title":"hp"},"zaxis":{"title":"wt"}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[22.800000000000001,24.399999999999999,22.800000000000001,32.399999999999999,30.399999999999999,33.899999999999999,21.5,27.300000000000001,26,30.399999999999999,21.399999999999999],"y":[93,62,95,66,52,65,97,66,91,113,109],"z":[2.3199999999999998,3.1899999999999999,3.1499999999999999,2.2000000000000002,1.615,1.835,2.4649999999999999,1.9350000000000001,2.1400000000000001,1.5129999999999999,2.7799999999999998],"mode":"markers","type":"scatter3d","name":"4","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"frame":null},{"x":[21,21,21.399999999999999,18.100000000000001,19.199999999999999,17.800000000000001,19.699999999999999],"y":[110,110,110,105,123,123,175],"z":[2.6200000000000001,2.875,3.2149999999999999,3.46,3.4399999999999999,3.4399999999999999,2.77],"mode":"markers","type":"scatter3d","name":"6","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"line":{"color":"rgba(252,141,98,1)"},"frame":null},{"x":[18.699999999999999,14.300000000000001,16.399999999999999,17.300000000000001,15.199999999999999,10.4,10.4,14.699999999999999,15.5,15.199999999999999,13.300000000000001,19.199999999999999,15.800000000000001,15],"y":[175,245,180,180,180,205,215,230,150,150,245,175,264,335],"z":[3.4399999999999999,3.5699999999999998,4.0700000000000003,3.73,3.7799999999999998,5.25,5.4240000000000004,5.3449999999999998,3.52,3.4350000000000001,3.8399999999999999,3.8450000000000002,3.1699999999999999,3.5699999999999998],"mode":"markers","type":"scatter3d","name":"8","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"line":{"color":"rgba(141,160,203,1)"},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-86af7ab3e76761da5a2b">{"x":{"visdat":{"8bd76e97fdae":["function () ","plotlyVisDat"]},"cur_data":"8bd76e97fdae","attrs":{"8bd76e97fdae":{"x":{},"y":{},"z":{},"mode":"markers","color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter3d"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"mpg"},"yaxis":{"title":"hp"},"zaxis":{"title":"wt"}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[22.800000000000001,24.399999999999999,22.800000000000001,32.399999999999999,30.399999999999999,33.899999999999999,21.5,27.300000000000001,26,30.399999999999999,21.399999999999999],"y":[93,62,95,66,52,65,97,66,91,113,109],"z":[2.3199999999999998,3.1899999999999999,3.1499999999999999,2.2000000000000002,1.615,1.835,2.4649999999999999,1.9350000000000001,2.1400000000000001,1.5129999999999999,2.7799999999999998],"mode":"markers","type":"scatter3d","name":"4","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"frame":null},{"x":[21,21,21.399999999999999,18.100000000000001,19.199999999999999,17.800000000000001,19.699999999999999],"y":[110,110,110,105,123,123,175],"z":[2.6200000000000001,2.875,3.2149999999999999,3.46,3.4399999999999999,3.4399999999999999,2.77],"mode":"markers","type":"scatter3d","name":"6","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"line":{"color":"rgba(252,141,98,1)"},"frame":null},{"x":[18.699999999999999,14.300000000000001,16.399999999999999,17.300000000000001,15.199999999999999,10.4,10.4,14.699999999999999,15.5,15.199999999999999,13.300000000000001,19.199999999999999,15.800000000000001,15],"y":[175,245,180,180,180,205,215,230,150,150,245,175,264,335],"z":[3.4399999999999999,3.5699999999999998,4.0700000000000003,3.73,3.7799999999999998,5.25,5.4240000000000004,5.3449999999999998,3.52,3.4350000000000001,3.8399999999999999,3.8450000000000002,3.1699999999999999,3.5699999999999998],"mode":"markers","type":"scatter3d","name":"8","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"line":{"color":"rgba(141,160,203,1)"},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
-<section id="bubble-chart" class="level3" data-number="9.2">
-<h3 data-number="9.2" class="anchored" data-anchor-id="bubble-chart"><span class="header-section-number">9.2</span> Bubble Chart</h3>
+<section id="bubble-chart" class="level3" data-number="3.9.2">
+<h3 data-number="3.9.2" class="anchored" data-anchor-id="bubble-chart"><span class="header-section-number">3.9.2</span> Bubble Chart</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -936,8 +938,8 @@ View Solution
 </div>
 </section>
 </section>
-<section id="scatterplot-matrix" class="level2" data-number="10">
-<h2 data-number="10" class="anchored" data-anchor-id="scatterplot-matrix"><span class="header-section-number">10</span> Scatterplot Matrix</h2>
+<section id="scatterplot-matrix" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="scatterplot-matrix"><span class="header-section-number">3.10</span> Scatterplot Matrix</h2>
 <p>A scatterplot matrix (sometimes called a “pairs plot”) is used to visualize the pairwise relationships between several quantitative variables in a dataset, all at once.</p>
 <ul>
 <li>Each row and column represents one variable.</li>
@@ -977,8 +979,8 @@ wt  -0.8676594  0.6587479  1.0000000</code></pre>
 </div>
 </div>
 </section>
-<section id="parallel-coordinates" class="level2" data-number="11">
-<h2 data-number="11" class="anchored" data-anchor-id="parallel-coordinates"><span class="header-section-number">11</span> Parallel Coordinates</h2>
+<section id="parallel-coordinates" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="parallel-coordinates"><span class="header-section-number">3.11</span> Parallel Coordinates</h2>
 <p>A parallel coordinates plot is a powerful visualization tool used for exploring and comparing multivariate data (data with several quantitative variables). It’s especially valuable when you want to see how patterns, clusters, or outliers appear across many variables at once.</p>
 <div class="cell">
 <details class="code-fold">
@@ -1012,10 +1014,10 @@ wt  -0.8676594  0.6587479  1.0000000</code></pre>
 <li>Cars with more cylinders generally have lower mpg and higher hp and weight.</li>
 </ul>
 </section>
-<section id="exercises-1" class="level2" data-number="12">
-<h2 data-number="12" class="anchored" data-anchor-id="exercises-1"><span class="header-section-number">12</span> Exercises</h2>
-<section id="exercise-1-ames-housing-data" class="level3" data-number="12.1">
-<h3 data-number="12.1" class="anchored" data-anchor-id="exercise-1-ames-housing-data"><span class="header-section-number">12.1</span> Exercise 1: Ames Housing Data</h3>
+<section id="exercises-1" class="level2" data-number="3.12">
+<h2 data-number="3.12" class="anchored" data-anchor-id="exercises-1"><span class="header-section-number">3.12</span> Exercises</h2>
+<section id="exercise-1-ames-housing-data" class="level3" data-number="3.12.1">
+<h3 data-number="3.12.1" class="anchored" data-anchor-id="exercise-1-ames-housing-data"><span class="header-section-number">3.12.1</span> Exercise 1: Ames Housing Data</h3>
 <p>Load the Ames Housing data into R and answer the following questions:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>Ames <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"Ameshousing.csv"</span>)</span>
@@ -1337,8 +1339,8 @@ Coefficients:
 </div>
 </div>
 </section>
-<section id="exercise-2-music-clips-data" class="level3" data-number="12.2">
-<h3 data-number="12.2" class="anchored" data-anchor-id="exercise-2-music-clips-data"><span class="header-section-number">12.2</span> Exercise 2: Music Clips Data</h3>
+<section id="exercise-2-music-clips-data" class="level3" data-number="3.12.2">
+<h3 data-number="3.12.2" class="anchored" data-anchor-id="exercise-2-music-clips-data"><span class="header-section-number">3.12.2</span> Exercise 2: Music Clips Data</h3>
 <p>The music clips data is posted in <code>music-plusnew-sub.csv</code>. The data file has five quantitative variables containing audio information from 62 songs. The first two columns (<code>Artist</code>, <code>Type</code>) describe the artist and type of music. The raw data come from a time series for the sound produced by each music clip (track). For each time series the variance of amplitude, average amplitude, maximum amplitude, and two additional variables calculated from the spectral decomposition of the time series are calculated. The <code>Type</code> variable classifies the tracks as either <code>Rock</code>, <code>Classical</code> or <code>New Wave</code>, and there are 5 tracks that are not identified.</p>
 <ul>
 <li>Read the data into a data frame, indicating that the row names are in column 1 of the data file and that column is not a variable.</li>
@@ -1920,6 +1922,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../ch1/01-intro.html" class="pagination-link" aria-label="Introduction to Multivariate Data">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Multivariate Data</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../ch3/03-MVN.html" class="pagination-link" aria-label="Multivariate Normal Distribution">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multivariate Normal Distribution</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 

@@ -8,7 +8,7 @@
 
 <meta name="author" content="Pulong Ma">
 
-<title>Principal Component Analysis – Introduction to Multivariate Statistics</title>
+<title>7&nbsp; Principal Component Analysis – Introduction to Multivariate Data Analysis with R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,6 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../ch5/05-Inference_for_Means_II.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -161,7 +162,7 @@ window.Quarto = {
 <link rel="stylesheet" href="custom.css">
 </head>
 
-<body class="nav-sidebar docked">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -170,7 +171,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ch6/06-PCA.html">Module 6: Principal Component Analysis</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ch6/06-PCA.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -182,10 +183,10 @@ window.Quarto = {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Introduction to Multivariate Statistics</a> 
+      <a href="../">Introduction to Multivariate Data Analysis with R</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -198,43 +199,43 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Preface</span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch1/01-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Module 1: Introduction</span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Multivariate Data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch2/02-graphs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Module 2: Graphs and Data Visualization</span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Graphs and Data Visualization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch3/03-MVN.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Module 3: Multivariate Normal Distribution</span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multivariate Normal Distribution</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch4/04-Inference_for_Means.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Module 4: Inference for Single Mean Vector</span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Inference for Mean Vector</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch5/05-Inference_for_Means_II.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Module 5: Inference for Multiple Mean Vectors</span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Inference for Multiple Mean Vectors</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ch6/06-PCA.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Module 6: Principal Component Analysis</span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></span></a>
   </div>
 </li>
     </ul>
@@ -244,31 +245,31 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="1">
-    <h2 id="toc-title">On this page</h2>
+    <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#why-pca" id="toc-why-pca" class="nav-link active" data-scroll-target="#why-pca"><span class="header-section-number">1</span> Why PCA?</a>
+  <li><a href="#why-pca" id="toc-why-pca" class="nav-link active" data-scroll-target="#why-pca"><span class="header-section-number">7.1</span> Why PCA?</a>
   <ul class="collapse">
-  <li><a href="#motivating-examples" id="toc-motivating-examples" class="nav-link" data-scroll-target="#motivating-examples"><span class="header-section-number">1.1</span> Motivating Examples</a></li>
+  <li><a href="#motivating-examples" id="toc-motivating-examples" class="nav-link" data-scroll-target="#motivating-examples"><span class="header-section-number">7.1.1</span> Motivating Examples</a></li>
   </ul></li>
-  <li><a href="#geometric-interpretation" id="toc-geometric-interpretation" class="nav-link" data-scroll-target="#geometric-interpretation"><span class="header-section-number">2</span> Geometric Interpretation</a>
+  <li><a href="#geometric-interpretation" id="toc-geometric-interpretation" class="nav-link" data-scroll-target="#geometric-interpretation"><span class="header-section-number">7.2</span> Geometric Interpretation</a>
   <ul class="collapse">
-  <li><a href="#basic-idea" id="toc-basic-idea" class="nav-link" data-scroll-target="#basic-idea"><span class="header-section-number">2.1</span> Basic Idea</a></li>
-  <li><a href="#illustrating-example" id="toc-illustrating-example" class="nav-link" data-scroll-target="#illustrating-example"><span class="header-section-number">2.2</span> Illustrating Example</a></li>
-  <li><a href="#the-mathematics-behind-pca" id="toc-the-mathematics-behind-pca" class="nav-link" data-scroll-target="#the-mathematics-behind-pca"><span class="header-section-number">2.3</span> The Mathematics Behind PCA</a></li>
+  <li><a href="#basic-idea" id="toc-basic-idea" class="nav-link" data-scroll-target="#basic-idea"><span class="header-section-number">7.2.1</span> Basic Idea</a></li>
+  <li><a href="#illustrating-example" id="toc-illustrating-example" class="nav-link" data-scroll-target="#illustrating-example"><span class="header-section-number">7.2.2</span> Illustrating Example</a></li>
+  <li><a href="#the-mathematics-behind-pca" id="toc-the-mathematics-behind-pca" class="nav-link" data-scroll-target="#the-mathematics-behind-pca"><span class="header-section-number">7.2.3</span> The Mathematics Behind PCA</a></li>
   </ul></li>
-  <li><a href="#pca-in-practice" id="toc-pca-in-practice" class="nav-link" data-scroll-target="#pca-in-practice"><span class="header-section-number">3</span> PCA in Practice</a>
+  <li><a href="#pca-in-practice" id="toc-pca-in-practice" class="nav-link" data-scroll-target="#pca-in-practice"><span class="header-section-number">7.3</span> PCA in Practice</a>
   <ul class="collapse">
-  <li><a href="#pca-via-prcomp" id="toc-pca-via-prcomp" class="nav-link" data-scroll-target="#pca-via-prcomp"><span class="header-section-number">3.1</span> PCA via <code>prcomp</code></a></li>
-  <li><a href="#pc-scores" id="toc-pc-scores" class="nav-link" data-scroll-target="#pc-scores"><span class="header-section-number">3.2</span> PC Scores</a></li>
-  <li><a href="#biplot" id="toc-biplot" class="nav-link" data-scroll-target="#biplot"><span class="header-section-number">3.3</span> Biplot</a></li>
-  <li><a href="#sec-scree-plot" id="toc-sec-scree-plot" class="nav-link" data-scroll-target="#sec-scree-plot"><span class="header-section-number">3.4</span> Scree Plot</a></li>
-  <li><a href="#when-to-standardize" id="toc-when-to-standardize" class="nav-link" data-scroll-target="#when-to-standardize"><span class="header-section-number">3.5</span> When to Standardize?</a></li>
-  <li><a href="#example-road-race-data" id="toc-example-road-race-data" class="nav-link" data-scroll-target="#example-road-race-data"><span class="header-section-number">3.6</span> Example: Road Race Data</a></li>
+  <li><a href="#pca-via-prcomp" id="toc-pca-via-prcomp" class="nav-link" data-scroll-target="#pca-via-prcomp"><span class="header-section-number">7.3.1</span> PCA via <code>prcomp</code></a></li>
+  <li><a href="#pc-scores" id="toc-pc-scores" class="nav-link" data-scroll-target="#pc-scores"><span class="header-section-number">7.3.2</span> PC Scores</a></li>
+  <li><a href="#biplot" id="toc-biplot" class="nav-link" data-scroll-target="#biplot"><span class="header-section-number">7.3.3</span> Biplot</a></li>
+  <li><a href="#sec-scree-plot" id="toc-sec-scree-plot" class="nav-link" data-scroll-target="#sec-scree-plot"><span class="header-section-number">7.3.4</span> Scree Plot</a></li>
+  <li><a href="#when-to-standardize" id="toc-when-to-standardize" class="nav-link" data-scroll-target="#when-to-standardize"><span class="header-section-number">7.3.5</span> When to Standardize?</a></li>
+  <li><a href="#example-road-race-data" id="toc-example-road-race-data" class="nav-link" data-scroll-target="#example-road-race-data"><span class="header-section-number">7.3.6</span> Example: Road Race Data</a></li>
   </ul></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">4</span> Exercises</a>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">7.4</span> Exercises</a>
   <ul class="collapse">
-  <li><a href="#exercise-1-mtcars-data" id="toc-exercise-1-mtcars-data" class="nav-link" data-scroll-target="#exercise-1-mtcars-data"><span class="header-section-number">4.1</span> Exercise 1: <code>mtcars</code> Data</a></li>
+  <li><a href="#exercise-1-mtcars-data" id="toc-exercise-1-mtcars-data" class="nav-link" data-scroll-target="#exercise-1-mtcars-data"><span class="header-section-number">7.4.1</span> Exercise 1: <code>mtcars</code> Data</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -278,7 +279,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Principal Component Analysis</h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></h1>
 </div>
 
 
@@ -301,16 +302,16 @@ window.Quarto = {
 </header>
 
 
-<section id="why-pca" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="why-pca"><span class="header-section-number">1</span> Why PCA?</h2>
+<section id="why-pca" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="why-pca"><span class="header-section-number">7.1</span> Why PCA?</h2>
 <p>PCA is a powerful exploratory statistical too that can</p>
 <ul>
 <li>reduce many variables (<span class="math inline">p</span>) into a few <strong>linear combinations</strong> (principal components) that preserve most variation,</li>
 <li>build <strong>summary indices</strong> and <strong>visualize structure</strong> (clusters, outliers),</li>
 <li>and serve as a first step before applying other statistical methods (e.g., <strong>regression</strong>, <strong>clustering</strong>, or <strong>classification</strong>).</li>
 </ul>
-<section id="motivating-examples" class="level3" data-number="1.1">
-<h3 data-number="1.1" class="anchored" data-anchor-id="motivating-examples"><span class="header-section-number">1.1</span> Motivating Examples</h3>
+<section id="motivating-examples" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="motivating-examples"><span class="header-section-number">7.1.1</span> Motivating Examples</h3>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -341,10 +342,10 @@ window.Quarto = {
 </div>
 </section>
 </section>
-<section id="geometric-interpretation" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="geometric-interpretation"><span class="header-section-number">2</span> Geometric Interpretation</h2>
-<section id="basic-idea" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="basic-idea"><span class="header-section-number">2.1</span> Basic Idea</h3>
+<section id="geometric-interpretation" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="geometric-interpretation"><span class="header-section-number">7.2</span> Geometric Interpretation</h2>
+<section id="basic-idea" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="basic-idea"><span class="header-section-number">7.2.1</span> Basic Idea</h3>
 <p><img src="figures/PCA_intuition.png" class="preview-image img-fluid"></p>
 <ul>
 <li>PCA searches for a line (e.g., the red dashed line) that minimizes the distances from the data points (circles) to the line.</li>
@@ -355,8 +356,8 @@ window.Quarto = {
 <li><strong>PC scores</strong> are just the <strong>coordinates</strong> of each point in that rotated system.</li>
 </ul>
 </section>
-<section id="illustrating-example" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="illustrating-example"><span class="header-section-number">2.2</span> Illustrating Example</h3>
+<section id="illustrating-example" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="illustrating-example"><span class="header-section-number">7.2.2</span> Illustrating Example</h3>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -379,7 +380,7 @@ Recap: Spectral Decomposition
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Recall from <strong>?@sec-spectral-decomposition</strong> that for any <span class="math inline">p\times p</span> symmetric matrix <span class="math inline">A</span>, its spectral decomposition is <span class="math display"> A = \lambda_1 \mathbf{e}_1 \mathbf{e}_1^{\top} +  \lambda_2 \mathbf{e}_2 \mathbf{e}_2^{\top} +  \cdots +  \lambda_p \mathbf{e}_p \mathbf{e}_p^{\top}
+<p>Recall from <a href="../ch3/03-MVN.html#sec-spectral-decomposition" class="quarto-xref"><span>Section 5.2.2</span></a> that for any <span class="math inline">p\times p</span> symmetric matrix <span class="math inline">A</span>, its spectral decomposition is <span class="math display"> A = \lambda_1 \mathbf{e}_1 \mathbf{e}_1^{\top} +  \lambda_2 \mathbf{e}_2 \mathbf{e}_2^{\top} +  \cdots +  \lambda_p \mathbf{e}_p \mathbf{e}_p^{\top}
 </span></p>
 <ul>
 <li><span class="math inline">\lambda_1\geq \lambda_2\geq \cdots \geq \lambda_p</span> are eigenvalues of <span class="math inline">A</span>.</li>
@@ -389,8 +390,8 @@ Recap: Spectral Decomposition
 </div>
 </div>
 </section>
-<section id="the-mathematics-behind-pca" class="level3" data-number="2.3">
-<h3 data-number="2.3" class="anchored" data-anchor-id="the-mathematics-behind-pca"><span class="header-section-number">2.3</span> The Mathematics Behind PCA</h3>
+<section id="the-mathematics-behind-pca" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="the-mathematics-behind-pca"><span class="header-section-number">7.2.3</span> The Mathematics Behind PCA</h3>
 <ul>
 <li>Let <span class="math inline">X=(X_1, X_2, \ldots, X_p)^\top</span> denote a random vector with covariance matrix <span class="math inline">\Sigma</span>.</li>
 <li>We seek weight vectors <span class="math inline">\mathbf{a}_1,\dots,\mathbf{a}_p</span> and scores <span class="math inline">Y_k = \mathbf{a}_k'X</span> such that:
@@ -414,10 +415,10 @@ Recap: Spectral Decomposition
 </ul>
 </section>
 </section>
-<section id="pca-in-practice" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="pca-in-practice"><span class="header-section-number">3</span> PCA in Practice</h2>
-<section id="pca-via-prcomp" class="level3" data-number="3.1">
-<h3 data-number="3.1" class="anchored" data-anchor-id="pca-via-prcomp"><span class="header-section-number">3.1</span> PCA via <code>prcomp</code></h3>
+<section id="pca-in-practice" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="pca-in-practice"><span class="header-section-number">7.3</span> PCA in Practice</h2>
+<section id="pca-via-prcomp" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="pca-via-prcomp"><span class="header-section-number">7.3.1</span> PCA via <code>prcomp</code></h3>
 <p>Let’s start by creating a simple 2D dataset where the two variables, <code>X1</code> and <code>X2</code>, are clearly correlated.</p>
 <div class="cell">
 <details class="code-fold">
@@ -490,7 +491,7 @@ X2  8.577499 9.737786</code></pre>
 </div>
 <p><strong>Output interpretation:</strong></p>
 <ul>
-<li><code>sdev</code>: standard deviations of the PC scores (or square roots of eigenvalues of the covariance matrix). This variable can be used to produce <code>scree plot</code>, see <a href="#sec-scree-plot" class="quarto-xref">Section&nbsp;3.4</a>.</li>
+<li><code>sdev</code>: standard deviations of the PC scores (or square roots of eigenvalues of the covariance matrix). This variable can be used to produce <code>scree plot</code>, see <a href="#sec-scree-plot" class="quarto-xref"><span>Section 7.3.4</span></a>.</li>
 <li><code>center</code>: The mean of each column of data matrix.</li>
 <li><code>rotation</code>: The rotation matrix that contains the PC directions (or elements of eigenvectors).</li>
 <li><code>x</code>: a <span class="math inline">n\times p</span> matrix of PC scores which is the centered and scaled (if requested) data multiplied by <code>rotation</code> matrix.</li>
@@ -585,8 +586,8 @@ $vectors
 </div>
 <p><strong>Note:</strong> PCA has found two new orthogonal axes. <strong>PC1</strong> points along the direction of maximum variance (the long axis of the data cloud), which is defined by (0.73, 0.68). <strong>PC2</strong> is perpendicular to PC1 and points along the direction of the next largest variance, which is defined by (0.68, -0.73).</p>
 </section>
-<section id="pc-scores" class="level3" data-number="3.2">
-<h3 data-number="3.2" class="anchored" data-anchor-id="pc-scores"><span class="header-section-number">3.2</span> PC Scores</h3>
+<section id="pc-scores" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="pc-scores"><span class="header-section-number">7.3.2</span> PC Scores</h3>
 <p>The final step is to project our original data points onto these new axes. This is equivalent to rotating the entire dataset so that the principal component axes become our new <code>x</code> and <code>y</code> axes. The resulting coordinates are the <strong>principal component scores</strong>.</p>
 <p>For <span class="math inline">i</span>-th observation <span class="math inline">\mathbf{x}_i</span>, the <strong><em>PC score</em></strong> <span class="math inline">y_{ik}</span> corresponding to the <span class="math inline">k</span>-th PC is given by <span class="math display">
 \begin{aligned}
@@ -668,8 +669,8 @@ PC2 -9.466464e-15  1.751635e+00</code></pre>
 </div>
 </div>
 </section>
-<section id="biplot" class="level3" data-number="3.3">
-<h3 data-number="3.3" class="anchored" data-anchor-id="biplot"><span class="header-section-number">3.3</span> Biplot</h3>
+<section id="biplot" class="level3" data-number="7.3.3">
+<h3 data-number="7.3.3" class="anchored" data-anchor-id="biplot"><span class="header-section-number">7.3.3</span> Biplot</h3>
 <p>A biplot is a 2-D plot that shows both observations and variables from a multivariate dataset on the same axes—most commonly the first two principal components (PC1 &amp; PC2). It is a compact way to read:</p>
 <ul>
 <li>where samples sit relative to each other (scores), and</li>
@@ -694,8 +695,8 @@ PC2 -9.466464e-15  1.751635e+00</code></pre>
 <li><code>Dim1</code> and <code>Dim2</code> are the first two principal component axes.</li>
 </ul>
 </section>
-<section id="sec-scree-plot" class="level3" data-number="3.4">
-<h3 data-number="3.4" class="anchored" data-anchor-id="sec-scree-plot"><span class="header-section-number">3.4</span> Scree Plot</h3>
+<section id="sec-scree-plot" class="level3" data-number="7.3.4">
+<h3 data-number="7.3.4" class="anchored" data-anchor-id="sec-scree-plot"><span class="header-section-number">7.3.4</span> Scree Plot</h3>
 <p>A <code>scree plot</code> shows the component variations against each component number so that it indicates how much the variations vary across different PCs. The component variations can be obtained via two ways:</p>
 <ul>
 <li>If the function <code>prcomp</code> is used for PCA, the component variation can be obtained via <code>prcomp</code>’s output <code>sdev</code>.</li>
@@ -753,15 +754,15 @@ How Many PCs Do We Need?
 </div>
 </div>
 </section>
-<section id="when-to-standardize" class="level3" data-number="3.5">
-<h3 data-number="3.5" class="anchored" data-anchor-id="when-to-standardize"><span class="header-section-number">3.5</span> When to Standardize?</h3>
+<section id="when-to-standardize" class="level3" data-number="7.3.5">
+<h3 data-number="7.3.5" class="anchored" data-anchor-id="when-to-standardize"><span class="header-section-number">7.3.5</span> When to Standardize?</h3>
 <ul>
 <li>Standardize (work with the <strong>correlation</strong> matrix) when variables are on very different scales,</li>
 <li>or you want to emphasize <strong>correlations</strong> over raw variances. Otherwise, use the <strong>covariance</strong> matrix.</li>
 </ul>
 </section>
-<section id="example-road-race-data" class="level3" data-number="3.6">
-<h3 data-number="3.6" class="anchored" data-anchor-id="example-road-race-data"><span class="header-section-number">3.6</span> Example: Road Race Data</h3>
+<section id="example-road-race-data" class="level3" data-number="7.3.6">
+<h3 data-number="7.3.6" class="anchored" data-anchor-id="example-road-race-data"><span class="header-section-number">7.3.6</span> Example: Road Race Data</h3>
 <div class="callout callout-style-default callout-note callout-titled" title="Road Race Data">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1302,10 +1303,10 @@ Further Note
 </div>
 </section>
 </section>
-<section id="exercises" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="exercises"><span class="header-section-number">4</span> Exercises</h2>
-<section id="exercise-1-mtcars-data" class="level3" data-number="4.1">
-<h3 data-number="4.1" class="anchored" data-anchor-id="exercise-1-mtcars-data"><span class="header-section-number">4.1</span> Exercise 1: <code>mtcars</code> Data</h3>
+<section id="exercises" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="exercises"><span class="header-section-number">7.4</span> Exercises</h2>
+<section id="exercise-1-mtcars-data" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="exercise-1-mtcars-data"><span class="header-section-number">7.4.1</span> Exercise 1: <code>mtcars</code> Data</h3>
 <p>Let us use the <code>mtcars</code> dataset to illustrate PCA.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">=</span> mtcars[, <span class="fu">c</span>(<span class="st">"mpg"</span>,<span class="st">"disp"</span>,<span class="st">"hp"</span>,<span class="st">"wt"</span>,<span class="st">"qsec"</span>)]</span>
@@ -1817,6 +1818,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../ch5/05-Inference_for_Means_II.html" class="pagination-link" aria-label="Inference for Multiple Mean Vectors">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Inference for Multiple Mean Vectors</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
 </div> <!-- /content -->
 
 
