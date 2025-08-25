@@ -1,7 +1,3 @@
----
-title: "Preface"
----
-
-#  {.unnumbered}
+# Preface {.unnumbered}
 
 This website contains the lecture notes on STAT 4750 and 5750 at Iowa State University.
