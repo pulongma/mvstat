@@ -932,7 +932,7 @@ c. Get summary statistics of a data frame.
 #| code-summary: "View Solution"
 summary(df)
 ```
-::: {.content-hidden when-format="pdf"}
+:::
 
 3. Operations with Matrix and Data Frame 
 
@@ -1004,7 +1004,7 @@ solve(A)
 ::: 
 
 ### Exercise 3: Linear Algebra 
-1. Consider the linear system $A X = b$, where $A$ is an $n\times n$ positive definite matrix and $b$ is a $n$-dimensional vector, the unique solution is $X = A^{-1}b$. Please answer the following questions:
+Consider the linear system $A X = b$, where $A$ is an $n\times n$ positive definite matrix and $b$ is a $n$-dimensional vector, the unique solution is $X = A^{-1}b$. Please answer the following questions:
 
 a. Write an R function called `my_solver()` such that given inputs $A$ and $b$, the function `my_solver()` returns the solution of the linear system, i.e., `X <- my_solver(A, b)`. 
 b. Run the following code to get $A$ and $b$. 
