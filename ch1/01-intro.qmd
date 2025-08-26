@@ -54,7 +54,7 @@ library(dplyr)
 ### Getting Started
 To download <font style="font-family: serif">R</font>, please choose your preferred [CRAN mirror](https://cran.r-project.org/mirrors.html). Here I recommend the mirror [0-Cloud](https://cloud.r-project.org/) available at [https://cloud.r-project.org/](https://cloud.r-project.org/).
 
-**Installing R on macOS**
+**Install R on macOS**
 
 For **macOS** users, below are the steps you need to install <font style="font-family: serif">R</font>.
 
@@ -361,7 +361,7 @@ $$
 $$
 s^2_k = \frac{1}{n-1} \sum_{i=1}^n (x_{ik} - \bar{x}_k)^2  
 $$
-- the sample standard deviation is given by
+- The sample standard deviation is given by
 $$
 s_k = \sqrt{s^2_k}
 $$
