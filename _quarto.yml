@@ -11,12 +11,12 @@ book:
   chapters:
     - index.qmd
     - ch1/01-intro.qmd
-    #- ch2/02-graphs.qmd
-    #- ch3/03-MVN.qmd
-    #- ch4/04-Inference_for_Means.qmd
-    #- ch5/05-Inference_for_Means_II.qmd 
-    #- ch6/06-PCA.qmd
-    #- ch7/07-FactorAnalysis.qmd
+    # - ch2/02-graphs.qmd
+    # - ch3/03-MVN.qmd
+    # - ch4/04-Inference_for_Means.qmd
+    # - ch5/05-Inference_for_Means_II.qmd 
+    # - ch6/06-PCA.qmd
+    # - ch7/07-FactorAnalysis.qmd
     # - summary.qmd
     # - references.qmd
     

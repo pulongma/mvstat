@@ -106,10 +106,10 @@ The "naive" approach is to test each variable separately.
 1.  Test $H_0: \mu_{\text{Length}} = 5.1 \quad \text{v.s.} \quad H_1: \mu_{\text{Length}} \neq 5.1$
 2.  Test $H_0: \mu_{\text{Width}} = 3.6 \quad \text{v.s.} \quad H_1: \mu_{\text{Width}} \neq 3.6$
 
-::: {.callout-tip title="R Code: One-Sample $t$ Test" collapse="true"}
+::: {.callout-tip title="R Code: One-Sample $t$-Test" collapse="true"}
 
 ```{r}
-#| code-summary: "R Code: One-Sample `t` Test"
+#| code-summary: "R Code: One-Sample `t`-Test"
 #| label: naive-ttests
 
 # Test 1: Sepal Length
@@ -272,14 +272,14 @@ A study measured sweat rate, sodium content, and potassium content for 20 health
 
 # sweat data
 sweat = data.frame(
-    Rate = c(3.7, 5.7, 3.8, 3.2, 3.1, 4.6, 6.2, 3.4, 4.1, 5.5, 6.5, 4.5, 
-             3.9, 4.5, 6.2, 4.1, 5.5, 6.0, 5.2, 4.8),
+    Rate = c(3.7, 5.7, 3.8, 3.2, 3.1, 4.6, 6.2, 3.4, 4.1, 5.5, 6.5,  
+             4.5, 3.9, 4.5, 6.2, 4.1, 5.5, 6.0, 5.2, 4.8),
     Sodium = c(48.5, 65.1, 47.2, 31.1, 59.8, 37.8, 52.8, 43.2, 45.1,
                50.3, 58.3, 40.2, 38.9, 48.8, 60.1, 44.5, 55.5, 59.9, 
                57.7, 51.0),
     Potassium = c(9.3, 11.1, 9.6, 9.8, 8.0, 10.9, 12.2, 8.5, 9.2, 
-                  10.4, 11.2, 9.7, 8.8, 10.1, 12.3, 9.5, 11.3, 12.0,
-                  10.8, 10.5)
+                  10.4, 11.2, 9.7, 8.8, 10.1, 12.3, 9.5, 11.3, 
+                  12.0, 10.8, 10.5)
 )
 mu0_sweat = c(4, 50, 10)
 names(sweat) = c("x1", "x2", "x3")
@@ -291,13 +291,13 @@ names(sweat) = c("x1", "x2", "x3")
 ## Q-Q plot
 par(mfrow = c(1, 3))
 
-# Loop through the first 3 column names and create a plot for each
+# Loop through the first 3 column names 
 for (col_name in colnames(sweat)[1:3]) {
   qqnorm(sweat[[col_name]], main = col_name)
   qqline(sweat[[col_name]], col = "red", lwd = 2)
 }
 
-## Compute Shapiro-Wilk statistic to test normality for each variable
+## Test normality for each variable
 sapply(colnames(sweat[ ,1:3]), function(x) {
                shapiro.test(sweat[[x]]) } )
 
@@ -312,12 +312,11 @@ mvShapiro.Test(as.matrix(sweat[ , 1:3]))
 ::: {.callout-tip title="Step 2: Calculate Sample Statistics" collapse="true"}
 
 ```{r}
-# Manual Calculation
-n_sweat <- nrow(sweat)
-p_sweat <- ncol(sweat)
-x_bar_sweat <- colMeans(sweat)
-S_sweat <- cov(sweat)
-S_inv_sweat <- solve(S_sweat)
+n = nrow(sweat)
+p = ncol(sweat)
+xbar = colMeans(sweat)
+S = cov(sweat)
+S_inv = solve(S)
 ```
 
 :::
@@ -326,19 +325,19 @@ S_inv_sweat <- solve(S_sweat)
 ::: {.callout-tip title="Step 3: Compute Hotelling's $T^2$ Statistic" collapse="true"}
 
 ```{r}
-# manual calculation 
-diff_vec <- x_bar_sweat - mu0_sweat
-T2_manual <- n_sweat * t(diff_vec) %*% S_inv_sweat %*% diff_vec
-cat("Manually calculated T-squared:", as.numeric(T2_manual), "\n")
+# Explicit calculation 
+diff_vec <- xbar - mu0_sweat
+T2_manual <- n * t(diff_vec) %*% S_inv %*% diff_vec
+cat("Explicitly calculated T-squared:", as.numeric(T2_manual), "\n")
 
-# 2. Convert to F-statistic or scaled T-square statistic 
-F_stat <- as.numeric(T2_manual) * (n_sweat - p_sweat) / 
-  (p_sweat * (n_sweat - 1))
+# Convert to F-statistic or scaled T-square statistic 
+F_stat <- as.numeric(T2_manual) * (n - p) / 
+  (p * (n - 1))
 cat("Calculated F-statistic:", F_stat, "\n")
 
-# 3. Find critical value
+# Find critical value
 alpha <- 0.05
-F_crit <- qf(1 - alpha, p_sweat, n_sweat - p_sweat)
+F_crit <- qf(1 - alpha, p, n - p)
 cat("Critical F-value:", F_crit, "\n")
 cat("Decision:", 
     ifelse(F_stat > F_crit, "Reject H0", "Do not reject H0"), "\n")
@@ -350,9 +349,9 @@ cat("Decision:",
 :::
 
 ::: {.callout-note title="Hotelling's $T^2$ Test"}
-The manual calculations in **Step 2-3** above can be completed using R package `DescTools` after normality check. If the data follows a multivariate normal distribution, then we can perform the Hotelling's $T^2$ test; if the normality assumption is violated, the conclusion is misleading and this limitation should be acknowledged. 
+The explicit calculations in **Steps 2-3** above can be completed using R package `DescTools` after normality check. If the data follows a multivariate normal distribution, then we can perform the Hotelling's $T^2$ test; if the normality assumption is violated, the conclusion is misleading and this limitation should be acknowledged. 
 ```{r}
-#| code-summary: "R code for Hotelling's T2 test"
+#| code-summary: "R Code: Hotelling's T2 test"
 # install.packages("DescTools")
 library(DescTools)
 ht_sweat <- HotellingsT2Test(x=sweat, mu = mu0_sweat)
@@ -364,7 +363,7 @@ print(ht_sweat)
 :::
 
 :::{.callout-warning title="R Function `HotellingsT2Test`"}
-When the function `HotellingsT2Test` in the  R package `DescTools` is used to perform the test, its output reports the **scaled** $T^2$ statistic (or $F$ statistic) named *T.2* (which is 12.975 in this example). This scaled $T^2$ statistic should not be confused with the $T^2$ statistic as the scaled $T^2$ statistic is $\frac{n-p}{p(n-1)}T^2$. 
+When the function `HotellingsT2Test` in the  R package `DescTools` is used to perform the test, its output reports the **scaled** $T^2$ statistic (or $F$ statistic) named **T.2** (which is `r signif(ht_sweat$statistic,5)` in this example). This scaled $T^2$ statistic should not be confused with the $T^2$ statistic as the scaled $T^2$ statistic is $\frac{n-p}{p(n-1)}T^2$. 
 ::: 
 
 
@@ -416,6 +415,8 @@ setosa_data <- iris %>%
   dplyr::select(Sepal.Length, Sepal.Width)
 
 df = setosa_data
+n = nrow(df)
+p = ncol(df)
 # Display the first few rows of the prepared data
 head(df)
 
@@ -434,13 +435,13 @@ Run a one-sample Hotelling's T$^2$ test on your prepared data using the historic
 #| label: run-test-iris-final
 #| code-summary: "R Code: Hotelling's T-squared Test"
 
-# Define the hypothesized mean vector from the historical guide
-hypothesized_mean = c(5.1, 3.6)
+# Define the hypothesized mean vector
+mu0 = c(5.1, 3.6)
 
 # Perform the test
 test_result = DescTools::HotellingsT2Test(
-  x = setosa_data, 
-  mu = hypothesized_mean)
+  x = df, 
+  mu = mu0)
 
 # Print the results
 print(test_result)
@@ -456,7 +457,7 @@ What is the p-value from your test? Based on this and $\alpha = 0.05$, do you re
 ::: {.callout-tip title="View Solution" collapse="true"}
 The p-value is `r signif(test_result$p.value, 4)`. Since this p-value is less than our significance level of $\alpha = 0.05$, we **should reject the null hypothesis at level 0.05**.
 
-**Conclusion:** There is enough statistical evidence to conclude that the mean sepal measurements of the `setosa` flowers in Fisher's dataset are different from the historical description. The benchmark of 5.1 cm length and 4.2 cm width is not a plausible value for the true mean of this sample.
+**Conclusion:** There is enough statistical evidence to conclude that the mean sepal measurements of the `setosa` flowers in Fisher's dataset are different from the historical description. The benchmark of `r mu0[1]` cm length and `r mu0[2]` cm width is not a plausible value for the true mean of this sample.
 :::
 
 
@@ -476,13 +477,13 @@ x_bar = colMeans(df)
 S = cov(df)
 
 # Calculate points for the 95% confidence ellipse
-alpha=0.05
-Fvalue <- sqrt(p * (n - 1) / (n - p) * qf(1 - alpha, p, n - p))
+alpha = 0.05
+Fvalue = sqrt(p * (n - 1) / (n - p) * qf(1 - alpha, p, n - p))
 
 confidence_ellipse <- as.data.frame(ellipse::ellipse(
   S,
   centre = x_bar,
-  level = 0.95,
+  level = 1-alpha,
   t = Fvalue / sqrt(n)
 ))
 
@@ -498,39 +499,27 @@ ggplot(df, aes(x = Sepal.Length, y = Sepal.Width)) +
     linewidth = 1,
     inherit.aes = FALSE
   ) +
-  annotate(
-    "point",
-    x = x_bar[1],
-    y = x_bar[2],
-    color = "blue",
-    size = 5
+  annotate("point", 
+    x = x_bar[1], y = x_bar[2],
+    color = "blue", size = 5
   ) +
-  annotate(
-    "text",
-    x = x_bar[1],
-    y = x_bar[2] + 0.03,
-    label = "Sample Mean",
-    color = "blue"
+  annotate("text",
+    x = x_bar[1], y = x_bar[2] + 0.03,
+    label = "Sample Mean", color = "blue"
   ) +
-  annotate(
-    "point",
-    x = hypothesized_mean[1],
-    y = hypothesized_mean[2],
-    color = "red",
-    size = 5,
-    shape = 4,
-    stroke = 1.5
+  annotate("point",
+    x = mu0[1], y = mu0[2],
+    color = "red", size = 5,
+    shape = 4, stroke = 1.5
   ) +
-  annotate(
-    "text",
-    x = hypothesized_mean[1],
-    y = hypothesized_mean[2] - 0.03,
+  annotate("text",
+    x = mu0[1], y = mu0[2] - 0.03,
     label = "Historical Description",
     color = "red"
   ) +
   labs(
     title = "Iris Setosa Sepal Measurements",
-    subtitle = "Hotelling's T² test vs. Historical Description",
+    subtitle = "Hotelling's T² Test vs. Historical Description",
     x = "Sepal Length (cm)",
     y = "Sepal Width (cm)"
   ) +
@@ -566,12 +555,12 @@ $$
   
 :::
 
-### Plot Confidence Ellipse ($p=2$)
+### Plot Confidence Ellipse ($p=2$) via the `ellipse` Package
 Let's plot the 95% confidence ellipse for our `setosa` variable
 
 ```{r}
 #| label: plot-ellipse
-#| echo: false
+#| code-summary: "R Code: Plot an Ellipse"
 #| fig-cap: "95% confidence ellipse for the true mean vector of Setosa sepal measurements. The sample mean is the blue dot, and the hypothesized mean is the red cross."
 
 # Plot the points
@@ -588,15 +577,28 @@ plot(df,
 points(x_bar[1], x_bar[2], pch = 19, col = "blue", cex = 1.5)
 
 # Add the hypothesized mean
-points(hypothesized_mean[1], hypothesized_mean[2], pch = 4, col = "red", cex = 1.5, lwd=2)
+points(mu0[1], mu0[2], pch = 4, col = "red", cex = 1.5, lwd=2)
 
 # Add the ellipse
-alpha=0.05
-Fvalue <- sqrt(p * (n - 1) / (n - p) * qf(1 - alpha, p, n - p))
-lines(ellipse(S, centre = x_bar, level = 1-alpha, t=Fvalue/sqrt(n)), col = "blue", lwd = 2)
+alpha = 0.05
+Fvalue = sqrt(p * (n - 1) / (n - p) * 
+                qf(1 - alpha, p, n - p) 
+              )
+
+
+lines(ellipse::ellipse(S, 
+              centre = x_bar, 
+              level = 1-alpha, 
+              t=Fvalue/sqrt(n)
+              ), 
+      col = "blue", lwd = 2)
+
 
 legend("topleft",
-       legend = c("Data", "Sample Mean", "Hypothesized Mean", "95% Confidence Ellipse"), cex=0.8,
+       legend = c("Data", "Sample Mean", 
+                  "Hypothesized Mean", 
+                  "95% Confidence Ellipse"), 
+       cex=0.8,
        col = c("purple", "blue", "red", "blue"),
        pch = c(19, 19, 4, NA),
        lty = c(NA, NA, NA, 1),
@@ -647,25 +649,33 @@ data <- iris[iris$Species == "setosa", c("Sepal.Length", "Sepal.Width")]
 n <- nrow(data)
 p <- ncol(data)
 alpha <- 0.05
-sample_mean <- colMeans(data)
+x_bar <- colMeans(data)
 S <- var(data)
-hypothesized_mean <- c(5.1, 3.6)
+mu0 <- c(5.1, 3.6)
 
 # Calculate T-squared interval limits
-Fvalue <- sqrt(p * (n - 1) / (n - p) * qf(1 - alpha, p, n - p))
+Fvalue <- sqrt(p * (n - 1) / (n - p) * 
+                 qf(1 - alpha, p, n - p)
+               )
 T2_widths <- Fvalue * sqrt(diag(S) / n)
-T2_limits <- data.frame(lower = sample_mean - T2_widths, upper = sample_mean + T2_widths)
+T2_limits <- data.frame(lower = x_bar - T2_widths, 
+                        upper = x_bar + T2_widths)
 
 # Calculate Bonferroni interval limits
 Bonf_crit <- qt(1 - alpha / (2 * p), df = n - 1)
 Bonf_widths <- Bonf_crit * sqrt(diag(S) / n)
-Bonf_limits <- data.frame(lower = sample_mean - Bonf_widths, upper = sample_mean + Bonf_widths)
+Bonf_limits <- data.frame(lower = x_bar - Bonf_widths, 
+                          upper = x_bar + Bonf_widths)
 
 # Calculate points for the confidence ellipse
-confidence_ellipse <- as.data.frame(ellipse::ellipse(S, centre = sample_mean, t = Fvalue /
-                                                       sqrt(n)))
+confidence_ellipse <- as.data.frame(
+  ellipse::ellipse(S, 
+                   centre = x_bar, 
+                   t = Fvalue /sqrt(n)
+                   )
+  )
 
-# --- Create the Combined Plot ---
+# Create the Combined Plot 
 ggplot() +
   # Add the rectangle for the T-squared intervals
   annotate(
@@ -699,8 +709,8 @@ ggplot() +
   # Add points for the means
   annotate(
     "point",
-    x = sample_mean[1],
-    y = sample_mean[2],
+    x = x_bar[1],
+    y = x_bar[2],
     color = "black",
     size = 4,
     shape = 3,
@@ -708,8 +718,8 @@ ggplot() +
   ) +
   annotate(
     "point",
-    x = hypothesized_mean[1],
-    y = hypothesized_mean[2],
+    x = mu0[1],
+    y = mu0[2],
     color = "purple",
     size = 4,
     shape = 4,
@@ -744,7 +754,8 @@ ggplot() +
     y = "Sepal Width (cm)"
   ) +
   theme_bw() +
-  coord_cartesian(xlim = c(4.85, 5.2), ylim = c(3.2, 3.7))
+  coord_cartesian(xlim = c(4.85, 5.2), 
+                  ylim = c(3.2, 3.7))
 ```
 
 ### Example: Microwave Oven Data
@@ -875,7 +886,6 @@ A study was conducted on a sample of 19 dogs to evaluate the effect of CO2 press
 
 ```{r}
 #| code-fold: false
-
 # load data
 dogdat <- read.table("dogs.dat",
             col.names=c("dog", "HighCO2", "LowCO2", 
@@ -911,13 +921,14 @@ As we want to assess whether there is significant difference between the two cor
 
 ```{r}
 #| message: false
+#| code-summary: "R Code: Scatterplot Matrix"
 X = as.matrix(dogdat[ ,2:5])
-#  Display a scatterplot matrix
 GGally::ggpairs(X)
 ```
 **Interpretation**: The smoothed histograms on the diagonal of the scatterplot matrix show unimodal distributions, but the responses to the high CO2 anesthetic appear to be skewed left and tails of the distributions appear to be truncated relative to normal distributions.  The scatter plots show nearly elliptically shaped data clouds, however, with approximately straight line trends.  Consequently, the pairwise correlations appear to provide a good description of the associations between the responses to the four anesthetics.
 
 ```{r}
+#| code-summary: "R Code: Boxplot"
 boxplot(X)
 ```
 
@@ -1185,8 +1196,9 @@ print(ci_T2)
 The $100(1-\alpha)\%$ simultaneous Bonferroni confidence intervals are given by:
 
 $$ \mathbf{c}_k'\bar{\mathbf{x}} \pm t_{n-1, 1-\alpha/(2m)} \sqrt{\frac{\mathbf{c}_k'{S}\mathbf{c}_k}{n}} \quad \text{for } k=1, 2, \dots, m $$
+
 * Note the critical value is a t-statistic adjusted by `m`, the number of intervals being constructed.
-* It also controls the familywise error rate at $\alpha$. 
+* It also controls the family-wise error rate at $\alpha$. 
 
 In the dog anesthetics study, the Bonferroni CIs can be computed as follows. 
 ```{r}
@@ -1335,7 +1347,7 @@ print(final_table)
 
 ### Exercise 2: Dogs Anesthetics Study, Cont'd
 
-In the Dogs Anesthetics study, we have tested the main effects and the interaction effect with the contrast matrix to test that all the three differences (the Halothane effect, the CO2 effect, and the interaction effect) in the mean responses have mean zero. This is equivalent to testing the null hypothesis that all four anesthetics induce the same mean times between heartbeats. In fact, this problem can be formulated by comparing any possible pair of mean difference with zero.   
+In the Dogs Anesthetics study, we have tested the main effects and the interaction effect with the contrast matrix to test that all the three differences (the Halothane effect, the CO2 effect, and the interaction effect) in the mean responses have mean zero. This is equivalent to testing the null hypothesis that all four anesthetics induce the same mean times between heartbeats. In fact, this problem can be formulated by comparing any possible pairs of mean differences with zero.   
 
 ```{r}
 #| code-fold: false
