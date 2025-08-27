@@ -22,7 +22,7 @@ library(dplyr)
 ## Course Outline
 
 - Introduction to Multivariate Data 
-- Numerical Summaries and of Multivariate Data 
+- Numerical Summaries and Visualization of Multivariate Data 
 - Multivariate Normal Distribution 
 - Comparing Centers of Distributions   
   (Hotelling $T^2$, MANOVA, Repeated Measures)

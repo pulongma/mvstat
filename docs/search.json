@@ -24,7 +24,7 @@
     "href": "ch1/01-intro.html#course-outline",
     "title": "1  Introduction to Multivariate Data",
     "section": "",
-    "text": "Introduction to Multivariate Data\nNumerical Summaries and of Multivariate Data\nMultivariate Normal Distribution\nComparing Centers of Distributions\n(Hotelling T^2, MANOVA, Repeated Measures)\nPrincipal Component Analysis\n(Summarizing data in lower dimensions)\nExploratory Factor Analysis\n(What to do when the variables of interest cannot be directly observed.)\nMulti-Dimensional Scaling\nCluster Analysis\nDiscriminant Analysis and Classification\n(Including linear discriminants, logistic regression, classification trees, and random forests)",
+    "text": "Introduction to Multivariate Data\nNumerical Summaries and Visualization of Multivariate Data\nMultivariate Normal Distribution\nComparing Centers of Distributions\n(Hotelling T^2, MANOVA, Repeated Measures)\nPrincipal Component Analysis\n(Summarizing data in lower dimensions)\nExploratory Factor Analysis\n(What to do when the variables of interest cannot be directly observed.)\nMulti-Dimensional Scaling\nCluster Analysis\nDiscriminant Analysis and Classification\n(Including linear discriminants, logistic regression, classification trees, and random forests)",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction to Multivariate Data</span>"
     ]
