@@ -1,6 +1,6 @@
 # Preface {.unnumbered}
 
-This book contains the course notes for STAT 4750/5750 (Introduction to Multivariate Data Analysis) at Iowa State University. This course is designed for undergraduate students in statistics and data science and graduate students from the applied sciences with majors outside statistics. The rerequisite for this course includes STAT 3010 or STAT 3260 (for undergraduates) or STAT 5101 for graduate students. Knowledge of matrix algebra is recommended but not required to understand the topics covered in this book. 
+This book contains the course notes for STAT 4750/5750 (Introduction to Multivariate Data Analysis) at Iowa State University. This course is designed for undergraduate students in statistics and data science and graduate students from the applied sciences with majors outside statistics. The prerequisite for this course includes STAT 3010 or STAT 3260 (for undergraduates) or STAT 5101 for graduate students. Knowledge of matrix algebra is recommended but not required to understand the topics covered in this book. 
 
 The course STAT 3010 (Intermediate Statistical Concepts and Methods) covers statistical concepts and methods used in the analysis of observational data. Topics include analysis of single sample, two sample and paired sample data; simple and multiple linear regression; model building and analysis of residuals; one-way ANOVA, tests of independence for contingency tables, and logistic regression.
 
