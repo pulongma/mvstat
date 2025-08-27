@@ -21,19 +21,18 @@ library(dplyr)
 
 ## Course Outline
 
-- Introduction to Multivariate Data — *Chapter 1*
-- Numerical Summaries of Multivariate Data — *Chapter 1*
-- Plotting Multivariate Data — *Chapter 2*
-- Multivariate Normal Distribution — *Lecture Notes*
-- Comparing Centers of Distributions — *Lecture Notes*  
+- Introduction to Multivariate Data 
+- Numerical Summaries and Visualization of Multivariate Data 
+- Multivariate Normal Distribution 
+- Comparing Centers of Distributions   
   (Hotelling $T^2$, MANOVA, Repeated Measures)
-- Principal Component Analysis — *Chapter 3*  
+- Principal Component Analysis  
   (Summarizing data in lower dimensions)
-- Exploratory Factor Analysis — *Chapter 5*  
+- Exploratory Factor Analysis  
   (What to do when the variables of interest cannot be directly observed.)
-- Multi-Dimensional Scaling — *Chapter 4*
-- Cluster Analysis — *Chapter 6*
-- Discriminant Analysis and Classification — *Lecture Notes*  
+- Multi-Dimensional Scaling
+- Cluster Analysis 
+- Discriminant Analysis and Classification   
   (Including linear discriminants, logistic regression, classification trees, and random forests)
 
 ## Objectives of Multivariate Analysis
@@ -45,7 +44,7 @@ library(dplyr)
   * Principal Components
   * Factor Analysis
   * Multidimensional Scaling
-- **Grouping (Cluster Analysis)**: Identify groups of “similar” units using a common set of measured traits.
+- **Grouping (Cluster Analysis)**: Identify groups of "similar" units using a common set of measured traits.
 - **Classification**: Classify units into previously defined groups using a common set of measured traits.
 
 
