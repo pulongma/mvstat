@@ -476,6 +476,42 @@ In practice, one can choose the number of PCs based on scree plot, since one can
 - Standardize (work with the **correlation** matrix) when variables are on very different scales, 
 - or you want to emphasize **correlations** over raw variances. Otherwise, use the **covariance** matrix.
 
+## PCA with Covariance/Correlation Matrix 
+In many real-world applications, the data might not be directly available to users due to various reasons (e.g., privacy issues, regulatory policy); however, a covariance matrix or correlation matrix might be available. In this case, PCA can still be performed via the R function `princomp()`. 
+
+Let us illustrate `princomp()` with the `iris` dataset. 
+```{r}
+#| code-fold: true
+#| code-summary: "R Code: `Iris` data"
+# Let's pretend we only have the covariance matrix 
+data("iris")
+S = cov(iris[,1:4])
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "R Code: PCA via `princomp()`"
+fit = princomp(covmat=S, cor=FALSE, scores=TRUE)
+summary(fit)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "R Code: PCA loadings"
+print(fit$loadings)
+
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "R Code: Scree diagram"
+
+plot(fit, 
+     main="Scree diagram")
+```
+:::{.callout-note title="PC scores are not available"}
+Since we only pass the covariance/correlation to the R function `princomp()`, PC scores could not be obtained. 
+:::
 
 ## Example: Road Race Data
 

@@ -122,7 +122,8 @@ t.test(setosa_data$Sepal.Width, mu = mu_0[2])
 
 :::
 
-**Individually, we would reject both null hypotheses at $\alpha = 0.05$. But this is misleading!**
+**Individually, we failed to reject the first null hypothesis and would reject the second null hypothes at $\alpha = 0.05$. But this is misleading!**
+
 
 
 ::: {.callout-important title="Why do we need a multivariate test?" collapse="true"}

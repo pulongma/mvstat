@@ -331,7 +331,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <section id="why-not-just-run-two-t-tests" class="level3" data-number="4.1.1">
@@ -394,7 +394,7 @@ mean of x
 </div>
 </div>
 </div>
-<p><strong>Individually, we would reject both null hypotheses at <span class="math inline">\alpha = 0.05</span>. But this is misleading!</strong></p>
+<p><strong>Individually, we failed to reject the first null hypothesis and would reject the second null hypothes at <span class="math inline">\alpha = 0.05</span>. But this is misleading!</strong></p>
 <div class="callout callout-style-default callout-important callout-titled" title="Why do we need a multivariate test?">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -639,7 +639,7 @@ Step 1: Normality Check
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 <details>
 <summary>Code</summary>
@@ -1146,7 +1146,7 @@ One-At-a-Time <span class="math inline">t</span> CI
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption class="figure-caption">95% joint confidence region (ellipse) with rectangles for T-squared intervals (red shaped area) and Bonferroni simultaneous intervals (purple shaped area).</figcaption>
 </figure>
 </div>
@@ -1417,7 +1417,7 @@ Step 1: Prepare and Visualize the Data
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>GGally<span class="sc">::</span><span class="fu">ggpairs</span>(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><strong>Interpretation</strong>: The smoothed histograms on the diagonal of the scatterplot matrix show unimodal distributions, but the responses to the high CO2 anesthetic appear to be skewed left and tails of the distributions appear to be truncated relative to normal distributions. The scatter plots show nearly elliptically shaped data clouds, however, with approximately straight line trends. Consequently, the pairwise correlations appear to provide a good description of the associations between the responses to the four anesthetics.</p>
@@ -1427,7 +1427,7 @@ Step 1: Prepare and Visualize the Data
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><strong>Interpretation</strong>: The boxplots indicate that variation in times between heartbeats across the 19 dogs appear to be about the same for all for anesthetics. The distributions are roughly symmetric for all four anesthetics, but the distribution of times between heartbeats may be skewed left when the high level of CO2 is used without halothane. The boxplots also indicate the mean times between heartbeats tend to be higher when halothane is used, regardless of the level of CO2, so halothane may slow heart rates in dogs. There does not appear to be much difference in the distributions of times between heartbeats for low and high levels of CO2 when halothane is used. There is also not much difference between the distributions of times between heartbeats for the high and low levels of CO2 when halothane is not used, although times between heartbeats tend to be lower when the high level of CO2 is used. The higher level of CO2 may speed up heart rates in dogs, but the Halothane effect appears to have a much larger than the CO2 effect.</p>
@@ -1601,7 +1601,7 @@ Step 4: Transform the Data Using the Contrast Matrix
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>GGally<span class="sc">::</span><span class="fu">ggpairs</span>(Y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
@@ -1667,7 +1667,7 @@ data:  Y
 MVW = 0.92376, p-value = 0.05625</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><strong>Conclusion</strong>: The contrast data indeed approximately follow a multivariate normal distribution as indicated by the multivariate Shapiro-Wilk test even though the original data do not follow a multivariate normal distribution.</p>
@@ -2127,7 +2127,7 @@ View Solution
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(dat[, <span class="dv">6</span><span class="sc">:</span><span class="dv">8</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid" width="672"></p>
+<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
@@ -2202,7 +2202,7 @@ data:  as.matrix(dat[, 6:8])
 MVW = 0.88078, p-value = 0.001033</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="672"></p>
+<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <ul>
@@ -2451,7 +2451,7 @@ View Solution
 <div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>GGally<span class="sc">::</span><span class="fu">ggpairs</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid" width="672"></p>
+<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
@@ -2635,7 +2635,7 @@ View Solution
 <span id="cb98-26"><a href="#cb98-26" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(gg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-47-1.png" class="img-fluid" width="672"></p>
+<p><img src="04-Inference_for_Means_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><strong>Interpretation:</strong> This result confirms the test result. The historical standard is far outside the confidence ellipse (the 95% confidence region for the true mean of modern players), confirming that modern players are, on average, both taller and heavier. At this point we do not know which one contributes to the difference, which can be answered using simultaneous confidence intervals.</p>
