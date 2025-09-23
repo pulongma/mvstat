@@ -55,7 +55,7 @@ library(dplyr)
 The following assumptions are needed to make inferences about the difference between two population mean vectors $\boldsymbol \mu_1 - \boldsymbol \mu_2$:
 
 1. $\mathbf{x}_{1j} \sim N_p(\boldsymbol{\mu}_1, \Sigma_1)$ independently for $j=1,\dots,n_1$; and $\mathbf{x}_{2k} \sim N_p(\boldsymbol{\mu}_2, \Sigma_2)$ independently for $k=1,\dots,n_2$.  
-2. $\Sigma_1=\Sigma_2=\Sigma$.
+2. $\Sigma_1=\Sigma_2=\Sigma$. (**Homogeneity of Covariance**)
 3. $\mathbf{x}_{1j}$'s are independent of $\mathbf{x}_{2j}$'s. 
 
 :::
@@ -98,7 +98,9 @@ S2 = matrix(c(2,1,1,4), byrow=TRUE, ncol=2)
 
 * If a difference exists, which outcome (lather or mildness) contributes more to that difference?
 
+
 :::
+
 
 ### State the Hypotheses 
 
@@ -429,7 +431,40 @@ head(steel)
 
 :::
 
-a. State the research question(s) and define the null and alternative hypotheses using standard notations.  
+* **Step 1. Data visualization**
+
+```{r}
+#| code-fold: true
+#| code-summary: "R Code: Long Format via `pivot_longer`"
+library(dplyr)
+df_long = steel %>% 
+  pivot_longer(cols=c(2:3), 
+               names_to="var")
+head(df_long)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "R Code: One variable + multiple groups"
+
+ggplot(df_long, aes(x=temp, y=value)) + 
+  geom_point() + 
+  facet_wrap(~var, nrow=1, 
+             scales="free_y")
+```
+
+```{r}
+#| code-summary: "R Code: One group + multiple variables"
+#| code-fold: true
+ggplot(steel) + 
+  geom_point(aes(x=yield, y=strength, col=temp)) 
+
+```
+
+***Question: What do the plots tell you?*** 
+
+
+* **Step 2. State the research question(s) and define the null and alternative hypotheses using standard notations.**  
 
 ::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
@@ -461,12 +496,12 @@ $$
 :::
 :::
 
-b. Perform the statistical test. 
+* **Step 3. Perform the statistical test.** 
 
 ::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
 
-* **Step 1: Prepare and Visualize the Data** 
+* **Step 3(a): Compute summary statistics** 
 
 ```{r}
 #  Compute sample mean vector and sample
@@ -481,24 +516,10 @@ b. Perform the statistical test.
 #  covariance matrix for each temperature
 (xvar2 = var(steel[steel$temp==2 , -1]))
 
-# scatter plot 
-plot(yield ~ strength, data = steel,
-     xlab = "Yield Point",
-     ylab = "Ultimate Strength",
-     pch = c(1, 16)[temp],
-     cex = 1.5,
-     main = "Yield vs. Strength by Temperature")
-abline(lm(strength ~ yield, data = subset(steel, temp == 1)), 
-       lty = 4, lwd = 2)
-abline(lm(strength ~ yield, data = subset(steel, temp == 2)), 
-       lty = 1, lwd = 2)
-legend("bottomright", c("Low Temp", "High Temp"),
-       lty = c(4, 1), lwd = 2, pch = c(1, 16))
-
 ```
 
 
-* **Step 2: Check Normality Assumption* 
+* **Step 3(b): Check Normality Assumption** 
 
 ```{r}
 # check univariate normaltiy 
@@ -512,7 +533,7 @@ mvShapiroTest::mvShapiro.Test(as.matrix(steel[ , 2:3]))
 
 
 
-* **Step 3: Check Homogeneity Assumption**
+* **Step 3(c): Check Homogeneity Assumption**
 
 ```{r}
 # Apply Box's M-test to test the null hypothesis of homogeneous covariance matrices. 
@@ -520,7 +541,7 @@ biotools::boxM(steel[ , -1], steel$temp)
 ```
 
 
-* **Step 4: Two-Sample Hotelling's $T^2$ Test**
+* **Step 3(d): Two-Sample Hotelling's $T^2$ Test**
 
 ```{r}
 T2result <- DescTools::HotellingsT2Test(steel[steel$temp == 1, -1], 
@@ -533,7 +554,7 @@ T2result
 :::
 :::
 
-c. Construct the confidence region and interpret the results
+* **Step 4. Construct the confidence region and interpret the results.**
 
 ::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
@@ -635,7 +656,7 @@ Since the origin 0 does not fall into the $95\%$ confidence ellipse, we conclude
 :::
 :::
 
-d. Construct simultaneous $T^2$ and Bonferroni CIs and interpret the results. 
+* **Step 5. Construct simultaneous $T^2$ and Bonferroni CIs and interpret the results.** 
 
 ::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
@@ -685,7 +706,7 @@ print(ci_Bon)
 
 ## Comparing Multiple Mean Vectors
 
-In multivariate analysis, we often want to test whether several groups have the **same mean vector** for multiple variables. This is the multivariate extension of one-way ANOVA: **Multivariate Analysis of Variance (MANOVA)**. We can extend the comparison of mean vectors to *$g$* different treatments or populations for $p$ responses. 
+In multivariate analysis, we often want to test whether several groups have the **same mean vector** for multiple variables. This is the multivariate extension of one-way ANOVA: **Multivariate Analysis of Variance (MANOVA)**. We can extend the comparison of mean vectors to *$g$* different groups (or treatments) or populations for $p$ responses. 
 
 :::{.callout-important title="Key Assumptions"}
 The following assumptions are needed to make inferences about the difference between any two population mean vectors: $\boldsymbol \mu_{\ell_1} - \boldsymbol \mu_{\ell_2}$ for $\ell_1\neq \ell_2$:
@@ -713,6 +734,66 @@ Because we are comparing a **vector of mean responses** across **more than two g
 * **Response Variables ($p=4$):** `Sepal.Length`, `Sepal.Width`, `Petal.Length`, `Petal.Width`
 * **Research Question:** Are the mean vectors of these four characteristics the same across all three species?
 
+### Load and Visualize the Data
+
+Before testing, it is crucial to visualize the data. A pairs plot is excellent for this, as it shows the relationship between all variables for each species.
+
+```{r}
+#| code-summary: "R Code: Between Group plots"
+library(dplyr)
+library(ggplot2)
+data(iris)
+#head(iris)
+df = iris
+
+g = length(levels(df$Species))
+p = 4
+
+df_long = df %>% 
+  pivot_longer(cols=c(1:4), 
+               names_to="var")
+g1 = ggplot(df_long) + 
+  geom_point(aes(x=Species, y=value), 
+             size=.8, alpha=.8) + 
+  facet_wrap(~var, scales="free_y")
+print(g1)
+```
+**Interpretation**: These panels suggest that there is a moderate variation across different species (groups) for each of the variables. Within each species (group), the observations also indicates some variations. 
+
+```{r}
+#| code-summary: "R Code: Between Group boxplots"
+g2 = ggplot(df_long, aes(x=Species, y=value)) + 
+  geom_boxplot(fill = 'skyblue') + 
+  #geom_jitter(width = 0.1) + 
+  facet_wrap(~var, scales="free_y") + 
+  labs(y="")
+print(g2)
+```
+**Interpretation**: All the variables across different species roughly follow symmetric distributions, except for the `Petal.Width` from the Setosa, whose distribution seems to be highly skewed to the right. 
+
+
+```{r}
+#| label: data-prep-manova
+#| code-summary: "R Code: Pairwise Scatterplot"
+#| message: false
+#| warning: false
+
+
+library(GGally)
+
+# Create a pairs plot, colored by Species
+ggpairs(
+  iris,
+  columns = 1:4,
+  ggplot2::aes(color = Species)
+) +
+labs(title = "Pairs Plot of Iris Measurements by Species") +
+theme_bw()
+```
+**Interpretation**: The plot shows some separation among the three species, especially for the petal measurements. There are strong linear associations between `Petal.Length` and `Petal.Width` among all the three species. In general, there is also a linear association between `Sepal.Length` and `Petal.Length`, between `Septal.Length` and `Petal.Width`. 
+
+
+
 ### State the Hypotheses
 
 Formulate the null and alternative hypotheses for the MANOVA test.
@@ -729,37 +810,6 @@ The null hypothesis states that the true mean vectors for the full morphology pr
 
 :::
 
-
-### Load and Visualize the Data
-
-Before testing, it is crucial to visualize the data. A pairs plot is excellent for this, as it shows the relationship between all variables for each species.
-
-
-```{r}
-#| label: data-prep-manova
-#| code-summary: "R Code: Data Visualization"
-#| message: false
-#| warning: false
-
-library(dplyr)
-library(ggplot2)
-library(GGally)
-
-data(iris)
-#head(iris)
-g = length(levels(iris$Species))
-p = 4
-  
-# Create a pairs plot, colored by Species
-ggpairs(
-  iris,
-  columns = 1:4,
-  ggplot2::aes(color = Species)
-) +
-labs(title = "Pairs Plot of Iris Measurements by Species") +
-theme_bw()
-```
-**Interpretation**: The plot shows very clear separation between the three species, especially for the petal measurements. This gives us a strong indication that the null hypothesis will be rejected.
 
 
 ### Check Assumptions
@@ -894,9 +944,11 @@ where
 # The manova() function fits the model.
 # The formula cbind(Y1, Y2, Y3, Y4) ~ Group tells R to use all four
 # measurements as the multivariate response vector.
-manova_fit <- manova(cbind(Sepal.Length, Sepal.Width, 
-                           Petal.Length, Petal.Width) ~ Species, 
-                     data = iris)
+manova_fit <- manova(
+  cbind(Sepal.Length, Sepal.Width, 
+        Petal.Length, Petal.Width) 
+  ~ Species, 
+  data = iris)
 
 # The summary() function generates the output from the statistical test.
 # We specify test = "Wilks" to get the result for Wilk's Lambda.
@@ -918,7 +970,7 @@ The p-value is reported as `< 2.2e-16`, which is exceptionally small. We **rejec
 :::
 
 
-###  Follow-Up Analysis
+###  Pairwse Comparison
 
 A significant MANOVA result tells us that a difference exists, but not *where* that difference lies. We need to perform follow-up tests to understand the result more deeply.
 
@@ -1043,8 +1095,8 @@ knitr::kable(
 ggplot(all_intervals,
        aes(x = Mean_Difference, y = Variable, 
            color = Variable)) +
-  geom_errorbarh(aes(xmin = Lower_CI, xmax = Upper_CI),
-                 height = 0.2,
+  geom_errorbar(aes(xmin = Lower_CI, xmax = Upper_CI),
+                 width = 0.2,
                  linewidth = 1) +
   geom_point(size = 3.5) +
   geom_vline(xintercept = 0,
@@ -1082,8 +1134,46 @@ morel = readr::read_csv(file = "morel.csv",
 head(morel)
 ```
 
+a. Data visualization
 
-a. State the hypotheses using standard notations. 
+::: {.content-hidden when-format="pdf"}
+:::{.callout-tip title="View Solution" collapse="true"}
+
+```{r}
+#| code-summary: "R Code: Data Visualization"
+#| message: false
+df = morel 
+response_vars = setdiff(colnames(df), "group")
+
+p = length(response_vars)
+g = length(levels(df$group))
+
+df_long = df %>%
+  pivot_longer(cols=c(2:5),
+               names_to="var")
+ggplot(df_long, aes(x=group, y=value)) + 
+  geom_point() + 
+  facet_wrap(~var, scales="free_y") + 
+  labs(y="")
+  
+GGally::ggpairs(
+  df,
+  columns = 2:5, # The four test score variables
+  ggplot2::aes(color = group),
+  upper = list(continuous = "cor"),
+  lower = list(continuous = "points")
+) +
+labs(title = "Academic Score Profiles by Field of Study") +
+theme_bw()
+
+```
+The plot suggests there may be differences. For example, the distribution of `math` scores for Architecture students appears shifted compared to the other groups.
+
+::: 
+:::
+
+
+b. State the hypotheses using standard notations. 
 
 ::: {.content-hidden when-format="pdf"}
 :::{.callout-tip title="View Solution" collapse="true"}
@@ -1100,36 +1190,6 @@ The null hypothesis states that the true mean vectors of test scores are the sam
 ::: 
 ::: 
 
-b. Visualize the data
-
-::: {.content-hidden when-format="pdf"}
-:::{.callout-tip title="View Solution" collapse="true"}
-
-```{r}
-#| code-summary: "R Code: Data Visualization"
-#| message: false
-df = morel 
-response_vars = setdiff(colnames(df), "group")
-
-p = length(response_vars)
-g = length(levels(df$group))
-
-
-ggpairs(
-  df,
-  columns = 2:5, # The four test score variables
-  ggplot2::aes(color = group),
-  upper = list(continuous = "cor"),
-  lower = list(continuous = "points")
-) +
-labs(title = "Academic Score Profiles by Field of Study") +
-theme_bw()
-
-```
-The plot suggests there may be differences. For example, the distribution of `math` scores for Architecture students appears shifted compared to the other groups.
-
-::: 
-:::
 
 c. Check Assumptions
 
@@ -1243,8 +1303,8 @@ knitr::kable(all_intervals, digits = 3, caption = "Simultaneous 95% Bonferroni C
 
 ggplot(all_intervals,
        aes(x = Mean_Difference, y = Variable, color = Variable)) +
-  geom_errorbarh(aes(xmin = Lower_CI, xmax = Upper_CI),
-                 height = 0.2,
+  geom_errorbar(aes(xmin = Lower_CI, xmax = Upper_CI),
+                 width = 0.2,
                  linewidth = 1) +
   geom_point(size = 3.5) +
   geom_vline(xintercept = 0,

@@ -760,7 +760,7 @@ ggplot() +
 ```
 
 ### Example: Microwave Oven Data
-Manufacturers of a microwave oven are concerned about radiation emission. They measure radiation with the door closed and open from $n=12$ ovens. Test if the mean radiation levels are $\boldsymbol{\mu}_0 = [0.15, 0.20]'$.
+Manufacturers of a microwave oven are concerned about radiation emission. They measure radiation with the door closed and open from $n=12$ ovens. Test if the mean radiation levels are $\boldsymbol{\mu}_0 = [0.15, 0.37]'$.
 
 ```{r}
 #| label: microwave-example
@@ -774,7 +774,7 @@ oven_data <- data.frame(
   Open = rnorm(12, mean = 0.30, sd = 0.10)
 )
 dat = oven_data
-mu0 <- c(0.15, 0.20)
+mu0 <- c(0.15, 0.37)
 
 ```
 
@@ -865,7 +865,7 @@ print(bonf_intervals)
 
 
 
-**Conclusion:** Both methods produce very similar intervals. Neither the interval for "Closed" nor "Open" contains its hypothesized mean (0.15 and 0.20, respectively). Therefore, we conclude that *both* mean radiation levels are significantly higher than the specified standards. Note that the Bonferroni CIs are slightly narrower (more precise), which is often the case.
+**Conclusion:** Both methods produce similar intervals. Neither the interval for "Closed" contains its hypothesized mean `r mu0[1]`.  The T2 CI does not contain its hypothesized mean `r mu0[2]` while the Bonferroni CI contains its hypotheized mean `r mu0[2]`. Therefore, we conclude that *both* mean radiation levels are significantly lower than the specified standards according the the T2 CI but only the mean radiation level for "Open" oven is higher than the specified standard using Bonferroni CI. Note that the Bonferroni CIs are slightly narrower (more precise) in this example.
 
 :::
 
