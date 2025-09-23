@@ -1155,7 +1155,7 @@ One-At-a-Time <span class="math inline">t</span> CI
 </section>
 <section id="example-microwave-oven-data" class="level3" data-number="4.6.4">
 <h3 data-number="4.6.4" class="anchored" data-anchor-id="example-microwave-oven-data"><span class="header-section-number">4.6.4</span> Example: Microwave Oven Data</h3>
-<p>Manufacturers of a microwave oven are concerned about radiation emission. They measure radiation with the door closed and open from <span class="math inline">n=12</span> ovens. Test if the mean radiation levels are <span class="math inline">\boldsymbol{\mu}_0 = [0.15, 0.37]'</span>.</p>
+<p>Manufacturers of a microwave oven are concerned about radiation emission. They measure radiation with the door closed and open from <span class="math inline">n=12</span> ovens. Test if the mean radiation levels are <span class="math inline">\boldsymbol{\mu}_0 = [0.20, 0.37]'</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate some plausible data</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4750</span>)</span>
@@ -1164,7 +1164,7 @@ One-At-a-Time <span class="math inline">t</span> CI
 <span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Open =</span> <span class="fu">rnorm</span>(<span class="dv">12</span>, <span class="at">mean =</span> <span class="fl">0.30</span>, <span class="at">sd =</span> <span class="fl">0.10</span>)</span>
 <span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">=</span> oven_data</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>mu0 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.37</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>mu0 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.20</span>, <span class="fl">0.37</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="State The Hypotheses">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
@@ -1218,7 +1218,7 @@ Compute Test Statistic
 <span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code> scaled T2=12.7 &gt; F critical value=4.1 , thus we reject H0 at level 0.05</code></pre>
+<pre><code> scaled T2=4.87 &gt; F critical value=4.1 , thus we reject H0 at level 0.05</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1233,8 +1233,8 @@ Compute Test Statistic
     Hotelling's one sample T2-test
 
 data:  dat
-T.2 = 12.742, df1 = 2, df2 = 10, p-value = 0.001777
-alternative hypothesis: true location is not equal to c(0.15,0.37)</code></pre>
+T.2 = 4.8713, df1 = 2, df2 = 10, p-value = 0.03334
+alternative hypothesis: true location is not equal to c(0.2,0.37)</code></pre>
 </div>
 </div>
 </div>
@@ -1319,7 +1319,7 @@ Closed   Closed 0.1905876 0.2865551
 Open       Open 0.1832896 0.3657812</code></pre>
 </div>
 </div>
-<p><strong>Conclusion:</strong> Both methods produce similar intervals. Neither the interval for “Closed” contains its hypothesized mean 0.15 using both methods. The T2 CI contains its hypothesized mean 0.37 while the Bonferroni CI does not contain its hypothesized mean 0.37. Therefore, we conclude that</p>
+<p><strong>Conclusion:</strong> Both methods produce similar intervals. Both the T2 CI and Bonferroni CI for “Closed” Oven contain its hypothesized mean 0.2. The T2 CI for “Open” oven contains its hypothesized mean 0.37 while the Bonferroni CI does not contain its hypothesized mean 0.37. Therefore, we conclude that</p>
 <ul>
 <li>there is no sufficient evidence conclude that the mean radiation level for “Closed” oven is the significantly different from the specified standard using both methods at significance level 0.05;</li>
 <li>for “Open” oven, there is no sufficient evidence to conclude that the mean radiation level for “Open” oven is significantly different from the specified standard using T2 CI at significance level 0.05; while the mean radiation level for “Open” Oven is significantly higher than the specified standard using Bonferroni CI at significance level 0.05.</li>
