@@ -865,7 +865,12 @@ print(bonf_intervals)
 
 
 
-**Conclusion:** Both methods produce similar intervals. Neither the interval for "Closed" contains its hypothesized mean `r mu0[1]`.  The T2 CI does not contain its hypothesized mean `r mu0[2]` while the Bonferroni CI contains its hypotheized mean `r mu0[2]`. Therefore, we conclude that *both* mean radiation levels are significantly lower than the specified standards according the the T2 CI but only the mean radiation level for "Open" oven is higher than the specified standard using Bonferroni CI. Note that the Bonferroni CIs are slightly narrower (more precise) in this example.
+**Conclusion:** Both methods produce similar intervals. Neither the interval for "Closed" contains its hypothesized mean `r mu0[1]` using both methods.  The T2 CI  contains its hypothesized mean `r mu0[2]` while the Bonferroni CI does not contain its hypothesized mean `r mu0[2]`. Therefore, we conclude that 
+
+* there is no sufficient evidence conclude that the mean radiation level for "Closed" oven is the significantly different from the specified standard using both methods at significance level 0.05; 
+* for "Open" oven, there is no sufficient evidence to conclude that the mean radiation level for "Open" oven is significantly different from the specified standard using T2 CI at significance level 0.05; while the mean radiation level for "Open" Oven is significantly higher than the specified standard using Bonferroni CI at significance level 0.05.
+* Note that the Bonferroni CIs are slightly narrower (more precise) in this example.
+
 
 :::
 
