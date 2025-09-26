@@ -1097,7 +1097,7 @@ mvShapiroTest::mvShapiro.Test(Y)
 
 - To test $H_0: C\boldsymbol \mu = 0$, we can again use $T^2$ statistic:
 $$
-T^2 = n(C\bar{\mathbf{x}} - \mathbf{0})^\top (CS^{-1}C^\top)^{-1} (C\bar{\mathbf{x}} - \mathbf{0})
+T^2 = n(C\bar{\mathbf{x}} - \mathbf{0})^\top (CSC^\top)^{-1} (C\bar{\mathbf{x}} - \mathbf{0})
 $$
 - The null hypothesis is rejected at significance level $\alpha$ if 
 $$

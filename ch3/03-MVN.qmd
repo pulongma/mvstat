@@ -929,13 +929,13 @@ a2 = c(1, -1)
 # mean and variance of 0.5*X1 + 0.5*X2
 tibble(
   mean = sum(a1 * xbar),
-  variance = drop(t(a1) %*% solve(S) %*% a1)
+  variance = drop(t(a1) %*% S %*% a1)
 )
 
 # mean and variance of X1 - X2
 tibble(
   mean = sum(a2 * xbar),
-  variance = drop(t(a2) %*% solve(S) %*% a2)
+  variance = drop(t(a2) %*% S %*% a2)
 )
 
 ```
