@@ -38,7 +38,7 @@ library(dplyr)
 
 ## Why PCA?
 
-PCA is a powerful exploratory statistical too that can 
+PCA is a powerful exploratory statistical tool that can 
 
 - reduce many variables ($p$) into a few **linear combinations** (principal components) that preserve most variation,
 - build **summary indices** and **visualize structure** (clusters, outliers),
@@ -89,6 +89,65 @@ knitr::include_graphics("./figures/triceratops.png")
 
 
 ### Illustrating Example
+
+
+```{r}
+#| echo: FALSE
+#| label: iris-data
+#| fig-align: "center"
+#| fig-width: 6
+#| fig-height: 5
+#| warning: false
+library(dplyr)
+library(ggplot2)
+library(grid)  # for unit()
+theme_set(theme_minimal(base_size = 12))
+
+# Data: pick two variables so we can see the geometry clearly
+df <- iris %>%
+  filter(Species == "versicolor") %>%
+  dplyr::select(Sepal.Length, Sepal.Width)
+
+# Centered matrix (no scaling so units stay in cm)
+X  <- scale(df, center = TRUE, scale = FALSE)
+S  <- cov(X)
+E  <- eigen(S)
+
+pc1 <- E$vectors[,1]
+pc2 <- E$vectors[,2]
+lam <- E$values
+ctr <- colMeans(df)
+
+# Choose arrow lengths proportional to sqrt(variance) for nice scaling
+k1 <- 2*sqrt(lam[1]); k2 <- 2*sqrt(lam[2])
+
+arrows <- tibble::tibble(
+  x0 = ctr[1], y0 = ctr[2],
+  x1 = ctr[1] + k1*pc1[1], y1 = ctr[2] + k1*pc1[2],
+  x2 = ctr[1] + k2*pc2[1], y2 = ctr[2] + k2*pc2[2]
+)
+
+# Pick one point and show its projection onto PC1
+pt   <- as.numeric(df[10, ])
+v    <- as.numeric(pt - ctr)
+t1   <- sum(v * pc1)               # signed distance along PC1
+proj <- ctr + t1*pc1               # projection point on PC1 axis
+
+# % variance explained (for labels)
+pve1 <- round(100*lam[1]/sum(lam))
+pve2 <- round(100*lam[2]/sum(lam))
+
+ggplot(df, aes(Sepal.Length, Sepal.Width)) +
+  geom_point(alpha = 0.8) +
+  # One-sigma-ish ellipse for geometry intuition
+  stat_ellipse(type = "norm", level = 0.68, color = "grey50") + 
+  ggtitle(label="Can you identify which direction has the most variation?") + 
+  theme(plot.title = element_text(face = "bold"))
+```
+
+
+:::{.callout-tip title="View Solution" collapse=TRUE}
+
 ```{r}
 #| echo: FALSE
 #| label: pc-geometry
@@ -163,15 +222,44 @@ ggplot(df, aes(Sepal.Length, Sepal.Width)) +
 
 ```
 
+::: 
 
-:::{.callout-note title="Recap: Spectral Decomposition" collapse="true"}
-Recall from @sec-spectral-decomposition that for any $p\times p$ symmetric matrix $A$, its spectral decomposition is $$ A = \lambda_1 \mathbf{e}_1 \mathbf{e}_1^{\top} +  \lambda_2 \mathbf{e}_2 \mathbf{e}_2^{\top} +  \cdots +  \lambda_p \mathbf{e}_p \mathbf{e}_p^{\top} 
+### Review of Spectral Decomposition 
+
+Recall from Chapter 3 that for any $p\times p$ symmetric matrix $A$, its spectral decomposition is 
+$$ A = \lambda_1 \mathbf{e}_1 \mathbf{e}_1^{\top} +  \lambda_2 \mathbf{e}_2 \mathbf{e}_2^{\top} +  \cdots +  \lambda_p \mathbf{e}_p \mathbf{e}_p^{\top} 
 $$
 
 * $\lambda_1\geq \lambda_2\geq \cdots \geq \lambda_p$ are eigenvalues of $A$.
 * $\mathbf{e}_j$'s are corresponding eigenvectors of $A$. 
 
-::: 
+:::{.callout-note title="Some Facts"}
+Suppose that you obtain a $p\times p$  covariance (or correlation) matrix for $p$ variables from the data.
+
+* The number of eigenvalues are the same as the number of observed variables.
+* The sum of the eigenvalues equals the *trace* of the covariance  matrix.
+  * For a correlation matrix, this would be $p$, since all diagonal is 1's.
+  * The sum of the eigenvalues gives the *total variance* of the data. 
+* The product of the eigenvalues equals the *determinant* of the covariance matrix. 
+  * The determinant of covariance matrix measures the *generalized variance* in the data.
+* The number of non-zero eigenvalues is the *rank* of the matrix. 
+
+:::
+
+:::{.callout-note title="Interpretation of Covariance Matrix"}
+
+* The first eigenvector represents the direction of maximum variation and the first eigenvalue represents the amount of variation in the data.
+* The second eigenvector is the director of maximum variation that is *orthogonal* to the first eigenvector, and the second eigenvalue represents its variation. 
+* All eigenvectors are directions of variation, orthogonal to all other eigenvectors. 
+The eigenvalues are their variances.
+
+:::
+
+
+
+
+
+
 
 ### The Mathematics Behind PCA  
 
@@ -825,6 +913,147 @@ plot(fit$sdev^2, xlab="Component Index", ylab="Component Variation")
 factoextra::fviz_pca_biplot(fit,
     repel=TRUE,
     labelsize = 1.2)
+```
+
+:::
+
+### Exercise 2: PCA for Image Compression
+
+An image is a matrix of pixels with values that represent the intensity of the pixel, where 0=white and 1=black. The jpeg format image has three channels: red, green, blue. 
+If the image size is too large or for regulatory or privacy issues, one is often interested in compressing the image size and working with a low-resolution image. This task can be achieved using PCA learned in this chapter. Here you an use any image to for this task, but I will use an image of the Great Wall.
+
+1. Load the image into R and extract the green channel. 
+
+::: {.content-hidden when-format="pdf"}
+:::{.callout-tip title="View Solution" collapse="true"}
+
+```{r}
+library(jpeg)
+#the jpeg has 3 channels: red, green, blue
+#for simplicity of the example, I am only
+#reading the green channel
+dat <- readJPEG("./figures/greatwall.jpg")[,,2]
+#You can have a look at the image
+plot(1:2, type='n', axes=F, ann=F)
+rasterImage(dat, 1, 2, 2, 1)
+```
+
+:::
+:::
+
+
+2. Check the dimension of the image and plot heatmap of the correlation matrix using 
+the function `heatmap.2()` from the R package `gplots`. 
+
+::: {.content-hidden when-format="pdf"}
+:::{.callout-tip title="View Solution" collapse="true"}
+
+```{r}
+dim(dat)
+```
+
+
+```{r}
+library(gplots)
+# compute correlations in terms of red, yellow and darkgreen
+col.correlation <- colorRampPalette(
+  c("red","yellow","darkgreen"), 
+  space = "rgb")(30)
+
+# This could be time consuming if image dimension is too large
+gplots::heatmap.2(cor(dat),
+          Rowv = F, Colv = F,
+          dendrogram = "none",
+          trace="none",
+          col=col.correlation)
+
+```
+
+:::
+:::
+
+
+3. Perform PCA on the correlation matrix of the image and plot the scree diagram. 
+
+::: {.content-hidden when-format="pdf"}
+:::{.callout-tip title="View Solution" collapse="true"}
+
+```{r}
+# PCA
+dat.pca = prcomp(dat, center=FALSE)
+plot(dat.pca$sdev[1:20]^2, xlab="Component Number",
+     ylab="Component Variance (eigenvalue)",
+     main="Scree Diagram", type="b")
+```
+
+:::
+
+
+4. Recover the image using the first few PCs. 
+
+::: {.content-hidden when-format="pdf"}
+:::{.callout-tip title="View Solution" collapse="true"}
+
+```{r}
+#The intensities given by the first m components
+m = 10
+dat.pca2 <- dat.pca$x[,1:m] %*% t(dat.pca$rotation[,1:m])
+dat.pca2[dat.pca2>1] <-1
+dat.pca2[dat.pca2<0] <-0
+
+#You can have a look at the image
+par(mfrow=c(1,2))
+plot(1:2, type='n', axes=F, ann=F)
+title ("Original image")
+rasterImage(dat, 1, 2, 2, 1)
+
+plot(1:2, type='n', axes=F, ann=F)
+title(paste0("PCA constructed image \n with ", m, " components"))
+rasterImage(dat.pca2, 1, 2, 2, 1)
+
+```
+
+:::
+:::
+
+5. Compression for the colored image with three channels simultaneously. Plot the PCA constructed image using 50 principal components. You could try different number of principal components and compare their differences.
+
+::: {.content-hidden when-format="pdf"}
+:::{.callout-tip title="View Solution" collapse="true"}
+
+```{r}
+dat = readJPEG("./figures/greatwall.jpg")
+
+# dat is now a list with three elements 
+#corresponding to the channels RBG
+#we will do PCA in each element
+dat.rbg.pca<- apply(dat, 3, prcomp, center = FALSE) 
+```
+
+```{r}
+#Computes the intensities using m components
+m = 50
+dat.pca2 <- lapply(dat.rbg.pca, 
+                   function(channel.pca) {
+                      jcomp = channel.pca$x[,1:m] %*% t(channel.pca$rotation[,1:m])
+                      jcomp[jcomp>1] <-1
+                      jcomp[jcomp<0] <-0
+                      return(jcomp)}
+                   )
+
+#Transforms the above list into an array
+dat.pca2<-array(as.numeric(unlist(dat.pca2)), 
+               dim=dim(dat))
+
+#You can have a look at the image
+par(mfrow=c(1,2))
+plot(1:2, type='n', axes=F, ann=F)
+title ("Original image")
+rasterImage(dat, 1, 2, 2, 1)
+plot(1:2, type='n', axes=F, ann=F)
+title (paste0("PCA constructed image \n with ", m, " components"))
+rasterImage(dat.pca2, 1, 2, 2, 1)
+
 ```
 
 :::
