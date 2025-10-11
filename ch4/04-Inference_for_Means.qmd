@@ -1038,8 +1038,10 @@ $$
 
 
 ```{r}
-C<-matrix( c(.5, -.5, .5, -.5, -.5, -.5, .5, .5, -1, 1, 1, -1), 
-              nrow=3, ncol=4, byrow=T)
+C = matrix( c(-.5, -.5, .5, .5, 
+              .5, -.5, .5, -.5, 
+              1, -1, -1, 1), 
+    nrow=3, ncol=4, byrow=T)
 C
 ```
 
@@ -1188,8 +1190,8 @@ print(ci_T2)
 
 **Interpretation**: 
 
-* The $T^2$ CI for the Halothane effect is shifted below zero, indicating that the mean time between heartbeats is likely to be between `r signif(ci_T2$Lower[1],3)` and `r signif(ci_T2$Upper[1],3)` milliseconds shorter when Halothane is used than that when Halothane is not used, averaging across the CO2 pressure levels.
-* The $T^2$ CI for the CO2 effect is far above  0, indicating that the mean time between heartbeats is likely to be between `r signif(ci_T2$Lower[2],3)` and `r signif(ci_T2$Upper[2],3)` milliseconds longer at high CO2 pressure than that at low CO2 pressure, averaging across the halothane effect.  
+* The $T^2$ CI for the Halothane effect is shifted far above zero, indicating that the mean time between heartbeats is likely to be between `r signif(ci_T2$Lower[1],3)` and `r signif(ci_T2$Upper[1],3)` milliseconds longer when Halothane is used than that when Halothane is not used, averaging across the CO2 pressure levels.
+* The $T^2$ CI for the CO2 effect is shifted below  0, indicating that the mean time between heartbeats is likely to be between `r abs(signif(ci_T2$Lower[2],3))` and `r abs(signif(ci_T2$Upper[2],3))` milliseconds shorter at high CO2 pressure than that at low CO2 pressure, averaging across the halothane effect.  
 * The $T^2$ CI for the interaction effect contains 0, indicating
   * the effect of using halothane on the mean time between heartbeats is about the same for the two levels of CO2 pressure;
   * the effect of changing from low to high pressure of CO2 is about the same when halothane is used as when halothane is not used. 
@@ -1300,7 +1302,7 @@ library(dplyr)
 
 data <- iris %>%
   filter(Species == "setosa") %>%
-  select(Sepal.Length, Sepal.Width)
+  dplyr::select(Sepal.Length, Sepal.Width)
 
 n <- nrow(data)
 p <- ncol(data)
@@ -1326,7 +1328,7 @@ for (i in 1:m) {
   std_error <- sqrt((t(c_k) %*% S %*% c_k) / n)
   
   # T-squared Method
-  T2_crit <- sqrt((p * (n - 1) / (n - p)) * qf(1 - alpha, p, n - p))
+  T2_crit <- sqrt(((p-1) * (n - 1) / (n - p+1)) * qf(1 - alpha, p-1, n - p+1))
   T2_margin <- T2_crit * std_error
   
   # Bonferroni Method (adjust alpha by m)
