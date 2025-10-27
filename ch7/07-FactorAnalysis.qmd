@@ -1,0 +1,1023 @@
+---
+title: 'Factor Analysis'
+author: 'Pulong Ma'
+html-math-method: katex
+format: 
+  html:
+    html-math-method: katex
+    include-in-header:
+      - text: |
+          <script>
+            window.MathJax = {
+              loader: {
+                load: ['[tex]/amsmath', '[tex]/amssymb', '[tex]/amsfonts'],
+                '[tex]/color']
+              },
+              tex: {
+                packages: { '[+]': ['amsmath', 'amssymb', 'amsfonts', 'color'] }
+              }
+            };
+          </script>
+    css: custom.css
+    toc: true
+    toc_depth: 3
+    number-sections: true
+    code-fold: true
+    callout-appearance: default
+    df-print: paged
+    theme: cosmo 
+---
+
+```{r, message=FALSE,warning=FALSE, include=FALSE}
+# Preload some packages
+knitr::opts_chunk$set(echo = TRUE, message=FALSE)
+library(tidyverse)
+library(reshape2)
+library(dplyr)
+
+```
+
+
+
+
+## Why Factor Analysis?
+
+Imagine you're a psychologist who has just created a new survey to measure "student engagement." You've written 10 different questions, like 
+
+- "How often do you participate in class discussions?", 
+- "How much time do you spend studying?", 
+- and "Do you find your courses interesting?" 
+
+After collecting responses, you notice that students who answer "often" to one question tend to answer similarly to a few others. It seems like your questions aren't measuring 10 completely different things, but rather, they are tapping into a few **underlying, unobservable traits**.
+
+- This is the exact scenario where you would use **Exploratory Factor Analysis**.
+- Factor analysis is a statistical method used to uncover the latent structure (or "factors") from a set of variables. There are two types of factor analysis: ***exploratory factor analysis*** (EFA) and ***confirmatory factor analysis***. This course will focus on EFA.
+
+
+### Factor Analysis v.s. PCA: What's the Difference?
+
+- PCA is a **variance-focused** technique with the goal to reduce dimensionality by creating a smaller set of components that capture maximum amount of total variance in the original data. 
+
+- Factor analysis is a **covariance-focused** technique with the goal to explain the **shared variance (covariance)** among the original variables by modeling the underlying latent factors. 
+
+### Spearman's Exam Marks 
+Suppose we observe three exam scores for each student:
+Classics ($X_1$), French ($X_2$), and English ($X_3$). Researchers collect exam scores from many different students across these subjects and would like to investigate if what could affect students' performances. 
+ 
+
+:::{.callout-note title="Research Question" collapse=TRUE}
+
+Is there a single latent factor that drives students' performance across different subjects? 
+
+:::
+
+
+:::{.callout-note title="Experimental Data" collapse=FALSE}
+Historical reports give approximate correlations as follows:
+
+```{r}
+#| label: R-spearman
+#| code-fold: false
+#| code-summary: "Correlation Matrix"
+R <- matrix(c(1.00, 0.83, 0.78,
+              0.83, 1.00, 0.67,
+              0.78, 0.67, 1.00),
+            nrow = 3, byrow = TRUE,
+            dimnames = list(c("Classics","French","English"),
+                            c("Classics","French","English")))
+R
+```
+
+**Interpretation**: The variables are **strongly correlated**—suggesting a single, latent “general ability” factor $F$ that drives performance across subjects. 
+
+:::
+
+
+
+:::{.callout-note title="An Orthogonal One-Factor Model"}
+- Let $\mathbf{z} = (z_1,\ldots,z_p)^\top$ be standardized variable of $\mathbf{x}$. 
+- Let $R=\text{Var}(z)$ denote the $p\times p$ correlation matrix. An **orthogonal one-factor** model has the form 
+\begin{equation*}
+\mathbf{z} = L f + \boldsymbol \varepsilon,\\
+\text{Var}(\varepsilon)=\boldsymbol \Psi=\text{diag}\{\psi_1,\ldots,\psi_p\},\quad
+R = LL^\top + \boldsymbol \Psi.
+\end{equation*}
+
+- $f$ is called the **common factor**  assumed with $E(F)=0$ and $\text{Var}(f)=1$.
+- $L$ is the $p\times 1$ vector of **factor loadings**. 
+- $\boldsymbol\varepsilon$ is a $p$-dimensional vector of measurement errors (also called **specific factor**). 
+
+- $h_i^2:= \ell_{i}^2$ is called the **communality** of $X_i$ and represents the variance explained by the factor $F$. 
+- $\psi_i=1-h_i^2$ is called the **uniqueness**.
+
+:::
+
+
+Given the correlation matrix only, we can use it to fit the one-factor model via R function `factanal`. 
+```{r}
+#| code-summary: "Fit the One-Factor Model via `factanal`"
+#| code-fold: false
+fit1 = factanal(factors = 1, covmat = R)
+str(fit1)
+```
+
+**Output interpretation**: 
+
+- `loadings`: a matrix of loadings with one column for each factor. The factors are in decreasing order of **communality**.  
+- `uniquenesses`: a vector of estimated measurement error variances. 
+
+
+
+## The Exploratory Factor Model 
+
+:::{.callout-note title="Example: `bfi` Data"}
+**Background**: A classroom/teaching dataset for personality measurement under the Big Five model: Agreeableness (A), Conscientiousness (C), Extraversion (E), Neuroticism (N), and Openness (O). The `bfi` data is collected via the [SAPA Project](https://www.sapa-project.org/survey/start.php) and  is available from the R package `psych`. 
+
+- 25 items: 5 per trait, named `A1`-`A5`, `C1`-`C5`, `E1`-`E5`, `N1`-`N5`, `O1`-`O5`. 
+- Responses: 6-point Likert (1=Very Inaccurate, ..., 6=Very Accurate).
+- Demographics: `gender`, `education`, `age`
+- Sample size: 2800, but with some missing values. 
+
+```{r}
+#| label: data-prep
+#| code-fold: false
+library(psych)
+data(bfi, package="psych")
+dim(bfi)
+
+head(bfi)
+```
+
+
+::: 
+
+:::{.callout-note title="Research Questions" collapse="true"}
+- What are the underlying latent structures measured by the set of survey items? 
+- Do the latent structures show any differences across demographic variables (e.g., gender, education, and age group)?  
+::: 
+
+
+:::{.callout-note title="The Factor Model"}
+- Let $\mathbf{z}_i = (z_{i1},\ldots,z_{ip})^\top$ denote the vector of $p=25$ standardized variables for  the $i$-th observation. 
+- Assume that there are $m$ common factors denoted by the $m$-dimensional vector $\mathbf{f}_i$ for the $i$-th observation. 
+
+- The $m$-factor model is 
+$$
+\mathbf{z}_{i} = L \mathbf{f}_i + \boldsymbol \varepsilon_i, i=1,\ldots, n 
+$$
+  - $L$ is the $p\times m$ matrix of factor loadings. 
+  - $\mathbf{f}_i$ is the $m$-dimensional vector of **common factors**.
+  - $\boldsymbol \varepsilon_i$ is the $p$-dimensional vector of **specific factors**. 
+
+- In matrix notation, stacking all observations together yields
+$$
+Z = F L^\top + E 
+$$
+  - $Z=[\mathbf{x}_1, \ldots, \mathbf{x}_n]^\top$ is the $n\times p$  matrix of standardized data;
+  - $F=[\mathbf{f}_1, \ldots, \mathbf{f}_n]^\top$ is the $n\times m$ matrix of common factors for all observations. 
+  - $E=[\boldsymbol \varepsilon_1, \ldots, \boldsymbol \varepsilon_n]^\top$ is the $n\times p$ of specific factors for all observations. 
+  
+- The **communality** of $X_i$ is 
+$$
+h_i^2: = \ell_{i1}^2 + \ell_{i2}^2 + \cdots + \ell_{im}^2
+$$
+  - it measures the variation explained by the $m$ common factors;
+- The proportion of the total variance explained by the $j$th factor is given by 
+$$
+\frac{\sum_{i=1}^p \ell_{ij}^2}{\text{trace}(R)} 
+$$
+
+::: 
+
+
+:::{.callout-warning title="Assumptions"}
+
+- $E(F) = \mathbf{0}$, $\text{Var}(F) = I_{m\times m}$.
+- $E(\boldsymbol \varepsilon) = \mathbf{0}, \text{Var}(\boldsymbol \varepsilon) = \boldsymbol \Psi = \text{diag}\{\psi_1, \ldots, \psi_p\}$
+- $F$ and $\boldsymbol \varepsilon$ are independent. 
+::: 
+
+**Step: Data Preparation and Visualization** 
+
+```{r}
+#| code-summary: "R Code: Prepare Data"
+
+# select the 25 personality items (columns 1-25)
+df = bfi %>% drop_na()
+dat = df[, 1:25]
+head(dat)
+```
+
+```{r}
+#| code-summary: "R Code: Visualization"
+
+corrplot::corrplot(cor(dat))
+```
+
+
+## Measures of Sampling Adequacy
+
+**Step: Check Assumptions** 
+
+Before performing factor analysis, we need to ensure our data is suitable. Two common methods are introduced below. 
+
+:::{.callout-note title="Measure of Sampling Adequacy (MSA)"}
+
+The first method is **measure of sampling adequacy** (MSA). MSA (Kaiser 1970, Psychometrica) is a statistic that measures the relative sizes of the pairwise correlations to the partial correlations between all pairs of variables:
+$$
+MSA = 1- \frac{\sum_j \sum_{k \neq j} q_{jk}^2}{\sum_j \sum_{k \neq j} r_{jk}^2 }
+$$
+
+  - $r_{jk}$ is the marginal sample correlation between 
+variables $j$ and $k$;
+  - $q_{jk}$ is the partial correlation between the  two variables after accounting for all other variables in the data;
+  - MSA indicates the proportion of relationships in the data  that is shared and common among groups of variables   
+  - A high MSA (close to 1) suggests that there are underlying factors influencing groups of variables and the dataset is suitable for factor analysis. 
+  - A low MSA (close to 0) suggestions that most of the correlations are just unique, one-on-one relationships that cannot be well explained by common factors.
+
+The MSA can take on values between 0 and 1. Kaiser proposed the following guidelines for interpretation:
+
+| MSA Range  | Interpretation |
+| :--------- | :------------- |
+| 0.9 to 1.0 | Marvelous      |
+| 0.8 to 0.9 | Meritorious    |
+| 0.7 to 0.8 | Middling       |
+| 0.6 to 0.7 | Mediocre       |
+| 0.5 to 0.6 | Miserable      |
+| 0.0 to 0.5 | Unacceptable   |
+
+::: 
+
+```{r}
+#| code-summary: "R Code: MSA"
+
+# compute measures of sampling adequacy (MSA)
+psych::KMO(dat) 
+```
+**Interpretation**: The overall MSA is `r signif(psych::KMO(dat)$MSA,2)`, which is "meritorious." This confirms our data is appropriate for factor analysis. 
+
+:::{.callout-note title="Cronbach's Alpha"}
+The second method is called **Cronbach's alpha**. For $n$ sample of $p$-dimensional observations $\bar{X}_i$, Cronbach's alpha is 
+$$
+\alpha = \frac{p \bar{r}}{1+(p-1)\bar{r}} 
+$$
+
+- $\bar{r}$ is the average correlation: 
+$$
+\bar{r} =  \frac{\frac{1}{\frac{p(p-1)}{2}} \sum \sum_{i< j} \text{Cov}(X_i, X_j)}{\frac{1}{p}\sum_{i=1}^p \text{Var}(X_i)}
+$$
+- A high alpha value (close to 1) suggests that the items are all measureing the same underlying latent factor. 
+- A low alpha value (close to 0) suggests that the items may be measuring different things. 
+
+::: 
+
+```{r}
+#| code-summary: "R Code: Cronbach's Alpha"
+summary(psych::alpha(dat, check.keys=TRUE))
+```
+
+## How Many Factors Should Be Used?
+
+This is one of the most crucial and perhaps subjective steps. We will introduce two common methods:
+
+1. The first is to decide the number of factors, $m$, prior to the analysis using the idea from PCA. 
+2. The second is to use a formal likelihood ratio test.  
+
+### Scree Plot for Choosing the Number of Factors
+Prior to the analysis, one often needs to decide how many factors should be used. A good exploratory way is to use **scree plot** to decide $m$ so that the contribution of each potential factor to the total variation is examined. 
+
+- **Scree Plot:** We look for the "elbow" or point of inflection in the plot of eigenvalues of correlation matrix.
+
+```{r}
+#| label: num-factors
+#| code-summary: "R Code: Scree Plot"
+eigenvalues = eigen(cor(dat))$values 
+scree_data <- data.frame(
+  Factor = 1:length(eigenvalues),
+  Eigenvalue = eigenvalues
+)
+
+cumsum(eigenvalues)/sum(eigenvalues)
+
+ggplot(scree_data, aes(x = Factor, y = Eigenvalue)) +
+  geom_point() +
+  geom_line() +
+  ggtitle("Scree Plot") +
+  xlab("Factor") + 
+  ylab("Eigenvalue")
+
+```
+
+**Interpretation:**
+
+- As seen from the scree pot, the cumulative eigenvalues do not increase too much and "elbow" point seem to occur at either 5 or 6; so we might want to try the factor model with $m=6$ factors. 
+- The scree plot often gives somewhat subjective answers, so we might also try different number of factors, fit the factor analysis model for each selection and compare the results among all the choices. 
+
+### Likelihood Ratio Test 
+A formal way to choose the number of factors is to use a likelihood ratio test. 
+
+:::{.callout-note title="Likelihood Ratio Test (LRT)"}
+
+- We wish to test whether the $m$ factor model appropriately
+describes the correlations  among the $p$ variables.
+- Null hypothesis:  $m$ factors are sufficient, i.e, 
+$$
+H_0: R_{p \times p} = L_{p \times m}L'_{m \times p} + \Psi_{p \times p} 
+$$
+- Alternative hypothesis: the correlation  matrix can be any positive definite matrix
+$$ H_a: R_{p \times p}   \text{ is a positive definite matrix} $$
+- The test statistic is 
+$$
+           -2\ln \Lambda := \{n - 1 - (2p+4m+5)/6\} \log \frac{|\hat{L}\hat{L}' + \hat{\Psi}|}{|\hat{R}|}, 
+$$
+where $\hat{L}, \hat{\Psi}$ and $\hat{R}$ denote the their estimates from the data. 
+- $-2\ln \Lambda$ has an approximate $\chi^2$ distribution under the null hypothesis with degrees of freedom $\text{df}=[(p - m)^2 - p - m]/2$. 
+- To have $df >0$, we must have $m < \frac{1}{2}(2p + 1 - \sqrt{8p + 1})$.
+- We reject $H_0$ at level $\alpha$ if  
+$$ 
+  [n - 1 - (2p+4m+5)/6] \log \left( \frac{|{L}{L}' + {\Psi}|}{|{R}|} \right) > \chi^2_{\text{df}, 1-\alpha} 
+$$ 
+- This test has two major drawbacks: 
+  - It is very sensitive to sample size $n$. With large sample sizes, the LRT tends to suggest that large number of factors be include. 
+  - It replies on the assumption of multivariate normality. If the assumption is violated, the LRT also tends to indicate the need for too many factors. 
+- In practice, this LRT test should only be used as a guideline for selecting the number of factors, and we should also other things such as the 
+interpretation of the  factors, proportion of variance explained, 
+and the desire for simplicity. 
+
+::: 
+
+```{r}
+#| code-summary: "R Code: Multivariate Normality Test"
+
+mvShapiroTest::mvShapiro.Test(as.matrix(dat))
+```
+
+```{r}
+#| code-summary: "R Code: Likelihood Ratio Test"
+
+# compute p-values for different number of factors
+sapply(1:15, function(f) 
+factanal(dat, factors = f, method ="mle")$PVAL)
+
+```
+**Interpretation**: Since the data fails the Shapiro Wilk's test, the multivariate normality is violated. As expected, the LRT indicates at least 14 factors to be included with p-value > 0.2, which are too many to be included in the factor analysis model. Based on the result from scree plot, we will use 6 factors in the follow-up analysis.  
+
+
+
+## Estimation for Factor Loadings
+
+In the factor analysis model, we often first estimate the factor loadings $L$, and then estimate the factor scores $F$ given $L$. To estimate the factor loadings, three methods are introduced below. 
+
+- The principal component method
+- The iterative principal factor method
+- Maximum likelihood estimation (assumes multivariate normality)
+
+
+
+### The Principal Component Method
+
+The basic idea of the principal component method is to approximate the correlation matrix using a *rank-$m$* approximation via eigenvalues and eigenvectors. 
+
+- Let $(\lambda_i, \mathbf{e}_i)$ denote the eigenpairs of the $p\times p$ correlation matrix $R$. 
+- The rank-$m$ approximation to $R$ is 
+$$
+\hat{R}^{(m)} : = \lambda_1 \mathbf{e}_1 \mathbf{e}_1^\top + \ldots + \lambda_m \mathbf{e}_m \mathbf{e}_m^\top.  
+$$
+- The columns of $L$ is given by the columns $\sqrt{\lambda_1} \mathbf{e}_1, \ldots, \sqrt{\lambda_m}\mathbf{e}_m$. 
+- $\Psi$ is estimated by $\hat{\Psi} = \text{diag}(R - LL^\top)$. 
+
+```{r}
+#| code-summary: "R Code: Estimation via the PC Method"
+
+fit.pc = prcomp(dat, center=TRUE, scale=TRUE)
+
+plot(fit.pc$sdev^2, xlab="Component Number",
+        ylab="Component Variance (eigenvalue)",  
+        main="Scree Diagram", type="b")
+```
+
+```{r}
+#| code-summary: "R Code: Factor Loadings"
+m = 6
+fit.pc$loadings = fit.pc$rotation %*% diag(fit.pc$sdev)
+corrplot::corrplot(fit.pc$loadings[, 1:m])
+```
+
+:::{.callout-note title="Visualizing Factor Loadings" collapse=TRUE}
+```{r}
+#| code-summary: "Writing an R Function"
+plt_loadings = function(loadings, K = 3,
+  with_ties = FALSE, angle=30,
+  palette = c("tomato", "white", "steelblue")) 
+{
+  # Required packages
+  require(dplyr)
+  require(tidyr)
+  require(tibble)
+  require(stringr)
+  require(forcats)
+  require(ggplot2)
+
+  # Ensure matrix form
+  #L = as.matrix(loadings)
+  L = suppressWarnings(as.matrix(unclass(loadings)))
+  
+  # Default names
+  if (is.null(rownames(L))) 
+    rownames(L) = paste0("var", seq_len(nrow(L)))
+  if (is.null(colnames(L))) 
+    colnames(L) = paste0("Factor", seq_len(ncol(L)))
+  
+  var_levels = rownames(L)
+
+  # Build long-format data frame
+  load_df <- as.data.frame(L) %>%
+    tibble::rownames_to_column("variable") %>%
+    pivot_longer(-variable, 
+                        names_to = "Factor", 
+                        values_to = "loading") %>%
+    mutate(abs_loading = abs(loading))
+
+  # Select top-K per Factor
+  tops = load_df %>%
+    group_by(Factor) %>%
+    slice_max(abs_loading, n = K, 
+                     with_ties = with_ties) %>%
+    ungroup() %>%
+    mutate(highlight = TRUE)
+
+  # Mark highlighted entries
+  load_df = load_df %>%
+    left_join(
+      tops %>% dplyr::select(variable, Factor, highlight),
+      by = c("variable", "Factor")
+    ) %>%
+    mutate(
+      highlight = ifelse(is.na(highlight), 
+                         FALSE, TRUE))
+
+  # Reorder factors numerically 
+  # if they are like "Factor 1", "Factor 2", ...
+  load_df = load_df %>%
+    mutate(
+      PC_num = 
+          as.integer(stringr::str_extract(Factor, "\\d+")),
+      PC = if (all(!is.na(PC_num))) {
+        forcats::fct_reorder(Factor, PC_num, .fun = min)
+      } else {
+        factor(Factor, levels = rev(var_levels))
+      }
+    )
+
+  # Plot
+  p = ggplot(load_df, 
+    aes(x = PC, y = fct_rev(variable), fill = loading)) +
+    geom_tile(color = "white") +
+    scale_fill_gradient2(
+      low = palette[1], 
+      mid = palette[2], 
+      high = palette[3], 
+      midpoint = 0,
+      name = "Loading"
+    ) +
+    geom_point(
+      data = subset(load_df, highlight),
+      shape = 21, size = 4, stroke = 1.1, 
+      color = "black", fill = NA
+    ) +
+    labs(
+      x = NULL, y = NULL,
+      title = 
+        paste0("Top ", 
+               K, " loadings per column highlighted")
+    ) +
+    theme_minimal(base_size = 12) + 
+    theme(
+      axis.text.x = 
+        element_text(
+          face = "bold",
+          angle = angle, 
+          vjust = 0.5, 
+          hjust = 1)
+      )
+
+  print(p)
+}
+
+```
+
+:::
+
+```{r}
+#| code-fold: false
+#| fig-align: center 
+plt_loadings(fit.pc$loadings[, 1:m], K=4)
+```
+
+
+### The Principal Factor Method
+
+The principal factor method is an iterative modification of the principal components method that allows for greater focus on explaining correlations among observed traits. 
+
+- The general algorithm is as follows: 
+  1. $\Psi$ is estimated via the PC method above. 
+  2. $L$ is estimated to approximate $R - \Psi$. 
+  3. Given $L$, $\Psi$ is estimated. 
+  4. Repeat Step 2-3 until convergence. 
+- There are two options during estimation: 
+  - **HEYWOOD**: Set any estimated communality larger than one equal to 1 and contiute iterations with the remaining variables. 
+  - **ULTRAHEYWOOD**:  Continue iterations with all of the variables and hope that iterations eventually give allowable parameter estimates. (Doing nothing) 
+
+:::{.callout-note title="`factanal` v.s. `fn`"}
+In R, both functions `factanal` and `fa` (from the `psych` package) implement factor analysis, but they use different estimation methods. The principal factor method is available in `fa` but not `factanal`. 
+:::
+
+```{r}
+#| code-summary: "R Code: Principal Factor Method" 
+#| code-fold: true
+library(psych)
+fit.pa = psych::fa(dat, nfactors=5, fm="pa", rotate="none")
+summary(fit.pa)
+```
+
+```{r}
+#| code-summary: "R Code: Plot Factor Loadings"
+#| fig-align: center 
+plt_loadings(fit.pa$loadings, K=4)
+```
+
+### Maximum Likelihood Estimation
+The maximum likelihood estimation (MLE) method is a probabilistic method by assuming multivariate normal for the data and then maximizing the likelihood function to obtain the estimates.  
+
+:::{.callout-note title="Maximum Likelihood Estimation"}
+
+- The distributional assumptions for the factor model are:
+$$
+\mathbf{x}_j \sim \text{N}_p(\boldsymbol{\mu}, \boldsymbol{\Sigma}), \;\; \mathbf{f}_j \sim \text{N}_m(\mathbf{0}, \mathbf{I}_m), \;\; \boldsymbol{\epsilon}_j \sim \text{N}_p(\mathbf{0}, \boldsymbol{\Psi}_{p \times p}),
+$$
+  - $\mathbf{x}_j = \mathbf{L} \mathbf{f}_j + \boldsymbol{\varepsilon}_j$,
+  - $\boldsymbol{\Sigma} = \mathbf{L}\mathbf{L}' + \boldsymbol{\Psi}$, 
+  - and $\mathbf{F}_j$ is independent of $\boldsymbol{\varepsilon}_j$. 
+  - Also, $\boldsymbol{\Psi}$ is a diagonal matrix.
+
+- The log-likelihood function for the data is given by:
+\begin{align*}
+\ell(\boldsymbol{\mu}, \boldsymbol{\Sigma}) &:= -\frac{n}{2}\log |2\pi \boldsymbol{\Sigma}| - \frac{1}{2} \sum_{i=1}^n (\mathbf{x}_i - \boldsymbol{\mu})' \boldsymbol{\Sigma}^{-1}(\mathbf{x}_i - \boldsymbol{\mu}) \\
+&= -\frac{n}{2}\log |2\pi \boldsymbol{\Sigma}| - \frac{n}{2} \text{tr}(\boldsymbol{\Sigma}^{-1}\mathbf{S}) - \frac{n}{2}(\bar{\mathbf{x}}-\boldsymbol{\mu})'\boldsymbol{\Sigma}^{-1} (\bar{\mathbf{x}}-\boldsymbol{\mu}).
+\end{align*}
+
+::: 
+
+```{r}
+#| code-summary: "R Code: MLE via `factanal`"
+fit.mle = factanal(dat, factors=m, method="mle", 
+                   rotation="none")
+print(fit.mle$loadings)
+```
+
+```{r}
+#| code-summary: "Visualize Factor Loadings"
+plt_loadings(fit.mle$loadings, K=5)
+```
+
+**Factor Loading Interpretations:**
+A loading represents how strongly a variable is associated with a factor. We could consider the loading $|\ell_{ij}|$ > 0.3 or 0.4 so that each factor could have meaningful interpretations. The signs of factor loadings could be flipped for all factors. 
+
+
+* **Factor 1:** Items that load strongly on this factor could include A3-A5, C4,C5, E2-E5, N1-N5. In general, it is difficult to interpret since most variables depend this factor. It may suggest that there is a common factor to explain all the variables. This could be further verified using *Quartimax* rotation.  
+* **Factor 2:** Items N1-N5 load strongly on this factor. (**Neuroticism**)
+* **Factor 3:** Items C1-C5 load strongly here. (**Conscientiousness**)
+* **Factor 4:** Items O1-O5 load strongly here. O2 and O5 are reverse-coded. (**Openness**)
+* **Factor 5:** Items that strongly load on this include A1-A3, E2, O4. It could be more related to Agreeableness. 
+
+<!-- * **MR6 (Factor 6):** This factor has only two items loading on it (A1 and N4). It's a weaker, less clearly defined factor. For a final analysis, we might consider re-running the analysis with only 5 factors. -->
+
+**Factor Correlations:**
+The table at the bottom shows the correlations between the factors. This could tell us how the latent factors are correlated. For orthogonal rotations, the factors will show essentially zero values; for non-orthogonal rotations, this could be used to check the validity of the rotation method. 
+
+```{r}
+#| code-summary: "R Code: Correlation Among Factor Loadings"
+
+corrplot::corrplot(cor(fit.mle$loadings))
+```
+
+In constast to `factanal()`, one can also use `fa()` to get maximum likelihood estimates. 
+```{r}
+#| code-summary: "R Code: MLE via `fa`"
+
+fit.mle2 = fa(dat, nfactors=m, fm="ml")
+fit.mle2$loadings
+plt_loadings(fit.mle2$loadings, K=5)
+```
+
+**Final Conclusion:** The exploratory factor analysis (EFA) successfully identified three of the "Big Five" personality traits (Conscientiousness, Neuroticism, and Openness) as the primary latent structures within the 25 survey items using the maximum likelihood estimation method without rotation on the factors.
+
+
+## Rotation of Factors 
+
+In the factor model with $m>1$, there is no unique set of loadings and thus there is ambiguity associated with the factor model. This can be seen by introducing any $m\times m$ orthogonal matrix $T$ in the factor model 
+$$
+\mathbf{z}_i = L\mathbf{f}_i + \boldsymbol \varepsilon = L T T^\top \mathbf{f}_i +  \boldsymbol \varepsilon = L^* \mathbf{f}_i^* + \boldsymbol \varepsilon
+$$
+
+- $TT^\top = I$ and $T^\top T = I$
+- $L^*:=LT$ and $\mathbf{f}_i^*:=T^\top \mathbf{f}_i$
+- This indicates that **loadings** are not uniquely determined. 
+
+
+In what follows, we introduce three different factor rotations to better interpret the results. 
+
+:::{.callout-note title="Varimax Rotation"}
+Varimax rotation aims to have each one of the $p$ variables load highly on only one factor and have moderate to negligible loads on all other factors.
+
+- The transformations in Varimax rotation is an orthogonal transformation. 
+- After varimax rotation, each of the $p$ variables should load highly on at most one of the rotated factors, but this may not always be true.    
+
+::: 
+
+```{r}
+#| code-summary: "R Code: Varimax Rotation"
+
+fit.varimax = factanal(dat, factors=m, method="mle", rotation="varimax")
+fit.varimax$loadings
+```
+
+```{r}
+plt_loadings(fit.varimax$loadings, K=5)
+```
+
+:::{.callout-note title="Interpretation of Varimax Factor Loadings" collapse="true"}
+The goal is to name each factor by identifying the common theme among the variables that have high loadings on it. We'll generally consider a loading above 0.5 (or below -0.5) as significant.
+
+* **Factor 1: Neuroticism 😟**
+This factor is defined by high positive loadings from all the Neuroticism items. Individuals scoring high on this factor tend to experience negative emotions.
+  * **N1:** Get stressed out easily (0.814)
+  * **N2:** Worry about things (0.783)
+  * **N3:** Am easily disturbed (0.717)
+  * **N4:** Get upset easily (0.563)
+  * **N5:** Change my mood a lot (0.521)
+
+* **Factor 2: Extraversion 🗣️**
+This factor captures the dimension of extraversion vs. introversion. Note the strong negative loadings for the introversion-keyed items.
+  * **E1:** Don't talk a lot (-0.578)
+  * **E2:** Find it difficult to approach others (-0.675)
+  * **E3:** Know how to captivate people (0.498)
+  * **E4:** Make friends easily (0.602)
+  * **E5:** Am the life of the party (0.498)
+
+* **Factor 3: Conscientiousness ✍️**
+This factor is defined by the Conscientiousness items. The negative loadings for items C4 and C5 indicate that people high on this factor are *not* likely to do things halfway or waste time.
+  * **C1:** Am always prepared (0.528)
+  * **C2:** Pay attention to details (0.617)
+  * **C3:** Get chores done right away (0.556)
+  * **C4:** Do things in a half-way manner (-0.647)
+  * **C5:** Waste my time (-0.572)
+
+* **Factor 4: Agreeableness 😊**
+This factor clearly represents the Agreeableness trait. A1, which is reverse-keyed, has a moderate negative loading as expected.
+  * **A2:** Am interested in people (0.579)
+  * **A3:** Sympathize with others' feelings (0.649)
+  * **A4:** Have a soft heart (0.453)
+  * **A5:** Take time out for others (0.581)
+  * **A1:** Am indifferent to the feelings of others (-0.375)
+
+* **Factor 5: Openness to Experience 🎨**
+This factor is defined by the Openness items. The negative loadings for O2 and O5 are consistent with being low on this trait.
+  * **O1:** Have a rich vocabulary (0.523)
+  * **O3:** Have a vivid imagination (0.619)
+  * **O4:** Am full of ideas (0.360)
+  * **O2:** Am not interested in abstract ideas (-0.467)
+  * **O5:** Do not enjoy going to art museums (-0.524)
+
+* **Summary of Variance Explained** 
+The first 4 factors explains 38% variation, however, the factor 5 has very small loadings ($\ell_{ij}< 0.5$), which indicates that factor 5 may not be interpretable. 
+
+::: 
+
+:::{.callout-note title="Quartimax Rotation"}
+
+- The varimax rotation destroy an "overall" factor. 
+- In contrast, the quartimax rotation tries to 
+  1. Preserve an overall factor such that each of the $p$ variables has a high loading on the overall factor;
+  2. Create other factors such that each of the $p$ variables has a high loading on at most one factor. 
+
+::: 
+
+```{r}
+#| code-summary: "R Code: Quartimax Rotation"
+# install.packages("GPArotation")
+library(GPArotation)
+quartimax(fit.mle$loadings)
+```
+
+
+::: {.callout-note title="Interpretation of Quartimax Rotated Loadings" collapse="true"}
+The goal of a Quartimax rotation is to simplify the rows of the factor loading matrix, making it easier to see which factor each variable is associated with. Based on the loadings (where values > 0.4 are considered significant), we can interpret the six factors as follows.
+
+* **Factor 1: Extraversion & Agreeableness (A "Sociability" Factor)**:
+    This is a very broad factor that combines items from two distinct personality traits. It captures a general tendency towards being sociable, outgoing, and agreeable. Quartimax rotation can sometimes produce a large general factor, which seems to have happened here.
+    * **E4:** Make friends easily (0.705)
+    * **A3:** Sympathize with others' feelings (0.654)
+    * **A5:** Take time out for others (0.644)
+    * **E3:** Know how to captivate people (0.599)
+    * **A2:** Am interested in people (0.547)
+    * **E2:** Find it difficult to approach others (-0.601)
+    * **E1:** Don't talk a lot (-0.516)
+
+* **Factor 2: Neuroticism**:
+    This is a very strong and clear factor, defined by high positive loadings from all the Neuroticism items.
+    * **N1:** Get stressed out easily (0.840)
+    * **N2:** Worry about things (0.804)
+    * **N3:** Am easily disturbed (0.704)
+    * **N4:** Get upset easily (0.526)
+    * **N5:** Change my mood a lot (0.492)
+
+* **Factor 3: Conscientiousness**:
+    This factor is clearly defined by the Conscientiousness items. The negative loadings for C4 and C5 are expected as they are reverse-keyed items.
+    * **C4:** Do things in a half-way manner (-0.643)
+    * **C2:** Pay attention to details (0.614)
+    * **C5:** Waste my time (-0.559)
+    * **C3:** Get chores done right away (0.550)
+    * **C1:** Am always prepared (0.529)
+
+* **Factor 4: Openness to Experience**:
+    This factor is defined by the Openness items. The negative loadings for the reverse-keyed items (O2, O5) fit the pattern perfectly.
+    * **O3:** Have a vivid imagination (0.615)
+    * **O5:** Do not enjoy going to art museums (-0.520)
+    * **O1:** Have a rich vocabulary (0.518)
+    * **O2:** Am not interested in abstract ideas (-0.471)
+
+* **Factor 5: A Weak or Ill-Defined Factor**:
+This factor has no high loadings (all are below 0.4). This suggests that it does not represent a clear, substantial underlying trait. In a real analysis, you would likely conclude that a 4-factor solution is more appropriate than a 5-factor solution, as this fifth factor is not interpretable and its SS loading (0.984) is below the typical cutoff of 1.0.
+
+
+* **Summary of Variance Explained**: The five factors together explain **42.1%** of the total variance in the personality items. However, since the fifth factor is not interpretable, a 4-factor solution explaining 38.2% of the variance would likely be the more practical and parsimonious choice.
+
+:::
+
+
+:::{.callout-note title="Promax Transformation"}
+- The varimax and quartimax rotations produce uncorrelcted factors. 
+- Promax is a non-orthogonal (oblique) transformation that 
+  1. is not a rotation,
+  2. can produce correlated factors,
+  3. and tries to force each of the $p$ variables to load highly on one of the factors. 
+:::
+
+```{r}
+#| code-summary: "R Code: Promax Transformation"
+result = stats::promax(fit.mle$loadings)
+result  
+
+# compute correlations for factor loadings 
+corfac = solve(t(result$rotmat) %*% result$rotmat)
+corfac
+```
+
+
+
+::: {.callout-note title="Interpretation of Promax Rotated Loadings" collapse="true"}
+A Promax rotation is used when we expect the underlying latent factors to be correlated. The interpretation focuses on the **Pattern Matrix**, which shows the unique contribution of each variable to a factor. We will consider loadings with an absolute value above 0.4 as significant for naming the factors.
+
+**Interpretation of Factors** 
+
+* **Factor 1: Extraversion (vs. Introversion)** 🗣️
+    This factor is clearly defined by the Extraversion items. The signs are flipped compared to the previous analyses, so high scores on this factor indicate **Introversion**.
+    * **E2:** Find it difficult to approach others (0.715)
+    * **E1:** Don't talk a lot (0.632)
+    * **E4:** Make friends easily (-0.605)
+    * **E3:** Know how to captivate people (-0.468)
+    * **E5:** Am the life of the party (-0.473)
+
+* **Factor 2: Neuroticism** 😟
+    This is a very strong and clear factor, capturing emotional stability. It is defined by high positive loadings from all the Neuroticism items.
+    * **N1:** Get stressed out easily (0.909)
+    * **N2:** Worry about things (0.860)
+    * **N3:** Am easily disturbed (0.682)
+    * **N4:** Get upset easily (0.398) - *Note: This item cross-loads with Factor 1.*
+    * **N5:** Change my mood a lot (0.433)
+
+* **Factor 3: Conscientiousness** ✍️
+    This factor is clearly defined by the Conscientiousness items. The negative loadings for C4 and C5 are expected as they are reverse-keyed.
+    * **C4:** Do things in a half-way manner (-0.675)
+    * **C2:** Pay attention to details (0.658)
+    * **C3:** Get chores done right away (0.593)
+    * **C5:** Waste my time (-0.581)
+
+* **Factor 4: Openness to Experience (Reversed)** 🎨
+    This factor is defined by the Openness items, but the signs are flipped. High scores on this factor indicate a lower degree of openness or a preference for the concrete over the abstract.
+    * **O3:** Have a vivid imagination (-0.629)
+    * **O1:** Have a rich vocabulary (-0.525)
+    * **O5:** Do not enjoy going to art museums (0.533)
+    * **O2:** Am not interested in abstract ideas (0.473)
+
+* **Factor 5: Agreeableness** 😊
+    This factor is clearly defined by the Agreeableness items. The negative loading for the reverse-keyed item A1 is consistent with the trait.
+    * **A3:** Sympathize with others' feelings (0.646)
+    * **A2:** Am interested in people (0.582)
+    * **A5:** Take time out for others (0.558)
+    * **A1:** Am indifferent to the feelings of others (-0.387)
+
+**Interpreting Factor Correlations:** 
+A critical step in an oblique rotation is to examine the **Factor Correlation Matrix**. This matrix shows how the five personality factors are related to each other. 
+
+Here are the key relationships shown in the matrix:
+
+* **Introversion and Neuroticism (r = 0.37):** There is a **moderate positive correlation** between Introversion (Factor 1) and Neuroticism (Factor 2). This is a classic finding in personality psychology: individuals who are more introverted also tend to be more prone to experiencing negative emotions like anxiety and stress.
+* **Introversion and Conscientiousness (r = -0.38):** There is a **moderate negative correlation** between Introversion (Factor 1) and Conscientiousness (Factor 3). This suggests that individuals who are more introverted tend to be slightly less conscientious (less organized, less disciplined). Conversely, more extraverted individuals tend to be more conscientious.
+* **Neuroticism and Conscientiousness (r = -0.25):** There is a **small negative correlation** between Neuroticism (Factor 2) and Conscientiousness (Factor 3). This indicates that individuals who are more emotionally stable (low Neuroticism) tend to be more organized and self-disciplined (high Conscientiousness).
+* **Conscientiousness and Openness (r = -0.22):** This one is tricky due to the reversed factor. The matrix shows a small negative correlation between Conscientiousness (Factor 3) and *Low Openness* (Factor 4). This actually means there is a **small positive correlation (r = 0.22) between Conscientiousness and Openness**. People who are more disciplined and organized also tend to be slightly more open to new experiences.
+* **Introversion and Agreeableness (r = -0.23):** There is a **small negative correlation** between Introversion (Factor 1) and Agreeableness (Factor 5). This suggests that more extraverted individuals tend to be slightly more agreeable and sympathetic towards others.
+
+Overall, these correlations align well with established findings in personality research and confirm that allowing the factors to correlate was a sensible decision for this analysis.
+
+
+* **Summary of Variance Explained**: 
+The five factors together explain **41.3%** of the total variance in the personality items. Note that in an oblique rotation, the variance explained by each factor is not simply additive because the factors themselves share some variance.
+
+
+
+:::
+
+
+
+## Estimation of Factor Scores 
+
+For each observation $\mathbf{x}_i$ (or its z-score $\mathbf{z}_i$), we can estimate the (vector of) factor scores $\mathbf{f}_i$ once $L$ is estimated. In general, there are three methods to estimating factor scores: 
+
+  - ordinary least squares (OLS), 
+  - Weighted least squares (WLS), 
+  - and regression method. 
+
+These methods can be specified via the option `scores` in the `factanal` function. In practice, one use often the regression method, which estimate $\mathbf{f}_i$ by the conditional mean given the observations: 
+$$
+\hat{\mathbf{f}}_i:=E[\mathbf{f}_j| \mathbf{x}_j] = \hat{L}^\top (\hat{L}\hat{L}^\top + \hat{\Psi})(\mathbf{x}_j - \mathbf{x}).
+$$
+
+```{r}
+#| code-summary: "R Code: Factor Scores Estimation via Regression Method"
+fit = factanal(dat, factors=m, method="mle", 
+               rotation="varimax", scores="regression")
+head(fit$scores)
+```
+
+```{r}
+#| code-summary: "R Code: Plot Factor Scores"
+scores = fit$scores
+df = cbind(df, scores)
+
+ggplot(df, aes(x = Factor1, y = Factor2, color = factor(gender))) +
+  geom_point(alpha = 0.5) +
+  geom_vline(xintercept = 0, linetype = "dashed", alpha = 0.5) +
+  geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.5) +
+  scale_color_manual(values = c("blue", "red"), name = "Gender", labels = c("Male", "Female")) +
+  labs(
+    title = "Factor Scores: Agreeableness vs. Conscientiousness",
+    subtitle = "Points colored by gender",
+    x = "Factor 1: Agreeableness",
+    y = "Factor 2: Conscientiousness"
+  ) +
+  theme_bw()
+
+
+GGally::ggpairs(
+  df,
+  columns = 29:33, # The 6 factor score columns 
+  aes(color = factor(gender), alpha = 0.6),
+  title = "Pairwise Scatter Plot of Six Factor Scores by Gender"
+) +
+  theme_bw()
+```
+
+
+
+
+## Exercise: Track Record Data 
+
+There are $54$ countries' track records for men and women. The dataset for women in `records.women.csv` includes variables $x_1,\dots,x_7$ for 100 m, 200 m, 400 m (seconds) and 800 m, 1500 m, 3000 m, marathon (minutes). The dataset for men in `records.men.csv` includes variables $x_1,\dots,x_8$ for 100 m, 200 m, 400 m (seconds) and 800 m, 1500 m, 5000 m, 10000 m, marathon (minutes). The first three times are in seconds and the remaining times are in minutes.  
+
+:::{.callout-note title="Research Question" collapse="true"}
+Are there any latent structures to explain the the performance difference between men and women? 
+::: 
+
+**Step 1: Data Preparation and Visualization** 
+
+:::{.callout-tip title="View Solution" collapse=TRUE}
+```{r,warning=FALSE, message=FALSE}
+#| code-summary: "Data Preparation"
+
+dat.m = read.csv("records.men.csv")
+dat.w = read.csv("records.women.csv")
+GGally::ggpairs(dat.m[,-1])
+GGally::ggpairs(dat.w[,-1])
+
+```
+::: 
+
+
+**Step 2: Check Assumptions**
+
+:::{.callout-tip title="View Solution" collapse=TRUE}
+
+```{r}
+#| code-summary: "R Code: Measures of Sampling Adequacy"
+dat = dat.m[,-1]
+psych::KMO(dat.m[,-1]) 
+psych::KMO(dat.w[,-1])
+
+```
+**Interpretation**: Both of the overall MSAs are suggesting the data are appropriate for factor analysis. 
+
+```{r}
+#| code-summary: "R Code: Multivariate Normality Test"
+mvShapiroTest::mvShapiro.Test(as.matrix(dat))
+
+```
+
+:::
+
+**Step 3: Determine the Number of Factors to Extract** 
+
+:::{.callout-tip title="View Solution" collapse=TRUE}
+
+```{r}
+#| code-summary: "Scree Plot and Hypothesis Tests"
+fit.pc = prcomp(dat, center=TRUE, scale=TRUE)
+plot(fit.pc$sdev^2, type="b")
+
+sapply(1:3, function(f) 
+factanal(dat, factors = f, method ="mle")$PVAL)
+```
+
+
+:::
+
+**Step 4: Extract and Rotate the Factors** 
+
+:::{.callout-tip title="View Solution" collapse=TRUE}
+
+```{r}
+#| code-summary: "R Code: Varimax Rotation"
+
+fit2 = factanal(dat, factors=2, method="mle", rotation="varimax")
+fit3 = factanal(dat, factors=3, method="mle", rotation="varimax")
+
+data.frame(
+  m     = c(2,3),
+  stat  = c(fit2$STATISTIC, fit3$STATISTIC),
+  df    = c(fit2$dof,       fit3$dof),
+  pval  = c(fit2$PVAL,      fit3$PVAL)
+)
+
+```
+
+```{r}
+#| code-summary: "Factor Loadings"
+fit3$loadings
+```
+
+
+:::
+
+:::{.callout-tip title="View Solution" collapse=TRUE}
+
+```{r}
+#| code-summary: "R Code: Promax Rotation"
+
+fit = factanal(dat, factors=3, method="mle", rotation="promax")
+fit$loadings
+```
+
+
+```{r}
+#| code-summary: "R Code: Factor Correlation Matrix"
+M = fit$rotmat
+# correlation 
+corfac = solve(t(M) %*% M)
+corfac
+```
+:::
+
+
+**Step 5: Interpret Factor Loadings** 
+
+:::{.callout-tip title="View Solution" collapse=TRUE}
+```{r}
+plt_loadings(fit$loadings, K=3, angle=0)
+```
+
+The data can be divided into three physiological groups: 
+
+- **Sprints**: 100, 200, 400 (anaerobic exercise)
+- **Middle distance**: 800, 1500 (mixed energy)
+- **Long distance**: 3000 (women), 5000/10000, marathon (aerobic endurance)
+
+* The `varimax` rotation aims to explain the data using one overall common theme. We will consider a loading above 0.6 (or below -0.6) as significant. 
+
+  * **Factor 1:** This factor is defined by high positive loadings corresponding to middle distance and long distance. This measures aerobic endurance. 
+  * **Factor 2:** This factor is defined by high positive loadings corresponding to sprints. This measures anaerobic speed/power. 
+  * **Factor 3:** This factor has very high positive load on the variable of 800m. This indicates that both anaerobic speed/power and aerobic endurance are very important contributors for 800m. 
+
+* What about interpretations using other roations? 
+
+::: 

@@ -16,7 +16,8 @@ book:
     - ch4/04-Inference_for_Means.qmd
     - ch5/05-Inference_for_Means_II.qmd 
     - ch6/06-PCA.qmd
-    # - ch7/07-FactorAnalysis.qmd
+    - ch7/07-FactorAnalysis.qmd
+    # - ch8/08-MDS.qmd
     # - summary.qmd
     # - references.qmd
     

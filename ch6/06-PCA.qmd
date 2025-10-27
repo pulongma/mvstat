@@ -5,6 +5,7 @@ pdf-engine: xelatex
 html-math-method: katex
 format: 
   html:
+    html-math-method: katex
     include-in-header:
       - text: |
           <script>
@@ -24,6 +25,8 @@ format:
     number-sections: true
     code-fold: true
     callout-appearance: default
+    df-print: paged
+    theme: cosmo 
 ---
 
 ```{r, message=FALSE,warning=FALSE, include=FALSE}
@@ -947,7 +950,7 @@ factoextra::fviz_pca_biplot(fit,
 ### Exercise 2: PCA for Image Compression
 
 An image is a matrix of pixels with values that represent the intensity of the pixel, where 0=white and 1=black. The jpeg format image has three channels: red, green, blue. 
-If the image size is too large or for regulatory or privacy issues, one is often interested in compressing the image size and working with a low-resolution image. This task can be achieved using PCA learned in this chapter. Here you can use any image to for this task, but I will use an image of the Great Wall.
+If the image size is too large or for regulatory or privacy issues, one is often interested in compressing the image size and working with a low-resolution image. This task can be achieved using PCA introduced in this chapter. Here you can use any image for this task, but I will use an image of the Great Wall.
 
 1. Load the image into R and extract the green channel. 
 

@@ -1,0 +1,2494 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Pulong Ma">
+
+<title>7&nbsp; Factor Analysis – Introduction to Multivariate Data Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../ch8/08-MDS.html" rel="next">
+<link href="../ch6/06-PCA.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-626149efe8f5d16e1d391ba177679bf0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script>
+  window.MathJax = {
+    loader: {
+      load: ['[tex]/amsmath', '[tex]/amssymb', '[tex]/amsfonts'],
+      '[tex]/color']
+    },
+    tex: {
+      packages: { '[+]': ['amsmath', 'amssymb', 'amsfonts', 'color'] }
+    }
+  };
+</script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../custom.css">
+<link rel="stylesheet" href="custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ch7/07-FactorAnalysis.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Factor Analysis</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Introduction to Multivariate Data Analysis</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch1/01-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Multivariate Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch2/02-graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Graphs and Data Visualization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch3/03-MVN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multivariate Normal Distribution</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch4/04-Inference_for_Means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Inference for Single Mean Vector</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch5/05-Inference_for_Means_II.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Inference for Multiple Mean Vectors</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch6/06-PCA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch7/07-FactorAnalysis.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Factor Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch8/08-MDS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multidimensional Scaling</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="1">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#why-factor-analysis" id="toc-why-factor-analysis" class="nav-link active" data-scroll-target="#why-factor-analysis"><span class="header-section-number">7.1</span> Why Factor Analysis?</a>
+  <ul class="collapse">
+  <li><a href="#factor-analysis-v.s.-pca-whats-the-difference" id="toc-factor-analysis-v.s.-pca-whats-the-difference" class="nav-link" data-scroll-target="#factor-analysis-v.s.-pca-whats-the-difference"><span class="header-section-number">7.1.1</span> Factor Analysis v.s. PCA: What’s the Difference?</a></li>
+  <li><a href="#spearmans-exam-marks" id="toc-spearmans-exam-marks" class="nav-link" data-scroll-target="#spearmans-exam-marks"><span class="header-section-number">7.1.2</span> Spearman’s Exam Marks</a></li>
+  </ul></li>
+  <li><a href="#the-exploratory-factor-model" id="toc-the-exploratory-factor-model" class="nav-link" data-scroll-target="#the-exploratory-factor-model"><span class="header-section-number">7.2</span> The Exploratory Factor Model</a></li>
+  <li><a href="#measures-of-sampling-adequacy" id="toc-measures-of-sampling-adequacy" class="nav-link" data-scroll-target="#measures-of-sampling-adequacy"><span class="header-section-number">7.3</span> Measures of Sampling Adequacy</a></li>
+  <li><a href="#how-many-factors-should-be-used" id="toc-how-many-factors-should-be-used" class="nav-link" data-scroll-target="#how-many-factors-should-be-used"><span class="header-section-number">7.4</span> How Many Factors Should Be Used?</a>
+  <ul class="collapse">
+  <li><a href="#scree-plot-for-choosing-the-number-of-factors" id="toc-scree-plot-for-choosing-the-number-of-factors" class="nav-link" data-scroll-target="#scree-plot-for-choosing-the-number-of-factors"><span class="header-section-number">7.4.1</span> Scree Plot for Choosing the Number of Factors</a></li>
+  <li><a href="#likelihood-ratio-test" id="toc-likelihood-ratio-test" class="nav-link" data-scroll-target="#likelihood-ratio-test"><span class="header-section-number">7.4.2</span> Likelihood Ratio Test</a></li>
+  </ul></li>
+  <li><a href="#estimation-for-factor-loadings" id="toc-estimation-for-factor-loadings" class="nav-link" data-scroll-target="#estimation-for-factor-loadings"><span class="header-section-number">7.5</span> Estimation for Factor Loadings</a>
+  <ul class="collapse">
+  <li><a href="#the-principal-component-method" id="toc-the-principal-component-method" class="nav-link" data-scroll-target="#the-principal-component-method"><span class="header-section-number">7.5.1</span> The Principal Component Method</a></li>
+  <li><a href="#the-principal-factor-method" id="toc-the-principal-factor-method" class="nav-link" data-scroll-target="#the-principal-factor-method"><span class="header-section-number">7.5.2</span> The Principal Factor Method</a></li>
+  <li><a href="#maximum-likelihood-estimation" id="toc-maximum-likelihood-estimation" class="nav-link" data-scroll-target="#maximum-likelihood-estimation"><span class="header-section-number">7.5.3</span> Maximum Likelihood Estimation</a></li>
+  </ul></li>
+  <li><a href="#rotation-of-factors" id="toc-rotation-of-factors" class="nav-link" data-scroll-target="#rotation-of-factors"><span class="header-section-number">7.6</span> Rotation of Factors</a></li>
+  <li><a href="#estimation-of-factor-scores" id="toc-estimation-of-factor-scores" class="nav-link" data-scroll-target="#estimation-of-factor-scores"><span class="header-section-number">7.7</span> Estimation of Factor Scores</a></li>
+  <li><a href="#exercise-track-record-data" id="toc-exercise-track-record-data" class="nav-link" data-scroll-target="#exercise-track-record-data"><span class="header-section-number">7.8</span> Exercise: Track Record Data</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Factor Analysis</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Pulong Ma </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="why-factor-analysis" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="why-factor-analysis"><span class="header-section-number">7.1</span> Why Factor Analysis?</h2>
+<p>Imagine you’re a psychologist who has just created a new survey to measure “student engagement.” You’ve written 10 different questions, like</p>
+<ul>
+<li>“How often do you participate in class discussions?”,</li>
+<li>“How much time do you spend studying?”,</li>
+<li>and “Do you find your courses interesting?”</li>
+</ul>
+<p>After collecting responses, you notice that students who answer “often” to one question tend to answer similarly to a few others. It seems like your questions aren’t measuring 10 completely different things, but rather, they are tapping into a few <strong>underlying, unobservable traits</strong>.</p>
+<ul>
+<li>This is the exact scenario where you would use <strong>Exploratory Factor Analysis</strong>.</li>
+<li>Factor analysis is a statistical method used to uncover the latent structure (or “factors”) from a set of variables. There are two types of factor analysis: <strong><em>exploratory factor analysis</em></strong> (EFA) and <strong><em>confirmatory factor analysis</em></strong>. This course will focus on EFA.</li>
+</ul>
+<section id="factor-analysis-v.s.-pca-whats-the-difference" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="factor-analysis-v.s.-pca-whats-the-difference"><span class="header-section-number">7.1.1</span> Factor Analysis v.s. PCA: What’s the Difference?</h3>
+<ul>
+<li><p>PCA is a <strong>variance-focused</strong> technique with the goal to reduce dimensionality by creating a smaller set of components that capture maximum amount of total variance in the original data.</p></li>
+<li><p>Factor analysis is a <strong>covariance-focused</strong> technique with the goal to explain the <strong>shared variance (covariance)</strong> among the original variables by modeling the underlying latent factors.</p></li>
+</ul>
+</section>
+<section id="spearmans-exam-marks" class="level3" data-number="7.1.2">
+<h3 data-number="7.1.2" class="anchored" data-anchor-id="spearmans-exam-marks"><span class="header-section-number">7.1.2</span> Spearman’s Exam Marks</h3>
+<p>Suppose we observe three exam scores for each student: Classics (<span class="math inline">X_1</span>), French (<span class="math inline">X_2</span>), and English (<span class="math inline">X_3</span>). Researchers collect exam scores from many different students across these subjects and would like to investigate if what could affect students’ performances.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Research Question">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Research Question
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Is there a single latent factor that drives students’ performance across different subjects?</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Experimental Data">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Experimental Data
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Historical reports give approximate correlations as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">1.00</span>, <span class="fl">0.83</span>, <span class="fl">0.78</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>              <span class="fl">0.83</span>, <span class="fl">1.00</span>, <span class="fl">0.67</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>              <span class="fl">0.78</span>, <span class="fl">0.67</span>, <span class="fl">1.00</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Classics"</span>,<span class="st">"French"</span>,<span class="st">"English"</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">c</span>(<span class="st">"Classics"</span>,<span class="st">"French"</span>,<span class="st">"English"</span>)))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Classics French English
+Classics     1.00   0.83    0.78
+French       0.83   1.00    0.67
+English      0.78   0.67    1.00</code></pre>
+</div>
+</div>
+<p><strong>Interpretation</strong>: The variables are <strong>strongly correlated</strong>—suggesting a single, latent “general ability” factor <span class="math inline">F</span> that drives performance across subjects.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="An Orthogonal One-Factor Model">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+An Orthogonal One-Factor Model
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>Let <span class="math inline">\mathbf{z} = (z_1,\ldots,z_p)^\top</span> be standardized variable of <span class="math inline">\mathbf{x}</span>.</p></li>
+<li><p>Let <span class="math inline">R=\text{Var}(z)</span> denote the <span class="math inline">p\times p</span> correlation matrix. An <strong>orthogonal one-factor</strong> model has the form <span class="math display">\begin{equation*}
+\mathbf{z} = L f + \boldsymbol \varepsilon,\\
+\text{Var}(\varepsilon)=\boldsymbol \Psi=\text{diag}\{\psi_1,\ldots,\psi_p\},\quad
+R = LL^\top + \boldsymbol \Psi.
+\end{equation*}</span></p></li>
+<li><p><span class="math inline">f</span> is called the <strong>common factor</strong> assumed with <span class="math inline">E(F)=0</span> and <span class="math inline">\text{Var}(f)=1</span>.</p></li>
+<li><p><span class="math inline">L</span> is the <span class="math inline">p\times 1</span> vector of <strong>factor loadings</strong>.</p></li>
+<li><p><span class="math inline">\boldsymbol\varepsilon</span> is a <span class="math inline">p</span>-dimensional vector of measurement errors (also called <strong>specific factor</strong>).</p></li>
+<li><p><span class="math inline">h_i^2:= \ell_{i}^2</span> is called the <strong>communality</strong> of <span class="math inline">X_i</span> and represents the variance explained by the factor <span class="math inline">F</span>.</p></li>
+<li><p><span class="math inline">\psi_i=1-h_i^2</span> is called the <strong>uniqueness</strong>.</p></li>
+</ul>
+</div>
+</div>
+<p>Given the correlation matrix only, we can use it to fit the one-factor model via R function <code>factanal</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">=</span> <span class="fu">factanal</span>(<span class="at">factors =</span> <span class="dv">1</span>, <span class="at">covmat =</span> R)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 10
+ $ converged   : logi TRUE
+ $ loadings    : 'loadings' num [1:3, 1] 0.983 0.844 0.793
+  ..- attr(*, "dimnames")=List of 2
+  .. ..$ : chr [1:3] "Classics" "French" "English"
+  .. ..$ : chr "Factor1"
+ $ uniquenesses: Named num [1:3] 0.0337 0.2871 0.3704
+  ..- attr(*, "names")= chr [1:3] "Classics" "French" "English"
+ $ correlation : num [1:3, 1:3] 1 0.83 0.78 0.83 1 0.67 0.78 0.67 1
+  ..- attr(*, "dimnames")=List of 2
+  .. ..$ : chr [1:3] "Classics" "French" "English"
+  .. ..$ : chr [1:3] "Classics" "French" "English"
+ $ criteria    : Named num [1:3] 4.26e-12 1.20e+01 1.20e+01
+  ..- attr(*, "names")= chr [1:3] "objective" "counts.function" "counts.gradient"
+ $ factors     : num 1
+ $ dof         : num 0
+ $ method      : chr "mle"
+ $ n.obs       : logi NA
+ $ call        : language factanal(factors = 1, covmat = R)
+ - attr(*, "class")= chr "factanal"</code></pre>
+</div>
+</div>
+<p><strong>Output interpretation</strong>:</p>
+<ul>
+<li><code>loadings</code>: a matrix of loadings with one column for each factor. The factors are in decreasing order of <strong>communality</strong>.<br>
+</li>
+<li><code>uniquenesses</code>: a vector of estimated measurement error variances.</li>
+</ul>
+</section>
+</section>
+<section id="the-exploratory-factor-model" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="the-exploratory-factor-model"><span class="header-section-number">7.2</span> The Exploratory Factor Model</h2>
+<div class="callout callout-style-default callout-note callout-titled" title="Example: `bfi` Data">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Example: <code>bfi</code> Data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Background</strong>: A classroom/teaching dataset for personality measurement under the Big Five model: Agreeableness (A), Conscientiousness (C), Extraversion (E), Neuroticism (N), and Openness (O). The <code>bfi</code> data is collected via the <a href="https://www.sapa-project.org/survey/start.php">SAPA Project</a> and is available from the R package <code>psych</code>.</p>
+<ul>
+<li>25 items: 5 per trait, named <code>A1</code>-<code>A5</code>, <code>C1</code>-<code>C5</code>, <code>E1</code>-<code>E5</code>, <code>N1</code>-<code>N5</code>, <code>O1</code>-<code>O5</code>.</li>
+<li>Responses: 6-point Likert (1=Very Inaccurate, …, 6=Very Accurate).</li>
+<li>Demographics: <code>gender</code>, <code>education</code>, <code>age</code></li>
+<li>Sample size: 2800, but with some missing values.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(bfi, <span class="at">package=</span><span class="st">"psych"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(bfi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2800   28</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bfi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["A1"],"name":[1],"type":["int"],"align":["right"]},{"label":["A2"],"name":[2],"type":["int"],"align":["right"]},{"label":["A3"],"name":[3],"type":["int"],"align":["right"]},{"label":["A4"],"name":[4],"type":["int"],"align":["right"]},{"label":["A5"],"name":[5],"type":["int"],"align":["right"]},{"label":["C1"],"name":[6],"type":["int"],"align":["right"]},{"label":["C2"],"name":[7],"type":["int"],"align":["right"]},{"label":["C3"],"name":[8],"type":["int"],"align":["right"]},{"label":["C4"],"name":[9],"type":["int"],"align":["right"]},{"label":["C5"],"name":[10],"type":["int"],"align":["right"]},{"label":["E1"],"name":[11],"type":["int"],"align":["right"]},{"label":["E2"],"name":[12],"type":["int"],"align":["right"]},{"label":["E3"],"name":[13],"type":["int"],"align":["right"]},{"label":["E4"],"name":[14],"type":["int"],"align":["right"]},{"label":["E5"],"name":[15],"type":["int"],"align":["right"]},{"label":["N1"],"name":[16],"type":["int"],"align":["right"]},{"label":["N2"],"name":[17],"type":["int"],"align":["right"]},{"label":["N3"],"name":[18],"type":["int"],"align":["right"]},{"label":["N4"],"name":[19],"type":["int"],"align":["right"]},{"label":["N5"],"name":[20],"type":["int"],"align":["right"]},{"label":["O1"],"name":[21],"type":["int"],"align":["right"]},{"label":["O2"],"name":[22],"type":["int"],"align":["right"]},{"label":["O3"],"name":[23],"type":["int"],"align":["right"]},{"label":["O4"],"name":[24],"type":["int"],"align":["right"]},{"label":["O5"],"name":[25],"type":["int"],"align":["right"]},{"label":["gender"],"name":[26],"type":["int"],"align":["right"]},{"label":["education"],"name":[27],"type":["int"],"align":["right"]},{"label":["age"],"name":[28],"type":["int"],"align":["right"]}],"data":[{"1":"2","2":"4","3":"3","4":"4","5":"4","6":"2","7":"3","8":"3","9":"4","10":"4","11":"3","12":"3","13":"3","14":"4","15":"4","16":"3","17":"4","18":"2","19":"2","20":"3","21":"3","22":"6","23":"3","24":"4","25":"3","26":"1","27":"NA","28":"16","_rn_":"61617"},{"1":"2","2":"4","3":"5","4":"2","5":"5","6":"5","7":"4","8":"4","9":"3","10":"4","11":"1","12":"1","13":"6","14":"4","15":"3","16":"3","17":"3","18":"3","19":"5","20":"5","21":"4","22":"2","23":"4","24":"3","25":"3","26":"2","27":"NA","28":"18","_rn_":"61618"},{"1":"5","2":"4","3":"5","4":"4","5":"4","6":"4","7":"5","8":"4","9":"2","10":"5","11":"2","12":"4","13":"4","14":"4","15":"5","16":"4","17":"5","18":"4","19":"2","20":"3","21":"4","22":"2","23":"5","24":"5","25":"2","26":"2","27":"NA","28":"17","_rn_":"61620"},{"1":"4","2":"4","3":"6","4":"5","5":"5","6":"4","7":"4","8":"3","9":"5","10":"5","11":"5","12":"3","13":"4","14":"4","15":"4","16":"2","17":"5","18":"2","19":"4","20":"1","21":"3","22":"3","23":"4","24":"3","25":"5","26":"2","27":"NA","28":"17","_rn_":"61621"},{"1":"2","2":"3","3":"3","4":"4","5":"5","6":"4","7":"4","8":"5","9":"3","10":"2","11":"2","12":"2","13":"5","14":"4","15":"5","16":"2","17":"3","18":"4","19":"4","20":"3","21":"3","22":"3","23":"4","24":"3","25":"3","26":"1","27":"NA","28":"17","_rn_":"61622"},{"1":"6","2":"6","3":"5","4":"6","5":"5","6":"6","7":"6","8":"6","9":"1","10":"3","11":"2","12":"1","13":"6","14":"5","15":"6","16":"3","17":"5","18":"2","19":"2","20":"3","21":"4","22":"3","23":"5","24":"6","25":"1","26":"2","27":"3","28":"21","_rn_":"61623"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Research Questions">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Research Questions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>What are the underlying latent structures measured by the set of survey items?</li>
+<li>Do the latent structures show any differences across demographic variables (e.g., gender, education, and age group)?<br>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="The Factor Model">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+The Factor Model
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>Let <span class="math inline">\mathbf{z}_i = (z_{i1},\ldots,z_{ip})^\top</span> denote the vector of <span class="math inline">p=25</span> standardized variables for the <span class="math inline">i</span>-th observation.</p></li>
+<li><p>Assume that there are <span class="math inline">m</span> common factors denoted by the <span class="math inline">m</span>-dimensional vector <span class="math inline">\mathbf{f}_i</span> for the <span class="math inline">i</span>-th observation.</p></li>
+<li><p>The <span class="math inline">m</span>-factor model is <span class="math display">
+\mathbf{z}_{i} = L \mathbf{f}_i + \boldsymbol \varepsilon_i, i=1,\ldots, n
+</span></p>
+<ul>
+<li><span class="math inline">L</span> is the <span class="math inline">p\times m</span> matrix of factor loadings.</li>
+<li><span class="math inline">\mathbf{f}_i</span> is the <span class="math inline">m</span>-dimensional vector of <strong>common factors</strong>.</li>
+<li><span class="math inline">\boldsymbol \varepsilon_i</span> is the <span class="math inline">p</span>-dimensional vector of <strong>specific factors</strong>.</li>
+</ul></li>
+<li><p>In matrix notation, stacking all observations together yields <span class="math display">
+Z = F L^\top + E
+</span></p>
+<ul>
+<li><span class="math inline">Z=[\mathbf{x}_1, \ldots, \mathbf{x}_n]^\top</span> is the <span class="math inline">n\times p</span> matrix of standardized data;</li>
+<li><span class="math inline">F=[\mathbf{f}_1, \ldots, \mathbf{f}_n]^\top</span> is the <span class="math inline">n\times m</span> matrix of common factors for all observations.</li>
+<li><span class="math inline">E=[\boldsymbol \varepsilon_1, \ldots, \boldsymbol \varepsilon_n]^\top</span> is the <span class="math inline">n\times p</span> of specific factors for all observations.</li>
+</ul></li>
+<li><p>The <strong>communality</strong> of <span class="math inline">X_i</span> is <span class="math display">
+h_i^2: = \ell_{i1}^2 + \ell_{i2}^2 + \cdots + \ell_{im}^2
+</span></p>
+<ul>
+<li>it measures the variation explained by the <span class="math inline">m</span> common factors;</li>
+</ul></li>
+<li><p>The proportion of the total variance explained by the <span class="math inline">j</span>th factor is given by <span class="math display">
+\frac{\sum_{i=1}^p \ell_{ij}^2}{\text{trace}(R)}
+</span></p></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Assumptions">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Assumptions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><span class="math inline">E(F) = \mathbf{0}</span>, <span class="math inline">\text{Var}(F) = I_{m\times m}</span>.</li>
+<li><span class="math inline">E(\boldsymbol \varepsilon) = \mathbf{0}, \text{Var}(\boldsymbol \varepsilon) = \boldsymbol \Psi = \text{diag}\{\psi_1, \ldots, \psi_p\}</span></li>
+<li><span class="math inline">F</span> and <span class="math inline">\boldsymbol \varepsilon</span> are independent.</li>
+</ul>
+</div>
+</div>
+<p><strong>Step: Data Preparation and Visualization</strong></p>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Prepare Data</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># select the 25 personality items (columns 1-25)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> bfi <span class="sc">%&gt;%</span> <span class="fu">drop_na</span>()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">=</span> df[, <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>]</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["A1"],"name":[1],"type":["int"],"align":["right"]},{"label":["A2"],"name":[2],"type":["int"],"align":["right"]},{"label":["A3"],"name":[3],"type":["int"],"align":["right"]},{"label":["A4"],"name":[4],"type":["int"],"align":["right"]},{"label":["A5"],"name":[5],"type":["int"],"align":["right"]},{"label":["C1"],"name":[6],"type":["int"],"align":["right"]},{"label":["C2"],"name":[7],"type":["int"],"align":["right"]},{"label":["C3"],"name":[8],"type":["int"],"align":["right"]},{"label":["C4"],"name":[9],"type":["int"],"align":["right"]},{"label":["C5"],"name":[10],"type":["int"],"align":["right"]},{"label":["E1"],"name":[11],"type":["int"],"align":["right"]},{"label":["E2"],"name":[12],"type":["int"],"align":["right"]},{"label":["E3"],"name":[13],"type":["int"],"align":["right"]},{"label":["E4"],"name":[14],"type":["int"],"align":["right"]},{"label":["E5"],"name":[15],"type":["int"],"align":["right"]},{"label":["N1"],"name":[16],"type":["int"],"align":["right"]},{"label":["N2"],"name":[17],"type":["int"],"align":["right"]},{"label":["N3"],"name":[18],"type":["int"],"align":["right"]},{"label":["N4"],"name":[19],"type":["int"],"align":["right"]},{"label":["N5"],"name":[20],"type":["int"],"align":["right"]},{"label":["O1"],"name":[21],"type":["int"],"align":["right"]},{"label":["O2"],"name":[22],"type":["int"],"align":["right"]},{"label":["O3"],"name":[23],"type":["int"],"align":["right"]},{"label":["O4"],"name":[24],"type":["int"],"align":["right"]},{"label":["O5"],"name":[25],"type":["int"],"align":["right"]}],"data":[{"1":"6","2":"6","3":"5","4":"6","5":"5","6":"6","7":"6","8":"6","9":"1","10":"3","11":"2","12":"1","13":"6","14":"5","15":"6","16":"3","17":"5","18":"2","19":"2","20":"3","21":"4","22":"3","23":"5","24":"6","25":"1","_rn_":"1"},{"1":"4","2":"3","3":"1","4":"5","5":"1","6":"3","7":"2","8":"4","9":"2","10":"4","11":"3","12":"6","13":"4","14":"2","15":"1","16":"6","17":"3","18":"2","19":"6","20":"4","21":"3","22":"2","23":"4","24":"5","25":"3","_rn_":"2"},{"1":"4","2":"4","3":"5","4":"6","5":"5","6":"4","7":"3","8":"5","9":"3","10":"2","11":"1","12":"3","13":"2","14":"5","15":"4","16":"3","17":"3","18":"4","19":"2","20":"3","21":"5","22":"3","23":"5","24":"6","25":"3","_rn_":"3"},{"1":"4","2":"5","3":"2","4":"2","5":"1","6":"5","7":"5","8":"5","9":"2","10":"2","11":"3","12":"4","13":"3","14":"6","15":"5","16":"2","17":"4","18":"2","19":"2","20":"3","21":"5","22":"2","23":"5","24":"5","25":"5","_rn_":"4"},{"1":"1","2":"5","3":"6","4":"5","5":"6","6":"4","7":"3","8":"2","9":"4","10":"5","11":"2","12":"1","13":"2","14":"5","15":"2","16":"2","17":"2","18":"2","19":"2","20":"2","21":"6","22":"1","23":"5","24":"5","25":"2","_rn_":"5"},{"1":"2","2":"6","3":"5","4":"6","5":"5","6":"3","7":"5","8":"6","9":"3","10":"6","11":"2","12":"2","13":"4","14":"6","15":"6","16":"4","17":"4","18":"4","19":"6","20":"6","21":"6","22":"1","23":"5","24":"6","25":"1","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Visualization</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>corrplot<span class="sc">::</span><span class="fu">corrplot</span>(<span class="fu">cor</span>(dat))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-FactorAnalysis_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="measures-of-sampling-adequacy" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="measures-of-sampling-adequacy"><span class="header-section-number">7.3</span> Measures of Sampling Adequacy</h2>
+<p><strong>Step: Check Assumptions</strong></p>
+<p>Before performing factor analysis, we need to ensure our data is suitable. Two common methods are introduced below.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Measure of Sampling Adequacy (MSA)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Measure of Sampling Adequacy (MSA)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The first method is <strong>measure of sampling adequacy</strong> (MSA). MSA (Kaiser 1970, Psychometrica) is a statistic that measures the relative sizes of the pairwise correlations to the partial correlations between all pairs of variables: <span class="math display">
+MSA = 1- \frac{\sum_j \sum_{k \neq j} q_{jk}^2}{\sum_j \sum_{k \neq j} r_{jk}^2 }
+</span></p>
+<ul>
+<li><span class="math inline">r_{jk}</span> is the marginal sample correlation between variables <span class="math inline">j</span> and <span class="math inline">k</span>;</li>
+<li><span class="math inline">q_{jk}</span> is the partial correlation between the two variables after accounting for all other variables in the data;</li>
+<li>MSA indicates the proportion of relationships in the data that is shared and common among groups of variables<br>
+</li>
+<li>A high MSA (close to 1) suggests that there are underlying factors influencing groups of variables and the dataset is suitable for factor analysis.</li>
+<li>A low MSA (close to 0) suggestions that most of the correlations are just unique, one-on-one relationships that cannot be well explained by common factors.</li>
+</ul>
+<p>The MSA can take on values between 0 and 1. Kaiser proposed the following guidelines for interpretation:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">MSA Range</th>
+<th style="text-align: left;">Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0.9 to 1.0</td>
+<td style="text-align: left;">Marvelous</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0.8 to 0.9</td>
+<td style="text-align: left;">Meritorious</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0.7 to 0.8</td>
+<td style="text-align: left;">Middling</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0.6 to 0.7</td>
+<td style="text-align: left;">Mediocre</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0.5 to 0.6</td>
+<td style="text-align: left;">Miserable</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0.0 to 0.5</td>
+<td style="text-align: left;">Unacceptable</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: MSA</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute measures of sampling adequacy (MSA)</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">KMO</span>(dat) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Kaiser-Meyer-Olkin factor adequacy
+Call: psych::KMO(r = dat)
+Overall MSA =  0.85
+MSA for each item = 
+  A1   A2   A3   A4   A5   C1   C2   C3   C4   C5   E1   E2   E3   E4   E5   N1 
+0.74 0.83 0.87 0.87 0.90 0.84 0.79 0.85 0.82 0.86 0.84 0.88 0.89 0.88 0.89 0.78 
+  N2   N3   N4   N5   O1   O2   O3   O4   O5 
+0.78 0.86 0.89 0.86 0.86 0.78 0.83 0.78 0.76 </code></pre>
+</div>
+</div>
+<p><strong>Interpretation</strong>: The overall MSA is 0.85, which is “meritorious.” This confirms our data is appropriate for factor analysis.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Cronbach's Alpha">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Cronbach’s Alpha
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The second method is called <strong>Cronbach’s alpha</strong>. For <span class="math inline">n</span> sample of <span class="math inline">p</span>-dimensional observations <span class="math inline">\bar{X}_i</span>, Cronbach’s alpha is <span class="math display">
+\alpha = \frac{p \bar{r}}{1+(p-1)\bar{r}}
+</span></p>
+<ul>
+<li><span class="math inline">\bar{r}</span> is the average correlation: <span class="math display">
+\bar{r} =  \frac{\frac{1}{\frac{p(p-1)}{2}} \sum \sum_{i&lt; j} \text{Cov}(X_i, X_j)}{\frac{1}{p}\sum_{i=1}^p \text{Var}(X_i)}
+</span></li>
+<li>A high alpha value (close to 1) suggests that the items are all measureing the same underlying latent factor.</li>
+<li>A low alpha value (close to 0) suggests that the items may be measuring different things.</li>
+</ul>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Cronbach’s Alpha</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(psych<span class="sc">::</span><span class="fu">alpha</span>(dat, <span class="at">check.keys=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in psych::alpha(dat, check.keys = TRUE): Some items were negatively correlated with the first principal component and were automatically reversed.
+ This is indicated by a negative sign for the variable name.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Reliability analysis   
+ raw_alpha std.alpha G6(smc) average_r S/N    ase mean   sd median_r
+      0.82      0.82    0.86      0.15 4.6 0.0054  4.2 0.61     0.13</code></pre>
+</div>
+</div>
+</section>
+<section id="how-many-factors-should-be-used" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="how-many-factors-should-be-used"><span class="header-section-number">7.4</span> How Many Factors Should Be Used?</h2>
+<p>This is one of the most crucial and perhaps subjective steps. We will introduce two common methods:</p>
+<ol type="1">
+<li>The first is to decide the number of factors, <span class="math inline">m</span>, prior to the analysis using the idea from PCA.</li>
+<li>The second is to use a formal likelihood ratio test.</li>
+</ol>
+<section id="scree-plot-for-choosing-the-number-of-factors" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="scree-plot-for-choosing-the-number-of-factors"><span class="header-section-number">7.4.1</span> Scree Plot for Choosing the Number of Factors</h3>
+<p>Prior to the analysis, one often needs to decide how many factors should be used. A good exploratory way is to use <strong>scree plot</strong> to decide <span class="math inline">m</span> so that the contribution of each potential factor to the total variation is examined.</p>
+<ul>
+<li><strong>Scree Plot:</strong> We look for the “elbow” or point of inflection in the plot of eigenvalues of correlation matrix.</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Scree Plot</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>eigenvalues <span class="ot">=</span> <span class="fu">eigen</span>(<span class="fu">cor</span>(dat))<span class="sc">$</span>values </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>scree_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Factor =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(eigenvalues),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Eigenvalue =</span> eigenvalues</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cumsum</span>(eigenvalues)<span class="sc">/</span><span class="fu">sum</span>(eigenvalues)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 0.2027406 0.3132398 0.3993447 0.4750381 0.5357394 0.5788925 0.6121288
+ [8] 0.6443088 0.6728723 0.7009338 0.7281675 0.7541265 0.7793767 0.8028980
+[15] 0.8255366 0.8473302 0.8681275 0.8878823 0.9071917 0.9248917 0.9420466
+[22] 0.9583305 0.9738855 0.9892760 1.0000000</code></pre>
+</div>
+<details class="code-fold">
+<summary>R Code: Scree Plot</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(scree_data, <span class="fu">aes</span>(<span class="at">x =</span> Factor, <span class="at">y =</span> Eigenvalue)) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Scree Plot"</span>) <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Factor"</span>) <span class="sc">+</span> </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Eigenvalue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-FactorAnalysis_files/figure-html/num-factors-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li>As seen from the scree pot, the cumulative eigenvalues do not increase too much and “elbow” point seem to occur at either 5 or 6; so we might want to try the factor model with <span class="math inline">m=6</span> factors.</li>
+<li>The scree plot often gives somewhat subjective answers, so we might also try different number of factors, fit the factor analysis model for each selection and compare the results among all the choices.</li>
+</ul>
+</section>
+<section id="likelihood-ratio-test" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="likelihood-ratio-test"><span class="header-section-number">7.4.2</span> Likelihood Ratio Test</h3>
+<p>A formal way to choose the number of factors is to use a likelihood ratio test.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Likelihood Ratio Test (LRT)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Likelihood Ratio Test (LRT)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>We wish to test whether the <span class="math inline">m</span> factor model appropriately describes the correlations among the <span class="math inline">p</span> variables.</li>
+<li>Null hypothesis: <span class="math inline">m</span> factors are sufficient, i.e, <span class="math display">
+H_0: R_{p \times p} = L_{p \times m}L'_{m \times p} + \Psi_{p \times p}
+</span></li>
+<li>Alternative hypothesis: the correlation matrix can be any positive definite matrix <span class="math display"> H_a: R_{p \times p}   \text{ is a positive definite matrix} </span></li>
+<li>The test statistic is <span class="math display">
+         -2\ln \Lambda := \{n - 1 - (2p+4m+5)/6\} \log \frac{|\hat{L}\hat{L}' + \hat{\Psi}|}{|\hat{R}|},
+</span> where <span class="math inline">\hat{L}, \hat{\Psi}</span> and <span class="math inline">\hat{R}</span> denote the their estimates from the data.</li>
+<li><span class="math inline">-2\ln \Lambda</span> has an approximate <span class="math inline">\chi^2</span> distribution under the null hypothesis with degrees of freedom <span class="math inline">\text{df}=[(p - m)^2 - p - m]/2</span>.</li>
+<li>To have <span class="math inline">df &gt;0</span>, we must have <span class="math inline">m &lt; \frac{1}{2}(2p + 1 - \sqrt{8p + 1})</span>.</li>
+<li>We reject <span class="math inline">H_0</span> at level <span class="math inline">\alpha</span> if<br>
+<span class="math display">
+[n - 1 - (2p+4m+5)/6] \log \left( \frac{|{L}{L}' + {\Psi}|}{|{R}|} \right) &gt; \chi^2_{\text{df}, 1-\alpha}
+</span></li>
+<li>This test has two major drawbacks:
+<ul>
+<li>It is very sensitive to sample size <span class="math inline">n</span>. With large sample sizes, the LRT tends to suggest that large number of factors be include.</li>
+<li>It replies on the assumption of multivariate normality. If the assumption is violated, the LRT also tends to indicate the need for too many factors.</li>
+</ul></li>
+<li>In practice, this LRT test should only be used as a guideline for selecting the number of factors, and we should also other things such as the interpretation of the factors, proportion of variance explained, and the desire for simplicity.</li>
+</ul>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Multivariate Normality Test</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>mvShapiroTest<span class="sc">::</span><span class="fu">mvShapiro.Test</span>(<span class="fu">as.matrix</span>(dat))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Generalized Shapiro-Wilk test for Multivariate Normality by
+    Villasenor-Alva and Gonzalez-Estrada
+
+data:  as.matrix(dat)
+MVW = 0.95906, p-value &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Likelihood Ratio Test</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute p-values for different number of factors</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="cf">function</span>(f) </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">factanal</span>(dat, <span class="at">factors =</span> f, <span class="at">method =</span><span class="st">"mle"</span>)<span class="sc">$</span>PVAL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    objective     objective     objective     objective     objective 
+ 0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00 1.881649e-177 
+    objective     objective     objective     objective     objective 
+ 1.411671e-85  4.776750e-51  3.708668e-31  4.993573e-19  5.950411e-11 
+    objective     objective     objective     objective     objective 
+ 3.479191e-05  7.032046e-03  1.427903e-01  1.500403e-01  6.859678e-01 </code></pre>
+</div>
+</div>
+<p><strong>Interpretation</strong>: Since the data fails the Shapiro Wilk’s test, the multivariate normality is violated. As expected, the LRT indicates at least 14 factors to be included with p-value &gt; 0.2, which are too many to be included in the factor analysis model. Based on the result from scree plot, we will use 6 factors in the follow-up analysis.</p>
+</section>
+</section>
+<section id="estimation-for-factor-loadings" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="estimation-for-factor-loadings"><span class="header-section-number">7.5</span> Estimation for Factor Loadings</h2>
+<p>In the factor analysis model, we often first estimate the factor loadings <span class="math inline">L</span>, and then estimate the factor scores <span class="math inline">F</span> given <span class="math inline">L</span>. To estimate the factor loadings, three methods are introduced below.</p>
+<ul>
+<li>The principal component method</li>
+<li>The iterative principal factor method</li>
+<li>Maximum likelihood estimation (assumes multivariate normality)</li>
+</ul>
+<section id="the-principal-component-method" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="the-principal-component-method"><span class="header-section-number">7.5.1</span> The Principal Component Method</h3>
+<p>The basic idea of the principal component method is to approximate the correlation matrix using a <em>rank-<span class="math inline">m</span></em> approximation via eigenvalues and eigenvectors.</p>
+<ul>
+<li>Let <span class="math inline">(\lambda_i, \mathbf{e}_i)</span> denote the eigenpairs of the <span class="math inline">p\times p</span> correlation matrix <span class="math inline">R</span>.</li>
+<li>The rank-<span class="math inline">m</span> approximation to <span class="math inline">R</span> is <span class="math display">
+\hat{R}^{(m)} : = \lambda_1 \mathbf{e}_1 \mathbf{e}_1^\top + \ldots + \lambda_m \mathbf{e}_m \mathbf{e}_m^\top.  
+</span></li>
+<li>The columns of <span class="math inline">L</span> is given by the columns <span class="math inline">\sqrt{\lambda_1} \mathbf{e}_1, \ldots, \sqrt{\lambda_m}\mathbf{e}_m</span>.</li>
+<li><span class="math inline">\Psi</span> is estimated by <span class="math inline">\hat{\Psi} = \text{diag}(R - LL^\top)</span>.</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Estimation via the PC Method</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fit.pc <span class="ot">=</span> <span class="fu">prcomp</span>(dat, <span class="at">center=</span><span class="cn">TRUE</span>, <span class="at">scale=</span><span class="cn">TRUE</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit.pc<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>, <span class="at">xlab=</span><span class="st">"Component Number"</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab=</span><span class="st">"Component Variance (eigenvalue)"</span>,  </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">main=</span><span class="st">"Scree Diagram"</span>, <span class="at">type=</span><span class="st">"b"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-FactorAnalysis_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Factor Loadings</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">=</span> <span class="dv">6</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>fit.pc<span class="sc">$</span>loadings <span class="ot">=</span> fit.pc<span class="sc">$</span>rotation <span class="sc">%*%</span> <span class="fu">diag</span>(fit.pc<span class="sc">$</span>sdev)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>corrplot<span class="sc">::</span><span class="fu">corrplot</span>(fit.pc<span class="sc">$</span>loadings[, <span class="dv">1</span><span class="sc">:</span>m])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-FactorAnalysis_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Visualizing Factor Loadings">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Visualizing Factor Loadings
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<details class="code-fold">
+<summary>Writing an R Function</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>plt_loadings <span class="ot">=</span> <span class="cf">function</span>(loadings, <span class="at">K =</span> <span class="dv">3</span>,</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">with_ties =</span> <span class="cn">FALSE</span>, <span class="at">angle=</span><span class="dv">30</span>,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"tomato"</span>, <span class="st">"white"</span>, <span class="st">"steelblue"</span>)) </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Required packages</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">require</span>(dplyr)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">require</span>(tidyr)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">require</span>(tibble)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">require</span>(stringr)</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">require</span>(forcats)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">require</span>(ggplot2)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Ensure matrix form</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">#L = as.matrix(loadings)</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  L <span class="ot">=</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.matrix</span>(<span class="fu">unclass</span>(loadings)))</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Default names</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(<span class="fu">rownames</span>(L))) </span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rownames</span>(L) <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">"var"</span>, <span class="fu">seq_len</span>(<span class="fu">nrow</span>(L)))</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(<span class="fu">colnames</span>(L))) </span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">colnames</span>(L) <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">"Factor"</span>, <span class="fu">seq_len</span>(<span class="fu">ncol</span>(L)))</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>  var_levels <span class="ot">=</span> <span class="fu">rownames</span>(L)</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Build long-format data frame</span></span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>  load_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(L) <span class="sc">%&gt;%</span></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>    tibble<span class="sc">::</span><span class="fu">rownames_to_column</span>(<span class="st">"variable"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="sc">-</span>variable, </span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>                        <span class="at">names_to =</span> <span class="st">"Factor"</span>, </span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>                        <span class="at">values_to =</span> <span class="st">"loading"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">abs_loading =</span> <span class="fu">abs</span>(loading))</span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Select top-K per Factor</span></span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>  tops <span class="ot">=</span> load_df <span class="sc">%&gt;%</span></span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Factor) <span class="sc">%&gt;%</span></span>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_max</span>(abs_loading, <span class="at">n =</span> K, </span>
+<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a>                     <span class="at">with_ties =</span> with_ties) <span class="sc">%&gt;%</span></span>
+<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">highlight =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-41"><a href="#cb24-41" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Mark highlighted entries</span></span>
+<span id="cb24-42"><a href="#cb24-42" aria-hidden="true" tabindex="-1"></a>  load_df <span class="ot">=</span> load_df <span class="sc">%&gt;%</span></span>
+<span id="cb24-43"><a href="#cb24-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(</span>
+<span id="cb24-44"><a href="#cb24-44" aria-hidden="true" tabindex="-1"></a>      tops <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(variable, Factor, highlight),</span>
+<span id="cb24-45"><a href="#cb24-45" aria-hidden="true" tabindex="-1"></a>      <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"variable"</span>, <span class="st">"Factor"</span>)</span>
+<span id="cb24-46"><a href="#cb24-46" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb24-47"><a href="#cb24-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb24-48"><a href="#cb24-48" aria-hidden="true" tabindex="-1"></a>      <span class="at">highlight =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(highlight), </span>
+<span id="cb24-49"><a href="#cb24-49" aria-hidden="true" tabindex="-1"></a>                         <span class="cn">FALSE</span>, <span class="cn">TRUE</span>))</span>
+<span id="cb24-50"><a href="#cb24-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-51"><a href="#cb24-51" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Reorder factors numerically </span></span>
+<span id="cb24-52"><a href="#cb24-52" aria-hidden="true" tabindex="-1"></a>  <span class="co"># if they are like "Factor 1", "Factor 2", ...</span></span>
+<span id="cb24-53"><a href="#cb24-53" aria-hidden="true" tabindex="-1"></a>  load_df <span class="ot">=</span> load_df <span class="sc">%&gt;%</span></span>
+<span id="cb24-54"><a href="#cb24-54" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb24-55"><a href="#cb24-55" aria-hidden="true" tabindex="-1"></a>      <span class="at">PC_num =</span> </span>
+<span id="cb24-56"><a href="#cb24-56" aria-hidden="true" tabindex="-1"></a>          <span class="fu">as.integer</span>(stringr<span class="sc">::</span><span class="fu">str_extract</span>(Factor, <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>)),</span>
+<span id="cb24-57"><a href="#cb24-57" aria-hidden="true" tabindex="-1"></a>      <span class="at">PC =</span> <span class="cf">if</span> (<span class="fu">all</span>(<span class="sc">!</span><span class="fu">is.na</span>(PC_num))) {</span>
+<span id="cb24-58"><a href="#cb24-58" aria-hidden="true" tabindex="-1"></a>        forcats<span class="sc">::</span><span class="fu">fct_reorder</span>(Factor, PC_num, <span class="at">.fun =</span> min)</span>
+<span id="cb24-59"><a href="#cb24-59" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb24-60"><a href="#cb24-60" aria-hidden="true" tabindex="-1"></a>        <span class="fu">factor</span>(Factor, <span class="at">levels =</span> <span class="fu">rev</span>(var_levels))</span>
+<span id="cb24-61"><a href="#cb24-61" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb24-62"><a href="#cb24-62" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb24-63"><a href="#cb24-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-64"><a href="#cb24-64" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Plot</span></span>
+<span id="cb24-65"><a href="#cb24-65" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">=</span> <span class="fu">ggplot</span>(load_df, </span>
+<span id="cb24-66"><a href="#cb24-66" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> PC, <span class="at">y =</span> <span class="fu">fct_rev</span>(variable), <span class="at">fill =</span> loading)) <span class="sc">+</span></span>
+<span id="cb24-67"><a href="#cb24-67" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb24-68"><a href="#cb24-68" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradient2</span>(</span>
+<span id="cb24-69"><a href="#cb24-69" aria-hidden="true" tabindex="-1"></a>      <span class="at">low =</span> palette[<span class="dv">1</span>], </span>
+<span id="cb24-70"><a href="#cb24-70" aria-hidden="true" tabindex="-1"></a>      <span class="at">mid =</span> palette[<span class="dv">2</span>], </span>
+<span id="cb24-71"><a href="#cb24-71" aria-hidden="true" tabindex="-1"></a>      <span class="at">high =</span> palette[<span class="dv">3</span>], </span>
+<span id="cb24-72"><a href="#cb24-72" aria-hidden="true" tabindex="-1"></a>      <span class="at">midpoint =</span> <span class="dv">0</span>,</span>
+<span id="cb24-73"><a href="#cb24-73" aria-hidden="true" tabindex="-1"></a>      <span class="at">name =</span> <span class="st">"Loading"</span></span>
+<span id="cb24-74"><a href="#cb24-74" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb24-75"><a href="#cb24-75" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(</span>
+<span id="cb24-76"><a href="#cb24-76" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> <span class="fu">subset</span>(load_df, highlight),</span>
+<span id="cb24-77"><a href="#cb24-77" aria-hidden="true" tabindex="-1"></a>      <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">stroke =</span> <span class="fl">1.1</span>, </span>
+<span id="cb24-78"><a href="#cb24-78" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="cn">NA</span></span>
+<span id="cb24-79"><a href="#cb24-79" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb24-80"><a href="#cb24-80" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb24-81"><a href="#cb24-81" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb24-82"><a href="#cb24-82" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> </span>
+<span id="cb24-83"><a href="#cb24-83" aria-hidden="true" tabindex="-1"></a>        <span class="fu">paste0</span>(<span class="st">"Top "</span>, </span>
+<span id="cb24-84"><a href="#cb24-84" aria-hidden="true" tabindex="-1"></a>               K, <span class="st">" loadings per column highlighted"</span>)</span>
+<span id="cb24-85"><a href="#cb24-85" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb24-86"><a href="#cb24-86" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span> </span>
+<span id="cb24-87"><a href="#cb24-87" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb24-88"><a href="#cb24-88" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> </span>
+<span id="cb24-89"><a href="#cb24-89" aria-hidden="true" tabindex="-1"></a>        <span class="fu">element_text</span>(</span>
+<span id="cb24-90"><a href="#cb24-90" aria-hidden="true" tabindex="-1"></a>          <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb24-91"><a href="#cb24-91" aria-hidden="true" tabindex="-1"></a>          <span class="at">angle =</span> angle, </span>
+<span id="cb24-92"><a href="#cb24-92" aria-hidden="true" tabindex="-1"></a>          <span class="at">vjust =</span> <span class="fl">0.5</span>, </span>
+<span id="cb24-93"><a href="#cb24-93" aria-hidden="true" tabindex="-1"></a>          <span class="at">hjust =</span> <span class="dv">1</span>)</span>
+<span id="cb24-94"><a href="#cb24-94" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb24-95"><a href="#cb24-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-96"><a href="#cb24-96" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(p)</span>
+<span id="cb24-97"><a href="#cb24-97" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_loadings</span>(fit.pc<span class="sc">$</span>loadings[, <span class="dv">1</span><span class="sc">:</span>m], <span class="at">K=</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-FactorAnalysis_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="the-principal-factor-method" class="level3" data-number="7.5.2">
+<h3 data-number="7.5.2" class="anchored" data-anchor-id="the-principal-factor-method"><span class="header-section-number">7.5.2</span> The Principal Factor Method</h3>
+<p>The principal factor method is an iterative modification of the principal components method that allows for greater focus on explaining correlations among observed traits.</p>
+<ul>
+<li>The general algorithm is as follows:
+<ol type="1">
+<li><span class="math inline">\Psi</span> is estimated via the PC method above.</li>
+<li><span class="math inline">L</span> is estimated to approximate <span class="math inline">R - \Psi</span>.</li>
+<li>Given <span class="math inline">L</span>, <span class="math inline">\Psi</span> is estimated.</li>
+<li>Repeat Step 2-3 until convergence.</li>
+</ol></li>
+<li>There are two options during estimation:
+<ul>
+<li><strong>HEYWOOD</strong>: Set any estimated communality larger than one equal to 1 and contiute iterations with the remaining variables.</li>
+<li><strong>ULTRAHEYWOOD</strong>: Continue iterations with all of the variables and hope that iterations eventually give allowable parameter estimates. (Doing nothing)</li>
+</ul></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="`factanal` v.s. `fn`">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<code>factanal</code> v.s. <code>fn</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In R, both functions <code>factanal</code> and <code>fa</code> (from the <code>psych</code> package) implement factor analysis, but they use different estimation methods. The principal factor method is available in <code>fa</code> but not <code>factanal</code>.</p>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Principal Factor Method</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>fit.pa <span class="ot">=</span> psych<span class="sc">::</span><span class="fu">fa</span>(dat, <span class="at">nfactors=</span><span class="dv">5</span>, <span class="at">fm=</span><span class="st">"pa"</span>, <span class="at">rotate=</span><span class="st">"none"</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.pa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Factor analysis with Call: psych::fa(r = dat, nfactors = 5, rotate = "none", fm = "pa")
+
+Test of the hypothesis that 5 factors are sufficient.
+The degrees of freedom for the model is 185  and the objective function was  0.63 
+The number of observations was  2236  with Chi Square =  1400.57  with prob &lt;  1.5e-185 
+
+The root mean square of the residuals (RMSA) is  0.03 
+The df corrected root mean square of the residuals is  0.04 
+
+Tucker Lewis Index of factoring reliability =  0.878
+RMSEA index =  0.054  and the 90 % confidence intervals are  0.052 0.057
+BIC =  -26.23</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>R Code: Plot Factor Loadings</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_loadings</span>(fit.pa<span class="sc">$</span>loadings, <span class="at">K=</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-FactorAnalysis_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="maximum-likelihood-estimation" class="level3" data-number="7.5.3">
+<h3 data-number="7.5.3" class="anchored" data-anchor-id="maximum-likelihood-estimation"><span class="header-section-number">7.5.3</span> Maximum Likelihood Estimation</h3>
+<p>The maximum likelihood estimation (MLE) method is a probabilistic method by assuming multivariate normal for the data and then maximizing the likelihood function to obtain the estimates.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Maximum Likelihood Estimation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Maximum Likelihood Estimation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The distributional assumptions for the factor model are: <span class="math display">
+\mathbf{x}_j \sim \text{N}_p(\boldsymbol{\mu}, \boldsymbol{\Sigma}), \;\; \mathbf{f}_j \sim \text{N}_m(\mathbf{0}, \mathbf{I}_m), \;\; \boldsymbol{\epsilon}_j \sim \text{N}_p(\mathbf{0}, \boldsymbol{\Psi}_{p \times p}),
+</span>
+<ul>
+<li><span class="math inline">\mathbf{x}_j = \mathbf{L} \mathbf{f}_j + \boldsymbol{\varepsilon}_j</span>,</li>
+<li><span class="math inline">\boldsymbol{\Sigma} = \mathbf{L}\mathbf{L}' + \boldsymbol{\Psi}</span>,</li>
+<li>and <span class="math inline">\mathbf{F}_j</span> is independent of <span class="math inline">\boldsymbol{\varepsilon}_j</span>.</li>
+<li>Also, <span class="math inline">\boldsymbol{\Psi}</span> is a diagonal matrix.</li>
+</ul></li>
+<li>The log-likelihood function for the data is given by: <span class="math display">\begin{align*}
+\ell(\boldsymbol{\mu}, \boldsymbol{\Sigma}) &amp;:= -\frac{n}{2}\log |2\pi \boldsymbol{\Sigma}| - \frac{1}{2} \sum_{i=1}^n (\mathbf{x}_i - \boldsymbol{\mu})' \boldsymbol{\Sigma}^{-1}(\mathbf{x}_i - \boldsymbol{\mu}) \\
+&amp;= -\frac{n}{2}\log |2\pi \boldsymbol{\Sigma}| - \frac{n}{2} \text{tr}(\boldsymbol{\Sigma}^{-1}\mathbf{S}) - \frac{n}{2}(\bar{\mathbf{x}}-\boldsymbol{\mu})'\boldsymbol{\Sigma}^{-1} (\bar{\mathbf{x}}-\boldsymbol{\mu}).
+\end{align*}</span></li>
+</ul>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: MLE via <code>factanal</code></summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>fit.mle <span class="ot">=</span> <span class="fu">factanal</span>(dat, <span class="at">factors=</span>m, <span class="at">method=</span><span class="st">"mle"</span>, </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">rotation=</span><span class="st">"none"</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit.mle<span class="sc">$</span>loadings)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Loadings:
+   Factor1 Factor2 Factor3 Factor4 Factor5 Factor6
+A1  0.223          -0.134          -0.374   0.344 
+A2 -0.392   0.359   0.161   0.152   0.347  -0.227 
+A3 -0.456   0.392   0.222   0.123   0.288         
+A4 -0.373   0.201           0.289   0.171         
+A5 -0.534   0.283   0.247           0.179         
+C1 -0.277   0.192  -0.458                   0.147 
+C2 -0.260   0.245  -0.504   0.193   0.122   0.222 
+C3 -0.286   0.127  -0.383   0.252                 
+C4  0.451           0.532  -0.189           0.215 
+C5  0.481           0.351  -0.245   0.122         
+E1  0.362  -0.317  -0.230           0.256   0.179 
+E2  0.587  -0.234  -0.175           0.326         
+E3 -0.465   0.439   0.119  -0.204           0.187 
+E4 -0.566   0.330   0.287   0.119  -0.163   0.135 
+E5 -0.421   0.427  -0.121          -0.177         
+N1  0.589   0.577                  -0.169         
+N2  0.573   0.566                  -0.127  -0.138 
+N3  0.519   0.492                                 
+N4  0.590   0.226                   0.292   0.102 
+N5  0.420   0.302           0.178   0.193   0.107 
+O1 -0.274   0.225  -0.167  -0.405           0.122 
+O2  0.196           0.278   0.407           0.154 
+O3 -0.326   0.334  -0.102  -0.503           0.105 
+O4  0.127   0.161  -0.103  -0.276   0.327         
+O5  0.178           0.235   0.457  -0.121   0.233 
+
+               Factor1 Factor2 Factor3 Factor4 Factor5 Factor6
+SS loadings      4.421   2.392   1.571   1.302   0.977   0.544
+Proportion Var   0.177   0.096   0.063   0.052   0.039   0.022
+Cumulative Var   0.177   0.273   0.335   0.387   0.427   0.448</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Visualize Factor Loadings</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_loadings</span>(fit.mle<span class="sc">$</span>loadings, <span class="at">K=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-FactorAnalysis_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Factor Loading Interpretations:</strong> A loading represents how strongly a variable is associated with a factor. We could consider the loading <span class="math inline">|\ell_{ij}|</span> &gt; 0.3 or 0.4 so that each factor could have meaningful interpretations. The signs of factor loadings could be flipped for all factors.</p>
+<ul>
+<li><strong>Factor 1:</strong> Items that load strongly on this factor could include A3-A5, C4,C5, E2-E5, N1-N5. In general, it is difficult to interpret since most variables depend this factor. It may suggest that there is a common factor to explain all the variables. This could be further verified using <em>Quartimax</em> rotation.<br>
+</li>
+<li><strong>Factor 2:</strong> Items N1-N5 load strongly on this factor. (<strong>Neuroticism</strong>)</li>
+<li><strong>Factor 3:</strong> Items C1-C5 load strongly here. (<strong>Conscientiousness</strong>)</li>
+<li><strong>Factor 4:</strong> Items O1-O5 load strongly here. O2 and O5 are reverse-coded. (<strong>Openness</strong>)</li>
+<li><strong>Factor 5:</strong> Items that strongly load on this include A1-A3, E2, O4. It could be more related to Agreeableness.</li>
+</ul>
+<!-- * **MR6 (Factor 6):** This factor has only two items loading on it (A1 and N4). It's a weaker, less clearly defined factor. For a final analysis, we might consider re-running the analysis with only 5 factors. -->
+<p><strong>Factor Correlations:</strong> The table at the bottom shows the correlations between the factors. This could tell us how the latent factors are correlated. For orthogonal rotations, the factors will show essentially zero values; for non-orthogonal rotations, this could be used to check the validity of the rotation method.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Correlation Among Factor Loadings</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>corrplot<span class="sc">::</span><span class="fu">corrplot</span>(<span class="fu">cor</span>(fit.mle<span class="sc">$</span>loadings))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-FactorAnalysis_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In constast to <code>factanal()</code>, one can also use <code>fa()</code> to get maximum likelihood estimates.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: MLE via <code>fa</code></summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fit.mle2 <span class="ot">=</span> <span class="fu">fa</span>(dat, <span class="at">nfactors=</span>m, <span class="at">fm=</span><span class="st">"ml"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>fit.mle2<span class="sc">$</span>loadings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Loadings:
+   ML2    ML1    ML3    ML5    ML4    ML6   
+A1  0.108 -0.131        -0.562         0.273
+A2                       0.696              
+A3        -0.119         0.608         0.127
+A4                0.194  0.406 -0.153  0.137
+A5 -0.163 -0.203         0.446         0.225
+C1                0.546         0.181       
+C2         0.150  0.668                0.193
+C3                0.561                     
+C4               -0.662                0.287
+C5  0.131  0.188 -0.555                     
+E1 -0.136  0.579  0.108 -0.148              
+E2         0.671                            
+E3        -0.361         0.139  0.372  0.262
+E4        -0.546         0.218         0.274
+E5  0.177 -0.409  0.261         0.226       
+N1  0.855                                   
+N2  0.853                                   
+N3  0.639  0.163                       0.116
+N4  0.381  0.463 -0.135                0.119
+N5  0.400  0.252         0.163 -0.131  0.189
+O1                              0.549       
+O2  0.119                0.100 -0.448  0.273
+O3        -0.108                0.661       
+O4         0.350         0.143  0.359       
+O5                             -0.517  0.324
+
+                 ML2   ML1   ML3   ML5   ML4   ML6
+SS loadings    2.321 1.988 1.974 1.722 1.656 0.716
+Proportion Var 0.093 0.080 0.079 0.069 0.066 0.029
+Cumulative Var 0.093 0.172 0.251 0.320 0.386 0.415</code></pre>
+</div>
+<details class="code-fold">
+<summary>R Code: MLE via <code>fa</code></summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_loadings</span>(fit.mle2<span class="sc">$</span>loadings, <span class="at">K=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-FactorAnalysis_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Final Conclusion:</strong> The exploratory factor analysis (EFA) successfully identified three of the “Big Five” personality traits (Conscientiousness, Neuroticism, and Openness) as the primary latent structures within the 25 survey items using the maximum likelihood estimation method without rotation on the factors.</p>
+</section>
+</section>
+<section id="rotation-of-factors" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="rotation-of-factors"><span class="header-section-number">7.6</span> Rotation of Factors</h2>
+<p>In the factor model with <span class="math inline">m&gt;1</span>, there is no unique set of loadings and thus there is ambiguity associated with the factor model. This can be seen by introducing any <span class="math inline">m\times m</span> orthogonal matrix <span class="math inline">T</span> in the factor model <span class="math display">
+\mathbf{z}_i = L\mathbf{f}_i + \boldsymbol \varepsilon = L T T^\top \mathbf{f}_i +  \boldsymbol \varepsilon = L^* \mathbf{f}_i^* + \boldsymbol \varepsilon
+</span></p>
+<ul>
+<li><span class="math inline">TT^\top = I</span> and <span class="math inline">T^\top T = I</span></li>
+<li><span class="math inline">L^*:=LT</span> and <span class="math inline">\mathbf{f}_i^*:=T^\top \mathbf{f}_i</span></li>
+<li>This indicates that <strong>loadings</strong> are not uniquely determined.</li>
+</ul>
+<p>In what follows, we introduce three different factor rotations to better interpret the results.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Varimax Rotation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Varimax Rotation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Varimax rotation aims to have each one of the <span class="math inline">p</span> variables load highly on only one factor and have moderate to negligible loads on all other factors.</p>
+<ul>
+<li>The transformations in Varimax rotation is an orthogonal transformation.</li>
+<li>After varimax rotation, each of the <span class="math inline">p</span> variables should load highly on at most one of the rotated factors, but this may not always be true.</li>
+</ul>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Varimax Rotation</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>fit.varimax <span class="ot">=</span> <span class="fu">factanal</span>(dat, <span class="at">factors=</span>m, <span class="at">method=</span><span class="st">"mle"</span>, <span class="at">rotation=</span><span class="st">"varimax"</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>fit.varimax<span class="sc">$</span>loadings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Loadings:
+   Factor1 Factor2 Factor3 Factor4 Factor5 Factor6
+A1                         -0.534  -0.113   0.124 
+A2  0.260           0.128   0.645                 
+A3  0.384           0.127   0.568           0.153 
+A4  0.239           0.236   0.387  -0.152   0.102 
+A5  0.446  -0.137   0.107   0.435           0.227 
+C1                  0.549           0.188         
+C2                  0.665                   0.158 
+C3                  0.551                         
+C4          0.222  -0.633  -0.101  -0.120   0.305 
+C5 -0.184   0.273  -0.548                   0.137 
+E1 -0.575                  -0.133           0.178 
+E2 -0.675   0.233                           0.124 
+E3  0.594           0.112   0.141   0.250   0.231 
+E4  0.678  -0.140   0.114   0.215  -0.108   0.140 
+E5  0.515           0.306           0.197         
+N1          0.815          -0.162          -0.124 
+N2          0.802          -0.122          -0.186 
+N3          0.714                                 
+N4 -0.342   0.562  -0.160                   0.198 
+N5 -0.149   0.516                  -0.165   0.164 
+O1  0.232           0.134           0.487   0.158 
+O2          0.168                  -0.500   0.138 
+O3  0.343                           0.581   0.178 
+O4 -0.163   0.210           0.125   0.348   0.170 
+O5                                 -0.580   0.148 
+
+               Factor1 Factor2 Factor3 Factor4 Factor5 Factor6
+SS loadings      2.728   2.718   2.049   1.560   1.537   0.617
+Proportion Var   0.109   0.109   0.082   0.062   0.061   0.025
+Cumulative Var   0.109   0.218   0.300   0.362   0.424   0.448</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_loadings</span>(fit.varimax<span class="sc">$</span>loadings, <span class="at">K=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-FactorAnalysis_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Interpretation of Varimax Factor Loadings">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretation of Varimax Factor Loadings
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The goal is to name each factor by identifying the common theme among the variables that have high loadings on it. We’ll generally consider a loading above 0.5 (or below -0.5) as significant.</p>
+<ul>
+<li><strong>Factor 1: Neuroticism 😟</strong> This factor is defined by high positive loadings from all the Neuroticism items. Individuals scoring high on this factor tend to experience negative emotions.
+<ul>
+<li><strong>N1:</strong> Get stressed out easily (0.814)</li>
+<li><strong>N2:</strong> Worry about things (0.783)</li>
+<li><strong>N3:</strong> Am easily disturbed (0.717)</li>
+<li><strong>N4:</strong> Get upset easily (0.563)</li>
+<li><strong>N5:</strong> Change my mood a lot (0.521)</li>
+</ul></li>
+<li><strong>Factor 2: Extraversion 🗣️</strong> This factor captures the dimension of extraversion vs.&nbsp;introversion. Note the strong negative loadings for the introversion-keyed items.
+<ul>
+<li><strong>E1:</strong> Don’t talk a lot (-0.578)</li>
+<li><strong>E2:</strong> Find it difficult to approach others (-0.675)</li>
+<li><strong>E3:</strong> Know how to captivate people (0.498)</li>
+<li><strong>E4:</strong> Make friends easily (0.602)</li>
+<li><strong>E5:</strong> Am the life of the party (0.498)</li>
+</ul></li>
+<li><strong>Factor 3: Conscientiousness ✍️</strong> This factor is defined by the Conscientiousness items. The negative loadings for items C4 and C5 indicate that people high on this factor are <em>not</em> likely to do things halfway or waste time.
+<ul>
+<li><strong>C1:</strong> Am always prepared (0.528)</li>
+<li><strong>C2:</strong> Pay attention to details (0.617)</li>
+<li><strong>C3:</strong> Get chores done right away (0.556)</li>
+<li><strong>C4:</strong> Do things in a half-way manner (-0.647)</li>
+<li><strong>C5:</strong> Waste my time (-0.572)</li>
+</ul></li>
+<li><strong>Factor 4: Agreeableness 😊</strong> This factor clearly represents the Agreeableness trait. A1, which is reverse-keyed, has a moderate negative loading as expected.
+<ul>
+<li><strong>A2:</strong> Am interested in people (0.579)</li>
+<li><strong>A3:</strong> Sympathize with others’ feelings (0.649)</li>
+<li><strong>A4:</strong> Have a soft heart (0.453)</li>
+<li><strong>A5:</strong> Take time out for others (0.581)</li>
+<li><strong>A1:</strong> Am indifferent to the feelings of others (-0.375)</li>
+</ul></li>
+<li><strong>Factor 5: Openness to Experience 🎨</strong> This factor is defined by the Openness items. The negative loadings for O2 and O5 are consistent with being low on this trait.
+<ul>
+<li><strong>O1:</strong> Have a rich vocabulary (0.523)</li>
+<li><strong>O3:</strong> Have a vivid imagination (0.619)</li>
+<li><strong>O4:</strong> Am full of ideas (0.360)</li>
+<li><strong>O2:</strong> Am not interested in abstract ideas (-0.467)</li>
+<li><strong>O5:</strong> Do not enjoy going to art museums (-0.524)</li>
+</ul></li>
+<li><strong>Summary of Variance Explained</strong> The first 4 factors explains 38% variation, however, the factor 5 has very small loadings (<span class="math inline">\ell_{ij}&lt; 0.5</span>), which indicates that factor 5 may not be interpretable.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Quartimax Rotation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quartimax Rotation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The varimax rotation destroy an “overall” factor.</li>
+<li>In contrast, the quartimax rotation tries to
+<ol type="1">
+<li>Preserve an overall factor such that each of the <span class="math inline">p</span> variables has a high loading on the overall factor;</li>
+<li>Create other factors such that each of the <span class="math inline">p</span> variables has a high loading on at most one factor.</li>
+</ol></li>
+</ul>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Quartimax Rotation</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("GPArotation")</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GPArotation)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">quartimax</span>(fit.mle<span class="sc">$</span>loadings)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Orthogonal rotation method Quartimax converged.
+Loadings:
+     Factor1  Factor2 Factor3  Factor4 Factor5 Factor6
+A1 -0.081420  0.13326  0.0298 -0.07668 -0.5368  0.0907
+A2  0.414291  0.00380  0.1164  0.00996  0.5641  0.0119
+A3  0.538823 -0.02658  0.0862  0.00556  0.4371  0.1420
+A4  0.360211 -0.08975  0.2026 -0.17057  0.2819  0.1140
+A5  0.578553 -0.16346  0.0535  0.01204  0.2745  0.1745
+C1  0.123787 -0.00478  0.5341  0.17723 -0.0410  0.1257
+C2  0.120050  0.04917  0.6377  0.07489  0.0044  0.2339
+C3  0.108611 -0.04848  0.5416 -0.03148  0.0619  0.0670
+C4 -0.086235  0.20244 -0.6681 -0.08046 -0.0915  0.2475
+C5 -0.211614  0.25231 -0.5494  0.05720  0.0290  0.1233
+E1 -0.551133 -0.01293  0.0594 -0.07073 -0.0246  0.2748
+E2 -0.660465  0.18776 -0.0682 -0.04615  0.0657  0.2478
+E3  0.640897  0.00252  0.0567  0.26261 -0.0161  0.1358
+E4  0.734463 -0.12557  0.0541 -0.10235  0.0134  0.0346
+E5  0.519389  0.07199  0.2892  0.19436 -0.0317 -0.1067
+N1 -0.030707  0.83647 -0.0443 -0.05125 -0.0901 -0.0622
+N2 -0.068316  0.82158 -0.0145  0.01652 -0.0318 -0.1130
+N3 -0.076434  0.69737 -0.0612  0.00601  0.0503  0.1580
+N4 -0.323978  0.51793 -0.1650  0.07876  0.1068  0.2898
+N5 -0.110418  0.48374 -0.0586 -0.15774  0.1268  0.2465
+O1  0.244793 -0.02933  0.1169  0.49435 -0.0613  0.1088
+O2  0.038826  0.15911 -0.1272 -0.48961  0.0145  0.1579
+O3  0.361420  0.00777  0.0597  0.59050 -0.0241  0.1084
+O4 -0.111197  0.16732 -0.0292  0.34745  0.1744  0.2112
+O5 -0.000448  0.06525 -0.0853 -0.56502 -0.1232  0.1566
+
+               Factor1 Factor2 Factor3 Factor4 Factor5 Factor6
+SS loadings      3.320   2.641   1.975   1.514   1.063   0.695
+Proportion Var   0.133   0.106   0.079   0.061   0.043   0.028
+Cumulative Var   0.133   0.238   0.317   0.378   0.421   0.448</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Interpretation of Quartimax Rotated Loadings">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretation of Quartimax Rotated Loadings
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The goal of a Quartimax rotation is to simplify the rows of the factor loading matrix, making it easier to see which factor each variable is associated with. Based on the loadings (where values &gt; 0.4 are considered significant), we can interpret the six factors as follows.</p>
+<ul>
+<li><p><strong>Factor 1: Extraversion &amp; Agreeableness (A “Sociability” Factor)</strong>: This is a very broad factor that combines items from two distinct personality traits. It captures a general tendency towards being sociable, outgoing, and agreeable. Quartimax rotation can sometimes produce a large general factor, which seems to have happened here.</p>
+<ul>
+<li><strong>E4:</strong> Make friends easily (0.705)</li>
+<li><strong>A3:</strong> Sympathize with others’ feelings (0.654)</li>
+<li><strong>A5:</strong> Take time out for others (0.644)</li>
+<li><strong>E3:</strong> Know how to captivate people (0.599)</li>
+<li><strong>A2:</strong> Am interested in people (0.547)</li>
+<li><strong>E2:</strong> Find it difficult to approach others (-0.601)</li>
+<li><strong>E1:</strong> Don’t talk a lot (-0.516)</li>
+</ul></li>
+<li><p><strong>Factor 2: Neuroticism</strong>: This is a very strong and clear factor, defined by high positive loadings from all the Neuroticism items.</p>
+<ul>
+<li><strong>N1:</strong> Get stressed out easily (0.840)</li>
+<li><strong>N2:</strong> Worry about things (0.804)</li>
+<li><strong>N3:</strong> Am easily disturbed (0.704)</li>
+<li><strong>N4:</strong> Get upset easily (0.526)</li>
+<li><strong>N5:</strong> Change my mood a lot (0.492)</li>
+</ul></li>
+<li><p><strong>Factor 3: Conscientiousness</strong>: This factor is clearly defined by the Conscientiousness items. The negative loadings for C4 and C5 are expected as they are reverse-keyed items.</p>
+<ul>
+<li><strong>C4:</strong> Do things in a half-way manner (-0.643)</li>
+<li><strong>C2:</strong> Pay attention to details (0.614)</li>
+<li><strong>C5:</strong> Waste my time (-0.559)</li>
+<li><strong>C3:</strong> Get chores done right away (0.550)</li>
+<li><strong>C1:</strong> Am always prepared (0.529)</li>
+</ul></li>
+<li><p><strong>Factor 4: Openness to Experience</strong>: This factor is defined by the Openness items. The negative loadings for the reverse-keyed items (O2, O5) fit the pattern perfectly.</p>
+<ul>
+<li><strong>O3:</strong> Have a vivid imagination (0.615)</li>
+<li><strong>O5:</strong> Do not enjoy going to art museums (-0.520)</li>
+<li><strong>O1:</strong> Have a rich vocabulary (0.518)</li>
+<li><strong>O2:</strong> Am not interested in abstract ideas (-0.471)</li>
+</ul></li>
+<li><p><strong>Factor 5: A Weak or Ill-Defined Factor</strong>: This factor has no high loadings (all are below 0.4). This suggests that it does not represent a clear, substantial underlying trait. In a real analysis, you would likely conclude that a 4-factor solution is more appropriate than a 5-factor solution, as this fifth factor is not interpretable and its SS loading (0.984) is below the typical cutoff of 1.0.</p></li>
+<li><p><strong>Summary of Variance Explained</strong>: The five factors together explain <strong>42.1%</strong> of the total variance in the personality items. However, since the fifth factor is not interpretable, a 4-factor solution explaining 38.2% of the variance would likely be the more practical and parsimonious choice.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Promax Transformation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Promax Transformation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The varimax and quartimax rotations produce uncorrelcted factors.</li>
+<li>Promax is a non-orthogonal (oblique) transformation that
+<ol type="1">
+<li>is not a rotation,</li>
+<li>can produce correlated factors,</li>
+<li>and tries to force each of the <span class="math inline">p</span> variables to load highly on one of the factors.</li>
+</ol></li>
+</ul>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Promax Transformation</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> stats<span class="sc">::</span><span class="fu">promax</span>(fit.mle<span class="sc">$</span>loadings)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>result  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>$loadings
+
+Loadings:
+   Factor1 Factor2 Factor3 Factor4 Factor5 Factor6
+A1 -0.169                   0.109  -0.606   0.171 
+A2 -0.124                           0.658         
+A3 -0.289                           0.513   0.165 
+A4 -0.165          -0.194   0.190   0.332         
+A5 -0.394  -0.191                   0.330   0.283 
+C1                 -0.592  -0.134                 
+C2                 -0.735                         
+C3                 -0.610                  -0.183 
+C4                  0.704          -0.113   0.582 
+C5  0.101   0.102   0.576                   0.327 
+E1  0.630  -0.210  -0.183          -0.117   0.114 
+E2  0.729                                         
+E3 -0.604                  -0.236           0.336 
+E4 -0.726                   0.128           0.222 
+E5 -0.497   0.225  -0.233  -0.169                 
+N1 -0.136   0.926                          -0.123 
+N2          0.938                          -0.211 
+N3          0.654                           0.101 
+N4  0.359   0.347                           0.240 
+N5  0.148   0.380           0.172   0.118   0.174 
+O1 -0.184                  -0.480           0.199 
+O2                          0.504           0.181 
+O3 -0.297                  -0.579           0.258 
+O4  0.250                  -0.350   0.141   0.191 
+O5                          0.586  -0.124   0.183 
+
+               Factor1 Factor2 Factor3 Factor4 Factor5 Factor6
+SS loadings      2.788   2.611   2.255   1.516   1.396   1.186
+Proportion Var   0.112   0.104   0.090   0.061   0.056   0.047
+Cumulative Var   0.112   0.216   0.306   0.367   0.423   0.470
+
+$rotmat
+            [,1]       [,2]       [,3]       [,4]       [,5]         [,6]
+[1,]  0.45115168  0.5423513  0.2258156  0.1249663 -0.2001219  0.002288356
+[2,] -0.53744441  0.8627228 -0.1458693 -0.1403394  0.2335533  0.066627707
+[3,] -0.52840876 -0.1799881  0.9929386  0.2843336  0.2698631  0.523885615
+[4,]  0.09623074  0.1553164 -0.5313589  0.9322012  0.2464121 -0.314175730
+[5,]  0.78664249 -0.3674958 -0.0713201 -0.1901115  0.7539700  0.345176079
+[6,] -0.19004259 -0.5154202 -0.1272708  0.1613486 -0.6725570  1.069855011</code></pre>
+</div>
+<details class="code-fold">
+<summary>R Code: Promax Transformation</summary>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute correlations for factor loadings </span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>corfac <span class="ot">=</span> <span class="fu">solve</span>(<span class="fu">t</span>(result<span class="sc">$</span>rotmat) <span class="sc">%*%</span> result<span class="sc">$</span>rotmat)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>corfac</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>           [,1]        [,2]        [,3]          [,4]       [,5]          [,6]
+[1,]  1.0000000  0.34614290  0.34343748  0.1567108779 -0.3308908  0.1470709666
+[2,]  0.3461429  1.00000000  0.06268382  0.0414459766 -0.0860179  0.4838349238
+[3,]  0.3434375  0.06268382  1.00000000  0.1842433801 -0.2723639 -0.2866271867
+[4,]  0.1567109  0.04144598  0.18424338  1.0000000000 -0.0640062  0.0005207452
+[5,] -0.3308908 -0.08601790 -0.27236391 -0.0640061974  1.0000000  0.2205450811
+[6,]  0.1470710  0.48383492 -0.28662719  0.0005207452  0.2205451  1.0000000000</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Interpretation of Promax Rotated Loadings">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretation of Promax Rotated Loadings
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A Promax rotation is used when we expect the underlying latent factors to be correlated. The interpretation focuses on the <strong>Pattern Matrix</strong>, which shows the unique contribution of each variable to a factor. We will consider loadings with an absolute value above 0.4 as significant for naming the factors.</p>
+<p><strong>Interpretation of Factors</strong></p>
+<ul>
+<li><strong>Factor 1: Extraversion (vs.&nbsp;Introversion)</strong> 🗣️ This factor is clearly defined by the Extraversion items. The signs are flipped compared to the previous analyses, so high scores on this factor indicate <strong>Introversion</strong>.
+<ul>
+<li><strong>E2:</strong> Find it difficult to approach others (0.715)</li>
+<li><strong>E1:</strong> Don’t talk a lot (0.632)</li>
+<li><strong>E4:</strong> Make friends easily (-0.605)</li>
+<li><strong>E3:</strong> Know how to captivate people (-0.468)</li>
+<li><strong>E5:</strong> Am the life of the party (-0.473)</li>
+</ul></li>
+<li><strong>Factor 2: Neuroticism</strong> 😟 This is a very strong and clear factor, capturing emotional stability. It is defined by high positive loadings from all the Neuroticism items.
+<ul>
+<li><strong>N1:</strong> Get stressed out easily (0.909)</li>
+<li><strong>N2:</strong> Worry about things (0.860)</li>
+<li><strong>N3:</strong> Am easily disturbed (0.682)</li>
+<li><strong>N4:</strong> Get upset easily (0.398) - <em>Note: This item cross-loads with Factor 1.</em></li>
+<li><strong>N5:</strong> Change my mood a lot (0.433)</li>
+</ul></li>
+<li><strong>Factor 3: Conscientiousness</strong> ✍️ This factor is clearly defined by the Conscientiousness items. The negative loadings for C4 and C5 are expected as they are reverse-keyed.
+<ul>
+<li><strong>C4:</strong> Do things in a half-way manner (-0.675)</li>
+<li><strong>C2:</strong> Pay attention to details (0.658)</li>
+<li><strong>C3:</strong> Get chores done right away (0.593)</li>
+<li><strong>C5:</strong> Waste my time (-0.581)</li>
+</ul></li>
+<li><strong>Factor 4: Openness to Experience (Reversed)</strong> 🎨 This factor is defined by the Openness items, but the signs are flipped. High scores on this factor indicate a lower degree of openness or a preference for the concrete over the abstract.
+<ul>
+<li><strong>O3:</strong> Have a vivid imagination (-0.629)</li>
+<li><strong>O1:</strong> Have a rich vocabulary (-0.525)</li>
+<li><strong>O5:</strong> Do not enjoy going to art museums (0.533)</li>
+<li><strong>O2:</strong> Am not interested in abstract ideas (0.473)</li>
+</ul></li>
+<li><strong>Factor 5: Agreeableness</strong> 😊 This factor is clearly defined by the Agreeableness items. The negative loading for the reverse-keyed item A1 is consistent with the trait.
+<ul>
+<li><strong>A3:</strong> Sympathize with others’ feelings (0.646)</li>
+<li><strong>A2:</strong> Am interested in people (0.582)</li>
+<li><strong>A5:</strong> Take time out for others (0.558)</li>
+<li><strong>A1:</strong> Am indifferent to the feelings of others (-0.387)</li>
+</ul></li>
+</ul>
+<p><strong>Interpreting Factor Correlations:</strong> A critical step in an oblique rotation is to examine the <strong>Factor Correlation Matrix</strong>. This matrix shows how the five personality factors are related to each other.</p>
+<p>Here are the key relationships shown in the matrix:</p>
+<ul>
+<li><strong>Introversion and Neuroticism (r = 0.37):</strong> There is a <strong>moderate positive correlation</strong> between Introversion (Factor 1) and Neuroticism (Factor 2). This is a classic finding in personality psychology: individuals who are more introverted also tend to be more prone to experiencing negative emotions like anxiety and stress.</li>
+<li><strong>Introversion and Conscientiousness (r = -0.38):</strong> There is a <strong>moderate negative correlation</strong> between Introversion (Factor 1) and Conscientiousness (Factor 3). This suggests that individuals who are more introverted tend to be slightly less conscientious (less organized, less disciplined). Conversely, more extraverted individuals tend to be more conscientious.</li>
+<li><strong>Neuroticism and Conscientiousness (r = -0.25):</strong> There is a <strong>small negative correlation</strong> between Neuroticism (Factor 2) and Conscientiousness (Factor 3). This indicates that individuals who are more emotionally stable (low Neuroticism) tend to be more organized and self-disciplined (high Conscientiousness).</li>
+<li><strong>Conscientiousness and Openness (r = -0.22):</strong> This one is tricky due to the reversed factor. The matrix shows a small negative correlation between Conscientiousness (Factor 3) and <em>Low Openness</em> (Factor 4). This actually means there is a <strong>small positive correlation (r = 0.22) between Conscientiousness and Openness</strong>. People who are more disciplined and organized also tend to be slightly more open to new experiences.</li>
+<li><strong>Introversion and Agreeableness (r = -0.23):</strong> There is a <strong>small negative correlation</strong> between Introversion (Factor 1) and Agreeableness (Factor 5). This suggests that more extraverted individuals tend to be slightly more agreeable and sympathetic towards others.</li>
+</ul>
+<p>Overall, these correlations align well with established findings in personality research and confirm that allowing the factors to correlate was a sensible decision for this analysis.</p>
+<ul>
+<li><strong>Summary of Variance Explained</strong>: The five factors together explain <strong>41.3%</strong> of the total variance in the personality items. Note that in an oblique rotation, the variance explained by each factor is not simply additive because the factors themselves share some variance.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="estimation-of-factor-scores" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="estimation-of-factor-scores"><span class="header-section-number">7.7</span> Estimation of Factor Scores</h2>
+<p>For each observation <span class="math inline">\mathbf{x}_i</span> (or its z-score <span class="math inline">\mathbf{z}_i</span>), we can estimate the (vector of) factor scores <span class="math inline">\mathbf{f}_i</span> once <span class="math inline">L</span> is estimated. In general, there are three methods to estimating factor scores:</p>
+<ul>
+<li>ordinary least squares (OLS),</li>
+<li>Weighted least squares (WLS),</li>
+<li>and regression method.</li>
+</ul>
+<p>These methods can be specified via the option <code>scores</code> in the <code>factanal</code> function. In practice, one use often the regression method, which estimate <span class="math inline">\mathbf{f}_i</span> by the conditional mean given the observations: <span class="math display">
+\hat{\mathbf{f}}_i:=E[\mathbf{f}_j| \mathbf{x}_j] = \hat{L}^\top (\hat{L}\hat{L}^\top + \hat{\Psi})(\mathbf{x}_j - \mathbf{x}).
+</span></p>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Factor Scores Estimation via Regression Method</summary>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">factanal</span>(dat, <span class="at">factors=</span>m, <span class="at">method=</span><span class="st">"mle"</span>, </span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">rotation=</span><span class="st">"varimax"</span>, <span class="at">scores=</span><span class="st">"regression"</span>)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fit<span class="sc">$</span>scores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>        Factor1    Factor2    Factor3    Factor4    Factor5     Factor6
+[1,]  1.1256448  0.3347749  1.3311765 -0.3292141  0.2411510 -0.18141115
+[2,] -1.4676037  0.4234724 -0.8052180 -1.6220757 -0.2979351 -0.76894404
+[3,]  0.3348235 -0.1676162 -0.2626270 -0.2672289 -0.3954644 -0.04196801
+[4,] -0.1021384 -0.4126529  0.6523772 -1.6680618 -0.2782254 -0.40778415
+[5,]  0.2615627 -0.9838066 -1.6811813  0.7779028  0.4237653 -0.02633796
+[6,]  0.4588120  1.0659874 -0.2737617  0.8797621  0.7791719  0.45639287</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Plot Factor Scores</summary>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">=</span> fit<span class="sc">$</span>scores</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">cbind</span>(df, scores)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> Factor1, <span class="at">y =</span> Factor2, <span class="at">color =</span> <span class="fu">factor</span>(gender))) <span class="sc">+</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>), <span class="at">name =</span> <span class="st">"Gender"</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>)) <span class="sc">+</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Factor Scores: Agreeableness vs. Conscientiousness"</span>,</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Points colored by gender"</span>,</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Factor 1: Agreeableness"</span>,</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Factor 2: Conscientiousness"</span></span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-FactorAnalysis_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>R Code: Plot Factor Scores</summary>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>GGally<span class="sc">::</span><span class="fu">ggpairs</span>(</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  df,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">columns =</span> <span class="dv">29</span><span class="sc">:</span><span class="dv">33</span>, <span class="co"># The 6 factor score columns </span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">factor</span>(gender), <span class="at">alpha =</span> <span class="fl">0.6</span>),</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Pairwise Scatter Plot of Six Factor Scores by Gender"</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-FactorAnalysis_files/figure-html/unnamed-chunk-24-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-track-record-data" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="exercise-track-record-data"><span class="header-section-number">7.8</span> Exercise: Track Record Data</h2>
+<p>There are <span class="math inline">54</span> countries’ track records for men and women. The dataset for women in <code>records.women.csv</code> includes variables <span class="math inline">x_1,\dots,x_7</span> for 100 m, 200 m, 400 m (seconds) and 800 m, 1500 m, 3000 m, marathon (minutes). The dataset for men in <code>records.men.csv</code> includes variables <span class="math inline">x_1,\dots,x_8</span> for 100 m, 200 m, 400 m (seconds) and 800 m, 1500 m, 5000 m, 10000 m, marathon (minutes). The first three times are in seconds and the remaining times are in minutes.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Research Question">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Research Question
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Are there any latent structures to explain the the performance difference between men and women?</p>
+</div>
+</div>
+</div>
+<p><strong>Step 1: Data Preparation and Visualization</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="View Solution">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+View Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-21" class="callout-21-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<details class="code-fold">
+<summary>Data Preparation</summary>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>dat.m <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"records.men.csv"</span>)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>dat.w <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"records.women.csv"</span>)</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>GGally<span class="sc">::</span><span class="fu">ggpairs</span>(dat.m[,<span class="sc">-</span><span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-FactorAnalysis_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Data Preparation</summary>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>GGally<span class="sc">::</span><span class="fu">ggpairs</span>(dat.w[,<span class="sc">-</span><span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-FactorAnalysis_files/figure-html/unnamed-chunk-25-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p><strong>Step 2: Check Assumptions</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="View Solution">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+View Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-22" class="callout-22-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Measures of Sampling Adequacy</summary>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">=</span> dat.m[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">KMO</span>(dat.m[,<span class="sc">-</span><span class="dv">1</span>]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Kaiser-Meyer-Olkin factor adequacy
+Call: psych::KMO(r = dat.m[, -1])
+Overall MSA =  0.89
+MSA for each item = 
+  x1   x2   x3   x4   x5   x6   x7   x8 
+0.84 0.84 0.97 0.90 0.94 0.85 0.85 0.95 </code></pre>
+</div>
+<details class="code-fold">
+<summary>R Code: Measures of Sampling Adequacy</summary>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">KMO</span>(dat.w[,<span class="sc">-</span><span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Kaiser-Meyer-Olkin factor adequacy
+Call: psych::KMO(r = dat.w[, -1])
+Overall MSA =  0.82
+MSA for each item = 
+  x1   x2   x3   x4   x5   x6   x7 
+0.89 0.78 0.86 0.85 0.74 0.76 0.88 </code></pre>
+</div>
+</div>
+<p><strong>Interpretation</strong>: Both of the overall MSAs are suggesting the data are appropriate for factor analysis.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Multivariate Normality Test</summary>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>mvShapiroTest<span class="sc">::</span><span class="fu">mvShapiro.Test</span>(<span class="fu">as.matrix</span>(dat))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Generalized Shapiro-Wilk test for Multivariate Normality by
+    Villasenor-Alva and Gonzalez-Estrada
+
+data:  as.matrix(dat)
+MVW = 0.95037, p-value = 1.277e-06</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p><strong>Step 3: Determine the Number of Factors to Extract</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="View Solution">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+View Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-23" class="callout-23-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<details class="code-fold">
+<summary>Scree Plot and Hypothesis Tests</summary>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>fit.pc <span class="ot">=</span> <span class="fu">prcomp</span>(dat, <span class="at">center=</span><span class="cn">TRUE</span>, <span class="at">scale=</span><span class="cn">TRUE</span>)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit.pc<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>, <span class="at">type=</span><span class="st">"b"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-FactorAnalysis_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Scree Plot and Hypothesis Tests</summary>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(f) </span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">factanal</span>(dat, <span class="at">factors =</span> f, <span class="at">method =</span><span class="st">"mle"</span>)<span class="sc">$</span>PVAL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   objective    objective    objective 
+5.849375e-16 1.734258e-02 2.226606e-01 </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p><strong>Step 4: Extract and Rotate the Factors</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="View Solution">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+View Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-24" class="callout-24-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Varimax Rotation</summary>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">=</span> <span class="fu">factanal</span>(dat, <span class="at">factors=</span><span class="dv">2</span>, <span class="at">method=</span><span class="st">"mle"</span>, <span class="at">rotation=</span><span class="st">"varimax"</span>)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>fit3 <span class="ot">=</span> <span class="fu">factanal</span>(dat, <span class="at">factors=</span><span class="dv">3</span>, <span class="at">method=</span><span class="st">"mle"</span>, <span class="at">rotation=</span><span class="st">"varimax"</span>)</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">m     =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>),</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">stat  =</span> <span class="fu">c</span>(fit2<span class="sc">$</span>STATISTIC, fit3<span class="sc">$</span>STATISTIC),</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">df    =</span> <span class="fu">c</span>(fit2<span class="sc">$</span>dof,       fit3<span class="sc">$</span>dof),</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">pval  =</span> <span class="fu">c</span>(fit2<span class="sc">$</span>PVAL,      fit3<span class="sc">$</span>PVAL)</span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["m"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["stat"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["pval"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"25.935576","3":"13","4":"0.01734258"},{"1":"3","2":"9.438907","3":"7","4":"0.22266058"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Factor Loadings</summary>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>fit3<span class="sc">$</span>loadings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Loadings:
+   Factor1 Factor2 Factor3
+x1 0.366   0.866   0.187  
+x2 0.374   0.829   0.322  
+x3 0.472   0.676   0.302  
+x4 0.538   0.441   0.715  
+x5 0.671   0.494   0.443  
+x6 0.842   0.426   0.307  
+x7 0.870   0.400   0.278  
+x8 0.837   0.377   0.266  
+
+               Factor1 Factor2 Factor3
+SS loadings      3.403   2.816   1.179
+Proportion Var   0.425   0.352   0.147
+Cumulative Var   0.425   0.777   0.925</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="View Solution">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+View Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-25" class="callout-25-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Promax Rotation</summary>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">factanal</span>(dat, <span class="at">factors=</span><span class="dv">3</span>, <span class="at">method=</span><span class="st">"mle"</span>, <span class="at">rotation=</span><span class="st">"promax"</span>)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>loadings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Loadings:
+   Factor1 Factor2 Factor3
+x1          1.037  -0.130 
+x2          0.906   0.119 
+x3  0.202   0.633         
+x4  0.112           0.887 
+x5  0.505   0.179   0.327 
+x6  0.918                 
+x7  0.999                 
+x8  0.966                 
+
+               Factor1 Factor2 Factor3
+SS loadings      3.085   2.334   0.935
+Proportion Var   0.386   0.292   0.117
+Cumulative Var   0.386   0.677   0.794</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Factor Correlation Matrix</summary>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">=</span> fit<span class="sc">$</span>rotmat</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="co"># correlation </span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>corfac <span class="ot">=</span> <span class="fu">solve</span>(<span class="fu">t</span>(M) <span class="sc">%*%</span> M)</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>corfac</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>          [,1]      [,2]      [,3]
+[1,] 1.0000000 0.8126219 0.7657261
+[2,] 0.8126219 1.0000000 0.7710439
+[3,] 0.7657261 0.7710439 1.0000000</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p><strong>Step 5: Interpret Factor Loadings</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="View Solution">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+View Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-26" class="callout-26-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_loadings</span>(fit<span class="sc">$</span>loadings, <span class="at">K=</span><span class="dv">3</span>, <span class="at">angle=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-FactorAnalysis_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The data can be divided into three physiological groups:</p>
+<ul>
+<li><p><strong>Sprints</strong>: 100, 200, 400 (anaerobic exercise)</p></li>
+<li><p><strong>Middle distance</strong>: 800, 1500 (mixed energy)</p></li>
+<li><p><strong>Long distance</strong>: 3000 (women), 5000/10000, marathon (aerobic endurance)</p></li>
+<li><p>The <code>varimax</code> rotation aims to explain the data using one overall common theme. We will consider a loading above 0.6 (or below -0.6) as significant.</p>
+<ul>
+<li><strong>Factor 1:</strong> This factor is defined by high positive loadings corresponding to middle distance and long distance. This measures aerobic endurance.</li>
+<li><strong>Factor 2:</strong> This factor is defined by high positive loadings corresponding to sprints. This measures anaerobic speed/power.</li>
+<li><strong>Factor 3:</strong> This factor has very high positive load on the variable of 800m. This indicates that both anaerobic speed/power and aerobic endurance are very important contributors for 800m.</li>
+</ul></li>
+<li><p>What about interpretations using other roations?</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../ch6/06-PCA.html" class="pagination-link" aria-label="Principal Component Analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../ch8/08-MDS.html" class="pagination-link" aria-label="Multidimensional Scaling">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multidimensional Scaling</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

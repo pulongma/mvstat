@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Pulong Ma">
+
+<title>8&nbsp; Multidimensional Scaling – Introduction to Multivariate Data Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../ch7/07-FactorAnalysis.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-626149efe8f5d16e1d391ba177679bf0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script>
+  window.MathJax = {
+    loader: {
+      load: ['[tex]/amsmath', '[tex]/amssymb', '[tex]/amsfonts'],
+      '[tex]/color']
+    },
+    tex: {
+      packages: { '[+]': ['amsmath', 'amssymb', 'amsfonts', 'color'] }
+    }
+  };
+</script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../custom.css">
+<link rel="stylesheet" href="custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ch8/08-MDS.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multidimensional Scaling</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Introduction to Multivariate Data Analysis</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch1/01-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Multivariate Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch2/02-graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Graphs and Data Visualization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch3/03-MVN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multivariate Normal Distribution</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch4/04-Inference_for_Means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Inference for Single Mean Vector</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch5/05-Inference_for_Means_II.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Inference for Multiple Mean Vectors</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch6/06-PCA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch7/07-FactorAnalysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Factor Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch8/08-MDS.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multidimensional Scaling</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="1">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="header-section-number">8.1</span> Learning Goals</a></li>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation"><span class="header-section-number">8.2</span> Motivation</a></li>
+  <li><a href="#multidimensional-scaling-mds" id="toc-multidimensional-scaling-mds" class="nav-link" data-scroll-target="#multidimensional-scaling-mds"><span class="header-section-number">8.3</span> Multidimensional Scaling (MDS)</a>
+  <ul class="collapse">
+  <li><a href="#how-to-construct-to-distanceproximity-matrix-d" id="toc-how-to-construct-to-distanceproximity-matrix-d" class="nav-link" data-scroll-target="#how-to-construct-to-distanceproximity-matrix-d"><span class="header-section-number">8.3.1</span> How to Construct to Distance/Proximity Matrix <span class="math inline">D</span></a></li>
+  <li><a href="#mds-in-r" id="toc-mds-in-r" class="nav-link" data-scroll-target="#mds-in-r"><span class="header-section-number">8.3.2</span> MDS in R</a></li>
+  </ul></li>
+  <li><a href="#the-mathematical-framework" id="toc-the-mathematical-framework" class="nav-link" data-scroll-target="#the-mathematical-framework"><span class="header-section-number">8.4</span> The Mathematical Framework</a>
+  <ul class="collapse">
+  <li><a href="#metric-mds" id="toc-metric-mds" class="nav-link" data-scroll-target="#metric-mds"><span class="header-section-number">8.4.1</span> Metric MDS</a></li>
+  <li><a href="#non-metric-mds" id="toc-non-metric-mds" class="nav-link" data-scroll-target="#non-metric-mds"><span class="header-section-number">8.4.2</span> Non-metric MDS</a></li>
+  </ul></li>
+  <li><a href="#choosing-the-embedding-dimension" id="toc-choosing-the-embedding-dimension" class="nav-link" data-scroll-target="#choosing-the-embedding-dimension"><span class="header-section-number">8.5</span> Choosing the Embedding Dimension</a></li>
+  <li><a href="#illustrative-examples" id="toc-illustrative-examples" class="nav-link" data-scroll-target="#illustrative-examples"><span class="header-section-number">8.6</span> Illustrative Examples</a>
+  <ul class="collapse">
+  <li><a href="#example-1-classical-mds" id="toc-example-1-classical-mds" class="nav-link" data-scroll-target="#example-1-classical-mds"><span class="header-section-number">8.6.1</span> Example 1: Classical MDS</a></li>
+  <li><a href="#example-2-house-voting-dissimilarities" id="toc-example-2-house-voting-dissimilarities" class="nav-link" data-scroll-target="#example-2-house-voting-dissimilarities"><span class="header-section-number">8.6.2</span> Example 2: House voting (dissimilarities)</a></li>
+  </ul></li>
+  <li><a href="#connections-to-pca" id="toc-connections-to-pca" class="nav-link" data-scroll-target="#connections-to-pca"><span class="header-section-number">8.7</span> Connections to PCA</a></li>
+  <li><a href="#practical-tips" id="toc-practical-tips" class="nav-link" data-scroll-target="#practical-tips"><span class="header-section-number">8.8</span> Practical tips</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multidimensional Scaling</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Pulong Ma </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="learning-goals" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="learning-goals"><span class="header-section-number">8.1</span> Learning Goals</h2>
+<p>By the end of this lecture, you will be able to:</p>
+<ul>
+<li>Explain the goal of MDS: producing a low-dimensional configuration that preserves proximities (similarities/dissimilarities).</li>
+<li>Derive classical MDS (cMDS) from a distance matrix via double-centering and eigen decomposition.</li>
+<li>Select the embedding dimension using simple criteria.</li>
+<li>Apply non-metric MDS (nmMDS) when the proximities are ordinal and not strictly Euclidean.</li>
+<li>Diagnose fit with Shepard diagrams and stress.</li>
+</ul>
+</section>
+<section id="motivation" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="motivation"><span class="header-section-number">8.2</span> Motivation</h2>
+<p>We often observe a proximity (similarity or dissimilarity) between pairs of items and want a geometric picture. Examples include:</p>
+<ul>
+<li>Distances along networks (e.g., airline route mileage),</li>
+<li>Sensory judgments among products,</li>
+<li>Voting similarity/dissimilarity among legislators.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Motivating Example: Airline Distances</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Corrected airline distances (ATL–SEA = 2180)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ATL"</span>,<span class="st">"ORD"</span>,<span class="st">"DEN"</span>,<span class="st">"HOU"</span>,<span class="st">"LAX"</span>,<span class="st">"MIA"</span>,<span class="st">"JFK"</span>,<span class="st">"SFO"</span>,<span class="st">"SEA"</span>,<span class="st">"IAD"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>,<span class="dv">587</span>,<span class="dv">1212</span>,<span class="dv">701</span>,<span class="dv">1936</span>,<span class="dv">604</span>,<span class="dv">748</span>,<span class="dv">2139</span>,<span class="dv">2180</span>,<span class="dv">543</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">587</span>,<span class="dv">0</span>,<span class="dv">920</span>,<span class="dv">940</span>,<span class="dv">1745</span>,<span class="dv">1188</span>,<span class="dv">713</span>,<span class="dv">1858</span>,<span class="dv">1737</span>,<span class="dv">597</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1212</span>,<span class="dv">929</span>,<span class="dv">0</span>,<span class="dv">879</span>,<span class="dv">831</span>,<span class="dv">1726</span>,<span class="dv">1631</span>,<span class="dv">949</span>,<span class="dv">1021</span>,<span class="dv">1494</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="dv">701</span>,<span class="dv">940</span>,<span class="dv">879</span>,<span class="dv">0</span>,<span class="dv">1374</span>,<span class="dv">968</span>,<span class="dv">1420</span>,<span class="dv">1645</span>,<span class="dv">1891</span>,<span class="dv">1220</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1936</span>,<span class="dv">1745</span>,<span class="dv">831</span>,<span class="dv">1374</span>,<span class="dv">0</span>,<span class="dv">2339</span>,<span class="dv">2451</span>,<span class="dv">347</span>,<span class="dv">959</span>,<span class="dv">2300</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">604</span>,<span class="dv">1188</span>,<span class="dv">1726</span>,<span class="dv">968</span>,<span class="dv">2339</span>,<span class="dv">0</span>,<span class="dv">1092</span>,<span class="dv">2594</span>,<span class="dv">2734</span>,<span class="dv">923</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="dv">748</span>,<span class="dv">713</span>,<span class="dv">1631</span>,<span class="dv">1420</span>,<span class="dv">2451</span>,<span class="dv">1092</span>,<span class="dv">0</span>,<span class="dv">2571</span>,<span class="dv">2408</span>,<span class="dv">205</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2139</span>,<span class="dv">1858</span>,<span class="dv">949</span>,<span class="dv">1645</span>,<span class="dv">347</span>,<span class="dv">2594</span>,<span class="dv">2571</span>,<span class="dv">0</span>,<span class="dv">678</span>,<span class="dv">2442</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2180</span>,<span class="dv">1737</span>,<span class="dv">1021</span>,<span class="dv">1891</span>,<span class="dv">959</span>,<span class="dv">2734</span>,<span class="dv">2408</span>,<span class="dv">678</span>,<span class="dv">0</span>,<span class="dv">2329</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="dv">543</span>,<span class="dv">597</span>,<span class="dv">1494</span>,<span class="dv">1220</span>,<span class="dv">2300</span>,<span class="dv">923</span>,<span class="dv">205</span>,<span class="dv">2442</span>,<span class="dv">2329</span>,<span class="dv">0</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>), <span class="at">nrow=</span><span class="dv">10</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>, <span class="at">dimnames=</span><span class="fu">list</span>(cities, cities))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="08-MDS_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p><strong>Interpretation:</strong> The 2D configuration arranges cities roughly like the U.S. map: West Coast (SFO, LAX, SEA) on one side, East Coast (JFK, IAD, MIA) on the other, with DEN/ORD more central and HOU/ATL in the south. That’s the intuitive power of MDS: a big, unreadable distance table becomes a meaningful picture.</p></li>
+<li><p><strong>Note:</strong> While the cities are roughly configured like the U.S. map, the exact geometry is still distorted.</p></li>
+</ul>
+</section>
+<section id="multidimensional-scaling-mds" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="multidimensional-scaling-mds"><span class="header-section-number">8.3</span> Multidimensional Scaling (MDS)</h2>
+<p>MDS is a collection of different algorithms, designed to arrive at optimal low-dimensional (usually 2 or 3 dimensions) representation of the data, whose inter-point distances (or <strong><em>dissimilarities</em></strong>) are as close as possible to that in the original space.</p>
+<ul>
+<li><p>Given a <span class="math inline">n\times p</span> data matrix <span class="math inline">{Y}=[\mathbf{y}_1, \mathbf{y}_2, \ldots, \mathbf{y}_n]'</span>. (This is often not required for MDS!)</p></li>
+<li><p>Let <span class="math inline">D=(d_{ij})_{i,j=1,\ldots, p}</span> denote a <span class="math inline">p\times p</span> <strong><em>distance matrix</em></strong> (for <span class="math inline">{Y}</span>).</p></li>
+<li><p>MDS aims to find <span class="math inline">m\, (&lt; p)</span> and a set of <span class="math inline">m</span>-dimensional points <span class="math inline">\mathbf{x}_1, \ldots, \mathbf{x}_n</span> in the Euclidean space <span class="math inline">\mathbb{R}^m</span> such that <span class="math display">\begin{align*}
+\|\mathbf{x}_i - \mathbf{x}_j \|_2 \approx d_{ij} \text{ as close as possible}.
+\end{align*}</span></p></li>
+<li><p>MDS returns coordinates <span class="math inline">{\mathbf{x}_1,\ldots,\mathbf{x}_n}</span> in <span class="math inline">\mathbb{R}^m</span> so that the Euclidean distances <span class="math inline">|\mathbf{x}_i-\mathbf{x}_j|</span> reflect the given proximities as closely as possible (larger dissimilarity <span class="math inline">\Rightarrow</span> farther apart).</p></li>
+<li><p>Two main kinds of MDS methods/algorithms will be introduced:</p>
+<ul>
+<li>Metric MDS (including the classical MDS as a special case)</li>
+<li>Non-metric MDS</li>
+</ul></li>
+</ul>
+<section id="how-to-construct-to-distanceproximity-matrix-d" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="how-to-construct-to-distanceproximity-matrix-d"><span class="header-section-number">8.3.1</span> How to Construct to Distance/Proximity Matrix <span class="math inline">D</span></h3>
+<p>The foundation of MDS is a proximity matrix, also known as a similarity or dissimilarity matrix, for pairs of individuals. This is an <span class="math inline">n\times n</span> symmetric matrix <span class="math inline">D=(d_{ij})</span> with elements <span class="math inline">d_{ij}</span> that is calculated based on the data. Sometime, <span class="math inline">D</span> is directly given by the applications, then there is no need to access the original data. In general, a smaller proximity measure indicates more similar individuals</p>
+<ul>
+<li>Two common choices of metric distances:
+<ul>
+<li>Euclidean distance: <span class="math inline">\|\mathbf{x}_i - \mathbf{x}_j\|_2</span></li>
+<li><span class="math inline">L_1</span> distance (also called the Manhanttan or taxicab metric): <span class="math inline">\|\mathbf{x}_i - \mathbf{x}_j\|_1</span></li>
+</ul></li>
+<li>Common non-metric distances: rank order</li>
+</ul>
+</section>
+<section id="mds-in-r" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="mds-in-r"><span class="header-section-number">8.3.2</span> MDS in R</h3>
+<p>For classical MDS, one can use the function <code>cmdscale</code> from the <code>stats</code> package in R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">cmdscale</span>(<span class="at">d=</span>D, <span class="at">k=</span><span class="dv">2</span>, <span class="at">eig=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$points
+          [,1]       [,2]
+ATL  -718.1542  141.81292
+ORD  -382.4282 -340.63839
+DEN   481.8355  -23.90197
+HOU  -161.5062  572.84413
+LAX  1203.7381  389.77983
+MIA -1133.6017  582.24559
+JFK -1072.3608 -518.86708
+SFO  1420.5980  112.16849
+SEA  1341.3548 -579.88076
+IAD  -979.7349 -335.31213
+
+$eig
+ [1] 9581454.2358 1686306.1047    9002.2384    3772.7630    1232.1055
+ [6]    -154.5591    -565.5305   -2442.6892   -6312.9188  -35087.7998
+
+$x
+NULL
+
+$ac
+[1] 0
+
+$GOF
+[1] 0.9948288 0.9987584</code></pre>
+</div>
+</div>
+<ul>
+<li>The output <code>points</code> gives the <span class="math inline">n\times k</span> matrix up to <code>k</code> columns whose rows give the coordinates of the points.</li>
+<li>The output <code>eig</code> gives the eigenvalues. This can be used to check if there are any negative eigenvalues.</li>
+</ul>
+<p>For non-metric MDS, one can use the <code>isoMDS</code> function from the <code>MASS</code> package in R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fit.nm <span class="ot">=</span> MASS<span class="sc">::</span><span class="fu">isoMDS</span>(<span class="at">d=</span>D,<span class="at">k=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>initial  value 0.081659 
+final  value 0.000000 
+converged</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit.nm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$points
+          [,1]       [,2]
+ATL  -718.1568  141.81554
+ORD  -387.0692 -342.33775
+DEN   486.4772  -22.20143
+HOU  -157.8946  572.80790
+LAX  1204.2542  386.20238
+MIA -1136.4073  577.40859
+JFK -1072.3706 -518.87122
+SFO  1420.6109  112.16973
+SEA  1340.8556 -576.30457
+IAD  -980.5591 -330.43855
+
+$stress
+[1] 7.607855e-14</code></pre>
+</div>
+</div>
+<ul>
+<li>The output <code>points</code> gives the matrix <span class="math inline">n\times k</span> <span class="math inline">X</span> with the number of columns specified by <code>k=2</code>.</li>
+<li><code>stress</code> is used for diagnostics of the fit that will be introduced later.</li>
+</ul>
+</section>
+</section>
+<section id="the-mathematical-framework" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="the-mathematical-framework"><span class="header-section-number">8.4</span> The Mathematical Framework</h2>
+<section id="metric-mds" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="metric-mds"><span class="header-section-number">8.4.1</span> Metric MDS</h3>
+<p>Assume we have constructed an <span class="math inline">n\times n</span> dissimilarity matrix <span class="math inline">D=(d_{ij})</span> among <span class="math inline">n</span> objects. This matrix may be constructed using Euclidean distance or taxicab metric or rank order. The goal is to find an <span class="math inline">n\times m</span> matrix of coordinates <span class="math inline">{X}=(x_{ij})</span>, where <span class="math inline">m&lt;n</span>, such that the distances between the rows of X match the original distances as closely as possible. This problem is mathematically equivalent to saying that for all <span class="math inline">i,j=1,\ldots, n</span>, <span class="math display">\begin{align*} \nonumber
+d_{ij}^2 &amp; = \| \mathbf{x}_i - \mathbf{x}_j\|_2^2 = \sum_{k=1}^m (x_{ik}-x_{jk})^2  \\ \nonumber
+&amp; =  (\mathbf{x}_i - \mathbf{x}_j)^\top (\mathbf{x}_i - \mathbf{x}_j) \\
+&amp; = \mathbf{x}_i^\top \mathbf{x}_i + \mathbf{x}_j^\top \mathbf{x}_j - 2 \mathbf{x}_{i}^\top \mathbf{x}_j .
+\end{align*}</span></p>
+<ul>
+<li>Given <span class="math inline">d_{ij}^2</span>, we need to solve for <span class="math inline">\mathbf{x}_1, \ldots, \mathbf{x}_m</span>.</li>
+<li>It can be shown that the matrix <span class="math inline">B={X} {X}^\top</span> can be expressed in terms of <span class="math inline">d_{ij}^2</span>: <span class="math display">\begin{align*}
+b_{ij} = - \frac{1}{2} \left( d_{ij}^2 - \frac{1}{n} \sum_{j=1}^n d_{ij}^2 - \frac{1}{n} \sum_{i=1}^n d_{ij}^2 + \frac{1}{n^2} \sum_{i=1}^n \sum_{j=1}^n d_{ij}^2 \right)
+\end{align*}</span>
+<ul>
+<li>If <span class="math inline">d_{ij}</span> is not based on Euclidean distance, some of the eigenvalues of <span class="math inline">B</span> may be negative.</li>
+</ul></li>
+<li>We the obtain the spectral decomposition <span class="math inline">B=V \Lambda V^\top</span>, where <span class="math inline">\Lambda=\text{diag}(\lambda_1, \ldots, \lambda_n)</span> with <span class="math inline">\lambda_1\geq \ldots \geq \lambda_n</span>.</li>
+<li>Keeping the first <span class="math inline">m</span> eigenvalues and eigenvectors yields the rank <span class="math inline">m</span> approximation for <span class="math inline">B</span> with <span class="math inline">X</span> given by <span class="math display">\begin{align*}
+X_m = V_m \Lambda^{1/2}
+\end{align*}</span> where the rows of <span class="math inline">X_m</span> are the desired <span class="math inline">m</span>-dimensional coordinates (unique up to rigid motions).</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Mathematical Details">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Mathematical Details
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>Suppose that <span class="math inline">\mathbf{X}</span> is centered, i.e., <span class="math inline">\sum_{i=1}^n x_{ik} = 0</span> for all <span class="math inline">k=1,\ldots, m</span>. If not, we can compute the centering matrix <span class="math inline">X_c: = X - \mathbf{1}_n \bar{\mathbf{x}}^\top</span>.</li>
+<li>Inter-product matrix of <span class="math inline">\mathbf{X}</span> is <span class="math inline">B:=\mathbf{X} \mathbf{X}</span> with <span class="math inline">b_{ij}</span> as the <span class="math inline">(i,j)</span>-th element.</li>
+<li>Then the squared distance <span class="math inline">d_{ij}^2</span> can be expressed as <span class="math display">\begin{align*}
+d_{ij}^2 = b_{ii} + b_{jj} - 2 b_{ij}
+\end{align*}</span></li>
+<li>To solve for <span class="math inline">b_{ij}</span> from <span class="math inline">d_{ij}^2</span>, we use the <strong>double centering transformation</strong>:
+<ul>
+<li><strong>Sum over <span class="math inline">j</span></strong>: Summing the equation <span class="math inline">d_{ij}=b_{ii}+b_{jj}-2b_{ij}</span> over all <span class="math inline">j=1,\ldots, n</span> gives <span class="math display">\begin{align*}
+\sum_{j=1}^n d_{ij} &amp;= \sum_{j=1}^n (b_{ii}+b_{jj}-2b_{ij}) \\
+&amp; = n b_{ii} + \sum_{j=1}^n b_{jj} -2\sum_{j=1}^n b_{ij} \\
+&amp;= n b_{ii} + \sum_{j=1}^n b_{jj}
+\end{align*}</span> where <span class="math inline">\sum_{j=1}^n b_{ij} = 0</span> because the rows of <span class="math inline">X</span> are centered.</li>
+<li><strong>Sum over <span class="math inline">i</span></strong>: Similarly, summing over <span class="math inline">i=1,\ldots, n</span> gives <span class="math display">\begin{align*}
+\sum_{i=1}^n d_{ij}^2 = \sum_{j=1}^n (b_{ii}+b_{jj}-2b_{ij}) = \sum_{i=1}^n b_{ii} + n b_{jj}.
+\end{align*}</span></li>
+<li><strong>Sum over both <span class="math inline">i,j</span></strong>: <span class="math display">\begin{align*}
+\sum_{i=1}^n \sum_{j=1}^n d_{ij}^2 &amp;= \sum_{i=1}^n \sum_{j=1}^n (b_{ii}+b_{jj}-2b_{ij}) \\
+&amp; = \sum_{i=1}^n n b_{ii} + \sum_{j=1}^n n b_{jj} - 2 \sum_{i=1}^n \sum_{j=1}^n b_{ij} \\
+&amp;= 2n \sum_{i=1}^n b_{ii}.
+\end{align*}</span></li>
+</ul></li>
+<li>Solving for <span class="math inline">b_{ij}</span> based on the above equations gives <span class="math display">\begin{align*}
+b_{ij} = - \frac{1}{2} \left( d_{ij}^2 - \frac{1}{n} \sum_{j=1}^n d_{ij}^2 - \frac{1}{n} \sum_{i=1}^n d_{ij}^2 + \frac{1}{n^2} \sum_{i=1}^n \sum_{j=1}^n d_{ij}^2 \right)
+\end{align*}</span></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="non-metric-mds" class="level3" data-number="8.4.2">
+<h3 data-number="8.4.2" class="anchored" data-anchor-id="non-metric-mds"><span class="header-section-number">8.4.2</span> Non-metric MDS</h3>
+<p>When the proximity matrix is not a matrix of Euclidean distances, or when subjects can only make <strong>ordinal comparisons</strong> (e.g., one food is more salty than another), non-metric scaling is more appropriate. It is based on the rank ordering of the data, not their quantitative values.</p>
+<ul>
+<li><p>The goal is to minimize a “stress” criterion, which increases when the distances in the visual display disagree with the rank order of the original dissimilarities.</p></li>
+<li><p><strong>Stress Criterion</strong>: A common stress formula is Kruskal’s Stress: <span class="math display">\begin{equation}
+Stress = \sqrt{\frac{\sum_{i&lt;j}(d_{ij} - \hat{d}_{ij})^2}{\sum_{i&lt;j}\hat{d}_{ij}^2}}
+\end{equation}</span> Here, <span class="math inline">d_{ij}</span> is the distance between points <span class="math inline">i</span> and <span class="math inline">j</span> in the low-dimensional space, and <span class="math inline">\hat{d}_{ij}</span> is the “disparity,” a monotonic transformation of the original dissimilarities <span class="math inline">\delta_{ij}</span>.</p></li>
+</ul>
+</section>
+</section>
+<section id="choosing-the-embedding-dimension" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="choosing-the-embedding-dimension"><span class="header-section-number">8.5</span> Choosing the Embedding Dimension</h2>
+<p>Two simple cumulative fit measures are: <span class="math display">\begin{equation*}
+P_m = \frac{\sum_{k=1}^m |\lambda_k|}{\sum_{k=1}^n |\lambda_k|},
+\qquad
+P_m = \frac{\sum_{k=1}^m \lambda_k^2}{\sum_{k=1}^n \lambda_k^2}.
+\end{equation*}</span></p>
+<ul>
+<li>Values of <span class="math inline">P_m</span> near 0.8 or above suggest a reasonable fit.</li>
+<li>If <span class="math inline">B</span> has a considerable number of large negative eigenvalues, the MDS method described above should not be used, and non-metric scaling should be considered.</li>
+</ul>
+</section>
+<section id="illustrative-examples" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="illustrative-examples"><span class="header-section-number">8.6</span> Illustrative Examples</h2>
+<section id="example-1-classical-mds" class="level3" data-number="8.6.1">
+<h3 data-number="8.6.1" class="anchored" data-anchor-id="example-1-classical-mds"><span class="header-section-number">8.6.1</span> Example 1: Classical MDS</h3>
+<p>Let’s apply classical MDS to a dataset with 10 individuals and 5 variables to find a low-dimensional representation. We’ll follow the process of creating a proximity matrix and then applying <code>cmdscale()</code>.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: cMDS fit</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mdsex1 <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">y1=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">7</span>,<span class="dv">2</span>),</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y2=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">7</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">1</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y3=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">4</span>),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y4=</span><span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">3</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">y5=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">1</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>D <span class="ot">=</span> <span class="fu">dist</span>(mdsex1)                        </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">cmdscale</span>(D, <span class="at">k =</span> <span class="dv">9</span>, <span class="at">eig =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>$points
+            [,1]        [,2]       [,3]       [,4]        [,5]          [,6]
+ [1,] -1.6038325  2.38060903 -2.2301092 -0.3656856  0.11536476  4.351965e-08
+ [2,] -2.8246377 -2.30937202 -3.9523782  0.3419185  0.33169405 -2.557375e-08
+ [3,] -1.6908272 -5.13970089  1.2880306  0.6503227 -0.05133897 -6.960090e-09
+ [4,]  3.9527719 -2.43233961  0.3833746  0.6863995 -0.03460933  1.009080e-08
+ [5,] -3.5984894  2.75538195 -0.2551393  1.0783741 -1.26125237 -2.744782e-08
+ [6,]  2.9520356  1.35475175 -0.1899027 -2.8211220  0.12385813 -4.832234e-08
+ [7,]  3.4689928  0.76411068  0.3016531  1.6369166 -1.94209512  5.971916e-10
+ [8,]  0.3545235  2.31408566  2.2161772  2.9240116  2.00450379 -1.576644e-08
+ [9,] -2.9362323 -0.01279597  4.3117385 -2.5122743 -0.18911558  9.029253e-09
+[10,]  1.9256952  0.32526941 -1.8734445 -1.6188611  0.90299062  1.028991e-08
+               [,7]          [,8]
+ [1,]  0.000000e+00  0.000000e+00
+ [2,]  1.163587e-08  1.006996e-08
+ [3,] -1.536081e-08  1.503930e-08
+ [4,]  4.840756e-08 -9.655816e-09
+ [5,]  2.724436e-08  7.565465e-09
+ [6,] -5.008021e-09 -5.276947e-09
+ [7,] -1.209471e-08  2.745223e-08
+ [8,]  1.665413e-09  1.234948e-08
+ [9,]  1.631006e-08  1.627690e-08
+[10,]  9.154666e-09  4.311431e-08
+
+$eig
+ [1]  7.518716e+01  5.880560e+01  4.960516e+01  3.042789e+01  1.037419e+01
+ [6]  6.223022e-15  3.980857e-15  3.535818e-15 -6.959170e-15 -1.030354e-14
+
+$x
+NULL
+
+$ac
+[1] 0
+
+$GOF
+[1] 1 1</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Check Distances</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">max</span>(<span class="fu">abs</span>(D <span class="sc">-</span> <span class="fu">dist</span>(<span class="fu">cmdscale</span>(D,<span class="at">k=</span><span class="dv">2</span>)))), </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">max</span>(<span class="fu">abs</span>(D <span class="sc">-</span> <span class="fu">dist</span>(<span class="fu">cmdscale</span>(D,<span class="at">k=</span><span class="dv">5</span>)))),</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">max</span>(<span class="fu">abs</span>(D <span class="sc">-</span> <span class="fu">dist</span>(<span class="fu">cmdscale</span>(D,<span class="at">k=</span><span class="dv">9</span>))))</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6.756099e+00 1.598721e-14 1.598721e-14</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Compute PM Critera</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>eig <span class="ot">&lt;-</span> fit<span class="sc">$</span>eig</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>pm1 <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(<span class="fu">abs</span>(eig)) <span class="sc">/</span> <span class="fu">sum</span>(<span class="fu">abs</span>(eig))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>pm2 <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(eig<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">sum</span>(eig<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">m =</span> <span class="fu">seq_along</span>(eig), <span class="at">PM1 =</span> pm1, <span class="at">PM2 =</span> pm2)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["m"],"name":[1],"type":["int"],"align":["right"]},{"label":["PM1"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["PM2"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0.3350586","3":"0.4484687","_rn_":"1"},{"1":"2","2":"0.5971157","3":"0.7228043","_rn_":"2"},{"1":"3","2":"0.8181726","3":"0.9180126","_rn_":"3"},{"1":"4","2":"0.9537692","3":"0.9914621","_rn_":"4"},{"1":"5","2":"1.0000000","3":"1.0000000","_rn_":"5"},{"1":"6","2":"1.0000000","3":"1.0000000","_rn_":"6"},{"1":"7","2":"1.0000000","3":"1.0000000","_rn_":"7"},{"1":"8","2":"1.0000000","3":"1.0000000","_rn_":"8"},{"1":"9","2":"1.0000000","3":"1.0000000","_rn_":"9"},{"1":"10","2":"1.0000000","3":"1.0000000","_rn_":"10"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Visualization</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df.X <span class="ot">=</span> <span class="fu">as_tibble</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  fit<span class="sc">$</span>points[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>], </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">.name_repair =</span> <span class="st">"unique"</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df.X) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Dim1"</span>, <span class="st">"Dim2"</span>, <span class="st">"Dim3"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>df.X<span class="sc">$</span>label <span class="ot">=</span> <span class="fu">rownames</span>(mdsex1)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">=</span> <span class="fu">ggplot</span>(df.X, </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x =</span> Dim1, </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> Dim2, </span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">label =</span> label)) <span class="sc">+</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">vjust =</span> <span class="fl">1.5</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"MDS Plot: Coordinates 1 and 2"</span>,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Coordinate 1"</span>,</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Coordinate 2"</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">=</span> <span class="fu">ggplot</span>(df.X, </span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x =</span> Dim1, </span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> Dim3, </span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>                <span class="at">label =</span> label)) <span class="sc">+</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">vjust =</span> <span class="fl">1.5</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"MDS Plot: Coordinates 1 and 3"</span>,</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Coordinate 1"</span>,</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Coordinate 3"</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>patchwork<span class="sc">::</span><span class="fu">wrap_plots</span>(g1,g2, <span class="at">ncol=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="08-MDS_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="example-2-house-voting-dissimilarities" class="level3" data-number="8.6.2">
+<h3 data-number="8.6.2" class="anchored" data-anchor-id="example-2-house-voting-dissimilarities"><span class="header-section-number">8.6.2</span> Example 2: House voting (dissimilarities)</h3>
+<p>Let’s analyze the voting dissimilarities of 15 U.S. congressmen from New Jersey on 19 environmental bills using non-metric MDS. The dissimilarity matrix is based on the number of times they voted differently. Higher value means more dissimilarity. We’ll apply <code>MASS::isoMDS</code>, then draw a Shepard diagram to assess monotonic fit.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: House Voting Data</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>repnames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Hunt(R)"</span>,<span class="st">"Sandman(R)"</span>,<span class="st">"Howard(D)"</span>,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Thompson(D)"</span>,<span class="st">"Freylinghuysen(R)"</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Forsythe(R)"</span>,<span class="st">"Widnall(R)"</span>,<span class="st">"Roe(D)"</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Heltoski(D)"</span>,<span class="st">"Rodino(D)"</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Minish(D)"</span>,<span class="st">"Rinaldo(R)"</span>,<span class="st">"Maraziti(R)"</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Daniels(D)"</span>,<span class="st">"Patten(D)"</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>repvote <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">8</span>,<span class="dv">15</span>,<span class="dv">15</span>,<span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">7</span>,<span class="dv">15</span>,<span class="dv">16</span>,<span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">16</span>, <span class="dv">7</span>,<span class="dv">11</span>,<span class="dv">13</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">8</span>, <span class="dv">0</span>,<span class="dv">17</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">13</span>,<span class="dv">12</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">15</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">13</span>,<span class="dv">12</span>,<span class="dv">16</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a> <span class="dv">15</span>,<span class="dv">17</span>, <span class="dv">0</span>, <span class="dv">9</span>,<span class="dv">16</span>,<span class="dv">12</span>,<span class="dv">15</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">4</span>,<span class="dv">11</span>,<span class="dv">10</span>, <span class="dv">7</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a> <span class="dv">15</span>,<span class="dv">12</span>, <span class="dv">9</span>, <span class="dv">0</span>,<span class="dv">14</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">10</span>, <span class="dv">8</span>, <span class="dv">8</span>, <span class="dv">8</span>, <span class="dv">6</span>,<span class="dv">15</span>,<span class="dv">10</span>, <span class="dv">7</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a> <span class="dv">10</span>,<span class="dv">13</span>,<span class="dv">16</span>,<span class="dv">14</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">9</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">12</span>,<span class="dv">12</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">11</span>,</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="dv">9</span>,<span class="dv">13</span>,<span class="dv">12</span>,<span class="dv">12</span>, <span class="dv">8</span>, <span class="dv">0</span>, <span class="dv">7</span>,<span class="dv">12</span>,<span class="dv">11</span>,<span class="dv">10</span>, <span class="dv">9</span>,<span class="dv">10</span>, <span class="dv">6</span>, <span class="dv">6</span>,<span class="dv">10</span>,</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="dv">7</span>,<span class="dv">12</span>,<span class="dv">15</span>,<span class="dv">13</span>, <span class="dv">9</span>, <span class="dv">7</span>, <span class="dv">0</span>,<span class="dv">17</span>,<span class="dv">16</span>,<span class="dv">15</span>,<span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">13</span>,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a> <span class="dv">15</span>,<span class="dv">16</span>, <span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">13</span>,<span class="dv">12</span>,<span class="dv">17</span>, <span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">3</span>,<span class="dv">12</span>, <span class="dv">7</span>, <span class="dv">6</span>,</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a> <span class="dv">16</span>,<span class="dv">17</span>, <span class="dv">5</span>, <span class="dv">8</span>,<span class="dv">14</span>,<span class="dv">11</span>,<span class="dv">16</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>,<span class="dv">13</span>, <span class="dv">7</span>, <span class="dv">5</span>,</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a> <span class="dv">14</span>,<span class="dv">15</span>, <span class="dv">6</span>, <span class="dv">8</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">15</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>,<span class="dv">11</span>, <span class="dv">4</span>, <span class="dv">6</span>,</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a> <span class="dv">15</span>,<span class="dv">16</span>, <span class="dv">5</span>, <span class="dv">8</span>,<span class="dv">12</span>, <span class="dv">9</span>,<span class="dv">14</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>,<span class="dv">12</span>, <span class="dv">5</span>, <span class="dv">5</span>,</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a> <span class="dv">16</span>,<span class="dv">17</span>, <span class="dv">4</span>, <span class="dv">6</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">15</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>,<span class="dv">12</span>, <span class="dv">6</span>, <span class="dv">4</span>,</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  <span class="dv">7</span>,<span class="dv">13</span>,<span class="dv">11</span>,<span class="dv">15</span>,<span class="dv">10</span>, <span class="dv">6</span>,<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">12</span>, <span class="dv">0</span>, <span class="dv">9</span>,<span class="dv">13</span>,</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a> <span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">11</span>, <span class="dv">6</span>,<span class="dv">11</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">0</span>, <span class="dv">9</span>,</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a> <span class="dv">13</span>,<span class="dv">16</span>, <span class="dv">7</span>, <span class="dv">7</span>,<span class="dv">11</span>,<span class="dv">10</span>,<span class="dv">13</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">4</span>,<span class="dv">13</span>, <span class="dv">9</span>, <span class="dv">0</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>), <span class="at">nrow=</span><span class="dv">15</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>, <span class="at">dimnames=</span><span class="fu">list</span>(repnames, repnames))</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(repvote)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Non-metric MDS</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>nm <span class="ot">&lt;-</span> <span class="fu">isoMDS</span>(D) <span class="co"># 2D by default</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>initial  value 15.268246 
+iter   5 value 10.264075
+final  value 9.879047 
+converged</code></pre>
+</div>
+<details class="code-fold">
+<summary>R Code: Non-metric MDS</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nm<span class="sc">$</span>points)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                       [,1]      [,2]
+Hunt(R)           -8.435401  0.906338
+Sandman(R)        -7.405025  7.877023
+Howard(D)          6.093016 -1.497199
+Thompson(D)        3.518702  5.248689
+Freylinghuysen(R) -7.245742 -4.182170
+Forsythe(R)       -3.278710 -2.568967</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Check Stress</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>nm<span class="sc">$</span>stress</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9.879047</code></pre>
+</div>
+</div>
+<p><strong>Interpretation:</strong> The final stress value is above 8 indicates a moderately good representation, which is also supported by the Shepard diagram.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Visualization</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df.nm <span class="ot">=</span> <span class="fu">as_tibble</span>(nm<span class="sc">$</span>points, </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">.name_repair =</span><span class="st">"unique"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df.nm) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Dim1"</span>, <span class="st">"Dim2"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>df.nm<span class="sc">$</span>id <span class="ot">=</span> <span class="fu">rownames</span>(nm<span class="sc">$</span>points)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract party from the congressman names</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>df.nm <span class="ot">=</span> df.nm <span class="sc">%&gt;%</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">party =</span> </span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>           <span class="fu">str_extract</span>(id, <span class="st">"</span><span class="sc">\\</span><span class="st">(R</span><span class="sc">\\</span><span class="st">)|</span><span class="sc">\\</span><span class="st">(D</span><span class="sc">\\</span><span class="st">)"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">party =</span> <span class="fu">str_remove_all</span>(party, <span class="st">"[()]"</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>         )</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df.nm, </span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Dim1, <span class="at">y =</span> Dim2, </span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> id, <span class="at">color =</span> party)) <span class="sc">+</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">nudge_y =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Non-metric MDS of Congressman Voting Records"</span>,</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Separation by Party Affiliation"</span>,</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Dimension 1"</span>,</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Dimension 2"</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="08-MDS_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation:</strong> This plot reveals that the separation is mainly along party lines, with Democrats on the right side of the display. One Republican, Rinaldo, has a voting record similar to the Democrats on environmental issues. The Republicans exhibit more variation than the Democrats. The two congressmen with the most abstentions, Sandman (R) and Thompson (D), are both located in the upper portion of the display.</p>
+<p><strong>Shepard diagram</strong>: monotonic relationship between observed dissimilarities and fitted distances.</p>
+<ul>
+<li>Points close to the step-function indicate a good monotone fit; large vertical spreads indicate strain (stress).</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>R Code: Shepard diagram</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>sh <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">Shepard</span>(D, nm<span class="sc">$</span>points)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sh, <span class="at">pch=</span><span class="st">"."</span>, <span class="at">xlab=</span><span class="st">"Dissimilarity"</span>, <span class="at">ylab=</span><span class="st">"Distance"</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(sh<span class="sc">$</span>x, sh<span class="sc">$</span>yf, <span class="at">type=</span><span class="st">"S"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="08-MDS_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="connections-to-pca" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="connections-to-pca"><span class="header-section-number">8.7</span> Connections to PCA</h2>
+<p>If <span class="math inline">D</span> comes from Euclidean distances among centered rows of a data matrix <span class="math inline">Y\in\mathbb{R}^{n\times q}</span>, then cMDS on <span class="math inline">D</span> is equivalent to PCA on <span class="math inline">YY^\top</span> (up to scaling). In fact, with centered <span class="math inline">Y</span>, <span class="math display">\begin{equation*}
+d_{ij}^2 = |\mathbf{y}_i - \mathbf{y}_j|^2 = b_{ii} + b_{jj} - 2 b_{ij},
+\end{equation*}</span> where <span class="math inline">B=XX^\top</span> and <span class="math inline">b_{ij}</span> are its entries. Double-centering retrieves <span class="math inline">B</span> (and thus PCA). This is why classical MDS is also called <strong><em>principal coordinates analysis</em></strong>.</p>
+</section>
+<section id="practical-tips" class="level2" data-number="8.8">
+<h2 data-number="8.8" class="anchored" data-anchor-id="practical-tips"><span class="header-section-number">8.8</span> Practical tips</h2>
+<ul>
+<li><strong>Centering:</strong> cMDS assumes centered coordinates (imposed by <span class="math inline">J</span>). Translations/rotations/reflections of the final configuration are immaterial.</li>
+<li><strong>Negative eigenvalues:</strong> Substantive negatives suggest non-Euclidean proximities; you can still plot using the largest positive eigenvalues, but interpret cautiously.</li>
+<li><strong>Dimension choice:</strong> Use <span class="math inline">P_m</span>’s or compare the recovered distance matrix with original distance matrix.</li>
+<li><strong>Diagnostics:</strong> Always look at stress (nmMDS) and a Shepard diagram.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../ch7/07-FactorAnalysis.html" class="pagination-link" aria-label="Factor Analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Factor Analysis</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
