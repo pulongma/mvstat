@@ -103,11 +103,11 @@ R
 R = LL^\top + \boldsymbol \Psi.
 \end{equation*}
 
-- $f$ is called the **common factor**  assumed with $E(F)=0$ and $\text{Var}(f)=1$.
+- $f$ is called the **common factor**  assumed with mean $E(f)=0$ and variance $\text{Var}(f)=1$.
 - $L$ is the $p\times 1$ vector of **factor loadings**. 
 - $\boldsymbol\varepsilon$ is a $p$-dimensional vector of measurement errors (also called **specific factor**). 
 
-- $h_i^2:= \ell_{i}^2$ is called the **communality** of $X_i$ and represents the variance explained by the factor $F$. 
+- $h_i^2:= \ell_{i}^2$ is called the **communality** of $X_i$ and represents the variance explained by the factor $f$. 
 - $\psi_i=1-h_i^2$ is called the **uniqueness**.
 
 :::
@@ -171,11 +171,11 @@ $$
 
 - In matrix notation, stacking all observations together yields
 $$
-Z = F L^\top + E 
+Z = F L^\top + \boldsymbol \varepsilon 
 $$
   - $Z=[\mathbf{x}_1, \ldots, \mathbf{x}_n]^\top$ is the $n\times p$  matrix of standardized data;
   - $F=[\mathbf{f}_1, \ldots, \mathbf{f}_n]^\top$ is the $n\times m$ matrix of common factors for all observations. 
-  - $E=[\boldsymbol \varepsilon_1, \ldots, \boldsymbol \varepsilon_n]^\top$ is the $n\times p$ of specific factors for all observations. 
+  - $\boldsymbol \varepsilon=[\boldsymbol \varepsilon_1, \ldots, \boldsymbol \varepsilon_n]^\top$ is the $n\times p$ of specific factors for all observations. 
   
 - The **communality** of $X_i$ is 
 $$
@@ -257,7 +257,7 @@ psych::KMO(dat)
 **Interpretation**: The overall MSA is `r signif(psych::KMO(dat)$MSA,2)`, which is "meritorious." This confirms our data is appropriate for factor analysis. 
 
 :::{.callout-note title="Cronbach's Alpha"}
-The second method is called **Cronbach's alpha**. For $n$ sample of $p$-dimensional observations $\bar{X}_i$, Cronbach's alpha is 
+The second method is called **Cronbach's alpha**. For $n$ samples of $p$-dimensional observations $\mathbf{X}=(X_1, \ldots, X_p)^\top$, Cronbach's alpha is 
 $$
 \alpha = \frac{p \bar{r}}{1+(p-1)\bar{r}} 
 $$
@@ -266,7 +266,7 @@ $$
 $$
 \bar{r} =  \frac{\frac{1}{\frac{p(p-1)}{2}} \sum \sum_{i< j} \text{Cov}(X_i, X_j)}{\frac{1}{p}\sum_{i=1}^p \text{Var}(X_i)}
 $$
-- A high alpha value (close to 1) suggests that the items are all measureing the same underlying latent factor. 
+- A high alpha value (close to 1) suggests that the items are all measuring the same underlying latent factor. 
 - A low alpha value (close to 0) suggests that the items may be measuring different things. 
 
 ::: 
@@ -553,19 +553,19 @@ The maximum likelihood estimation (MLE) method is a probabilistic method by assu
 
 - The distributional assumptions for the factor model are:
 $$
-\mathbf{x}_j \sim \text{N}_p(\boldsymbol{\mu}, \boldsymbol{\Sigma}), \;\; \mathbf{f}_j \sim \text{N}_m(\mathbf{0}, \mathbf{I}_m), \;\; \boldsymbol{\epsilon}_j \sim \text{N}_p(\mathbf{0}, \boldsymbol{\Psi}_{p \times p}),
+\mathbf{x}_j \sim \text{N}_p(\boldsymbol{\mu}, {\Sigma}), \;\; \mathbf{f}_j \sim \text{N}_m(\mathbf{0}, \mathbf{I}_m), \;\; \boldsymbol{\epsilon}_j \sim \text{N}_p(\mathbf{0}, \boldsymbol{\Psi}_{p \times p}),
 $$
   - $\mathbf{x}_j = \mathbf{L} \mathbf{f}_j + \boldsymbol{\varepsilon}_j$,
-  - $\boldsymbol{\Sigma} = \mathbf{L}\mathbf{L}' + \boldsymbol{\Psi}$, 
-  - and $\mathbf{F}_j$ is independent of $\boldsymbol{\varepsilon}_j$. 
+  - ${\Sigma} = \mathbf{L}\mathbf{L}^\top + \boldsymbol{\Psi}$, 
+  - and $\mathbf{f}_j$ is independent of $\boldsymbol{\varepsilon}_j$. 
   - Also, $\boldsymbol{\Psi}$ is a diagonal matrix.
 
 - The log-likelihood function for the data is given by:
 \begin{align*}
-\ell(\boldsymbol{\mu}, \boldsymbol{\Sigma}) &:= -\frac{n}{2}\log |2\pi \boldsymbol{\Sigma}| - \frac{1}{2} \sum_{i=1}^n (\mathbf{x}_i - \boldsymbol{\mu})' \boldsymbol{\Sigma}^{-1}(\mathbf{x}_i - \boldsymbol{\mu}) \\
-&= -\frac{n}{2}\log |2\pi \boldsymbol{\Sigma}| - \frac{n}{2} \text{tr}(\boldsymbol{\Sigma}^{-1}\mathbf{S}) - \frac{n}{2}(\bar{\mathbf{x}}-\boldsymbol{\mu})'\boldsymbol{\Sigma}^{-1} (\bar{\mathbf{x}}-\boldsymbol{\mu}).
+\ell(\boldsymbol{\mu}, {\Sigma}) &:= -\frac{n}{2}\log |2\pi {\Sigma}| - \frac{1}{2} \sum_{i=1}^n (\mathbf{x}_i - \boldsymbol{\mu})^\top {\Sigma}^{-1}(\mathbf{x}_i - \boldsymbol{\mu}) \\
+&= -\frac{n}{2}\log |2\pi {\Sigma}| - \frac{n}{2} \text{tr}({\Sigma}^{-1}{S}) - \frac{n}{2}(\bar{\mathbf{x}}-\boldsymbol{\mu})^\top{\Sigma}^{-1} (\bar{\mathbf{x}}-\boldsymbol{\mu}).
 \end{align*}
-
+where $S$ is the sample covariance matrix. 
 ::: 
 
 ```{r}
@@ -617,7 +617,7 @@ plt_loadings(fit.mle2$loadings, K=5)
 
 In the factor model with $m>1$, there is no unique set of loadings and thus there is ambiguity associated with the factor model. This can be seen by introducing any $m\times m$ orthogonal matrix $T$ in the factor model 
 $$
-\mathbf{z}_i = L\mathbf{f}_i + \boldsymbol \varepsilon = L T T^\top \mathbf{f}_i +  \boldsymbol \varepsilon = L^* \mathbf{f}_i^* + \boldsymbol \varepsilon
+\mathbf{z}_i = L\mathbf{f}_i + \boldsymbol \varepsilon = L T T^\top \mathbf{f}_i +  \boldsymbol \varepsilon = L^* \mathbf{f}_i^* + \boldsymbol \varepsilon_i
 $$
 
 - $TT^\top = I$ and $T^\top T = I$
@@ -851,7 +851,7 @@ For each observation $\mathbf{x}_i$ (or its z-score $\mathbf{z}_i$), we can esti
 
 These methods can be specified via the option `scores` in the `factanal` function. In practice, one use often the regression method, which estimate $\mathbf{f}_i$ by the conditional mean given the observations: 
 $$
-\hat{\mathbf{f}}_i:=E[\mathbf{f}_j| \mathbf{x}_j] = \hat{L}^\top (\hat{L}\hat{L}^\top + \hat{\Psi})(\mathbf{x}_j - \mathbf{x}).
+\hat{\mathbf{f}}_i:=E[\mathbf{f}_i| \mathbf{x}_i] = \hat{L}^\top (\hat{L}\hat{L}^\top + \hat{\Psi})(\mathbf{x}_i - \bar{\mathbf{x}}).
 $$
 
 ```{r}
@@ -1018,6 +1018,6 @@ The data can be divided into three physiological groups:
   * **Factor 2:** This factor is defined by high positive loadings corresponding to sprints. This measures anaerobic speed/power. 
   * **Factor 3:** This factor has very high positive load on the variable of 800m. This indicates that both anaerobic speed/power and aerobic endurance are very important contributors for 800m. 
 
-* What about interpretations using other roations? 
+* What about interpretations using other rotations? 
 
 ::: 
