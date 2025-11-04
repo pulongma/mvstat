@@ -104,7 +104,7 @@ R = LL^\top + \boldsymbol \Psi.
 \end{equation*}
 
 - $f$ is called the **common factor**  assumed with mean $E(f)=0$ and variance $\text{Var}(f)=1$.
-- $L$ is the $p\times 1$ vector of **factor loadings**. 
+- $L=[\ell_1, \ldots, \ell_p]^\top$ is the $p\times 1$ matrix of **factor loadings**. 
 - $\boldsymbol\varepsilon$ is a $p$-dimensional vector of measurement errors (also called **specific factor**). 
 
 - $h_i^2:= \ell_{i}^2$ is called the **communality** of $X_i$ and represents the variance explained by the factor $f$. 
@@ -165,7 +165,7 @@ head(bfi)
 $$
 \mathbf{z}_{i} = L \mathbf{f}_i + \boldsymbol \varepsilon_i, i=1,\ldots, n 
 $$
-  - $L$ is the $p\times m$ matrix of factor loadings. 
+  - $L$ is the $p\times m$ matrix of factor loadings with $(i,j)$th entry $\ell_{ij}$. 
   - $\mathbf{f}_i$ is the $m$-dimensional vector of **common factors**.
   - $\boldsymbol \varepsilon_i$ is the $p$-dimensional vector of **specific factors**. 
 
