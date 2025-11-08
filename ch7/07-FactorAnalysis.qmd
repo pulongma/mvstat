@@ -647,50 +647,51 @@ plt_loadings(fit.varimax$loadings, K=5)
 ```
 
 :::{.callout-note title="Interpretation of Varimax Factor Loadings" collapse="true"}
-The goal is to name each factor by identifying the common theme among the variables that have high loadings on it. We'll generally consider a loading above 0.5 (or below -0.5) as significant.
+The goal is to name each factor by identifying the common theme among the variables that have high loadings on it according to a cutoff. This cutoff should be chosen on a case-by-case basis so that one can achieve good interpretability 
 
-* **Factor 1: Neuroticism 😟**
+
+* **Factor 1: Extraversion️**
+This factor is defined by high loadings defined by E1-E5. Note the strong negative loadings for the introversion-keyed items. 
+  * **E1:** Don't talk a lot 
+  * **E2:** Find it difficult to approach others 
+  * **E3:** Know how to captivate people 
+  * **E4:** Make friends easily 
+  * **E5:** Am the life of the party 
+
+* **Factor 2: Neuroticism**
 This factor is defined by high positive loadings from all the Neuroticism items. Individuals scoring high on this factor tend to experience negative emotions.
-  * **N1:** Get stressed out easily (0.814)
-  * **N2:** Worry about things (0.783)
-  * **N3:** Am easily disturbed (0.717)
-  * **N4:** Get upset easily (0.563)
-  * **N5:** Change my mood a lot (0.521)
+  * **N1:** Get stressed out easily 
+  * **N2:** Worry about things 
+  * **N3:** Am easily disturbed 
+  * **N4:** Get upset easily 
+  * **N5:** Change my mood a lot 
 
-* **Factor 2: Extraversion 🗣️**
-This factor captures the dimension of extraversion vs. introversion. Note the strong negative loadings for the introversion-keyed items.
-  * **E1:** Don't talk a lot (-0.578)
-  * **E2:** Find it difficult to approach others (-0.675)
-  * **E3:** Know how to captivate people (0.498)
-  * **E4:** Make friends easily (0.602)
-  * **E5:** Am the life of the party (0.498)
-
-* **Factor 3: Conscientiousness ✍️**
+* **Factor 3: Conscientiousness**
 This factor is defined by the Conscientiousness items. The negative loadings for items C4 and C5 indicate that people high on this factor are *not* likely to do things halfway or waste time.
-  * **C1:** Am always prepared (0.528)
-  * **C2:** Pay attention to details (0.617)
-  * **C3:** Get chores done right away (0.556)
-  * **C4:** Do things in a half-way manner (-0.647)
-  * **C5:** Waste my time (-0.572)
+  * **C1:** Am always prepared 
+  * **C2:** Pay attention to details 
+  * **C3:** Get chores done right away 
+  * **C4:** Do things in a half-way manner 
+  * **C5:** Waste my time 
 
-* **Factor 4: Agreeableness 😊**
+* **Factor 4: Agreeableness**
 This factor clearly represents the Agreeableness trait. A1, which is reverse-keyed, has a moderate negative loading as expected.
-  * **A2:** Am interested in people (0.579)
-  * **A3:** Sympathize with others' feelings (0.649)
-  * **A4:** Have a soft heart (0.453)
-  * **A5:** Take time out for others (0.581)
-  * **A1:** Am indifferent to the feelings of others (-0.375)
+  * **A2:** Am interested in people
+  * **A3:** Sympathize with others' feelings 
+  * **A4:** Have a soft heart 
+  * **A5:** Take time out for others 
+  * **A1:** Am indifferent to the feelings of others 
 
-* **Factor 5: Openness to Experience 🎨**
+* **Factor 5: Openness to Experience**
 This factor is defined by the Openness items. The negative loadings for O2 and O5 are consistent with being low on this trait.
-  * **O1:** Have a rich vocabulary (0.523)
-  * **O3:** Have a vivid imagination (0.619)
-  * **O4:** Am full of ideas (0.360)
-  * **O2:** Am not interested in abstract ideas (-0.467)
-  * **O5:** Do not enjoy going to art museums (-0.524)
+  * **O1:** Have a rich vocabulary 
+  * **O3:** Have a vivid imagination 
+  * **O4:** Am full of ideas 
+  * **O2:** Am not interested in abstract ideas 
+  * **O5:** Do not enjoy going to art museums
 
 * **Summary of Variance Explained** 
-The first 4 factors explains 38% variation, however, the factor 5 has very small loadings ($\ell_{ij}< 0.5$), which indicates that factor 5 may not be interpretable. 
+The first 5 factors explains 42.4% variations, however, the factor 6 has very small loadings (e.g., $\ell_{ij}< 0.5$), which indicates that factor 6 may not be interpretable. 
 
 ::: 
 
@@ -711,44 +712,51 @@ quartimax(fit.mle$loadings)
 ```
 
 
+
 ::: {.callout-note title="Interpretation of Quartimax Rotated Loadings" collapse="true"}
 The goal of a Quartimax rotation is to simplify the rows of the factor loading matrix, making it easier to see which factor each variable is associated with. Based on the loadings (where values > 0.4 are considered significant), we can interpret the six factors as follows.
 
 * **Factor 1: Extraversion & Agreeableness (A "Sociability" Factor)**:
     This is a very broad factor that combines items from two distinct personality traits. It captures a general tendency towards being sociable, outgoing, and agreeable. Quartimax rotation can sometimes produce a large general factor, which seems to have happened here.
-    * **E4:** Make friends easily (0.705)
-    * **A3:** Sympathize with others' feelings (0.654)
-    * **A5:** Take time out for others (0.644)
-    * **E3:** Know how to captivate people (0.599)
-    * **A2:** Am interested in people (0.547)
-    * **E2:** Find it difficult to approach others (-0.601)
-    * **E1:** Don't talk a lot (-0.516)
+    * **E4:** Make friends easily 
+    * **E2:** Find it difficult to approach others 
+    * **E3:** Know how to captivate people 
+    * **A5:** Take time out for others 
+    * **A3:** Sympathize with others' feelings 
+    * **E1:** Don't talk a lot 
+    * **A2:** Am interested in people 
 
 * **Factor 2: Neuroticism**:
     This is a very strong and clear factor, defined by high positive loadings from all the Neuroticism items.
-    * **N1:** Get stressed out easily (0.840)
-    * **N2:** Worry about things (0.804)
-    * **N3:** Am easily disturbed (0.704)
-    * **N4:** Get upset easily (0.526)
-    * **N5:** Change my mood a lot (0.492)
+    * **N1:** Get stressed out easily 
+    * **N2:** Worry about things 
+    * **N3:** Am easily disturbed 
+    * **N4:** Get upset easily 
+    * **N5:** Change my mood a lot 
 
 * **Factor 3: Conscientiousness**:
     This factor is clearly defined by the Conscientiousness items. The negative loadings for C4 and C5 are expected as they are reverse-keyed items.
-    * **C4:** Do things in a half-way manner (-0.643)
-    * **C2:** Pay attention to details (0.614)
-    * **C5:** Waste my time (-0.559)
-    * **C3:** Get chores done right away (0.550)
-    * **C1:** Am always prepared (0.529)
+    * **C4:** Do things in a half-way manner 
+    * **C2:** Pay attention to details 
+    * **C5:** Waste my time 
+    * **C3:** Get chores done right away 
+    * **C1:** Am always prepared 
 
 * **Factor 4: Openness to Experience**:
     This factor is defined by the Openness items. The negative loadings for the reverse-keyed items (O2, O5) fit the pattern perfectly.
-    * **O3:** Have a vivid imagination (0.615)
-    * **O5:** Do not enjoy going to art museums (-0.520)
-    * **O1:** Have a rich vocabulary (0.518)
-    * **O2:** Am not interested in abstract ideas (-0.471)
+    * **O3:** Have a vivid imagination 
+    * **O5:** Do not enjoy going to art museums 
+    * **O1:** Have a rich vocabulary 
+    * **O2:** Am not interested in abstract ideas 
+* **Factor 5: Agreeableness**: 
+This factor has high loadings for A1-A3, which means describes the agreeablness trait. A1 is reverse coded.  
+  * **A1:** Am indifferent to the feelings of others 
+  * **A2:** Am interested in people
+  * **A3:** Sympathize with others' feelings 
 
-* **Factor 5: A Weak or Ill-Defined Factor**:
-This factor has no high loadings (all are below 0.4). This suggests that it does not represent a clear, substantial underlying trait. In a real analysis, you would likely conclude that a 4-factor solution is more appropriate than a 5-factor solution, as this fifth factor is not interpretable and its SS loading (0.984) is below the typical cutoff of 1.0.
+
+* **Factor 6: A Weak or Ill-Defined Factor**:
+This factor has no high loadings (all are below 0.4). This suggests that it does not represent a clear, substantial underlying trait. In a real data analysis, you would likely conclude that a 5-factor solution is more appropriate than a 6-factor solution, as this sixth factor is not interpretable and its SS loading is below the typical cutoff of 1.0.
 
 
 * **Summary of Variance Explained**: The five factors together explain **42.1%** of the total variance in the personality items. However, since the fifth factor is not interpretable, a 4-factor solution explaining 38.2% of the variance would likely be the more practical and parsimonious choice.
@@ -781,59 +789,58 @@ A Promax rotation is used when we expect the underlying latent factors to be cor
 
 **Interpretation of Factors** 
 
-* **Factor 1: Extraversion (vs. Introversion)** 🗣️
+* **Factor 1: Extraversion (vs. Introversion)** 
     This factor is clearly defined by the Extraversion items. The signs are flipped compared to the previous analyses, so high scores on this factor indicate **Introversion**.
-    * **E2:** Find it difficult to approach others (0.715)
-    * **E1:** Don't talk a lot (0.632)
-    * **E4:** Make friends easily (-0.605)
-    * **E3:** Know how to captivate people (-0.468)
-    * **E5:** Am the life of the party (-0.473)
+    * **E2:** Find it difficult to approach others 
+    * **E1:** Don't talk a lot 
+    * **E4:** Make friends easily 
+    * **E3:** Know how to captivate people 
+    * **E5:** Am the life of the party 
 
-* **Factor 2: Neuroticism** 😟
-    This is a very strong and clear factor, capturing emotional stability. It is defined by high positive loadings from all the Neuroticism items.
-    * **N1:** Get stressed out easily (0.909)
-    * **N2:** Worry about things (0.860)
-    * **N3:** Am easily disturbed (0.682)
-    * **N4:** Get upset easily (0.398) - *Note: This item cross-loads with Factor 1.*
-    * **N5:** Change my mood a lot (0.433)
+* **Factor 2: Neuroticism** 
+    This is a very strong and clear factor, capturing emotional stability. It is defined by high positive loadings from the Neuroticism items.
+    * **N1:** Get stressed out easily 
+    * **N2:** Worry about things 
+    * **N3:** Am easily disturbed 
 
-* **Factor 3: Conscientiousness** ✍️
-    This factor is clearly defined by the Conscientiousness items. The negative loadings for C4 and C5 are expected as they are reverse-keyed.
-    * **C4:** Do things in a half-way manner (-0.675)
-    * **C2:** Pay attention to details (0.658)
-    * **C3:** Get chores done right away (0.593)
-    * **C5:** Waste my time (-0.581)
-
-* **Factor 4: Openness to Experience (Reversed)** 🎨
+* **Factor 3: Conscientiousness**
+    This factor is clearly defined by the Conscientiousness items. The negative loadings for C1-C3 are expected as they are reverse-keyed. This factor captures the opposite side of conscientiousness, such as  lack of direction or irresponsibility. 
+    * **C2:** Pay attention to details 
+    * **C4:** Do things in a half-way manner 
+    * **C3:** Get chores done right away 
+    * **C5:** Waste my time 
+    * **C1:** Am always prepared 
+    
+* **Factor 4: Openness to Experience (Reversed)**
     This factor is defined by the Openness items, but the signs are flipped. High scores on this factor indicate a lower degree of openness or a preference for the concrete over the abstract.
-    * **O3:** Have a vivid imagination (-0.629)
-    * **O1:** Have a rich vocabulary (-0.525)
-    * **O5:** Do not enjoy going to art museums (0.533)
-    * **O2:** Am not interested in abstract ideas (0.473)
+    * **O3:** Have a vivid imagination 
+    * **O1:** Have a rich vocabulary 
+    * **O5:** Do not enjoy going to art museums 
+    * **O2:** Am not interested in abstract ideas 
 
-* **Factor 5: Agreeableness** 😊
+* **Factor 5: Agreeableness** 
     This factor is clearly defined by the Agreeableness items. The negative loading for the reverse-keyed item A1 is consistent with the trait.
-    * **A3:** Sympathize with others' feelings (0.646)
-    * **A2:** Am interested in people (0.582)
-    * **A5:** Take time out for others (0.558)
-    * **A1:** Am indifferent to the feelings of others (-0.387)
+    * **A3:** Sympathize with others' feelings 
+    * **A2:** Am interested in people 
+    * **A5:** Take time out for others 
+    * **A1:** Am indifferent to the feelings of others 
 
 **Interpreting Factor Correlations:** 
 A critical step in an oblique rotation is to examine the **Factor Correlation Matrix**. This matrix shows how the five personality factors are related to each other. 
 
 Here are the key relationships shown in the matrix:
 
-* **Introversion and Neuroticism (r = 0.37):** There is a **moderate positive correlation** between Introversion (Factor 1) and Neuroticism (Factor 2). This is a classic finding in personality psychology: individuals who are more introverted also tend to be more prone to experiencing negative emotions like anxiety and stress.
-* **Introversion and Conscientiousness (r = -0.38):** There is a **moderate negative correlation** between Introversion (Factor 1) and Conscientiousness (Factor 3). This suggests that individuals who are more introverted tend to be slightly less conscientious (less organized, less disciplined). Conversely, more extraverted individuals tend to be more conscientious.
-* **Neuroticism and Conscientiousness (r = -0.25):** There is a **small negative correlation** between Neuroticism (Factor 2) and Conscientiousness (Factor 3). This indicates that individuals who are more emotionally stable (low Neuroticism) tend to be more organized and self-disciplined (high Conscientiousness).
-* **Conscientiousness and Openness (r = -0.22):** This one is tricky due to the reversed factor. The matrix shows a small negative correlation between Conscientiousness (Factor 3) and *Low Openness* (Factor 4). This actually means there is a **small positive correlation (r = 0.22) between Conscientiousness and Openness**. People who are more disciplined and organized also tend to be slightly more open to new experiences.
-* **Introversion and Agreeableness (r = -0.23):** There is a **small negative correlation** between Introversion (Factor 1) and Agreeableness (Factor 5). This suggests that more extraverted individuals tend to be slightly more agreeable and sympathetic towards others.
+* **Introversion and Neuroticism:** There is a **moderate positive correlation** between Introversion (Factor 1) and Neuroticism (Factor 2). This is a classic finding in personality psychology: individuals who are more introverted also tend to be more prone to experiencing negative emotions like anxiety and stress.
+* **Introversion and opposite Conscientiousness:** There is a **moderate negative correlation** between Introversion (Factor 1) and Conscientiousness (Factor 3). This suggests that individuals who are more introverted tend to be slightly less conscientious (less organized, less disciplined). Conversely, more extraverted individuals tend to be more conscientious.
+* **Neuroticism and Conscientiousness:** There is a **small negative correlation** between Neuroticism (Factor 2) and Conscientiousness (Factor 3). This indicates that individuals who are more emotionally stable (low Neuroticism) tend to be more organized and self-disciplined (high Conscientiousness).
+* **Conscientiousness and Openness:**  The matrix shows a small positive correlation between  Factor 3 (lack of Conscientiousness) and Factor 4 (*Low Openness*). This actually means there is a **small positive correlation between Conscientiousness and Openness**. People who are more disciplined and organized also tend to be slightly more open to new experiences.
+* **Introversion and Agreeableness:** There is a **small negative correlation** between Introversion (Factor 1) and Agreeableness (Factor 5). This suggests that more extraverted individuals tend to be slightly more agreeable and sympathetic towards others.
 
 Overall, these correlations align well with established findings in personality research and confirm that allowing the factors to correlate was a sensible decision for this analysis.
 
 
 * **Summary of Variance Explained**: 
-The five factors together explain **41.3%** of the total variance in the personality items. Note that in an oblique rotation, the variance explained by each factor is not simply additive because the factors themselves share some variance.
+The five factors together explain **42.3%** of the total variance in the personality items. Note that in an oblique rotation, the variance explained by each factor is not simply additive because the factors themselves share some variance.
 
 
 

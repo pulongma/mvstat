@@ -116,7 +116,7 @@ MDS is a collection of different algorithms, designed to arrive at optimal low-d
   * Metric MDS (including the classical MDS as a special case)
   * Non-metric MDS
   
-### How to Construct to Distance/Proximity Matrix $D$
+### How to Construct the Distance/Proximity Matrix $D$
 The foundation of MDS is a proximity matrix, also known as a similarity or dissimilarity matrix, for pairs of individuals. This is an 
 $n\times n$ symmetric matrix $D=(d_{ij})$ with elements $d_{ij}$ that is calculated based on the data. Sometime, $D$ is directly given by the applications, then there is no need to access the original data. In general, a smaller proximity measure indicates more similar individuals
 
