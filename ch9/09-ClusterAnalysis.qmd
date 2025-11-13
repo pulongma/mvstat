@@ -1,0 +1,41 @@
+---
+title: 'Cluster Analysis'
+author: 'Pulong Ma'
+format: 
+  html:
+    html-math-method: katex
+    include-in-header:
+      - text: |
+          <script>
+            window.MathJax = {
+              loader: {
+                load: ['[tex]/amsmath', '[tex]/amssymb', '[tex]/amsfonts'],
+                '[tex]/color']
+              },
+              tex: {
+                packages: { '[+]': ['amsmath', 'amssymb', 'amsfonts', 'color'] }
+              }
+            };
+          </script>
+    css: custom.css
+    toc: true
+    toc_depth: 3
+    number-sections: true
+    code-fold: true
+    callout-appearance: default
+    df-print: paged
+    theme: cosmo 
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r, message=FALSE,warning=FALSE, include=FALSE}
+# Preload some packages
+knitr::opts_chunk$set(echo = TRUE, message=FALSE)
+library(tidyverse)
+library(reshape2)
+library(dplyr)
+
+```

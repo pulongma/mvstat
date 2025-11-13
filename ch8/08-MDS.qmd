@@ -42,7 +42,7 @@ library(dplyr)
 
 ## Introduction
 
-* The goal of MDS: producing a low-dimensional configuration (spatial map) that preserves proximities (similarities/dissimilarities) in original data 
+* The goal of multidimensional scaling (MDS) is to produce a low-dimensional configuration (spatial map) that preserves proximities (similarities/dissimilarities) in original data. 
 
 * MDS is widely used for various applications in psychology, marketing research, ecology and biology, social science, and visualization.
 

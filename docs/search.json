@@ -654,7 +654,7 @@
     "href": "ch8/08-MDS.html#introduction",
     "title": "8  Multidimensional Scaling",
     "section": "",
-    "text": "The goal of MDS: producing a low-dimensional configuration (spatial map) that preserves proximities (similarities/dissimilarities) in original data\nMDS is widely used for various applications in psychology, marketing research, ecology and biology, social science, and visualization.",
+    "text": "The goal of multidimensional scaling (MDS) is to produce a low-dimensional configuration (spatial map) that preserves proximities (similarities/dissimilarities) in original data.\nMDS is widely used for various applications in psychology, marketing research, ecology and biology, social science, and visualization.",
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Multidimensional Scaling</span>"
     ]
