@@ -17,7 +17,8 @@ book:
     - ch5/05-Inference_for_Means_II.qmd 
     - ch6/06-PCA.qmd
     - ch7/07-FactorAnalysis.qmd
-    # - ch8/08-MDS.qmd
+    - ch8/08-MDS.qmd
+    # - ch9/clustering
     # - summary.qmd
     # - references.qmd
     

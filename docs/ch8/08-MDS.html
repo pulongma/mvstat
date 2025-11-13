@@ -262,26 +262,23 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="header-section-number">8.1</span> Learning Goals</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">8.1</span> Introduction</a></li>
   <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation"><span class="header-section-number">8.2</span> Motivation</a></li>
   <li><a href="#multidimensional-scaling-mds" id="toc-multidimensional-scaling-mds" class="nav-link" data-scroll-target="#multidimensional-scaling-mds"><span class="header-section-number">8.3</span> Multidimensional Scaling (MDS)</a>
   <ul class="collapse">
-  <li><a href="#how-to-construct-to-distanceproximity-matrix-d" id="toc-how-to-construct-to-distanceproximity-matrix-d" class="nav-link" data-scroll-target="#how-to-construct-to-distanceproximity-matrix-d"><span class="header-section-number">8.3.1</span> How to Construct to Distance/Proximity Matrix <span class="math inline">D</span></a></li>
-  <li><a href="#mds-in-r" id="toc-mds-in-r" class="nav-link" data-scroll-target="#mds-in-r"><span class="header-section-number">8.3.2</span> MDS in R</a></li>
+  <li><a href="#basic-idea" id="toc-basic-idea" class="nav-link" data-scroll-target="#basic-idea"><span class="header-section-number">8.3.1</span> Basic idea</a></li>
+  <li><a href="#how-to-construct-the-distanceproximity-matrix-d" id="toc-how-to-construct-the-distanceproximity-matrix-d" class="nav-link" data-scroll-target="#how-to-construct-the-distanceproximity-matrix-d"><span class="header-section-number">8.3.2</span> How to Construct the Distance/Proximity Matrix <span class="math inline">D</span></a></li>
   </ul></li>
-  <li><a href="#the-mathematical-framework" id="toc-the-mathematical-framework" class="nav-link" data-scroll-target="#the-mathematical-framework"><span class="header-section-number">8.4</span> The Mathematical Framework</a>
+  <li><a href="#illustrative-examples" id="toc-illustrative-examples" class="nav-link" data-scroll-target="#illustrative-examples"><span class="header-section-number">8.4</span> Illustrative Examples</a>
   <ul class="collapse">
-  <li><a href="#metric-mds" id="toc-metric-mds" class="nav-link" data-scroll-target="#metric-mds"><span class="header-section-number">8.4.1</span> Metric MDS</a></li>
-  <li><a href="#non-metric-mds" id="toc-non-metric-mds" class="nav-link" data-scroll-target="#non-metric-mds"><span class="header-section-number">8.4.2</span> Non-metric MDS</a></li>
+  <li><a href="#air-distances" id="toc-air-distances" class="nav-link" data-scroll-target="#air-distances"><span class="header-section-number">8.4.1</span> Air Distances</a></li>
+  <li><a href="#community-ecology-example" id="toc-community-ecology-example" class="nav-link" data-scroll-target="#community-ecology-example"><span class="header-section-number">8.4.2</span> Community Ecology Example</a></li>
   </ul></li>
-  <li><a href="#choosing-the-embedding-dimension" id="toc-choosing-the-embedding-dimension" class="nav-link" data-scroll-target="#choosing-the-embedding-dimension"><span class="header-section-number">8.5</span> Choosing the Embedding Dimension</a></li>
-  <li><a href="#illustrative-examples" id="toc-illustrative-examples" class="nav-link" data-scroll-target="#illustrative-examples"><span class="header-section-number">8.6</span> Illustrative Examples</a>
+  <li><a href="#goodness-of-fit-metrics" id="toc-goodness-of-fit-metrics" class="nav-link" data-scroll-target="#goodness-of-fit-metrics"><span class="header-section-number">8.5</span> Goodness of Fit Metrics</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">8.6</span> Exercises</a>
   <ul class="collapse">
-  <li><a href="#example-1-classical-mds" id="toc-example-1-classical-mds" class="nav-link" data-scroll-target="#example-1-classical-mds"><span class="header-section-number">8.6.1</span> Example 1: Classical MDS</a></li>
-  <li><a href="#example-2-house-voting-dissimilarities" id="toc-example-2-house-voting-dissimilarities" class="nav-link" data-scroll-target="#example-2-house-voting-dissimilarities"><span class="header-section-number">8.6.2</span> Example 2: House voting (dissimilarities)</a></li>
+  <li><a href="#house-voting-dissimilarities" id="toc-house-voting-dissimilarities" class="nav-link" data-scroll-target="#house-voting-dissimilarities"><span class="header-section-number">8.6.1</span> House voting (dissimilarities)</a></li>
   </ul></li>
-  <li><a href="#connections-to-pca" id="toc-connections-to-pca" class="nav-link" data-scroll-target="#connections-to-pca"><span class="header-section-number">8.7</span> Connections to PCA</a></li>
-  <li><a href="#practical-tips" id="toc-practical-tips" class="nav-link" data-scroll-target="#practical-tips"><span class="header-section-number">8.8</span> Practical tips</a></li>
   </ul>
 </nav>
     </div>
@@ -313,15 +310,11 @@ window.Quarto = {
 </header>
 
 
-<section id="learning-goals" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="learning-goals"><span class="header-section-number">8.1</span> Learning Goals</h2>
-<p>By the end of this lecture, you will be able to:</p>
+<section id="introduction" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">8.1</span> Introduction</h2>
 <ul>
-<li>Explain the goal of MDS: producing a low-dimensional configuration that preserves proximities (similarities/dissimilarities).</li>
-<li>Derive classical MDS (cMDS) from a distance matrix via double-centering and eigen decomposition.</li>
-<li>Select the embedding dimension using simple criteria.</li>
-<li>Apply non-metric MDS (nmMDS) when the proximities are ordinal and not strictly Euclidean.</li>
-<li>Diagnose fit with Shepard diagrams and stress.</li>
+<li><p>The goal of MDS: producing a low-dimensional configuration (spatial map) that preserves proximities (similarities/dissimilarities) in original data</p></li>
+<li><p>MDS is widely used for various applications in psychology, marketing research, ecology and biology, social science, and visualization.</p></li>
 </ul>
 </section>
 <section id="motivation" class="level2" data-number="8.2">
@@ -365,38 +358,180 @@ window.Quarto = {
 </section>
 <section id="multidimensional-scaling-mds" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="multidimensional-scaling-mds"><span class="header-section-number">8.3</span> Multidimensional Scaling (MDS)</h2>
-<p>MDS is a collection of different algorithms, designed to arrive at optimal low-dimensional (usually 2 or 3 dimensions) representation of the data, whose inter-point distances (or <strong><em>dissimilarities</em></strong>) are as close as possible to that in the original space.</p>
+<section id="basic-idea" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="basic-idea"><span class="header-section-number">8.3.1</span> Basic idea</h3>
+<p>MDS is a collection of different algorithms, designed to arrive at optimal low-dimensional (usually 2 or 3 dimensions) representation of the data, whose inter-point distances (or <strong><em>dissimilarities</em></strong>) are as close as possible to that in the original space. The figure below illustrates the core idea of MDS. <img src="./figures/MDS_idea.jpg" class="img-fluid" alt="Basic idea of MDS"></p>
 <ul>
 <li><p>Given a <span class="math inline">n\times p</span> data matrix <span class="math inline">{Y}=[\mathbf{y}_1, \mathbf{y}_2, \ldots, \mathbf{y}_n]'</span>. (This is often not required for MDS!)</p></li>
-<li><p>Let <span class="math inline">D=(d_{ij})_{i,j=1,\ldots, p}</span> denote a <span class="math inline">p\times p</span> <strong><em>distance matrix</em></strong> (for <span class="math inline">{Y}</span>).</p></li>
-<li><p>MDS aims to find <span class="math inline">m\, (&lt; p)</span> and a set of <span class="math inline">m</span>-dimensional points <span class="math inline">\mathbf{x}_1, \ldots, \mathbf{x}_n</span> in the Euclidean space <span class="math inline">\mathbb{R}^m</span> such that <span class="math display">\begin{align*}
-\|\mathbf{x}_i - \mathbf{x}_j \|_2 \approx d_{ij} \text{ as close as possible}.
+<li><p>Let <span class="math inline">D=(d_{ij})_{i,j=1,\ldots, n}</span> denote n <span class="math inline">n\times n</span> <strong><em>distance matrix</em></strong> (for <span class="math inline">{Y}</span>).</p></li>
+<li><p>MDS aims to find <span class="math inline">m (&lt; p)</span> and a set of <span class="math inline">m</span>-dimensional points <span class="math inline">\mathbf{x}_1, \ldots, \mathbf{x}_n</span> in the Euclidean space <span class="math inline">\mathbb{R}^m</span> (also called ordination space) such that <span class="math display">\begin{align*}
+\delta_{ij}:=\|\mathbf{x}_i - \mathbf{x}_j \|_2 \approx d_{ij} \text{ as close as possible}.
 \end{align*}</span></p></li>
-<li><p>MDS returns coordinates <span class="math inline">{\mathbf{x}_1,\ldots,\mathbf{x}_n}</span> in <span class="math inline">\mathbb{R}^m</span> so that the Euclidean distances <span class="math inline">|\mathbf{x}_i-\mathbf{x}_j|</span> reflect the given proximities as closely as possible (larger dissimilarity <span class="math inline">\Rightarrow</span> farther apart).</p></li>
-<li><p>Two main kinds of MDS methods/algorithms will be introduced:</p>
-<ul>
-<li>Metric MDS (including the classical MDS as a special case)</li>
-<li>Non-metric MDS</li>
-</ul></li>
+<li><p>MDS returns coordinates <span class="math inline">{\mathbf{x}_1,\ldots,\mathbf{x}_n}</span> in <span class="math inline">\mathbb{R}^m</span> so that the Euclidean distances <span class="math inline">\delta_{ij}=\|\mathbf{x}_i-\mathbf{x}_j\|_2</span> reflect the given proximities (<span class="math inline">d_{ij}</span>) as closely as possible (larger dissimilarity <span class="math inline">\Rightarrow</span> farther apart).</p></li>
 </ul>
-<section id="how-to-construct-to-distanceproximity-matrix-d" class="level3" data-number="8.3.1">
-<h3 data-number="8.3.1" class="anchored" data-anchor-id="how-to-construct-to-distanceproximity-matrix-d"><span class="header-section-number">8.3.1</span> How to Construct to Distance/Proximity Matrix <span class="math inline">D</span></h3>
-<p>The foundation of MDS is a proximity matrix, also known as a similarity or dissimilarity matrix, for pairs of individuals. This is an <span class="math inline">n\times n</span> symmetric matrix <span class="math inline">D=(d_{ij})</span> with elements <span class="math inline">d_{ij}</span> that is calculated based on the data. Sometime, <span class="math inline">D</span> is directly given by the applications, then there is no need to access the original data. In general, a smaller proximity measure indicates more similar individuals</p>
+</section>
+<section id="how-to-construct-the-distanceproximity-matrix-d" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="how-to-construct-the-distanceproximity-matrix-d"><span class="header-section-number">8.3.2</span> How to Construct the Distance/Proximity Matrix <span class="math inline">D</span></h3>
 <ul>
 <li>Two common choices of metric distances:
 <ul>
-<li>Euclidean distance: <span class="math inline">\|\mathbf{x}_i - \mathbf{x}_j\|_2</span></li>
-<li><span class="math inline">L_1</span> distance (also called the Manhanttan or taxicab metric): <span class="math inline">\|\mathbf{x}_i - \mathbf{x}_j\|_1</span></li>
+<li>Euclidean distance: <span class="math inline">\|\mathbf{y}_i - \mathbf{y}_j\|_2</span></li>
+<li><span class="math inline">L_1</span> distance (also called the Manhattan or taxicab metric): <span class="math inline">\|\mathbf{y}_i - \mathbf{y}_j\|_1</span></li>
 </ul></li>
-<li>Common non-metric distances: rank order</li>
+<li>Common non-metric distances: rank order
+<ul>
+<li>A non-metric distance (or dissimilarity) is an input measure where the absolute difference between two values is not assumed to be numerically meaningful, but their rank order is preserved.</li>
+<li>A non-metric distance can describe “A is more dissimilar to B than C is to D,” without specifying how much more dissimilar.</li>
+</ul></li>
 </ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Common metric distances">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Common metric distances
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>Let <span class="math inline">\mathbf{y}_i=(y_{i1}, \ldots, y_{ip})^\top</span> denote an observation of <span class="math inline">p</span> variables.</p></li>
+<li><p>The Euclidean distance between <span class="math inline">\mathbf{y}_i</span> and <span class="math inline">\mathbf{y}_j</span> is defined as <span class="math display">\begin{align*}
+\|\mathbf{y}_i -\mathbf{y}_j\|_2: = (\mathbf{y}_i - \mathbf{y}_j)^\top(\mathbf{y}_i - \mathbf{y}_j)
+=\sqrt{\sum_{k=1}^p (y_{ik}-y_{jk})^2}
+\end{align*}</span></p></li>
+<li><p>The <span class="math inline">L_1</span> distance (also called Manhattan or taxicab metric) between <span class="math inline">\mathbf{y}_i</span> and <span class="math inline">\mathbf{y}_j</span> is defined as <span class="math display">\begin{align*}
+\|\mathbf{y}_i -\mathbf{y}_j\|_1:  
+=\sqrt{\sum_{k=1}^m |y_{ik}-y_{jk}|}
+\end{align*}</span></p></li>
+<li><p>When to use <strong>Euclidean distance</strong>: When the relationship between variables is continuous and comparable (in the same units) or the shortest, straight-line distance is preferred.</p></li>
+<li><p>When to use <strong>Manhattan distance</strong>: When the movement is constraint to a grid, or the variables are in comparable (e.g., temperature v.s. pressure).</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Non-metric distance: Bray-Curtis dissimilarity">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Non-metric distance: Bray-Curtis dissimilarity
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Bray-Curtis dissimilarity</strong> (BC): This is the most common dissimilarity metric in <em>community ecology</em> (e.g., analyzing species abundance).</li>
+<li>In community ecology, the data is represented in a <strong>Community Matrix</strong>
+<ul>
+<li>Rows represents samples (or sites/community, denoted by <span class="math inline">i, j</span>)</li>
+<li>Columns represents variables (or species/taxa, denoted by <span class="math inline">k</span>)</li>
+</ul></li>
+<li>For two sites, <span class="math inline">i</span> and <span class="math inline">j</span> across all species, <span class="math inline">k</span>, BC is defined as <span class="math display">\begin{align*}
+\text{BC}_{ij} = \frac{\sum_{k=1}^p |y_{ik}-y_{jk}|}{\sum_{k=1}^n (y_{ik}+y_{jk})}
+\end{align*}</span>
+<ul>
+<li><span class="math inline">y_{ik}</span> is the abundance of species <span class="math inline">k</span> at site <span class="math inline">i</span>.</li>
+<li><span class="math inline">y_{jk}</span> is the abundance of species <span class="math inline">k</span> at site <span class="math inline">j</span>.</li>
+<li>The numerator is the sum of the absolute differences in abundance for every species.</li>
+<li>The denominator is the total abundance of all species found across both sites.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Non-metric distance: Jaccard index">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Non-metric distance: Jaccard index
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Jaccard Index</strong> (J): This index focuses purely on presence or absence data (binary data) and is widely used when abundance doesn’t matter, only identity.<br>
+</li>
+<li>The Jaccard index is calculated using binary data (presence = 1, absence =0): for two sites (samples) <span class="math inline">A</span> and <span class="math inline">B</span> <span class="math display">\begin{align*}
+J = \frac{|A \cap B|}{|A \cup B|}
+\end{align*}</span>
+<ul>
+<li><span class="math inline">|A \cap B|</span> (intersection): the number of species present in both Site <span class="math inline">A</span> and Site <span class="math inline">B</span>.</li>
+<li><span class="math inline">|A \cup B|</span> (Union): the total number of unique species found in either Site <span class="math inline">A</span> or Site <span class="math inline">B</span>.</li>
+</ul></li>
+<li>The Jaccard Dissimilarity (<span class="math inline">D_J</span>): Since MDS requires a measure of dissimilarity (distance), the standard Jaccard index <span class="math inline">J</span> is converted to a dissimilarity measure <span class="math inline">D_J:=1-J</span>.
+<ul>
+<li>Identical sites: <span class="math inline">D_J=0\rightarrow</span> All species present are <strong>shared</strong>.</li>
+<li>Maximally dissimilar: <span class="math inline">D_J=1\rightarrow</span> The sites share <strong>no species</strong> in common.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Tips">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tips
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>For continuous data, we may also use PCA to extract latent dimensions. In fact, classical MDS via Euclidean distance is equivalent to PCA.</li>
+<li>For non-continuous data such as counts or binary data, PCA is not appropriate, however, non-metric MDS can be used.</li>
+</ul>
+</div>
+</div>
 </section>
-<section id="mds-in-r" class="level3" data-number="8.3.2">
-<h3 data-number="8.3.2" class="anchored" data-anchor-id="mds-in-r"><span class="header-section-number">8.3.2</span> MDS in R</h3>
+</section>
+<section id="illustrative-examples" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="illustrative-examples"><span class="header-section-number">8.4</span> Illustrative Examples</h2>
+<section id="air-distances" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="air-distances"><span class="header-section-number">8.4.1</span> Air Distances</h3>
+<div class="callout callout-style-default callout-note callout-titled" title="Visualizing Air Distances">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Visualizing Air Distances
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Corrected airline distances (ATL–SEA = 2180)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>cities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ATL"</span>,<span class="st">"ORD"</span>,<span class="st">"DEN"</span>,<span class="st">"HOU"</span>,<span class="st">"LAX"</span>,<span class="st">"MIA"</span>,<span class="st">"JFK"</span>,<span class="st">"SFO"</span>,<span class="st">"SEA"</span>,<span class="st">"IAD"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>,<span class="dv">587</span>,<span class="dv">1212</span>,<span class="dv">701</span>,<span class="dv">1936</span>,<span class="dv">604</span>,<span class="dv">748</span>,<span class="dv">2139</span>,<span class="dv">2180</span>,<span class="dv">543</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">587</span>,<span class="dv">0</span>,<span class="dv">920</span>,<span class="dv">940</span>,<span class="dv">1745</span>,<span class="dv">1188</span>,<span class="dv">713</span>,<span class="dv">1858</span>,<span class="dv">1737</span>,<span class="dv">597</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1212</span>,<span class="dv">929</span>,<span class="dv">0</span>,<span class="dv">879</span>,<span class="dv">831</span>,<span class="dv">1726</span>,<span class="dv">1631</span>,<span class="dv">949</span>,<span class="dv">1021</span>,<span class="dv">1494</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">701</span>,<span class="dv">940</span>,<span class="dv">879</span>,<span class="dv">0</span>,<span class="dv">1374</span>,<span class="dv">968</span>,<span class="dv">1420</span>,<span class="dv">1645</span>,<span class="dv">1891</span>,<span class="dv">1220</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1936</span>,<span class="dv">1745</span>,<span class="dv">831</span>,<span class="dv">1374</span>,<span class="dv">0</span>,<span class="dv">2339</span>,<span class="dv">2451</span>,<span class="dv">347</span>,<span class="dv">959</span>,<span class="dv">2300</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="dv">604</span>,<span class="dv">1188</span>,<span class="dv">1726</span>,<span class="dv">968</span>,<span class="dv">2339</span>,<span class="dv">0</span>,<span class="dv">1092</span>,<span class="dv">2594</span>,<span class="dv">2734</span>,<span class="dv">923</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">748</span>,<span class="dv">713</span>,<span class="dv">1631</span>,<span class="dv">1420</span>,<span class="dv">2451</span>,<span class="dv">1092</span>,<span class="dv">0</span>,<span class="dv">2571</span>,<span class="dv">2408</span>,<span class="dv">205</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2139</span>,<span class="dv">1858</span>,<span class="dv">949</span>,<span class="dv">1645</span>,<span class="dv">347</span>,<span class="dv">2594</span>,<span class="dv">2571</span>,<span class="dv">0</span>,<span class="dv">678</span>,<span class="dv">2442</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2180</span>,<span class="dv">1737</span>,<span class="dv">1021</span>,<span class="dv">1891</span>,<span class="dv">959</span>,<span class="dv">2734</span>,<span class="dv">2408</span>,<span class="dv">678</span>,<span class="dv">0</span>,<span class="dv">2329</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="dv">543</span>,<span class="dv">597</span>,<span class="dv">1494</span>,<span class="dv">1220</span>,<span class="dv">2300</span>,<span class="dv">923</span>,<span class="dv">205</span>,<span class="dv">2442</span>,<span class="dv">2329</span>,<span class="dv">0</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>), <span class="at">nrow=</span><span class="dv">10</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>, <span class="at">dimnames=</span><span class="fu">list</span>(cities, cities))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
 <p>For classical MDS, one can use the function <code>cmdscale</code> from the <code>stats</code> package in R.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">cmdscale</span>(<span class="at">d=</span>D, <span class="at">k=</span><span class="dv">2</span>, <span class="at">eig=</span><span class="cn">TRUE</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">cmdscale</span>(<span class="at">d=</span>D, <span class="at">k=</span><span class="dv">2</span>, <span class="at">eig=</span><span class="cn">TRUE</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$points
           [,1]       [,2]
@@ -429,116 +564,402 @@ $GOF
 <li>The output <code>points</code> gives the <span class="math inline">n\times k</span> matrix up to <code>k</code> columns whose rows give the coordinates of the points.</li>
 <li>The output <code>eig</code> gives the eigenvalues. This can be used to check if there are any negative eigenvalues.</li>
 </ul>
-<p>For non-metric MDS, one can use the <code>isoMDS</code> function from the <code>MASS</code> package in R.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fit.nm <span class="ot">=</span> MASS<span class="sc">::</span><span class="fu">isoMDS</span>(<span class="at">d=</span>D,<span class="at">k=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>initial  value 0.081659 
-final  value 0.000000 
-converged</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit.nm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>$points
-          [,1]       [,2]
-ATL  -718.1568  141.81554
-ORD  -387.0692 -342.33775
-DEN   486.4772  -22.20143
-HOU  -157.8946  572.80790
-LAX  1204.2542  386.20238
-MIA -1136.4073  577.40859
-JFK -1072.3706 -518.87122
-SFO  1420.6109  112.16973
-SEA  1340.8556 -576.30457
-IAD  -980.5591 -330.43855
-
-$stress
-[1] 7.607855e-14</code></pre>
+<details class="code-fold">
+<summary>Visualize the scores</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>X2 <span class="ot">&lt;-</span> fit<span class="sc">$</span>points</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X2, <span class="at">type=</span><span class="st">"n"</span>, <span class="at">xlab=</span><span class="st">"Coordinate 1"</span>, <span class="at">ylab=</span><span class="st">"Coordinate 2"</span>, <span class="at">main=</span><span class="st">"Inter-city distances"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(X2, <span class="at">labels =</span> <span class="fu">rownames</span>(X2), <span class="at">cex =</span> <span class="fl">0.85</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="08-MDS_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
-<ul>
-<li>The output <code>points</code> gives the matrix <span class="math inline">n\times k</span> <span class="math inline">X</span> with the number of columns specified by <code>k=2</code>.</li>
-<li><code>stress</code> is used for diagnostics of the fit that will be introduced later.</li>
-</ul>
+</div>
 </section>
-</section>
-<section id="the-mathematical-framework" class="level2" data-number="8.4">
-<h2 data-number="8.4" class="anchored" data-anchor-id="the-mathematical-framework"><span class="header-section-number">8.4</span> The Mathematical Framework</h2>
-<section id="metric-mds" class="level3" data-number="8.4.1">
-<h3 data-number="8.4.1" class="anchored" data-anchor-id="metric-mds"><span class="header-section-number">8.4.1</span> Metric MDS</h3>
-<p>Assume we have constructed an <span class="math inline">n\times n</span> dissimilarity matrix <span class="math inline">D=(d_{ij})</span> among <span class="math inline">n</span> objects. This matrix may be constructed using Euclidean distance or taxicab metric or rank order. The goal is to find an <span class="math inline">n\times m</span> matrix of coordinates <span class="math inline">{X}=(x_{ij})</span>, where <span class="math inline">m&lt;n</span>, such that the distances between the rows of X match the original distances as closely as possible. This problem is mathematically equivalent to saying that for all <span class="math inline">i,j=1,\ldots, n</span>, <span class="math display">\begin{align*} \nonumber
-d_{ij}^2 &amp; = \| \mathbf{x}_i - \mathbf{x}_j\|_2^2 = \sum_{k=1}^m (x_{ik}-x_{jk})^2  \\ \nonumber
-&amp; =  (\mathbf{x}_i - \mathbf{x}_j)^\top (\mathbf{x}_i - \mathbf{x}_j) \\
-&amp; = \mathbf{x}_i^\top \mathbf{x}_i + \mathbf{x}_j^\top \mathbf{x}_j - 2 \mathbf{x}_{i}^\top \mathbf{x}_j .
-\end{align*}</span></p>
-<ul>
-<li>Given <span class="math inline">d_{ij}^2</span>, we need to solve for <span class="math inline">\mathbf{x}_1, \ldots, \mathbf{x}_m</span>.</li>
-<li>It can be shown that the matrix <span class="math inline">B={X} {X}^\top</span> can be expressed in terms of <span class="math inline">d_{ij}^2</span>: <span class="math display">\begin{align*}
-b_{ij} = - \frac{1}{2} \left( d_{ij}^2 - \frac{1}{n} \sum_{j=1}^n d_{ij}^2 - \frac{1}{n} \sum_{i=1}^n d_{ij}^2 + \frac{1}{n^2} \sum_{i=1}^n \sum_{j=1}^n d_{ij}^2 \right)
-\end{align*}</span>
-<ul>
-<li>If <span class="math inline">d_{ij}</span> is not based on Euclidean distance, some of the eigenvalues of <span class="math inline">B</span> may be negative.</li>
-</ul></li>
-<li>We the obtain the spectral decomposition <span class="math inline">B=V \Lambda V^\top</span>, where <span class="math inline">\Lambda=\text{diag}(\lambda_1, \ldots, \lambda_n)</span> with <span class="math inline">\lambda_1\geq \ldots \geq \lambda_n</span>.</li>
-<li>Keeping the first <span class="math inline">m</span> eigenvalues and eigenvectors yields the rank <span class="math inline">m</span> approximation for <span class="math inline">B</span> with <span class="math inline">X</span> given by <span class="math display">\begin{align*}
-X_m = V_m \Lambda^{1/2}
-\end{align*}</span> where the rows of <span class="math inline">X_m</span> are the desired <span class="math inline">m</span>-dimensional coordinates (unique up to rigid motions).</li>
-</ul>
-<div class="callout callout-style-default callout-note callout-titled" title="Mathematical Details">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<section id="community-ecology-example" class="level3" data-number="8.4.2">
+<h3 data-number="8.4.2" class="anchored" data-anchor-id="community-ecology-example"><span class="header-section-number">8.4.2</span> Community Ecology Example</h3>
+<div class="callout callout-style-default callout-note callout-titled" title="`dune` Dataset">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Mathematical Details
+<code>dune</code> Dataset
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>dune</code> and <code>dune.env</code> datasets from R package <code>vegan</code> originate from an ecological study conducted in the sand dunes of the Meijendel area near Wassenaar, Netherlands.</p>
+<ul>
+<li><code>dune</code>: Abundance counts for 30 species of vascular plants on 20 sites.</li>
+<li><code>dune.env</code>: Environmental and management variables measured at the 20 sites.The variables relevant to the hypotheses include
+<ul>
+<li><code>A1</code>: A numeric vector of thickness of soil A1 horizon.</li>
+<li><code>Moisture</code>: An ordered factor with levels: 1 &lt; 2 &lt; 4 &lt; 5.</li>
+<li><code>Management</code>: A factor with levels: BF (Biological farming), HF (Hobby farming), NM (Nature Conservation Management), and SF (Standard Farming).</li>
+<li><code>Manure</code>: The amount of manure applied (a proxy for soil fertility).</li>
+</ul></li>
+</ul>
+<p>The scientific interest in the study revolves around how human activities and natural environmental gradients influence plant communities.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vegan)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(dune)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(dune.env)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dune)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Achimill"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Agrostol"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Airaprae"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Alopgeni"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Anthodor"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Bellpere"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Bromhord"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Chenalbu"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["Cirsarve"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["Comapalu"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["Eleopalu"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["Elymrepe"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["Empenigr"],"name":[13],"type":["dbl"],"align":["right"]},{"label":["Hyporadi"],"name":[14],"type":["dbl"],"align":["right"]},{"label":["Juncarti"],"name":[15],"type":["dbl"],"align":["right"]},{"label":["Juncbufo"],"name":[16],"type":["dbl"],"align":["right"]},{"label":["Lolipere"],"name":[17],"type":["dbl"],"align":["right"]},{"label":["Planlanc"],"name":[18],"type":["dbl"],"align":["right"]},{"label":["Poaprat"],"name":[19],"type":["dbl"],"align":["right"]},{"label":["Poatriv"],"name":[20],"type":["dbl"],"align":["right"]},{"label":["Ranuflam"],"name":[21],"type":["dbl"],"align":["right"]},{"label":["Rumeacet"],"name":[22],"type":["dbl"],"align":["right"]},{"label":["Sagiproc"],"name":[23],"type":["dbl"],"align":["right"]},{"label":["Salirepe"],"name":[24],"type":["dbl"],"align":["right"]},{"label":["Scorautu"],"name":[25],"type":["dbl"],"align":["right"]},{"label":["Trifprat"],"name":[26],"type":["dbl"],"align":["right"]},{"label":["Trifrepe"],"name":[27],"type":["dbl"],"align":["right"]},{"label":["Vicilath"],"name":[28],"type":["dbl"],"align":["right"]},{"label":["Bracruta"],"name":[29],"type":["dbl"],"align":["right"]},{"label":["Callcusp"],"name":[30],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0","3":"0","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"4","13":"0","14":"0","15":"0","16":"0","17":"7","18":"0","19":"4","20":"2","21":"0","22":"0","23":"0","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","_rn_":"1"},{"1":"3","2":"0","3":"0","4":"2","5":"0","6":"3","7":"4","8":"0","9":"0","10":"0","11":"0","12":"4","13":"0","14":"0","15":"0","16":"0","17":"5","18":"0","19":"4","20":"7","21":"0","22":"0","23":"0","24":"0","25":"5","26":"0","27":"5","28":"0","29":"0","30":"0","_rn_":"2"},{"1":"0","2":"4","3":"0","4":"7","5":"0","6":"2","7":"0","8":"0","9":"0","10":"0","11":"0","12":"4","13":"0","14":"0","15":"0","16":"0","17":"6","18":"0","19":"5","20":"6","21":"0","22":"0","23":"0","24":"0","25":"2","26":"0","27":"2","28":"0","29":"2","30":"0","_rn_":"3"},{"1":"0","2":"8","3":"0","4":"2","5":"0","6":"2","7":"3","8":"0","9":"2","10":"0","11":"0","12":"4","13":"0","14":"0","15":"0","16":"0","17":"5","18":"0","19":"4","20":"5","21":"0","22":"0","23":"5","24":"0","25":"2","26":"0","27":"1","28":"0","29":"2","30":"0","_rn_":"4"},{"1":"2","2":"0","3":"0","4":"0","5":"4","6":"2","7":"2","8":"0","9":"0","10":"0","11":"0","12":"4","13":"0","14":"0","15":"0","16":"0","17":"2","18":"5","19":"2","20":"6","21":"0","22":"5","23":"0","24":"0","25":"3","26":"2","27":"2","28":"0","29":"2","30":"0","_rn_":"5"},{"1":"2","2":"0","3":"0","4":"0","5":"3","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"0","17":"6","18":"5","19":"3","20":"4","21":"0","22":"6","23":"0","24":"0","25":"3","26":"5","27":"5","28":"0","29":"6","30":"0","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dune.env)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["A1"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Moisture"],"name":[2],"type":["ord"],"align":["right"]},{"label":["Management"],"name":[3],"type":["fct"],"align":["left"]},{"label":["Use"],"name":[4],"type":["ord"],"align":["right"]},{"label":["Manure"],"name":[5],"type":["ord"],"align":["right"]}],"data":[{"1":"2.8","2":"1","3":"SF","4":"Haypastu","5":"4","_rn_":"1"},{"1":"3.5","2":"1","3":"BF","4":"Haypastu","5":"2","_rn_":"2"},{"1":"4.3","2":"2","3":"SF","4":"Haypastu","5":"4","_rn_":"3"},{"1":"4.2","2":"2","3":"SF","4":"Haypastu","5":"4","_rn_":"4"},{"1":"6.3","2":"1","3":"HF","4":"Hayfield","5":"2","_rn_":"5"},{"1":"4.3","2":"1","3":"HF","4":"Haypastu","5":"2","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Research Questions">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Research Questions
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
-<li>Suppose that <span class="math inline">\mathbf{X}</span> is centered, i.e., <span class="math inline">\sum_{i=1}^n x_{ik} = 0</span> for all <span class="math inline">k=1,\ldots, m</span>. If not, we can compute the centering matrix <span class="math inline">X_c: = X - \mathbf{1}_n \bar{\mathbf{x}}^\top</span>.</li>
-<li>Inter-product matrix of <span class="math inline">\mathbf{X}</span> is <span class="math inline">B:=\mathbf{X} \mathbf{X}</span> with <span class="math inline">b_{ij}</span> as the <span class="math inline">(i,j)</span>-th element.</li>
-<li>Then the squared distance <span class="math inline">d_{ij}^2</span> can be expressed as <span class="math display">\begin{align*}
-d_{ij}^2 = b_{ii} + b_{jj} - 2 b_{ij}
-\end{align*}</span></li>
-<li>To solve for <span class="math inline">b_{ij}</span> from <span class="math inline">d_{ij}^2</span>, we use the <strong>double centering transformation</strong>:
+<li><p>Question 1: Will plant communities under different management regimes (e.g., fertilized v.s. unfertilized, heavy grazing v.s. light grazing) have significantly different species compositions?</p></li>
+<li><p>Question 2: Is variation in species composition driven by key environmental gradients like moisture and fertility?</p></li>
+<li><p>Question 3: Does our conclusion change if we prioritize species identity (Jaccard) over species abundance (Bray-Curtis)?</p></li>
+</ul>
+</div>
+</div>
+</div>
+<!-- ### Mathematical details  -->
+<!-- :::{.callout-note title="Metric MDS: Mathematical detals" collapse=true} -->
+<!-- Assume we have constructed an $n\times n$ dissimilarity matrix $D=(d_{ij})$ among $n$ objects. This matrix may be constructed using Euclidean distance or taxicab metric or rank order. The goal is to find an $n\times m$ matrix of coordinates ${X}=(x_{ij})$, where $m<n$, such that the distances between the rows of X match the original distances as closely as possible. This problem is mathematically equivalent to saying that for all $i,j=1,\ldots, n$, -->
+<!-- \begin{align*} \nonumber  -->
+<!-- d_{ij}^2 & = \| \mathbf{x}_i - \mathbf{x}_j\|_2^2 = \sum_{k=1}^m (x_{ik}-x_{jk})^2  \\ \nonumber  -->
+<!-- & =  (\mathbf{x}_i - \mathbf{x}_j)^\top (\mathbf{x}_i - \mathbf{x}_j) \\  -->
+<!-- & = \mathbf{x}_i^\top \mathbf{x}_i + \mathbf{x}_j^\top \mathbf{x}_j - 2 \mathbf{x}_{i}^\top \mathbf{x}_j .  -->
+<!-- \end{align*} -->
+<!-- * Given $d_{ij}^2$, we need to solve for $\mathbf{x}_1, \ldots, \mathbf{x}_m$.  -->
+<!-- * It can be shown that the matrix $B={X} {X}^\top$ can be expressed in terms of $d_{ij}^2$: -->
+<!--   \begin{align*} -->
+<!--   b_{ij} = - \frac{1}{2} \left( d_{ij}^2 - \frac{1}{n} \sum_{j=1}^n d_{ij}^2 - \frac{1}{n} \sum_{i=1}^n d_{ij}^2 + \frac{1}{n^2} \sum_{i=1}^n \sum_{j=1}^n d_{ij}^2 \right) -->
+<!--   \end{align*} -->
+<!--   * If $d_{ij}$ is not based on Euclidean distance, some of the eigenvalues of $B$ may be negative.  -->
+<!-- * We the obtain the spectral decomposition $B=V \Lambda V^\top$, where $\Lambda=\text{diag}(\lambda_1, \ldots, \lambda_n)$ with $\lambda_1\geq \ldots \geq \lambda_n$. -->
+<!-- * Keeping the first $m$ eigenvalues and eigenvectors yields the rank $m$ approximation for $B$ with $X$ given by  -->
+<!-- \begin{align*} -->
+<!-- X_m = V_m \Lambda^{1/2} -->
+<!-- \end{align*} -->
+<!-- where the rows of $X_m$ are the desired $m$-dimensional coordinates (unique up to rigid motions).  -->
+<!-- * Suppose that $\mathbf{X}$ is centered, i.e., $\sum_{i=1}^n x_{ik} = 0$ for all $k=1,\ldots, m$. If not, we can compute the centering matrix $X_c: = X - \mathbf{1}_n \bar{\mathbf{x}}^\top$. -->
+<!-- * Inter-product matrix of $\mathbf{X}$ is $B:=\mathbf{X} \mathbf{X}$ with $b_{ij}$ as the $(i,j)$-th element.  -->
+<!-- * Then the  squared distance $d_{ij}^2$ can be expressed as -->
+<!-- \begin{align*} -->
+<!-- d_{ij}^2 = b_{ii} + b_{jj} - 2 b_{ij} -->
+<!-- \end{align*} -->
+<!-- * To solve for $b_{ij}$ from $d_{ij}^2$, we use the **double centering transformation**:  -->
+<!--   * **Sum over $j$**: Summing the equation $d_{ij}=b_{ii}+b_{jj}-2b_{ij}$ over all $j=1,\ldots, n$ gives  -->
+<!-- \begin{align*} -->
+<!-- \sum_{j=1}^n d_{ij} &= \sum_{j=1}^n (b_{ii}+b_{jj}-2b_{ij}) \\ -->
+<!-- & = n b_{ii} + \sum_{j=1}^n b_{jj} -2\sum_{j=1}^n b_{ij} \\ -->
+<!-- &= n b_{ii} + \sum_{j=1}^n b_{jj} -->
+<!-- \end{align*} -->
+<!-- where $\sum_{j=1}^n b_{ij} = 0$ because the rows of $X$ are centered. -->
+<!--   * **Sum over $i$**: Similarly, summing over $i=1,\ldots, n$ gives  -->
+<!--   \begin{align*} -->
+<!--   \sum_{i=1}^n d_{ij}^2 = \sum_{j=1}^n (b_{ii}+b_{jj}-2b_{ij}) = \sum_{i=1}^n b_{ii} + n b_{jj}. -->
+<!--   \end{align*} -->
+<!--   * **Sum over both $i,j$**:  -->
+<!--   \begin{align*} -->
+<!--   \sum_{i=1}^n \sum_{j=1}^n d_{ij}^2 &= \sum_{i=1}^n \sum_{j=1}^n (b_{ii}+b_{jj}-2b_{ij}) \\ -->
+<!--   & = \sum_{i=1}^n n b_{ii} + \sum_{j=1}^n n b_{jj} - 2 \sum_{i=1}^n \sum_{j=1}^n b_{ij} \\ -->
+<!--   &= 2n \sum_{i=1}^n b_{ii}. -->
+<!--   \end{align*} -->
+<!-- * Solving for $b_{ij}$ based on the above equations gives  -->
+<!--   \begin{align*} -->
+<!--   b_{ij} = - \frac{1}{2} \left( d_{ij}^2 - \frac{1}{n} \sum_{j=1}^n d_{ij}^2 - \frac{1}{n} \sum_{i=1}^n d_{ij}^2 + \frac{1}{n^2} \sum_{i=1}^n \sum_{j=1}^n d_{ij}^2 \right) -->
+<!--   \end{align*} -->
+<!-- :::  -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4570</span>) </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vegan)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">=</span> <span class="fu">metaMDS</span>(</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">comm =</span> dune, </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">distance =</span> <span class="st">"bray"</span>, </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">k =</span> <span class="dv">2</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Run 0 stress 0.1192678 
+Run 1 stress 0.1192678 
+... Procrustes: rmse 3.17397e-05  max resid 9.709634e-05 
+... Similar to previous best
+Run 2 stress 0.1183186 
+... New best solution
+... Procrustes: rmse 0.02026913  max resid 0.06495776 
+Run 3 stress 0.1192678 
+Run 4 stress 0.1939202 
+Run 5 stress 0.1183186 
+... New best solution
+... Procrustes: rmse 2.184957e-05  max resid 6.530542e-05 
+... Similar to previous best
+Run 6 stress 0.1192678 
+Run 7 stress 0.1192679 
+Run 8 stress 0.1808911 
+Run 9 stress 0.1192679 
+Run 10 stress 0.1808911 
+Run 11 stress 0.1192678 
+Run 12 stress 0.1982888 
+Run 13 stress 0.1192678 
+Run 14 stress 0.1192678 
+Run 15 stress 0.1192678 
+Run 16 stress 0.1192678 
+Run 17 stress 0.1192678 
+Run 18 stress 0.1183186 
+... New best solution
+... Procrustes: rmse 7.727579e-06  max resid 1.995558e-05 
+... Similar to previous best
+Run 19 stress 0.1192679 
+Run 20 stress 0.1192678 
+*** Best solution repeated 1 times</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+metaMDS(comm = dune, distance = "bray", k = 2) 
+
+global Multidimensional Scaling using monoMDS
+
+Data:     dune 
+Distance: bray 
+
+Dimensions: 2 
+Stress:     0.1183186 
+Stress type 1, weak ties
+Best solution was repeated 1 time in 20 tries
+The best solution was from try 18 (random start)
+Scaling: centring, PC rotation, halfchange scaling 
+Species: expanded scores based on 'dune' </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Distances in `metaMDS`">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Distances in <code>metaMDS</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The R function <code>metaMDS</code> provides lots of distance specifications, which can be retrieved by running the code <code>?vegdist</code>.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract NMDS site coordinates directly</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>site_coords <span class="ot">=</span> <span class="fu">as.data.frame</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  vegan<span class="sc">::</span><span class="fu">scores</span>(fit1, <span class="at">display =</span> <span class="st">"sites"</span>))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>site_coords <span class="ot">=</span> site_coords <span class="sc">%&gt;%</span> </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  tibble<span class="sc">::</span><span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">"Site"</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>meta_data <span class="ot">=</span> dune.env <span class="sc">%&gt;%</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">"Site"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Site, Management)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>site_scores <span class="ot">=</span> <span class="fu">left_join</span>(site_coords, meta_data, <span class="at">by =</span> <span class="st">"Site"</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(site_scores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Site"],"name":[1],"type":["chr"],"align":["left"]},{"label":["NMDS1"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["NMDS2"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Management"],"name":[4],"type":["fct"],"align":["left"]}],"data":[{"1":"1","2":"-0.84053751","3":"-0.71583817","4":"SF","_rn_":"1"},{"1":"2","2":"-0.50485236","3":"-0.40893721","4":"BF","_rn_":"2"},{"1":"3","2":"-0.08266727","3":"-0.43667706","4":"SF","_rn_":"3"},{"1":"4","2":"-0.11562102","3":"-0.52224095","4":"SF","_rn_":"4"},{"1":"5","2":"-0.62654373","3":"-0.08670052","4":"HF","_rn_":"5"},{"1":"6","2":"-0.54269526","3":"0.11315343","4":"HF","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Visualize scores</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(site_scores, </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> NMDS1, <span class="at">y =</span> NMDS2)) <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">color =</span> Management, <span class="at">shape =</span> Management), <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"NMDS Ordination"</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">subtitle =</span><span class="st">"Community Composition by Management Regime"</span>) <span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_discrete</span>(<span class="at">name =</span> <span class="st">"Management Type"</span>) <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_shape_discrete</span>(<span class="at">name =</span> <span class="st">"Management Type"</span>) <span class="sc">+</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_fixed</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-MDS_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Sites closer together have more similar plant species composition (Bray-Curtis)</figcaption>
+</figure>
+</div>
+</div>
+</div>
 <ul>
-<li><strong>Sum over <span class="math inline">j</span></strong>: Summing the equation <span class="math inline">d_{ij}=b_{ii}+b_{jj}-2b_{ij}</span> over all <span class="math inline">j=1,\ldots, n</span> gives <span class="math display">\begin{align*}
-\sum_{j=1}^n d_{ij} &amp;= \sum_{j=1}^n (b_{ii}+b_{jj}-2b_{ij}) \\
-&amp; = n b_{ii} + \sum_{j=1}^n b_{jj} -2\sum_{j=1}^n b_{ij} \\
-&amp;= n b_{ii} + \sum_{j=1}^n b_{jj}
-\end{align*}</span> where <span class="math inline">\sum_{j=1}^n b_{ij} = 0</span> because the rows of <span class="math inline">X</span> are centered.</li>
-<li><strong>Sum over <span class="math inline">i</span></strong>: Similarly, summing over <span class="math inline">i=1,\ldots, n</span> gives <span class="math display">\begin{align*}
-\sum_{i=1}^n d_{ij}^2 = \sum_{j=1}^n (b_{ii}+b_{jj}-2b_{ij}) = \sum_{i=1}^n b_{ii} + n b_{jj}.
-\end{align*}</span></li>
-<li><strong>Sum over both <span class="math inline">i,j</span></strong>: <span class="math display">\begin{align*}
-\sum_{i=1}^n \sum_{j=1}^n d_{ij}^2 &amp;= \sum_{i=1}^n \sum_{j=1}^n (b_{ii}+b_{jj}-2b_{ij}) \\
-&amp; = \sum_{i=1}^n n b_{ii} + \sum_{j=1}^n n b_{jj} - 2 \sum_{i=1}^n \sum_{j=1}^n b_{ij} \\
-&amp;= 2n \sum_{i=1}^n b_{ii}.
-\end{align*}</span></li>
+<li>Note: To perform the hypothesis testing, we could not use MANOVA as the data are Bray-Curtis dissimilarity matrix. Instead, one should use the so-called <strong><a href="https://en.wikipedia.org/wiki/Permutational_analysis_of_variance">PERMANOVA</a></strong> test that is designed for this kind of data. This test will not be discussed in this course. The plot above visually shows if the colored clusters are well-separated, the hypothesis is then supported, otherwise it won’t.</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we only look at how the scores would change according to </span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># moisture, A1, and management</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>fit.env <span class="ot">&lt;-</span> <span class="fu">envfit</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  fit1 <span class="sc">~</span> Moisture <span class="sc">+</span> A1 <span class="sc">+</span> Management, </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dune.env, </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">permutations =</span> <span class="dv">999</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">as.data.frame</span>(</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  vegan<span class="sc">::</span><span class="fu">scores</span>(fit.env, <span class="at">display=</span><span class="st">"vectors"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">"Environmental_Factor"</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">=</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">R2 =</span> fit.env<span class="sc">$</span>vectors<span class="sc">$</span>r, </span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_value =</span> fit.env<span class="sc">$</span>vectors<span class="sc">$</span><span class="st">`</span><span class="at">pvals</span><span class="st">`</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">NMDS1_Scaled =</span> NMDS1 <span class="sc">*</span> R2,</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">NMDS2_Scaled =</span> NMDS2 <span class="sc">*</span> R2</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(p_value <span class="sc">&lt;=</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(site_scores, </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> NMDS1, <span class="at">y =</span> NMDS2)) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">color =</span> Management, <span class="at">shape =</span> Management), </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">4</span>, </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> df1,</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">xend =</span> NMDS1, <span class="at">yend =</span> NMDS2),</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.3</span>, <span class="st">"cm"</span>)), </span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"darkred"</span>,</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> df1, </span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> NMDS1, <span class="at">y =</span> NMDS2, </span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">label =</span> <span class="fu">paste0</span>(Environmental_Factor, <span class="st">"</span><span class="sc">\n</span><span class="st">(R2="</span>, <span class="fu">round</span>(R2, <span class="dv">2</span>), <span class="st">")"</span>)), </span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"darkred"</span>,</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">4</span>, </span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">nudge_x =</span> <span class="fl">0.1</span>, </span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">nudge_y =</span> <span class="sc">-</span><span class="fl">0.1</span>,</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">fontface =</span> <span class="st">"bold"</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"NMDS Ordination with Significant Environmental Gradients"</span>) <span class="sc">+</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="08-MDS_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Interpretation</strong>
+<ul>
+<li>Clusters: The colors show that the Management regime clearly separates the sites, confirming the PERMANOVA result.</li>
+<li>Gradients: The dark red arrows show the most important continuous gradients. If the ‘A1’ arrow is long and points, for example, toward the ‘NM’ cluster, it means the plant community differences are strongly linked to the sites under nature conservation management.</li>
 </ul></li>
-<li>Solving for <span class="math inline">b_{ij}</span> based on the above equations gives <span class="math display">\begin{align*}
-b_{ij} = - \frac{1}{2} \left( d_{ij}^2 - \frac{1}{n} \sum_{j=1}^n d_{ij}^2 - \frac{1}{n} \sum_{i=1}^n d_{ij}^2 + \frac{1}{n^2} \sum_{i=1}^n \sum_{j=1}^n d_{ij}^2 \right)
-\end{align*}</span></li>
-</ul>
-</div>
-</div>
-</div>
-</section>
-<section id="non-metric-mds" class="level3" data-number="8.4.2">
-<h3 data-number="8.4.2" class="anchored" data-anchor-id="non-metric-mds"><span class="header-section-number">8.4.2</span> Non-metric MDS</h3>
-<p>When the proximity matrix is not a matrix of Euclidean distances, or when subjects can only make <strong>ordinal comparisons</strong> (e.g., one food is more salty than another), non-metric scaling is more appropriate. It is based on the rank ordering of the data, not their quantitative values.</p>
-<ul>
-<li><p>The goal is to minimize a “stress” criterion, which increases when the distances in the visual display disagree with the rank order of the original dissimilarities.</p></li>
-<li><p><strong>Stress Criterion</strong>: A common stress formula is Kruskal’s Stress: <span class="math display">\begin{equation}
-Stress = \sqrt{\frac{\sum_{i&lt;j}(d_{ij} - \hat{d}_{ij})^2}{\sum_{i&lt;j}\hat{d}_{ij}^2}}
-\end{equation}</span> Here, <span class="math inline">d_{ij}</span> is the distance between points <span class="math inline">i</span> and <span class="math inline">j</span> in the low-dimensional space, and <span class="math inline">\hat{d}_{ij}</span> is the “disparity,” a monotonic transformation of the original dissimilarities <span class="math inline">\delta_{ij}</span>.</p></li>
 </ul>
 </section>
 </section>
-<section id="choosing-the-embedding-dimension" class="level2" data-number="8.5">
-<h2 data-number="8.5" class="anchored" data-anchor-id="choosing-the-embedding-dimension"><span class="header-section-number">8.5</span> Choosing the Embedding Dimension</h2>
+<section id="goodness-of-fit-metrics" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="goodness-of-fit-metrics"><span class="header-section-number">8.5</span> Goodness of Fit Metrics</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Metric MDS (mMDS / Classical MDS)</th>
+<th style="text-align: left;">Non-Metric MDS (NMDS / Kruskal’s)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Primary Goal</strong></td>
+<td style="text-align: left;">Preserve the <strong>absolute numerical values</strong> (<span class="math inline">\delta_{ij}</span>).</td>
+<td style="text-align: left;">Preserve the <strong>rank order</strong> of the dissimilarities (<span class="math inline">\text{rank}(\delta_{ij})</span>).</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Core Metric</strong></td>
+<td style="text-align: left;">Strain (or Metric Stress) (Variance Explained)**</td>
+<td style="text-align: left;"><strong>Kruskal’s Stress 1 (<span class="math inline">S</span>)</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>What is Measured</strong></td>
+<td style="text-align: left;">The discrepancy between the original metric distances and the final map distances (<span class="math inline">d_{ij}</span>).</td>
+<td style="text-align: left;">The discrepancy between the map distances (<span class="math inline">d_{ij}</span>) and the distances that perfectly preserve the input rank order (<span class="math inline">\hat{d}_{ij}</span>).</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Interpretation</strong></td>
+<td style="text-align: left;">The strain indicates the proportion of total variation in the original distance matrix captured by the chosen dimensions.</td>
+<td style="text-align: left;">The <span class="math inline">S</span> value indicates how well the map’s geometry reflects the <strong>ordering</strong> of the input dissimilarities.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Rule of Thumb</strong></td>
+<td style="text-align: left;">A high strain (e.g., <strong><span class="math inline">&gt; 0.70</span></strong>) is desirable.</td>
+<td style="text-align: left;">A low Stress value (e.g., <strong><span class="math inline">&lt; 0.15</span></strong>) is required for a reliable map interpretation.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Visual Check</strong></td>
+<td style="text-align: left;"><strong>Scree Plot</strong> (for variance explained by dimension).</td>
+<td style="text-align: left;"><strong>Shepard Diagram</strong> (visualizes preservation of rank order).</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled" title="Strain">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Strain
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>Two simple cumulative fit measures are: <span class="math display">\begin{equation*}
 P_m = \frac{\sum_{k=1}^m |\lambda_k|}{\sum_{k=1}^n |\lambda_k|},
 \qquad
@@ -546,179 +967,107 @@ P_m = \frac{\sum_{k=1}^m \lambda_k^2}{\sum_{k=1}^n \lambda_k^2}.
 \end{equation*}</span></p>
 <ul>
 <li>Values of <span class="math inline">P_m</span> near 0.8 or above suggest a reasonable fit.</li>
-<li>If <span class="math inline">B</span> has a considerable number of large negative eigenvalues, the MDS method described above should not be used, and non-metric scaling should be considered.</li>
+<li>If <span class="math inline">B</span> has a considerable number of large negative eigenvalues, the metric MDS method should not be used, and non-metric scaling should be considered.</li>
+<li>Strain preserves distance/variance.</li>
 </ul>
-</section>
-<section id="illustrative-examples" class="level2" data-number="8.6">
-<h2 data-number="8.6" class="anchored" data-anchor-id="illustrative-examples"><span class="header-section-number">8.6</span> Illustrative Examples</h2>
-<section id="example-1-classical-mds" class="level3" data-number="8.6.1">
-<h3 data-number="8.6.1" class="anchored" data-anchor-id="example-1-classical-mds"><span class="header-section-number">8.6.1</span> Example 1: Classical MDS</h3>
-<p>Let’s apply classical MDS to a dataset with 10 individuals and 5 variables to find a low-dimensional representation. We’ll follow the process of creating a proximity matrix and then applying <code>cmdscale()</code>.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>R Code: cMDS fit</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mdsex1 <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">y1=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">7</span>,<span class="dv">2</span>),</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y2=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">7</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">1</span>),</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y3=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">4</span>),</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y4=</span><span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">3</span>),</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">y5=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">1</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>D <span class="ot">=</span> <span class="fu">dist</span>(mdsex1)                        </span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">cmdscale</span>(D, <span class="at">k =</span> <span class="dv">9</span>, <span class="at">eig =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>$points
-            [,1]        [,2]       [,3]       [,4]        [,5]          [,6]
- [1,] -1.6038325  2.38060903 -2.2301092 -0.3656856  0.11536476  4.351965e-08
- [2,] -2.8246377 -2.30937202 -3.9523782  0.3419185  0.33169405 -2.557375e-08
- [3,] -1.6908272 -5.13970089  1.2880306  0.6503227 -0.05133897 -6.960090e-09
- [4,]  3.9527719 -2.43233961  0.3833746  0.6863995 -0.03460933  1.009080e-08
- [5,] -3.5984894  2.75538195 -0.2551393  1.0783741 -1.26125237 -2.744782e-08
- [6,]  2.9520356  1.35475175 -0.1899027 -2.8211220  0.12385813 -4.832234e-08
- [7,]  3.4689928  0.76411068  0.3016531  1.6369166 -1.94209512  5.971916e-10
- [8,]  0.3545235  2.31408566  2.2161772  2.9240116  2.00450379 -1.576644e-08
- [9,] -2.9362323 -0.01279597  4.3117385 -2.5122743 -0.18911558  9.029253e-09
-[10,]  1.9256952  0.32526941 -1.8734445 -1.6188611  0.90299062  1.028991e-08
-               [,7]          [,8]
- [1,]  0.000000e+00  0.000000e+00
- [2,]  1.163587e-08  1.006996e-08
- [3,] -1.536081e-08  1.503930e-08
- [4,]  4.840756e-08 -9.655816e-09
- [5,]  2.724436e-08  7.565465e-09
- [6,] -5.008021e-09 -5.276947e-09
- [7,] -1.209471e-08  2.745223e-08
- [8,]  1.665413e-09  1.234948e-08
- [9,]  1.631006e-08  1.627690e-08
-[10,]  9.154666e-09  4.311431e-08
-
-$eig
- [1]  7.518716e+01  5.880560e+01  4.960516e+01  3.042789e+01  1.037419e+01
- [6]  6.223022e-15  3.980857e-15  3.535818e-15 -6.959170e-15 -1.030354e-14
-
-$x
-NULL
-
-$ac
-[1] 0
-
-$GOF
-[1] 1 1</code></pre>
-</div>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>R Code: Check Distances</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">max</span>(<span class="fu">abs</span>(D <span class="sc">-</span> <span class="fu">dist</span>(<span class="fu">cmdscale</span>(D,<span class="at">k=</span><span class="dv">2</span>)))), </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">max</span>(<span class="fu">abs</span>(D <span class="sc">-</span> <span class="fu">dist</span>(<span class="fu">cmdscale</span>(D,<span class="at">k=</span><span class="dv">5</span>)))),</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">max</span>(<span class="fu">abs</span>(D <span class="sc">-</span> <span class="fu">dist</span>(<span class="fu">cmdscale</span>(D,<span class="at">k=</span><span class="dv">9</span>))))</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 6.756099e+00 1.598721e-14 1.598721e-14</code></pre>
-</div>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>R Code: Compute PM Critera</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>eig <span class="ot">&lt;-</span> fit<span class="sc">$</span>eig</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>pm1 <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(<span class="fu">abs</span>(eig)) <span class="sc">/</span> <span class="fu">sum</span>(<span class="fu">abs</span>(eig))</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>pm2 <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(eig<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">sum</span>(eig<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">m =</span> <span class="fu">seq_along</span>(eig), <span class="at">PM1 =</span> pm1, <span class="at">PM2 =</span> pm2)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recall the air distance example</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">cmdscale</span>(<span class="at">d=</span>D, <span class="at">k=</span><span class="dv">2</span>, <span class="at">eig=</span><span class="cn">TRUE</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>eig <span class="ot">&lt;-</span> fit<span class="sc">$</span>eig</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>pm1 <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(<span class="fu">abs</span>(eig)) <span class="sc">/</span> <span class="fu">sum</span>(<span class="fu">abs</span>(eig))</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>pm2 <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(eig<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">sum</span>(eig<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">m =</span> <span class="fu">seq_along</span>(eig), <span class="at">PM1 =</span> pm1, <span class="at">PM2 =</span> pm2)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["m"],"name":[1],"type":["int"],"align":["right"]},{"label":["PM1"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["PM2"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0.3350586","3":"0.4484687","_rn_":"1"},{"1":"2","2":"0.5971157","3":"0.7228043","_rn_":"2"},{"1":"3","2":"0.8181726","3":"0.9180126","_rn_":"3"},{"1":"4","2":"0.9537692","3":"0.9914621","_rn_":"4"},{"1":"5","2":"1.0000000","3":"1.0000000","_rn_":"5"},{"1":"6","2":"1.0000000","3":"1.0000000","_rn_":"6"},{"1":"7","2":"1.0000000","3":"1.0000000","_rn_":"7"},{"1":"8","2":"1.0000000","3":"1.0000000","_rn_":"8"},{"1":"9","2":"1.0000000","3":"1.0000000","_rn_":"9"},{"1":"10","2":"1.0000000","3":"1.0000000","_rn_":"10"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["m"],"name":[1],"type":["int"],"align":["right"]},{"label":["PM1"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["PM2"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0.8459451","3":"0.9699416","_rn_":"1"},{"1":"2","2":"0.9948288","3":"0.9999855","_rn_":"2"},{"1":"3","2":"0.9956236","3":"0.9999863","_rn_":"3"},{"1":"4","2":"0.9959567","3":"0.9999865","_rn_":"4"},{"1":"5","2":"0.9960655","3":"0.9999865","_rn_":"5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
 </div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Stress">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Stress
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>For non-metric MDS, we can obtain stress directly from the R output.</li>
+<li>Stress preserves the rank order.</li>
+</ul>
 <div class="cell">
-<details class="code-fold">
-<summary>R Code: Visualization</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df.X <span class="ot">=</span> <span class="fu">as_tibble</span>(</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  fit<span class="sc">$</span>points[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>], </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">.name_repair =</span> <span class="st">"unique"</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df.X) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Dim1"</span>, <span class="st">"Dim2"</span>, <span class="st">"Dim3"</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>df.X<span class="sc">$</span>label <span class="ot">=</span> <span class="fu">rownames</span>(mdsex1)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">=</span> <span class="fu">ggplot</span>(df.X, </span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x =</span> Dim1, </span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> Dim2, </span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">label =</span> label)) <span class="sc">+</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">vjust =</span> <span class="fl">1.5</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"MDS Plot: Coordinates 1 and 2"</span>,</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Coordinate 1"</span>,</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Coordinate 2"</span></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  ) </span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">=</span> <span class="fu">ggplot</span>(df.X, </span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x =</span> Dim1, </span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> Dim3, </span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>                <span class="at">label =</span> label)) <span class="sc">+</span></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">vjust =</span> <span class="fl">1.5</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"MDS Plot: Coordinates 1 and 3"</span>,</span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Coordinate 1"</span>,</span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Coordinate 3"</span></span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  ) </span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>patchwork<span class="sc">::</span><span class="fu">wrap_plots</span>(g1,g2, <span class="at">ncol=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recal the dune data example </span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>fit1<span class="sc">$</span>stress</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1183186</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stressplot</span>(fit1, </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">main =</span> <span class="st">"Shepard Diagram"</span>,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="08-MDS_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="08-MDS_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="example-2-house-voting-dissimilarities" class="level3" data-number="8.6.2">
-<h3 data-number="8.6.2" class="anchored" data-anchor-id="example-2-house-voting-dissimilarities"><span class="header-section-number">8.6.2</span> Example 2: House voting (dissimilarities)</h3>
+<section id="exercises" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">8.6</span> Exercises</h2>
+<section id="house-voting-dissimilarities" class="level3" data-number="8.6.1">
+<h3 data-number="8.6.1" class="anchored" data-anchor-id="house-voting-dissimilarities"><span class="header-section-number">8.6.1</span> House voting (dissimilarities)</h3>
 <p>Let’s analyze the voting dissimilarities of 15 U.S. congressmen from New Jersey on 19 environmental bills using non-metric MDS. The dissimilarity matrix is based on the number of times they voted differently. Higher value means more dissimilarity. We’ll apply <code>MASS::isoMDS</code>, then draw a Shepard diagram to assess monotonic fit.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>R Code: House Voting Data</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>repnames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Hunt(R)"</span>,<span class="st">"Sandman(R)"</span>,<span class="st">"Howard(D)"</span>,</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Thompson(D)"</span>,<span class="st">"Freylinghuysen(R)"</span>,</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Forsythe(R)"</span>,<span class="st">"Widnall(R)"</span>,<span class="st">"Roe(D)"</span>,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Heltoski(D)"</span>,<span class="st">"Rodino(D)"</span>,</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Minish(D)"</span>,<span class="st">"Rinaldo(R)"</span>,<span class="st">"Maraziti(R)"</span>,</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Daniels(D)"</span>,<span class="st">"Patten(D)"</span>)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>repvote <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">8</span>,<span class="dv">15</span>,<span class="dv">15</span>,<span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">7</span>,<span class="dv">15</span>,<span class="dv">16</span>,<span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">16</span>, <span class="dv">7</span>,<span class="dv">11</span>,<span class="dv">13</span>,</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">8</span>, <span class="dv">0</span>,<span class="dv">17</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">13</span>,<span class="dv">12</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">15</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">13</span>,<span class="dv">12</span>,<span class="dv">16</span>,</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a> <span class="dv">15</span>,<span class="dv">17</span>, <span class="dv">0</span>, <span class="dv">9</span>,<span class="dv">16</span>,<span class="dv">12</span>,<span class="dv">15</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">4</span>,<span class="dv">11</span>,<span class="dv">10</span>, <span class="dv">7</span>,</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a> <span class="dv">15</span>,<span class="dv">12</span>, <span class="dv">9</span>, <span class="dv">0</span>,<span class="dv">14</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">10</span>, <span class="dv">8</span>, <span class="dv">8</span>, <span class="dv">8</span>, <span class="dv">6</span>,<span class="dv">15</span>,<span class="dv">10</span>, <span class="dv">7</span>,</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a> <span class="dv">10</span>,<span class="dv">13</span>,<span class="dv">16</span>,<span class="dv">14</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">9</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">12</span>,<span class="dv">12</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">11</span>,</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="dv">9</span>,<span class="dv">13</span>,<span class="dv">12</span>,<span class="dv">12</span>, <span class="dv">8</span>, <span class="dv">0</span>, <span class="dv">7</span>,<span class="dv">12</span>,<span class="dv">11</span>,<span class="dv">10</span>, <span class="dv">9</span>,<span class="dv">10</span>, <span class="dv">6</span>, <span class="dv">6</span>,<span class="dv">10</span>,</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="dv">7</span>,<span class="dv">12</span>,<span class="dv">15</span>,<span class="dv">13</span>, <span class="dv">9</span>, <span class="dv">7</span>, <span class="dv">0</span>,<span class="dv">17</span>,<span class="dv">16</span>,<span class="dv">15</span>,<span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">13</span>,</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a> <span class="dv">15</span>,<span class="dv">16</span>, <span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">13</span>,<span class="dv">12</span>,<span class="dv">17</span>, <span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">3</span>,<span class="dv">12</span>, <span class="dv">7</span>, <span class="dv">6</span>,</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a> <span class="dv">16</span>,<span class="dv">17</span>, <span class="dv">5</span>, <span class="dv">8</span>,<span class="dv">14</span>,<span class="dv">11</span>,<span class="dv">16</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>,<span class="dv">13</span>, <span class="dv">7</span>, <span class="dv">5</span>,</span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a> <span class="dv">14</span>,<span class="dv">15</span>, <span class="dv">6</span>, <span class="dv">8</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">15</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>,<span class="dv">11</span>, <span class="dv">4</span>, <span class="dv">6</span>,</span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a> <span class="dv">15</span>,<span class="dv">16</span>, <span class="dv">5</span>, <span class="dv">8</span>,<span class="dv">12</span>, <span class="dv">9</span>,<span class="dv">14</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>,<span class="dv">12</span>, <span class="dv">5</span>, <span class="dv">5</span>,</span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a> <span class="dv">16</span>,<span class="dv">17</span>, <span class="dv">4</span>, <span class="dv">6</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">15</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>,<span class="dv">12</span>, <span class="dv">6</span>, <span class="dv">4</span>,</span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  <span class="dv">7</span>,<span class="dv">13</span>,<span class="dv">11</span>,<span class="dv">15</span>,<span class="dv">10</span>, <span class="dv">6</span>,<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">12</span>, <span class="dv">0</span>, <span class="dv">9</span>,<span class="dv">13</span>,</span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a> <span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">11</span>, <span class="dv">6</span>,<span class="dv">11</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">0</span>, <span class="dv">9</span>,</span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a> <span class="dv">13</span>,<span class="dv">16</span>, <span class="dv">7</span>, <span class="dv">7</span>,<span class="dv">11</span>,<span class="dv">10</span>,<span class="dv">13</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">4</span>,<span class="dv">13</span>, <span class="dv">9</span>, <span class="dv">0</span></span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>), <span class="at">nrow=</span><span class="dv">15</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>, <span class="at">dimnames=</span><span class="fu">list</span>(repnames, repnames))</span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(repvote)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>repnames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Hunt(R)"</span>,<span class="st">"Sandman(R)"</span>,<span class="st">"Howard(D)"</span>,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Thompson(D)"</span>,<span class="st">"Freylinghuysen(R)"</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Forsythe(R)"</span>,<span class="st">"Widnall(R)"</span>,<span class="st">"Roe(D)"</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Heltoski(D)"</span>,<span class="st">"Rodino(D)"</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Minish(D)"</span>,<span class="st">"Rinaldo(R)"</span>,<span class="st">"Maraziti(R)"</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Daniels(D)"</span>,<span class="st">"Patten(D)"</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>repvote <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">8</span>,<span class="dv">15</span>,<span class="dv">15</span>,<span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">7</span>,<span class="dv">15</span>,<span class="dv">16</span>,<span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">16</span>, <span class="dv">7</span>,<span class="dv">11</span>,<span class="dv">13</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">8</span>, <span class="dv">0</span>,<span class="dv">17</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">13</span>,<span class="dv">12</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">15</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">13</span>,<span class="dv">12</span>,<span class="dv">16</span>,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a> <span class="dv">15</span>,<span class="dv">17</span>, <span class="dv">0</span>, <span class="dv">9</span>,<span class="dv">16</span>,<span class="dv">12</span>,<span class="dv">15</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">4</span>,<span class="dv">11</span>,<span class="dv">10</span>, <span class="dv">7</span>,</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a> <span class="dv">15</span>,<span class="dv">12</span>, <span class="dv">9</span>, <span class="dv">0</span>,<span class="dv">14</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">10</span>, <span class="dv">8</span>, <span class="dv">8</span>, <span class="dv">8</span>, <span class="dv">6</span>,<span class="dv">15</span>,<span class="dv">10</span>, <span class="dv">7</span>,</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a> <span class="dv">10</span>,<span class="dv">13</span>,<span class="dv">16</span>,<span class="dv">14</span>, <span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">9</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">12</span>,<span class="dv">12</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">11</span>,</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="dv">9</span>,<span class="dv">13</span>,<span class="dv">12</span>,<span class="dv">12</span>, <span class="dv">8</span>, <span class="dv">0</span>, <span class="dv">7</span>,<span class="dv">12</span>,<span class="dv">11</span>,<span class="dv">10</span>, <span class="dv">9</span>,<span class="dv">10</span>, <span class="dv">6</span>, <span class="dv">6</span>,<span class="dv">10</span>,</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="dv">7</span>,<span class="dv">12</span>,<span class="dv">15</span>,<span class="dv">13</span>, <span class="dv">9</span>, <span class="dv">7</span>, <span class="dv">0</span>,<span class="dv">17</span>,<span class="dv">16</span>,<span class="dv">15</span>,<span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">13</span>,</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a> <span class="dv">15</span>,<span class="dv">16</span>, <span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">13</span>,<span class="dv">12</span>,<span class="dv">17</span>, <span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">3</span>,<span class="dv">12</span>, <span class="dv">7</span>, <span class="dv">6</span>,</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a> <span class="dv">16</span>,<span class="dv">17</span>, <span class="dv">5</span>, <span class="dv">8</span>,<span class="dv">14</span>,<span class="dv">11</span>,<span class="dv">16</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>,<span class="dv">13</span>, <span class="dv">7</span>, <span class="dv">5</span>,</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a> <span class="dv">14</span>,<span class="dv">15</span>, <span class="dv">6</span>, <span class="dv">8</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">15</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>,<span class="dv">11</span>, <span class="dv">4</span>, <span class="dv">6</span>,</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a> <span class="dv">15</span>,<span class="dv">16</span>, <span class="dv">5</span>, <span class="dv">8</span>,<span class="dv">12</span>, <span class="dv">9</span>,<span class="dv">14</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>,<span class="dv">12</span>, <span class="dv">5</span>, <span class="dv">5</span>,</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a> <span class="dv">16</span>,<span class="dv">17</span>, <span class="dv">4</span>, <span class="dv">6</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">15</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>,<span class="dv">12</span>, <span class="dv">6</span>, <span class="dv">4</span>,</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>  <span class="dv">7</span>,<span class="dv">13</span>,<span class="dv">11</span>,<span class="dv">15</span>,<span class="dv">10</span>, <span class="dv">6</span>,<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">12</span>, <span class="dv">0</span>, <span class="dv">9</span>,<span class="dv">13</span>,</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a> <span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">11</span>, <span class="dv">6</span>,<span class="dv">11</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">0</span>, <span class="dv">9</span>,</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a> <span class="dv">13</span>,<span class="dv">16</span>, <span class="dv">7</span>, <span class="dv">7</span>,<span class="dv">11</span>,<span class="dv">10</span>,<span class="dv">13</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">4</span>,<span class="dv">13</span>, <span class="dv">9</span>, <span class="dv">0</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>), <span class="at">nrow=</span><span class="dv">15</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>, <span class="at">dimnames=</span><span class="fu">list</span>(repnames, repnames))</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(repvote)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>R Code: Non-metric MDS</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>nm <span class="ot">&lt;-</span> <span class="fu">isoMDS</span>(D) <span class="co"># 2D by default</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>nm <span class="ot">&lt;-</span> <span class="fu">isoMDS</span>(D) <span class="co"># 2D by default</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>initial  value 15.268246 
@@ -728,7 +1077,7 @@ converged</code></pre>
 </div>
 <details class="code-fold">
 <summary>R Code: Non-metric MDS</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nm<span class="sc">$</span>points)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nm<span class="sc">$</span>points)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>                       [,1]      [,2]
@@ -743,7 +1092,7 @@ Forsythe(R)       -3.278710 -2.568967</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>R Code: Check Stress</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>nm<span class="sc">$</span>stress</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>nm<span class="sc">$</span>stress</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 9.879047</code></pre>
@@ -753,34 +1102,34 @@ Forsythe(R)       -3.278710 -2.568967</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>R Code: Visualization</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df.nm <span class="ot">=</span> <span class="fu">as_tibble</span>(nm<span class="sc">$</span>points, </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">.name_repair =</span><span class="st">"unique"</span>)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df.nm) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Dim1"</span>, <span class="st">"Dim2"</span>)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>df.nm<span class="sc">$</span>id <span class="ot">=</span> <span class="fu">rownames</span>(nm<span class="sc">$</span>points)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract party from the congressman names</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>df.nm <span class="ot">=</span> df.nm <span class="sc">%&gt;%</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">party =</span> </span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>           <span class="fu">str_extract</span>(id, <span class="st">"</span><span class="sc">\\</span><span class="st">(R</span><span class="sc">\\</span><span class="st">)|</span><span class="sc">\\</span><span class="st">(D</span><span class="sc">\\</span><span class="st">)"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">party =</span> <span class="fu">str_remove_all</span>(party, <span class="st">"[()]"</span>)</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>         )</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df.nm, </span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Dim1, <span class="at">y =</span> Dim2, </span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> id, <span class="at">color =</span> party)) <span class="sc">+</span></span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">nudge_y =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Non-metric MDS of Congressman Voting Records"</span>,</span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Separation by Party Affiliation"</span>,</span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Dimension 1"</span>,</span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Dimension 2"</span></span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df.nm <span class="ot">=</span> <span class="fu">as_tibble</span>(nm<span class="sc">$</span>points, </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">.name_repair =</span><span class="st">"unique"</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df.nm) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Dim1"</span>, <span class="st">"Dim2"</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>df.nm<span class="sc">$</span>id <span class="ot">=</span> <span class="fu">rownames</span>(nm<span class="sc">$</span>points)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract party from the congressman names</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>df.nm <span class="ot">=</span> df.nm <span class="sc">%&gt;%</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">party =</span> </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>           <span class="fu">str_extract</span>(id, <span class="st">"</span><span class="sc">\\</span><span class="st">(R</span><span class="sc">\\</span><span class="st">)|</span><span class="sc">\\</span><span class="st">(D</span><span class="sc">\\</span><span class="st">)"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">party =</span> <span class="fu">str_remove_all</span>(party, <span class="st">"[()]"</span>)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>         )</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df.nm, </span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Dim1, <span class="at">y =</span> Dim2, </span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> id, <span class="at">color =</span> party)) <span class="sc">+</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">nudge_y =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Non-metric MDS of Congressman Voting Records"</span>,</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Separation by Party Affiliation"</span>,</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Dimension 1"</span>,</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Dimension 2"</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="08-MDS_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="08-MDS_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -793,36 +1142,21 @@ Forsythe(R)       -3.278710 -2.568967</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>R Code: Shepard diagram</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>sh <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">Shepard</span>(D, nm<span class="sc">$</span>points)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sh, <span class="at">pch=</span><span class="st">"."</span>, <span class="at">xlab=</span><span class="st">"Dissimilarity"</span>, <span class="at">ylab=</span><span class="st">"Distance"</span>)</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(sh<span class="sc">$</span>x, sh<span class="sc">$</span>yf, <span class="at">type=</span><span class="st">"S"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>sh <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">Shepard</span>(D, nm<span class="sc">$</span>points)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sh, <span class="at">pch=</span><span class="st">"."</span>, <span class="at">xlab=</span><span class="st">"Dissimilarity"</span>, <span class="at">ylab=</span><span class="st">"Distance"</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(sh<span class="sc">$</span>x, sh<span class="sc">$</span>yf, <span class="at">type=</span><span class="st">"S"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="08-MDS_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="08-MDS_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-</section>
-</section>
-<section id="connections-to-pca" class="level2" data-number="8.7">
-<h2 data-number="8.7" class="anchored" data-anchor-id="connections-to-pca"><span class="header-section-number">8.7</span> Connections to PCA</h2>
-<p>If <span class="math inline">D</span> comes from Euclidean distances among centered rows of a data matrix <span class="math inline">Y\in\mathbb{R}^{n\times q}</span>, then cMDS on <span class="math inline">D</span> is equivalent to PCA on <span class="math inline">YY^\top</span> (up to scaling). In fact, with centered <span class="math inline">Y</span>, <span class="math display">\begin{equation*}
-d_{ij}^2 = |\mathbf{y}_i - \mathbf{y}_j|^2 = b_{ii} + b_{jj} - 2 b_{ij},
-\end{equation*}</span> where <span class="math inline">B=XX^\top</span> and <span class="math inline">b_{ij}</span> are its entries. Double-centering retrieves <span class="math inline">B</span> (and thus PCA). This is why classical MDS is also called <strong><em>principal coordinates analysis</em></strong>.</p>
-</section>
-<section id="practical-tips" class="level2" data-number="8.8">
-<h2 data-number="8.8" class="anchored" data-anchor-id="practical-tips"><span class="header-section-number">8.8</span> Practical tips</h2>
-<ul>
-<li><strong>Centering:</strong> cMDS assumes centered coordinates (imposed by <span class="math inline">J</span>). Translations/rotations/reflections of the final configuration are immaterial.</li>
-<li><strong>Negative eigenvalues:</strong> Substantive negatives suggest non-Euclidean proximities; you can still plot using the largest positive eigenvalues, but interpret cautiously.</li>
-<li><strong>Dimension choice:</strong> Use <span class="math inline">P_m</span>’s or compare the recovered distance matrix with original distance matrix.</li>
-<li><strong>Diagnostics:</strong> Always look at stress (nmMDS) and a Shepard diagram.</li>
-</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
