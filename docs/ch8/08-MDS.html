@@ -363,11 +363,11 @@ window.Quarto = {
 <p>MDS is a collection of different algorithms, designed to arrive at optimal low-dimensional (usually 2 or 3 dimensions) representation of the data, whose inter-point distances (or <strong><em>dissimilarities</em></strong>) are as close as possible to that in the original space. The figure below illustrates the core idea of MDS. <img src="./figures/MDS_idea.jpg" class="img-fluid" alt="Basic idea of MDS"></p>
 <ul>
 <li><p>Given a <span class="math inline">n\times p</span> data matrix <span class="math inline">{Y}=[\mathbf{y}_1, \mathbf{y}_2, \ldots, \mathbf{y}_n]'</span>. (This is often not required for MDS!)</p></li>
-<li><p>Let <span class="math inline">D=(d_{ij})_{i,j=1,\ldots, n}</span> denote n <span class="math inline">n\times n</span> <strong><em>distance matrix</em></strong> (for <span class="math inline">{Y}</span>).</p></li>
+<li><p>Let <span class="math inline">D=(d_{ij})_{i,j=1,\ldots, n}</span> denote an <span class="math inline">n\times n</span> <strong><em>distance matrix</em></strong> (for <span class="math inline">{Y}</span>).</p></li>
 <li><p>MDS aims to find <span class="math inline">m (&lt; p)</span> and a set of <span class="math inline">m</span>-dimensional points <span class="math inline">\mathbf{x}_1, \ldots, \mathbf{x}_n</span> in the Euclidean space <span class="math inline">\mathbb{R}^m</span> (also called ordination space) such that <span class="math display">\begin{align*}
 \delta_{ij}:=\|\mathbf{x}_i - \mathbf{x}_j \|_2 \approx d_{ij} \text{ as close as possible}.
 \end{align*}</span></p></li>
-<li><p>MDS returns coordinates <span class="math inline">{\mathbf{x}_1,\ldots,\mathbf{x}_n}</span> in <span class="math inline">\mathbb{R}^m</span> so that the Euclidean distances <span class="math inline">\delta_{ij}=\|\mathbf{x}_i-\mathbf{x}_j\|_2</span> reflect the given proximities (<span class="math inline">d_{ij}</span>) as closely as possible (larger dissimilarity <span class="math inline">\Rightarrow</span> farther apart).</p></li>
+<li><p>MDS returns coordinates (also called <strong>scores</strong>) <span class="math inline">{\mathbf{x}_1,\ldots,\mathbf{x}_n}</span> in <span class="math inline">\mathbb{R}^m</span> so that the Euclidean distances <span class="math inline">\delta_{ij}=\|\mathbf{x}_i-\mathbf{x}_j\|_2</span> reflect the given proximities (<span class="math inline">d_{ij}</span>) as closely as possible (larger dissimilarity <span class="math inline">\Rightarrow</span> farther apart).</p></li>
 </ul>
 </section>
 <section id="how-to-construct-the-distanceproximity-matrix-d" class="level3" data-number="8.3.2">
@@ -399,7 +399,7 @@ Common metric distances
 <ul>
 <li><p>Let <span class="math inline">\mathbf{y}_i=(y_{i1}, \ldots, y_{ip})^\top</span> denote an observation of <span class="math inline">p</span> variables.</p></li>
 <li><p>The Euclidean distance between <span class="math inline">\mathbf{y}_i</span> and <span class="math inline">\mathbf{y}_j</span> is defined as <span class="math display">\begin{align*}
-\|\mathbf{y}_i -\mathbf{y}_j\|_2: = (\mathbf{y}_i - \mathbf{y}_j)^\top(\mathbf{y}_i - \mathbf{y}_j)
+\|\mathbf{y}_i -\mathbf{y}_j\|_2: = \sqrt{(\mathbf{y}_i - \mathbf{y}_j)^\top(\mathbf{y}_i - \mathbf{y}_j)}
 =\sqrt{\sum_{k=1}^p (y_{ik}-y_{jk})^2}
 \end{align*}</span></p></li>
 <li><p>The <span class="math inline">L_1</span> distance (also called Manhattan or taxicab metric) between <span class="math inline">\mathbf{y}_i</span> and <span class="math inline">\mathbf{y}_j</span> is defined as <span class="math display">\begin{align*}
@@ -466,7 +466,7 @@ J = \frac{|A \cap B|}{|A \cup B|}
 <li><span class="math inline">|A \cap B|</span> (intersection): the number of species present in both Site <span class="math inline">A</span> and Site <span class="math inline">B</span>.</li>
 <li><span class="math inline">|A \cup B|</span> (Union): the total number of unique species found in either Site <span class="math inline">A</span> or Site <span class="math inline">B</span>.</li>
 </ul></li>
-<li>The Jaccard Dissimilarity (<span class="math inline">D_J</span>): Since MDS requires a measure of dissimilarity (distance), the standard Jaccard index <span class="math inline">J</span> is converted to a dissimilarity measure <span class="math inline">D_J:=1-J</span>.
+<li>The <strong>Jaccard Dissimilarity</strong> (<span class="math inline">D_J</span>): Since MDS requires a measure of dissimilarity (distance), the standard Jaccard index <span class="math inline">J</span> is converted to a dissimilarity measure <span class="math inline">D_J:=1-J</span>.
 <ul>
 <li>Identical sites: <span class="math inline">D_J=0\rightarrow</span> All species present are <strong>shared</strong>.</li>
 <li>Maximally dissimilar: <span class="math inline">D_J=1\rightarrow</span> The sites share <strong>no species</strong> in common.</li>
@@ -923,13 +923,13 @@ Distances in <code>metaMDS</code>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Core Metric</strong></td>
-<td style="text-align: left;">Strain (or Metric Stress) (Variance Explained)**</td>
+<td style="text-align: left;">Strain (or Metric Stress) <strong>(Variance Explained)</strong></td>
 <td style="text-align: left;"><strong>Kruskal’s Stress 1 (<span class="math inline">S</span>)</strong></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>What is Measured</strong></td>
-<td style="text-align: left;">The discrepancy between the original metric distances and the final map distances (<span class="math inline">d_{ij}</span>).</td>
-<td style="text-align: left;">The discrepancy between the map distances (<span class="math inline">d_{ij}</span>) and the distances that perfectly preserve the input rank order (<span class="math inline">\hat{d}_{ij}</span>).</td>
+<td style="text-align: left;">The discrepancy between the original metric distances (<span class="math inline">d_{ij}</span>) and the final map distances (<span class="math inline">\delta_{ij}</span>).</td>
+<td style="text-align: left;">The discrepancy between the rank of map distances (<span class="math inline">\delta_{ij}</span>) and the rank of original distances (<span class="math inline">{d}_{ij}</span>).</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Interpretation</strong></td>
@@ -1063,6 +1063,18 @@ Stress
 <span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(repvote)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<div class="callout callout-style-default callout-tip callout-titled" title="View Solution">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+View Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <div class="cell">
 <details class="code-fold">
 <summary>R Code: Non-metric MDS</summary>
@@ -1151,6 +1163,9 @@ Forsythe(R)       -3.278710 -2.568967</code></pre>
 <figure class="figure">
 <p><img src="08-MDS_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>

@@ -104,13 +104,14 @@ MDS is a collection of different algorithms, designed to arrive at optimal low-d
 ![Basic idea of MDS](./figures/MDS_idea.jpg){width=80%,fig-align="center"}
 
 * Given a $n\times p$ data matrix ${Y}=[\mathbf{y}_1, \mathbf{y}_2, \ldots, \mathbf{y}_n]'$. (This is often not required for MDS!)
-* Let $D=(d_{ij})_{i,j=1,\ldots, n}$ denote n $n\times n$ ***distance matrix*** (for ${Y}$).
+* Let $D=(d_{ij})_{i,j=1,\ldots, n}$ denote an $n\times n$ ***distance matrix*** (for ${Y}$).
 * MDS aims to find $m (< p)$ and a set of $m$-dimensional points $\mathbf{x}_1, \ldots, \mathbf{x}_n$ in the Euclidean space $\mathbb{R}^m$ (also called ordination space) such that
 \begin{align*}
 \delta_{ij}:=\|\mathbf{x}_i - \mathbf{x}_j \|_2 \approx d_{ij} \text{ as close as possible}.
 \end{align*}
 
-* MDS returns coordinates ${\mathbf{x}_1,\ldots,\mathbf{x}_n}$ in $\mathbb{R}^m$ so that the Euclidean distances $\delta_{ij}=\|\mathbf{x}_i-\mathbf{x}_j\|_2$ reflect the given proximities ($d_{ij}$) as closely as possible (larger dissimilarity $\Rightarrow$ farther apart).
+* MDS returns coordinates (also called **scores**) ${\mathbf{x}_1,\ldots,\mathbf{x}_n}$ in $\mathbb{R}^m$ so that the Euclidean distances $\delta_{ij}=\|\mathbf{x}_i-\mathbf{x}_j\|_2$ reflect the given proximities ($d_{ij}$) as closely as possible (larger dissimilarity $\Rightarrow$ farther apart).
+
 
 ### How to Construct the Distance/Proximity Matrix $D$
 
@@ -126,7 +127,7 @@ MDS is a collection of different algorithms, designed to arrive at optimal low-d
 * Let $\mathbf{y}_i=(y_{i1}, \ldots, y_{ip})^\top$ denote an  observation of $p$ variables. 
 * The Euclidean distance between $\mathbf{y}_i$ and $\mathbf{y}_j$ is defined as 
 \begin{align*}
-\|\mathbf{y}_i -\mathbf{y}_j\|_2: = (\mathbf{y}_i - \mathbf{y}_j)^\top(\mathbf{y}_i - \mathbf{y}_j) 
+\|\mathbf{y}_i -\mathbf{y}_j\|_2: = \sqrt{(\mathbf{y}_i - \mathbf{y}_j)^\top(\mathbf{y}_i - \mathbf{y}_j)} 
 =\sqrt{\sum_{k=1}^p (y_{ik}-y_{jk})^2}
 \end{align*}
 * The $L_1$ distance (also called Manhattan or taxicab metric) between $\mathbf{y}_i$ and $\mathbf{y}_j$ is defined as 
@@ -167,7 +168,7 @@ J = \frac{|A \cap B|}{|A \cup B|}
   * $|A \cap B|$ (intersection): the number of species present in both Site $A$ and Site $B$. 
   * $|A \cup B|$ (Union): the total number of unique species found in either Site $A$ or Site $B$. 
 
-* The Jaccard Dissimilarity ($D_J$): Since MDS requires a measure of dissimilarity (distance), the standard Jaccard index $J$ is converted to a dissimilarity measure $D_J:=1-J$.
+* The **Jaccard Dissimilarity** ($D_J$): Since MDS requires a measure of dissimilarity (distance), the standard Jaccard index $J$ is converted to a dissimilarity measure $D_J:=1-J$.
   * Identical sites: $D_J=0\rightarrow$ All species present are **shared**.
   * Maximally dissimilar: $D_J=1\rightarrow$ The sites share **no species** in common.
 
@@ -454,8 +455,8 @@ ggplot(site_scores,
 | Feature | Metric MDS (mMDS / Classical MDS) | Non-Metric MDS (NMDS / Kruskal's) |
 |:---|:---|:---|
 | **Primary Goal** | Preserve the **absolute numerical values** ($\delta_{ij}$). | Preserve the **rank order** of the dissimilarities ($\text{rank}(\delta_{ij})$). |
-| **Core Metric** | Strain (or Metric Stress) (Variance Explained)** | **Kruskal's Stress 1 ($S$)** |
-| **What is Measured** | The discrepancy between the original metric distances and the final map distances ($d_{ij}$). | The discrepancy between the map distances ($d_{ij}$) and the distances that perfectly preserve the input rank order ($\hat{d}_{ij}$). |
+| **Core Metric** | Strain (or Metric Stress) **(Variance Explained)** | **Kruskal's Stress 1 ($S$)** |
+| **What is Measured** | The discrepancy between the original metric distances ($d_{ij}$) and the final map distances ($\delta_{ij}$). | The discrepancy between the rank of map distances ($\delta_{ij}$) and the rank of original distances (${d}_{ij}$). |
 | **Interpretation** | The strain indicates the proportion of total variation in the original distance matrix captured by the chosen dimensions. | The $S$ value indicates how well the map's geometry reflects the **ordering** of the input dissimilarities. |
 | **Rule of Thumb** | A high strain (e.g., **$> 0.70$**) is desirable. | A low Stress value (e.g., **$< 0.15$**) is required for a reliable map interpretation. |
 | **Visual Check** | **Scree Plot** (for variance explained by dimension). | **Shepard Diagram**  (visualizes preservation of rank order). |
@@ -553,6 +554,7 @@ D <- as.dist(repvote)
 
 ```
 
+:::{.callout-tip title="View Solution" collapse="true"}
 ```{r}
 #| code-summary: "R Code: Non-metric MDS"
 library(MASS)
@@ -608,3 +610,4 @@ plot(sh, pch=".", xlab="Dissimilarity", ylab="Distance")
 lines(sh$x, sh$yf, type="S")
 
 ```
+:::
