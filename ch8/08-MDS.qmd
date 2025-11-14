@@ -148,7 +148,7 @@ MDS is a collection of different algorithms, designed to arrive at optimal low-d
   * Columns represents variables (or species/taxa, denoted by $k$)
 * For two sites, $i$ and $j$ across all species, $k$, BC is defined as
   \begin{align*}
-  \text{BC}_{ij} = \frac{\sum_{k=1}^p |y_{ik}-y_{jk}|}{\sum_{k=1}^n (y_{ik}+y_{jk})}
+  \text{BC}_{ij} = \frac{\sum_{k=1}^p |y_{ik}-y_{jk}|}{\sum_{k=1}^p (y_{ik}+y_{jk})}
   \end{align*}
   * $y_{ik}$ is the abundance of species $k$ at site $i$.
   * $y_{jk}$ is the abundance of species $k$ at site $j$.
@@ -174,9 +174,11 @@ J = \frac{|A \cap B|}{|A \cup B|}
 
 :::
 
-:::{.callout-warning title="Tips"}
+:::{.callout-warning title="Tips" collapse="true"}
 * For continuous data, we may also use PCA to extract latent dimensions. In fact, classical MDS via Euclidean distance is equivalent to PCA. 
 * For non-continuous data such as counts or binary data, PCA is not appropriate, however, non-metric MDS can be used. 
+* Bray-Curtis Dissimilarity ($\text{BC}$) is used to study community composition (do they share the same list of species and are those species equally abundant?). BC can be used when species counts are reliable and the dominance of one or two species is ecologically important. 
+* Jaccard Dissimilarity ($D_J$) is used to study species identity (e.g., do they share the same list of species?). $D_J$ can  be used when species counts are unreliable, or when one is interested in richness and the sheer presence of taxa (e.g., genetic markers).
 :::
 
 
