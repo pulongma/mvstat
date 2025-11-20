@@ -129,7 +129,7 @@ Most clustering methods share two core ideas:
   * **Euclidean distance:** $$d(\mathbf{x}_{i},\mathbf{x}_{j})=\sqrt{(\mathbf{x}_{i}-\mathbf{x}_{j})^{\prime}(\mathbf{x}_{i}-\mathbf{x}_{j})}$$
   * **Statistical distance (Mahalanobis):** $$d(\mathbf{x}_{i},\mathbf{x}_{j})=\sqrt{(\mathbf{x}_{i}-\mathbf{x}_{j})^{\prime}\Sigma^{-1}(\mathbf{x}_{i}-\mathbf{x}_{j})}$$ 
   * **Standardized Distance:** $$d(\mathbf{x}_{i},\mathbf{x}_{j})=\sqrt{(\mathbf{x}_{i}-\mathbf{x}_{j})^{\prime}[\text{diag}(S)]^{-1}(\mathbf{x}_{i}-\mathbf{x}_{j})}$$ 
-  * **Absolute Values (Manhattan/City-Block):** $$d(\mathbf{x}_{i},\mathbf{x}_{j})=\frac{1}{p}\sum_{k=1}^{p}|\mathbf{x}_{ki}-\mathbf{x}_{kj}|$$ 
+  * **Absolute Values (Manhattan/City-Block):** $$d(\mathbf{x}_{i},\mathbf{x}_{j})=\frac{1}{p}\sum_{k=1}^{p}|{x}_{ik}-{x}_{jk}|$$ 
   * **Correlation-based:** $$d(\text{item}_{i},\text{item}_{j})=1-|r_{ij}|$$ or $$d(\text{item}_{i},\text{item}_{j})=1-r_{ij}^{2}$$
   
 :::
