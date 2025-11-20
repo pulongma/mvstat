@@ -418,10 +418,10 @@ Interpretation
 <ul>
 <li><span class="math inline">n</span> individuals (cases)</li>
 <li><span class="math inline">p</span> variables (or traits) measured on each case <span class="math display">
-X_{1}=\begin{pmatrix} X_{11} \\ X_{12} \\ \vdots \\ X_{1p} \end{pmatrix}, X_{2}=\begin{pmatrix} X_{21} \\ X_{22} \\ \vdots \\ X_{2p} \end{pmatrix}, \ldots, X_{n}=\begin{pmatrix} X_{n1} \\ X_{n2} \\ \vdots \\ X_{np} \end{pmatrix}
+\mathbf{x}_{1}=\begin{pmatrix} x_{11} \\ x_{12} \\ \vdots \\ x_{1p} \end{pmatrix}, \mathbf{x}_{2}=\begin{pmatrix} x_{21} \\ x_{22} \\ \vdots \\ x_{2p} \end{pmatrix}, \ldots, \mathbf{x}_{n}=\begin{pmatrix} x_{n1} \\ x_{n2} \\ \vdots \\ x_{np} \end{pmatrix}
 </span></li>
 </ul></li>
-<li><em>Goal</em>: We want to <strong>group</strong> the <span class="math inline">X_i</span>’s into clusters such that
+<li><em>Goal</em>: We want to <strong>group</strong> the <span class="math inline">\mathbf{x}_i</span>’s into clusters such that
 <ul>
 <li>Within a cluster: observations are <strong>similar</strong>.</li>
 <li>Across clusters: observations are <strong>different</strong>.</li>
@@ -458,10 +458,10 @@ Distances
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
-<li><strong>Euclidean distance:</strong> <span class="math display">d(X_{i},X_{j})=\sqrt{(X_{i}-X_{j})^{\prime}(X_{i}-X_{j})}</span></li>
-<li><strong>Statistical distance (Mahalanobis):</strong> <span class="math display">d(X_{i},X_{j})=\sqrt{(X_{i}-X_{j})^{\prime}\Sigma^{-1}(X_{i}-X_{j})}</span></li>
-<li><strong>Standardized Distance:</strong> <span class="math display">d(X_{i},X_{j})=\sqrt{(X_{i}-X_{j})^{\prime}[\text{diag}(S)]^{-1}(X_{i}-X_{j})}</span></li>
-<li><strong>Absolute Values (Manhattan/City-Block):</strong> <span class="math display">d(X_{i},X_{j})=\frac{1}{p}\sum_{k=1}^{p}|X_{ki}-X_{kj}|</span></li>
+<li><strong>Euclidean distance:</strong> <span class="math display">d(\mathbf{x}_{i},\mathbf{x}_{j})=\sqrt{(\mathbf{x}_{i}-\mathbf{x}_{j})^{\prime}(\mathbf{x}_{i}-\mathbf{x}_{j})}</span></li>
+<li><strong>Statistical distance (Mahalanobis):</strong> <span class="math display">d(\mathbf{x}_{i},\mathbf{x}_{j})=\sqrt{(\mathbf{x}_{i}-\mathbf{x}_{j})^{\prime}\Sigma^{-1}(\mathbf{x}_{i}-\mathbf{x}_{j})}</span></li>
+<li><strong>Standardized Distance:</strong> <span class="math display">d(\mathbf{x}_{i},\mathbf{x}_{j})=\sqrt{(\mathbf{x}_{i}-\mathbf{x}_{j})^{\prime}[\text{diag}(S)]^{-1}(\mathbf{x}_{i}-\mathbf{x}_{j})}</span></li>
+<li><strong>Absolute Values (Manhattan/City-Block):</strong> <span class="math display">d(\mathbf{x}_{i},\mathbf{x}_{j})=\frac{1}{p}\sum_{k=1}^{p}|\mathbf{x}_{ki}-\mathbf{x}_{kj}|</span></li>
 <li><strong>Correlation-based:</strong> <span class="math display">d(\text{item}_{i},\text{item}_{j})=1-|r_{ij}|</span> or <span class="math display">d(\text{item}_{i},\text{item}_{j})=1-r_{ij}^{2}</span></li>
 </ul>
 </div>
@@ -595,12 +595,12 @@ Determine the number of clusters
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Centroid Method</strong></td>
-<td style="text-align: left;"><span class="math display">d(\overline{X}_{A},\overline{X}_{B})=\bigl\|\overline{X}_{A}-\overline{X}_{B}\bigr\|^2_2</span></td>
+<td style="text-align: left;"><span class="math display">d(\overline{\mathbf{x}}_{A},\overline{\mathbf{x}}_{B})=\bigl\|\overline{\mathbf{x}}_{A}-\overline{\mathbf{x}}_{B}\bigr\|^2_2</span></td>
 <td style="text-align: left;">Distance between centroids (means) of two clusters.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>Ward’s Method</strong></td>
-<td style="text-align: left;"><span class="math display">\Delta_{SST} = \frac{n_{A}n_{B}}{n_{A}+n_{B}}\bigl\|\overline{X}_{A}-\overline{X}_{B}\bigr\|^2_2</span></td>
+<td style="text-align: left;"><span class="math display">\Delta_{SST} = \frac{n_{A}n_{B}}{n_{A}+n_{B}}\bigl\|\overline{\mathbf{x}}_{A}-\overline{\mathbf{x}}_{B}\bigr\|^2_2</span></td>
 <td style="text-align: left;">Merges two clusters that result in the smallest increase in the total within-cluster sum of squared Euclidean distances (SST).</td>
 </tr>
 </tbody>
@@ -983,16 +983,16 @@ Cluster validation metrics
 <div class="callout-body-container callout-body">
 <p>We define the components used in cluster validation metrics:</p>
 <ul>
-<li><span class="math inline">{G}</span>: The number of groups or clusters. The goal of these methods is to find the optimal <span class="math inline">{G}</span>.</li>
-<li><span class="math inline">\mathbf{w}_k</span>: The sum of squared distances for all points within a single cluster, <span class="math inline">C_k</span>. <span class="math display">
+<li><p><span class="math inline">{G}</span>: The number of groups or clusters. The goal of these methods is to find the optimal <span class="math inline">{G}</span>.</p></li>
+<li><p><span class="math inline">\mathbf{w}_k</span>: The sum of squared distances for all points within a single cluster, <span class="math inline">C_k</span>. <span class="math display">
 \mathbf{w}_k:= \sum_{i \text{ in } C_k} (\mathbf{x}_i-\bar{\mathbf{x}}_k)^{\prime}  (\mathbf{x}_i-\bar{\mathbf{x}}_k)
-</span> $$</li>
-<li><span class="math inline">\mathbf{W}_G</span>: The total sum of squared distances across all <span class="math inline">\mathbf{G}</span> clusters. This is the <strong>Within-Group Sum of Squares (WCSS)</strong>: <span class="math display">
+</span></p></li>
+<li><p><span class="math inline">\mathbf{W}_G</span>: The total sum of squared distances across all <span class="math inline">\mathbf{G}</span> clusters. This is the <strong>Within-Group Sum of Squares (WCSS)</strong>: <span class="math display">
   \mathbf{W}_G = \sum_{k=1}^{G} \mathbf{w_k}
-  </span></li>
-<li><span class="math inline">\mathbf{B}_G</span>: The <strong>Between-Group Sum of Squares (BCSS)</strong>, which measures the separation of the group centroids. It is defined based on the Total Sum of Squares (<span class="math inline">\mathbf{SS_T}</span>): <span class="math display">
-  \mathbf{B}_G = \mathbf{SS}_T - \mathbf{W}_G
-  </span></li>
+  </span></p></li>
+<li><p><span class="math inline">\mathbf{B}_G</span>: The <strong>Between-Group Sum of Squares (BCSS)</strong>, which measures the separation of the group centroids. It is defined based on the Total Sum of Squares (<span class="math inline">{SS}_T</span>): <span class="math display">
+  \mathbf{B}_G = {SS}_T - \mathbf{W}_G
+  </span></p></li>
 </ul>
 </div>
 </div>
@@ -1020,31 +1020,36 @@ Comparative methods
 <tr class="header">
 <th style="text-align: left;">Method</th>
 <th style="text-align: left;">Core Concept</th>
-<th style="text-align: left;">Optimal <span class="math inline">\mathbf{G}</span> Rule</th>
+<th style="text-align: left;">Optimal <span class="math inline">{G}</span> Rule</th>
 <th style="text-align: left;">Mathematical Metric</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><strong>Elbow (WCSS)</strong></td>
-<td style="text-align: left;">Measures total <strong>compactness</strong> (<span class="math inline">\mathbf{W_G}</span>) as <span class="math inline">\mathbf{G}</span> increases.</td>
-<td style="text-align: left;">Choose the <span class="math inline">\mathbf{G}</span> where the decrease in <span class="math inline">\mathbf{W_G}</span> starts to slow significantly (the “bend”).</td>
-<td style="text-align: left;">Plot <span class="math inline">\mathbf{W_G}</span> vs.&nbsp;<span class="math inline">\mathbf{G}</span></td>
+<td style="text-align: left;">Measures total <strong>compactness</strong> (<span class="math inline">\mathbf{W}_G</span>) as <span class="math inline">{G}</span> increases.</td>
+<td style="text-align: left;">Choose the <span class="math inline">{G}</span> where the decrease in <span class="math inline">\mathbf{W}_G</span> starts to slow significantly (the “bend”).</td>
+<td style="text-align: left;">Plot <span class="math inline">\mathbf{W}_G</span> vs.&nbsp;<span class="math inline">{G}</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Calinski-Harabasz Index</strong></td>
-<td style="text-align: left;">Maximizes the ratio of <strong>separation</strong> (<span class="math inline">\mathbf{B_G}</span>) to <strong>compactness</strong> (<span class="math inline">\mathbf{W_G}</span>).</td>
-<td style="text-align: left;">Choose the <span class="math inline">\mathbf{G}</span> that <strong>maximizes</strong> the CH index (highest peak).</td>
-<td style="text-align: left;"><span class="math display">\text{CH}(G) = \frac{\mathbf{B_G}}{\mathbf{W_G}} \cdot \frac{n-G}{G-1}</span></td>
+<td style="text-align: left;">Maximizes the ratio of <strong>separation</strong> (<span class="math inline">\mathbf{B}_G</span>) to <strong>compactness</strong> (<span class="math inline">\mathbf{W}_G</span>).</td>
+<td style="text-align: left;">Choose the <span class="math inline">{G}</span> that <strong>maximizes</strong> the CH index (highest peak).</td>
+<td style="text-align: left;"><span class="math display">\text{CH}(G) = \frac{\mathbf{B}_G}{\mathbf{W}_G} \cdot \frac{n-G}{G-1}</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>Gap Statistic</strong></td>
-<td style="text-align: left;">Compares the observed compactness (<span class="math inline">\mathbf{W_G}</span>) to the expected compactness (<span class="math inline">\mathbf{W_G^*}</span>) under a random <strong>null distribution</strong>.</td>
-<td style="text-align: left;">Choose the smallest <span class="math inline">\mathbf{G}</span> that <strong>maximizes</strong> the Gap statistic.</td>
-<td style="text-align: left;"><span class="math display">\text{Gap}(G) = E_{n}^{*} \{\log(W_{G}^{*})\} - \log(\mathbf{W_G})</span></td>
+<td style="text-align: left;">Compares the observed compactness (<span class="math inline">\mathbf{W}_G</span>) to the expected compactness (<span class="math inline">\mathbf{W}_{G}^*</span>) under a random <strong>null distribution</strong>.</td>
+<td style="text-align: left;">Choose the smallest <span class="math inline">{G}</span> that <strong>maximizes</strong> the Gap statistic.</td>
+<td style="text-align: left;"><span class="math display">\text{Gap}(G) = E_{n} \{\log(\mathbf{W}_{G}^*)\} - \log({\mathbf{W}_G})</span></td>
 </tr>
 </tbody>
 </table>
+<p><strong>Note</strong>: <span class="math inline">\mathbf{W}_G^*</span> is defined slightly different from <span class="math inline">\mathbf{W}_G</span>.</p>
+<ul>
+<li>Define <span class="math inline">D_k = \sum_{i, i'\in C_k} d_{ii'}</span> to be the sum of pairwise distances for all points in cluster <span class="math inline">C_k</span>.</li>
+<li>Set <span class="math inline">W_G^*=\sum_{k=1}^G \frac{1}{2n_k} D_k</span>.</li>
+</ul>
 </div>
 </div>
 </div>
