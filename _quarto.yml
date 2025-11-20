@@ -18,7 +18,7 @@ book:
     - ch6/06-PCA.qmd
     - ch7/07-FactorAnalysis.qmd
     - ch8/08-MDS.qmd
-    # - ch9/clustering
+    - ch9/09-ClusterAnalysis.qmd
     # - summary.qmd
     # - references.qmd
     
