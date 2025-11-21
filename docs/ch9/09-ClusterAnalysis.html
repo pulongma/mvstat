@@ -281,7 +281,7 @@ window.Quarto = {
   <li><a href="#linkage-methods" id="toc-linkage-methods" class="nav-link" data-scroll-target="#linkage-methods"><span class="header-section-number">9.3.2</span> Linkage Methods</a></li>
   <li><a href="#insect-community-data-example" id="toc-insect-community-data-example" class="nav-link" data-scroll-target="#insect-community-data-example"><span class="header-section-number">9.3.3</span> Insect Community Data Example</a></li>
   </ul></li>
-  <li><a href="#k-mean-clustering" id="toc-k-mean-clustering" class="nav-link" data-scroll-target="#k-mean-clustering"><span class="header-section-number">9.4</span> K-Mean Clustering</a>
+  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering"><span class="header-section-number">9.4</span> K-Means Clustering</a>
   <ul class="collapse">
   <li><a href="#basic-idea-1" id="toc-basic-idea-1" class="nav-link" data-scroll-target="#basic-idea-1"><span class="header-section-number">9.4.1</span> Basic Idea</a></li>
   <li><a href="#a-toy-example" id="toc-a-toy-example" class="nav-link" data-scroll-target="#a-toy-example"><span class="header-section-number">9.4.2</span> A Toy Example</a></li>
@@ -765,8 +765,8 @@ heatmap
 </ul>
 </section>
 </section>
-<section id="k-mean-clustering" class="level2" data-number="9.4">
-<h2 data-number="9.4" class="anchored" data-anchor-id="k-mean-clustering"><span class="header-section-number">9.4</span> K-Mean Clustering</h2>
+<section id="k-means-clustering" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="k-means-clustering"><span class="header-section-number">9.4</span> K-Means Clustering</h2>
 <ul>
 <li><p>K-means clustering is a type non-hierarchical clustering algorithm</p></li>
 <li><p>No tree structure exists</p></li>
@@ -842,7 +842,7 @@ Iteration 2
 </div>
 <div id="callout-13" class="callout-13-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><img src="./figures/K-means1.png" class="img-fluid" style="width:95.0%"></p>
+<p><img src="./figures/K-means2.png" class="img-fluid" style="width:95.0%"></p>
 </div>
 </div>
 </div>
@@ -858,7 +858,7 @@ Iteration 3
 </div>
 <div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><img src="./figures/K-means1.png" class="img-fluid" style="width:95.0%"></p>
+<p><img src="./figures/K-means3.png" class="img-fluid" style="width:95.0%"></p>
 </div>
 </div>
 </div>
@@ -932,7 +932,7 @@ Iteration 2
 <li><p><strong>Case B</strong>: <span class="math inline">d(B,C_{1})=\sqrt{(-1-5)^{2}+(1-3)^{2}}=\sqrt{40}</span> and <span class="math inline">d(B,C_{2})=\sqrt{(-1-(-1))^{2}+(1-(-1))^{2}}=\sqrt{4}</span></p></li>
 <li><p><strong>Case C</strong>: <span class="math inline">d(C,C_{1})=\sqrt{(1-5)^{2}+(-2-3)^{2}}=\sqrt{41}</span> and <span class="math inline">d(C,C_{2})=\sqrt{(1-(-1))^{2}+(-2-(-1))^{2}}=\sqrt{5}</span></p></li>
 <li><p><strong>Case D</strong>: <span class="math inline">d(D,C_{1})=\sqrt{(-3-5)^{2}+(-2-3)^{2}}=\sqrt{89}</span> and <span class="math inline">d(D,C_{2})=\sqrt{(-3-(-1))^{2}+(-2-(-1))^{2}}=\sqrt{5}</span></p></li>
-<li><p>The new clusters are <span class="math inline">\mathbf{(A)}</span> and <span class="math inline">\mathbf{(B, C, D)}</span> and the clusters did not change: <span class="math display">C\_{1}=\begin{pmatrix}5\\ 3\end{pmatrix} \quad \text{and} \quad C\_{2}=\begin{pmatrix}-1\\ -1\end{pmatrix}
+<li><p>The new clusters are <span class="math inline">\mathbf{(A)}</span> and <span class="math inline">\mathbf{(B, C, D)}</span> and the clusters did not change: <span class="math display">C_{1}=\begin{pmatrix}5\\ 3\end{pmatrix} \quad \text{and} \quad C_{2}=\begin{pmatrix}-1\\ -1\end{pmatrix}
 </span></p></li>
 </ul></li>
 <li><strong>Stop</strong>: The K-means algorithm has converged to produce clusters <span class="math inline">\mathbf{(A)}</span> and <span class="math inline">\mathbf{(B, C, D)}</span></li>
@@ -1109,7 +1109,7 @@ Colorado   0.02571456 0.3988593  0.8608085  1.864967207</code></pre>
 </div>
 <div class="cell">
 <details class="code-fold">
-<summary>K-mean clustering</summary>
+<summary>K-means clustering</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4750</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#perform k-means clustering with k = 4 clusters</span></span>

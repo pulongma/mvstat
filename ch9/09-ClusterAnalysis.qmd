@@ -587,7 +587,7 @@ patchwork::wrap_plots(p1 + ggtitle("single"),
 * **Interpretation**: The height at which two branches join represents the dissimilarity (Bray-Curtis distance) between them. Short branches that merge low down indicate highly similar communities.
   
 
-## K-Mean Clustering 
+## K-Means Clustering 
 
 * K-means clustering is a type non-hierarchical clustering algorithm
 
@@ -628,11 +628,11 @@ patchwork::wrap_plots(p1 + ggtitle("single"),
 :::
 
 :::{.callout-note title="Iteration 2" collapse="true"}
-![](./figures/K-means1.png){width=95%}
+![](./figures/K-means2.png){width=95%}
 :::
 
 :::{.callout-note title="Iteration 3" collapse="true"}
-![](./figures/K-means1.png){width=95%}
+![](./figures/K-means3.png){width=95%}
 :::
 
 ::: 
@@ -683,7 +683,7 @@ $d(A,C_{2})=\sqrt{(5-(-1))^{2}+(3-(-2))^{2}}=\sqrt{61}$
   * **Case D**:
   $d(D,C_{1})=\sqrt{(-3-5)^{2}+(-2-3)^{2}}=\sqrt{89}$ and $d(D,C_{2})=\sqrt{(-3-(-1))^{2}+(-2-(-1))^{2}}=\sqrt{5}$ 
   * The new clusters are $\mathbf{(A)}$ and $\mathbf{(B, C, D)}$ and the clusters did not change: 
-$$C\_{1}=\begin{pmatrix}5\\ 3\end{pmatrix} \quad \text{and} \quad C\_{2}=\begin{pmatrix}-1\\ -1\end{pmatrix}
+$$C_{1}=\begin{pmatrix}5\\ 3\end{pmatrix} \quad \text{and} \quad C_{2}=\begin{pmatrix}-1\\ -1\end{pmatrix}
 $$
 
 * **Stop**: The K-means algorithm has converged to produce clusters $\mathbf{(A)}$ and $\mathbf{(B, C, D)}$ 
@@ -779,7 +779,7 @@ fviz_nbclust(df, kmeans, method = "gap_stat")
 
 
 ```{r}
-#| code-summary: "K-mean clustering"
+#| code-summary: "K-means clustering"
 
 set.seed(4750)
 
