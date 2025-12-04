@@ -409,15 +409,6 @@ Basic idea of a CART algorithm
 </div>
 </div>
 </div>
-<div class="row" width="90%" height="80%">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./figures/Trees_illustrations.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
-<figcaption>Illustration of a CART algorithm</figcaption>
-</figure>
-</div>
-</div>
-</div>
 <div class="callout callout-style-default callout-note callout-titled" title="Tree terminologies">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -439,6 +430,40 @@ Tree terminologies
 </div>
 </div>
 </div>
+<div class="row" width="90%" height="80%">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./figures/Trees_illustrations.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+<figcaption>Illustration of a CART algorithm</figcaption>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Recursive binary splitting">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Recursive binary splitting
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Recursive binary splitting: a top-down, greedy approach</p>
+<ul>
+<li><strong>Top-down</strong>:
+<ul>
+<li>start at the top of tree with all the data and split the data into subgroups as we move down the tree</li>
+<li>In contrast to bottom-up: each case starts as its own region and we merge regions together.</li>
+</ul></li>
+<li><strong>Greedy</strong>:
+<ul>
+<li>At each step of tree-building, the best split at <strong>this</strong> step is made.</li>
+<li>It’s possible that another split may result in an overall better tree</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
 <ul>
 <li>We need to define the decision rule as the splitting criterion to split the node. In this course, we focus on the concept <strong>Gini index</strong> that is used in the original CART algorithm.</li>
 <li>We also need to determine when the tree stops splitting.</li>
@@ -451,7 +476,7 @@ Tree terminologies
 <li>This is equivalent to finding the split that results in the lowest weighted average impurity of the resulting child nodes.</li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled" title="Definition of Gini index">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -460,7 +485,7 @@ Definition of Gini index
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse show">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p><strong>Definition</strong>: The <strong><em>Gini index</em></strong> <span class="math inline">G</span> for a given node <span class="math inline">m</span> containing observations from <span class="math inline">K</span> classes is defined as <span class="math display">
 G_m:= \sum_{i=1}^K \sum_{j\neq i} p_i p_j = 1 - \sum_{i=1}^K p_i^2
@@ -564,7 +589,7 @@ Working Example with the <code>iris</code> Data
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Train/Test data">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -573,7 +598,7 @@ Train/Test data
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4750</span>)</span>
@@ -597,7 +622,7 @@ Train/Test data
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Fit a classification tree">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -606,7 +631,7 @@ Fit a classification tree
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">rpart</span>(survived <span class="sc">~</span> ., <span class="at">data =</span> df_train)</span>
@@ -636,7 +661,7 @@ node), split, n, loss, yval, (yprob)
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Visualizing the tree">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -645,7 +670,7 @@ Visualizing the tree
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">=</span> <span class="fu">rpart.plot</span>(fit,</span>
@@ -693,7 +718,7 @@ Visualizing the tree
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Interpretation of splits">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -702,7 +727,7 @@ Interpretation of splits
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><strong>Root split</strong> (split at tree depth 0): <code>sex = male</code>
@@ -737,7 +762,7 @@ Interpretation of splits
 <li>Deep trees (those with large number of tree nodes) can <strong>overfit</strong>. To address this issue, <code>rpart</code> uses cost-complexity pruning controlled by <code>cp</code> (complexity parameter).</li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled" title="overfit vs underfit">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -746,7 +771,7 @@ overfit vs underfit
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li>A statistical model or machine learning model <strong>overfits</strong> the data if the model’s error on training data is very low (often near zero) and simultaneously the model’s error on testing data is much higher than the training error. Overfitting is often implied by high training accuracy and low testing accuracy.</li>
@@ -833,7 +858,7 @@ n= 916
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="How to interpte the results?">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -842,7 +867,7 @@ How to interpte the results?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li>In general, there is a clear class boundaries due to <code>sex=female</code>, <code>Pclass&lt;3</code>, and <code>Age&lt;14</code>.</li>
@@ -889,7 +914,7 @@ Randomness in cross-validation
 <h3 data-number="10.3.5" class="anchored" data-anchor-id="model-evaluation"><span class="header-section-number">10.3.5</span> Model Evaluation</h3>
 <p>For classification problems, we could evaluate the performance the model by looking at classification errors, which are defined through a <strong><em>confusion matrix</em></strong>. A confusion matrix is a table that summarizes how well a classification model performs by comparing the model’s predicted classes with the actual (true) classes.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Confusion Matrix">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -898,7 +923,7 @@ Confusion Matrix
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-15" class="callout-15-contents callout-collapse collapse show">
+<div id="callout-16" class="callout-16-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <ul>
 <li>A confusion matrix is a square table where:
@@ -912,7 +937,7 @@ Confusion Matrix
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Example of Binary Confusion Matrix">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -921,7 +946,7 @@ Example of Binary Confusion Matrix
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-16" class="callout-16-contents callout-collapse collapse show">
+<div id="callout-17" class="callout-17-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p>Suppose a model predicts whether a passenger survived the Titanic disaster.</p>
 <table class="caption-top table">
@@ -1024,7 +1049,7 @@ Predicted        died   survived
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Common Metrics Derived from the Confusion Matrix">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1033,7 +1058,7 @@ Common Metrics Derived from the Confusion Matrix
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-17" class="callout-17-contents callout-collapse collapse show">
+<div id="callout-18" class="callout-18-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <ul>
 <li><strong>Accuracy</strong>: The proportion of total predictions that were correct. <span class="math display">
@@ -1086,7 +1111,7 @@ Common Metrics Derived from the Confusion Matrix
 <section id="exercise" class="level2" data-number="10.4">
 <h2 data-number="10.4" class="anchored" data-anchor-id="exercise"><span class="header-section-number">10.4</span> Exercise</h2>
 <div class="callout callout-style-default callout-note callout-titled" title="Bronchopulmonary Dysplasia (BPD) Study">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1095,7 +1120,7 @@ Bronchopulmonary Dysplasia (BPD) Study
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-18" class="callout-18-contents callout-collapse collapse show">
+<div id="callout-19" class="callout-19-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p>This example is from Biostatistics Casebook (pp.&nbsp;104-119)</p>
 <p>Training samples consist of all infants at the Stanford Medical Center between 1962 and 1973 who were diagnosed with respiratory distress syndrome (RDS) and received ventilatory assistance for at least 24 hours (except one infant with incomplete records). Most of these babies were born prematurely and had underdeveloped lungs. Some breathing assistance involving elevated levels of oxygen was needed to keep the babies alive. Bronchiopulmonary dysplasia (BPD) is deterioration of lung tissue (scarring) in infants exposed to a high level of oxygen. A panel of physicians reviewed each case to determine if BPD was present.</p>
@@ -1122,7 +1147,7 @@ Bronchopulmonary Dysplasia (BPD) Study
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="View Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1131,7 +1156,7 @@ View Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>First convert categorical variables like <code>sex</code> and <code>rds</code> to factors. There is no need to convert categorical variables into zero-one variables, because it would not change the tree that is produced. Read the data into a data frame and create factors.</p>
 <div class="cell">

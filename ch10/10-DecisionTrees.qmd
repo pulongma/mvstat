@@ -89,17 +89,31 @@ By the end of this section, you should be able to:
 :::
 ::::
 
-::: {.row width="90%" height="80%"}
-![Illustration of a CART algorithm](./figures/Trees_illustrations){width="100%" height="100%"}
-:::
-::::::
-
 ::: {.callout-note title="Tree terminologies" collapse="false"}
 -   Root node: The starting point; represents the entire dataset.
 -   Internal node: A node that splits the data based on a feature test (a decision).
 -   Branch/edge: The outcome of the test (e.g., 'Yes' or 'No').
 -   Leaf node (terminal node): A node that has no descendants (child nodes).
 :::
+
+::: {.row width="90%" height="80%"}
+![Illustration of a CART algorithm](./figures/Trees_illustrations.png){width="100%" height="100%"}
+:::
+
+:::{.callout-note title="Recursive binary splitting"}
+Recursive binary splitting in decision trees is a top-down, greedy approach
+
+* **Top-down**: 
+  * start at the top of tree with all the data and split the data into subgroups as we move down the tree
+  * In contrast to bottom-up: each case starts as its own region and we merge regions together.
+* **Greedy**: 
+  * At each step of tree-building, the best split at **this** step is made.
+  * It's possible that another split may result in an overall better tree
+::: 
+
+::::::
+
+
 
 * We need to define the decision rule as the splitting criterion to split the node. In this course, we focus on the concept **Gini index** that is used in the original CART algorithm. 
 * We also need to determine when the tree stops splitting.  
