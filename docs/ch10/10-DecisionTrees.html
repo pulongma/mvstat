@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Pulong Ma">
+
+<title>10&nbsp; Decision Trees – Introduction to Multivariate Data Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../ch9/09-ClusterAnalysis.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-626149efe8f5d16e1d391ba177679bf0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script>
+  window.MathJax = {
+    loader: {
+      load: ['[tex]/amsmath', '[tex]/amssymb', '[tex]/amsfonts'],
+      '[tex]/color']
+    },
+    tex: {
+      packages: { '[+]': ['amsmath', 'amssymb', 'amsfonts', 'color'] }
+    }
+  };
+</script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../custom.css">
+<link rel="stylesheet" href="custom.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ch10/10-DecisionTrees.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Decision Trees</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Introduction to Multivariate Data Analysis</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch1/01-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Multivariate Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch2/02-graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Graphs and Data Visualization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch3/03-MVN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multivariate Normal Distribution</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch4/04-Inference_for_Means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Inference for Single Mean Vector</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch5/05-Inference_for_Means_II.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Inference for Multiple Mean Vectors</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch6/06-PCA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch7/07-FactorAnalysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Factor Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch8/08-MDS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multidimensional Scaling</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch9/09-ClusterAnalysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Cluster Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch10/10-DecisionTrees.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Decision Trees</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="1">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="header-section-number">10.1</span> Learning goals</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">10.2</span> Introduction</a></li>
+  <li><a href="#classification-tree" id="toc-classification-tree" class="nav-link" data-scroll-target="#classification-tree"><span class="header-section-number">10.3</span> Classification Tree</a>
+  <ul class="collapse">
+  <li><a href="#basic-idea" id="toc-basic-idea" class="nav-link" data-scroll-target="#basic-idea"><span class="header-section-number">10.3.1</span> Basic Idea</a></li>
+  <li><a href="#splitting-criterion" id="toc-splitting-criterion" class="nav-link" data-scroll-target="#splitting-criterion"><span class="header-section-number">10.3.2</span> Splitting Criterion</a></li>
+  <li><a href="#working-example-with-the-titanic-data" id="toc-working-example-with-the-titanic-data" class="nav-link" data-scroll-target="#working-example-with-the-titanic-data"><span class="header-section-number">10.3.3</span> Working Example with the <code>Titanic</code> Data</a></li>
+  <li><a href="#pruning-the-tree" id="toc-pruning-the-tree" class="nav-link" data-scroll-target="#pruning-the-tree"><span class="header-section-number">10.3.4</span> Pruning The Tree</a></li>
+  <li><a href="#model-evaluation" id="toc-model-evaluation" class="nav-link" data-scroll-target="#model-evaluation"><span class="header-section-number">10.3.5</span> Model Evaluation</a></li>
+  </ul></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">10.4</span> Exercise</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Decision Trees</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Pulong Ma </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="learning-goals" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="learning-goals"><span class="header-section-number">10.1</span> Learning goals</h2>
+<p>By the end of this section, you should be able to:</p>
+<ul>
+<li>Explain the basic idea of decision trees</li>
+<li>Understand the idea of classification tree.</li>
+<li>Define impurity measures (misclassification error, Gini index, cross-entropy).</li>
+<li>Fit and interpret a classification tree using R package <code>rpart</code>.</li>
+<li>Visualize trees and decision boundaries.</li>
+<li>Explain overfitting and why pruning / cross-validation are needed.</li>
+</ul>
+</section>
+<section id="introduction" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="introduction"><span class="header-section-number">10.2</span> Introduction</h2>
+<div class="callout callout-style-default callout-note callout-titled" title="Supervised learning">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Supervised learning
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Supervised learning</strong>: We train the model using a dataset where we already know the correct answers (the “labels”).</li>
+<li><strong>Training data</strong>: A datset that is used to train (or fit) the model (in order to estimate unknown model parameters).</li>
+<li><strong>Testing data</strong>: A dataset that is not used for training a model but used to evaluate the accuracy of the model.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Decision trees">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Decision trees
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong><em>Decision trees</em></strong> are essentially flowcharts of decisions that help us predict an outcome.</li>
+<li>Decision trees are <em>supervised learning</em> models used for:
+<ul>
+<li>Classification (predicting categories)</li>
+<li>Regression (predicting numeric outcomes)</li>
+</ul></li>
+<li>The term <strong><em>decision tree</em></strong> refers to the general structure
+<ul>
+<li>A <strong><em>classification tree</em></strong> is a specific type of decision trees where the target variable is a categorical variable.</li>
+<li>A <strong><em>regression tree</em></strong> is another specific type of decision trees where the target variable is a numerical variable.</li>
+</ul></li>
+<li>We often use <strong><em>classification and regression trees</em></strong> with the acronym <strong><em>CART</em></strong> to refer to the two types of statistical models/algorithms based on decision trees.</li>
+<li>In this course, we only focus on <strong><em>classification trees</em></strong>.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="classification-tree" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="classification-tree"><span class="header-section-number">10.3</span> Classification Tree</h2>
+<section id="basic-idea" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="basic-idea"><span class="header-section-number">10.3.1</span> Basic Idea</h3>
+<div class="row">
+<div class="row" width="90%" height="20%">
+<div class="callout callout-style-default callout-note callout-titled" title="Basic idea of a CART algorithm">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Basic idea of a CART algorithm
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Initialization</strong>: All observations are in one node at the top of the tree.</li>
+<li>Recursion for each node:
+<ul>
+<li>Pick a binary <strong>decision rule</strong> based on variables.</li>
+<li>Split a node into two child nodes based on the selected decision rule</li>
+</ul></li>
+<li>Recursion stops when no further gain is achieved, or some pre-set stopping rules are met.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row" width="90%" height="80%">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./figures/Trees_illustrations.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+<figcaption>Illustration of a CART algorithm</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Tree terminologies">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tree terminologies
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<ul>
+<li>Root node: The starting point; represents the entire dataset.</li>
+<li>Internal node: A node that splits the data based on a feature test (a decision).</li>
+<li>Branch/edge: The outcome of the test (e.g., ‘Yes’ or ‘No’).</li>
+<li>Leaf node (terminal node): A node that has no descendants (child nodes).</li>
+</ul>
+</div>
+</div>
+</div>
+<ul>
+<li>We need to define the decision rule as the splitting criterion to split the node. In this course, we focus on the concept <strong>Gini index</strong> that is used in the original CART algorithm.</li>
+<li>We also need to determine when the tree stops splitting.</li>
+</ul>
+</section>
+<section id="splitting-criterion" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="splitting-criterion"><span class="header-section-number">10.3.2</span> Splitting Criterion</h3>
+<ul>
+<li>The CART algorithm determines the optimal split by searching for the cutoff (or split point) that yields the maximum reduction in <strong>impurity</strong> (or maximum information gain).</li>
+<li>This is equivalent to finding the split that results in the lowest weighted average impurity of the resulting child nodes.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Definition of Gini index">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definition of Gini index
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p><strong>Definition</strong>: The <strong><em>Gini index</em></strong> <span class="math inline">G</span> for a given node <span class="math inline">m</span> containing observations from <span class="math inline">K</span> classes is defined as <span class="math display">
+G_m:= \sum_{i=1}^K \sum_{j\neq i} p_i p_j = 1 - \sum_{i=1}^K p_i^2
+</span></p>
+<ul>
+<li><span class="math inline">K</span> is the total number of distinct classes (categories or labels) in the target variable.</li>
+<li><span class="math inline">p_i</span> is the proportion of observations in node <span class="math inline">m</span> that belong to class <span class="math inline">i</span> with <span class="math inline">p_1 + p_2 + \ldots + p_K = 1</span>.</li>
+<li>The maximum value of the Gini Index occurs at <span class="math inline">p_i = 1/K</span> for all <span class="math inline">i=1,2, \ldots, K</span>.</li>
+<li>The minimum value of the Gini Index is 0.</li>
+<li><span class="math inline">G_m\approx 0</span>: The node is approximately perfectly pure. All observations in the node nearly belong to the same class.</li>
+<li><span class="math inline">G_m &gt; .5</span>: The node is viewed as highly impure (mixed). Observations are distributed roughly equally across multiple classes.</li>
+<li>Gini index quantifies the purity (or homogeneity) of a node in a decision tree.</li>
+<li>The Gini index, also called Gini impurity, is a measure in the construction of decision trees to evaluate how often a randomly selected element from a data set would be incorrectly labelled if it were labeled according to the distribution of the labels in the data set.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Determination of Split">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Determination of Split
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>For any potential split point <span class="math inline">c</span> on a variable <span class="math inline">X</span>, we divide the data into the left-child node and the right child node.</li>
+<li>The split point <span class="math inline">c</span> is chosen to minimize the weighted Gini index</li>
+</ul>
+</div>
+</div>
+<ul>
+<li>For each continuous variable <span class="math inline">x\in [c_0, c_d]</span>,
+<ul>
+<li>we divide the range of variable into <span class="math inline">d</span> intervals of width <span class="math inline">w</span> specified by <span class="math inline">c_0, c_0 + w, c_0 + 2w, \ldots, c_d</span>;</li>
+<li>we then choose the cutoff (or split point) <span class="math inline">c_i</span> that maximizes the impurity of the child nodes.</li>
+</ul></li>
+<li>For ordinal variables, we examine each possible cutoff.</li>
+<li>For nominal variables, we put some categories in the left child and the others in the right child.</li>
+</ul>
+</section>
+<section id="working-example-with-the-titanic-data" class="level3" data-number="10.3.3">
+<h3 data-number="10.3.3" class="anchored" data-anchor-id="working-example-with-the-titanic-data"><span class="header-section-number">10.3.3</span> Working Example with the <code>Titanic</code> Data</h3>
+<div class="callout callout-style-default callout-note callout-titled" title="Working Example with the `iris` Data">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Working Example with the <code>iris</code> Data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Titanic dataset contains information about the passengers aboard the RMS Titanic, which sank after striking an iceberg on April 15, 1912, during its maiden voyage from Southampton (UK) to New York City. Out of 2,224 passengers and crew, more than 1,500 people died, making it one of the deadliest peacetime maritime disasters.</p>
+<p>We will use the <code>ptitanic</code> dataset from the <code>rpart.plot</code> package with 1046 observations on 6 variables</p>
+<ul>
+<li><code>pclass</code>: passenger class, unordered factor: 1st 2nd 3rd</li>
+<li><code>survived</code>: died or survived</li>
+<li><code>sex</code>: male or female</li>
+<li><code>age</code>: in years</li>
+<li><code>sibsp</code>: number of siblings or spouses aboard</li>
+<li><code>parch</code>: number of parents or children aboard</li>
+<li>Goal: We want to predict <code>survived</code> based on the other 5 variables.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart.plot)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ptitanic)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> ptitanic</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["pclass"],"name":[1],"type":["fct"],"align":["left"]},{"label":["survived"],"name":[2],"type":["fct"],"align":["left"]},{"label":["sex"],"name":[3],"type":["fct"],"align":["left"]},{"label":["age"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["sibsp"],"name":[5],"type":["int"],"align":["right"]},{"label":["parch"],"name":[6],"type":["int"],"align":["right"]}],"data":[{"1":"1st","2":"survived","3":"female","4":"29.0000","5":"0","6":"0","_rn_":"1"},{"1":"1st","2":"survived","3":"male","4":"0.9167","5":"1","6":"2","_rn_":"2"},{"1":"1st","2":"died","3":"female","4":"2.0000","5":"1","6":"2","_rn_":"3"},{"1":"1st","2":"died","3":"male","4":"30.0000","5":"1","6":"2","_rn_":"4"},{"1":"1st","2":"died","3":"female","4":"25.0000","5":"1","6":"2","_rn_":"5"},{"1":"1st","2":"survived","3":"male","4":"48.0000","5":"0","6":"0","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>age <span class="ot">=</span> <span class="fu">as.numeric</span>(ptitanic<span class="sc">$</span>age)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>sibsp <span class="ot">=</span> <span class="fu">as.integer</span>(ptitanic<span class="sc">$</span>sibsp)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>parch <span class="ot">=</span> <span class="fu">as.integer</span>(ptitanic<span class="sc">$</span>parch)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>survived) <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggpairs</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10-DecisionTrees_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Train/Test data">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Train/Test data
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4750</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fu">nrow</span>(df)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>frac <span class="ot">=</span> <span class="fl">0.7</span> <span class="co"># 70% for training </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>train_idx <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">seq_len</span>(n), <span class="at">size =</span> <span class="fu">floor</span>(frac <span class="sc">*</span> n))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>df_train <span class="ot">=</span> df[train_idx, ]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>df_test <span class="ot">=</span> df[<span class="sc">-</span>train_idx, ]</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(df_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 916   6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(df_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 393   6</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Fit a classification tree">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Fit a classification tree
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">rpart</span>(survived <span class="sc">~</span> ., <span class="at">data =</span> df_train)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>n= 916 
+
+node), split, n, loss, yval, (yprob)
+      * denotes terminal node
+
+ 1) root 916 352 died (0.61572052 0.38427948)  
+   2) sex=male 590 117 died (0.80169492 0.19830508)  
+     4) age&gt;=13.5 545  97 died (0.82201835 0.17798165) *
+     5) age&lt; 13.5 45  20 died (0.55555556 0.44444444)  
+      10) sibsp&gt;=2.5 21   1 died (0.95238095 0.04761905) *
+      11) sibsp&lt; 2.5 24   5 survived (0.20833333 0.79166667) *
+   3) sex=female 326  91 survived (0.27914110 0.72085890)  
+     6) pclass=3rd 149  70 died (0.53020134 0.46979866)  
+      12) sibsp&gt;=2.5 14   1 died (0.92857143 0.07142857) *
+      13) sibsp&lt; 2.5 135  66 survived (0.48888889 0.51111111)  
+        26) parch&gt;=2.5 9   1 died (0.88888889 0.11111111) *
+        27) parch&lt; 2.5 126  58 survived (0.46031746 0.53968254) *
+     7) pclass=1st,2nd 177  12 survived (0.06779661 0.93220339) *</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Visualizing the tree">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Visualizing the tree
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">=</span> <span class="fu">rpart.plot</span>(fit,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Classification Tree (unpruned)"</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="10-DecisionTrees_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Classification tree.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">=</span> <span class="fu">rpart.plot</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  fit,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="dv">2</span>,        <span class="co"># split labels on branches</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">extra =</span> <span class="dv">104</span>,     <span class="co"># show class, prob, and percentage of obs.</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">under =</span> <span class="cn">TRUE</span>,    <span class="co"># show text information under the box</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Classification Tree (unpruned)"</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="10-DecisionTrees_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Classification tree</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>How to read a node?
+<ul>
+<li>Each node shows the predicted class (<code>died</code> or <code>survived</code>), predicted probability of survival, and the percentage of observations in the node</li>
+<li>For the root node, it shows the percentage of observations that corresponds to <code>survived</code> (here it is .38) in the first figure above. In the second figure, it shows two probabilities (<code>0.62, 0.38</code>), corresponding to two classes <code>died</code> and <code>survived</code>.<br>
+</li>
+<li>In the first figure (with default setting in <code>rpart.plot</code>), the probability shown in each node always refers to the <code>survived</code> observations.</li>
+<li><code>.82 .18</code> (lowest left node): estimated probabilities for each class: <code>died</code> or <code>survived</code></li>
+<li><code>59%</code> (lowest left node): percentage of training observations in that node</li>
+</ul></li>
+<li>At each node, the algorithm searched over all predictors and possible cut points to find the split that maximally reduces node <strong>impurity</strong> (i.e., inhomogeneity). We will talk about this concept in what follows.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Interpretation of splits">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretation of splits
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Root split</strong> (split at tree depth 0): <code>sex = male</code>
+<ul>
+<li>left child: all observations with <code>sex = male</code></li>
+<li>right child: all observations with <code>sex = female</code></li>
+</ul></li>
+<li>A split at tree depth 1 (on the left child): <code>age &gt;= 14</code>
+<ul>
+<li>This separates remaining observations further into two classes (<code>died</code> or <code>survived</code>) with the constrain that its left child corresponds to <code>age &gt;= 14</code> and its right child corresponds to <code>age &lt; 14</code>.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="pruning-the-tree" class="level3" data-number="10.3.4">
+<h3 data-number="10.3.4" class="anchored" data-anchor-id="pruning-the-tree"><span class="header-section-number">10.3.4</span> Pruning The Tree</h3>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">=</span> <span class="fu">rpart</span>(survived <span class="sc">~</span> ., <span class="at">data =</span> df_train, <span class="at">cp=</span><span class="fl">0.00001</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rpart.plot</span>(fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="10-DecisionTrees_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>As we can see, the fitted classification tree has a deeper tree structure. The question then becomes whether this deeper tree is necessary (brings benefits).</li>
+<li>Deep trees (those with large number of tree nodes) can <strong>overfit</strong>. To address this issue, <code>rpart</code> uses cost-complexity pruning controlled by <code>cp</code> (complexity parameter).</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="overfit vs underfit">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+overfit vs underfit
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>A statistical model or machine learning model <strong>overfits</strong> the data if the model’s error on training data is very low (often near zero) and simultaneously the model’s error on testing data is much higher than the training error. Overfitting is often implied by high training accuracy and low testing accuracy.</li>
+<li>Overfitting is often a characteristics of overly complex models. In decision trees, this means the tree with too many deep branches.</li>
+<li><strong>Underfitting</strong> is the opposite of <strong>overfitting</strong>.</li>
+<li>In general, we want to build a statistical model/machine learning model that balance <strong>model complexity</strong> and testing accuracy.</li>
+<li>This is achieved by cross-validation (CV):
+<ul>
+<li>CV is used during training to estimate how well the model will generalize to unseen data (testing data).</li>
+<li>CV divides the data into training data and testing data.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<p>Let’s first look at the fitting outputs from <code>fit1</code>, which gives the complexity parameter (CP) and cross-validation error.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">printcp</span>(fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Classification tree:
+rpart(formula = survived ~ ., data = df_train, cp = 1e-05)
+
+Variables actually used in tree construction:
+[1] age    parch  pclass sex    sibsp 
+
+Root node error: 352/916 = 0.38428
+
+n= 916 
+
+          CP nsplit rel error  xerror     xstd
+1 0.40909091      0   1.00000 1.00000 0.041824
+2 0.02556818      1   0.59091 0.59091 0.036021
+3 0.01988636      2   0.56534 0.57670 0.035711
+4 0.01420455      4   0.52557 0.54830 0.035064
+5 0.00946970      6   0.49716 0.54830 0.035064
+6 0.00284091      9   0.46875 0.52557 0.034519
+7 0.00142045     15   0.45170 0.55682 0.035262
+8 0.00094697     17   0.44886 0.56818 0.035521
+9 0.00001000     20   0.44602 0.56818 0.035521</code></pre>
+</div>
+</div>
+<p>The table includes:</p>
+<ul>
+<li><code>nsplit</code>: number of splits</li>
+<li><code>rel error</code>: training error (relative to root node)</li>
+<li><code>xerror</code>: cross-validated error</li>
+<li><code>xstd</code>: standard error of <code>xerror</code></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotcp</span>(fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10-DecisionTrees_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Note</strong>: a horizontal line in the figure above is drawn 1 standard error above the minimum of the curve.</li>
+</ul>
+<p>To select the best CP, we could use</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>best_cp <span class="ot">=</span> fit1<span class="sc">$</span>cptable[<span class="fu">which.min</span>(fit1<span class="sc">$</span>cptable[, <span class="st">"xerror"</span>]), <span class="st">"CP"</span>]</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>best_cp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.002840909</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>fit1_pruned <span class="ot">=</span> <span class="fu">prune</span>(fit1, <span class="at">cp =</span> best_cp)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rpart.plot</span>(</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  fit1_pruned,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Pruned Classification Tree"</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10-DecisionTrees_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="How to interpte the results?">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+How to interpte the results?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>In general, there is a clear class boundaries due to <code>sex=female</code>, <code>Pclass&lt;3</code>, and <code>Age&lt;14</code>.</li>
+<li>Compared to males, females have a higher survival rate. This makes sense because
+<ul>
+<li>Many women and children were evacuated first.</li>
+</ul></li>
+<li>1st and 2nd class passengers had much better survival chances
+<ul>
+<li>Proximity to lifeboats</li>
+<li>Better access to upper decks</li>
+</ul></li>
+<li>Children had higher survival rates
+<ul>
+<li>Often evacuated first with their families</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Randomness in cross-validation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Randomness in cross-validation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The problem with reducing the <code>xerror</code> is that the cross-validation (CV) error is a random quantity. This is because CV randomly divides the data in <code>rpart</code>.</li>
+<li>There is no guarantee that if we were to fit the sequence of trees again using a different random seed that the same tree would minimize the cross-validation error.</li>
+<li>A more robust alternative to minimum cross-validation error is to use the one standard deviation rule: choose the smallest tree whose cross-validation error is within one standard error of the minimum. Depending on how we define this there are two possible choices.
+<ul>
+<li>The first tree whose point estimate of the cross-validation error falls within the <span class="math inline">\pm 1</span> <code>xstd</code> of the minimum.</li>
+<li>On the other hand, the standard error lower limit of the tree of size three is within <span class="math inline">+1</span> <code>xstd</code> of the minimum.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="model-evaluation" class="level3" data-number="10.3.5">
+<h3 data-number="10.3.5" class="anchored" data-anchor-id="model-evaluation"><span class="header-section-number">10.3.5</span> Model Evaluation</h3>
+<p>For classification problems, we could evaluate the performance the model by looking at classification errors, which are defined through a <strong><em>confusion matrix</em></strong>. A confusion matrix is a table that summarizes how well a classification model performs by comparing the model’s predicted classes with the actual (true) classes.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Confusion Matrix">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Confusion Matrix
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<ul>
+<li>A confusion matrix is a square table where:
+<ul>
+<li>Rows represent the true classes</li>
+<li>Columns represent the predicted classes</li>
+</ul></li>
+<li>Each cell shows the number of observations that fall into that true–predicted combination.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Example of Binary Confusion Matrix">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Example of Binary Confusion Matrix
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Suppose a model predicts whether a passenger survived the Titanic disaster.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 35%">
+<col style="width: 31%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>True Predicted</strong></th>
+<th><strong>Predicted: Survived</strong></th>
+<th><strong>Predicted: Died</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>True: Survived</strong></td>
+<td><strong>TP</strong> (True Positives)</td>
+<td><strong>FN</strong> (False Negatives)</td>
+</tr>
+<tr class="even">
+<td><strong>True: Died</strong></td>
+<td><strong>FP</strong> (False Positives)</td>
+<td><strong>TN</strong> (True Negatives)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>True Positive (TP)</strong>: correctly predicted survived.</li>
+<li><strong>True Negative (TN)</strong>: correctly predicted died.</li>
+<li><strong>False Positive (FP)</strong> (Type I error): predicted survived but actually died. (A “false alarm”)</li>
+<li><strong>False Negative (FN)</strong> (Type II error): predicted died but actually survived. (A “miss”)</li>
+<li>The table above does not require strict ordering in columns or rows. One could switch the column <code>Predicted: Survived</code> and the column <code>Predicted: Died</code> but the meaning/interpretation should also be defined appropriately.<br>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<p>We first show the prediction results and confusion matrix based on training data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pred_class_train <span class="ot">=</span> <span class="fu">predict</span>(fit1_pruned, </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">type=</span><span class="st">"class"</span>  </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                           )</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>conf_mat_train <span class="ot">=</span> <span class="fu">table</span>(<span class="at">Predicted=</span>pred_class_train, <span class="at">True=</span>df_train<span class="sc">$</span>survived)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>conf_mat_train</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          True
+Predicted  died survived
+  died      501      102
+  survived   63      250</code></pre>
+</div>
+</div>
+<p>We can also get mis-classification errors using the following R code</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>prob.results <span class="ot">=</span> <span class="fu">predict</span>(fit1_pruned)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prob.results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           died  survived
+[1,] 0.06779661 0.9322034
+[2,] 0.06779661 0.9322034
+[3,] 0.82201835 0.1779817
+[4,] 0.82201835 0.1779817
+[5,] 0.40625000 0.5937500
+[6,] 0.40625000 0.5937500</code></pre>
+</div>
+</div>
+<p>The confusion matrix can also be represented in terms of probabilities:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(<span class="at">Predicted=</span>pred_class_train,</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">True=</span>df_train<span class="sc">$</span>survived))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          True
+Predicted        died   survived
+  died     0.54694323 0.11135371
+  survived 0.06877729 0.27292576</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pred_class <span class="ot">=</span> <span class="fu">predict</span>(fit1_pruned, <span class="at">newdat=</span>df_test, <span class="at">type=</span><span class="st">"class"</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>conf_mat <span class="ot">=</span> <span class="fu">table</span>(<span class="at">Predicted=</span>pred_class, <span class="at">True=</span>df_test<span class="sc">$</span>survived)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>conf_mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          True
+Predicted  died survived
+  died      215       42
+  survived   30      106</code></pre>
+</div>
+</div>
+<p>To show probabilities in confusion matrix, one can use the following code</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(conf_mat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          True
+Predicted        died   survived
+  died     0.54707379 0.10687023
+  survived 0.07633588 0.26972010</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Common Metrics Derived from the Confusion Matrix">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Common Metrics Derived from the Confusion Matrix
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Accuracy</strong>: The proportion of total predictions that were correct. <span class="math display">
+\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
+</span></li>
+<li><strong>Sensitivity / Recall (True Positive Rate)</strong>: Out of all actual positives, how many did the model correctly identify? (Focuses on avoiding Misses) <span class="math display">
+\text{Recall} = \frac{TP}{TP + FN}
+</span></li>
+<li><strong>Specificity (True Negative Rate)</strong>: Out of all actual negatives, how many did the model correctly identify? (The opposite of Recall, focusing on the negative class) <span class="math display">
+\text{Specificity} = \frac{TN}{TN + FP}
+</span></li>
+<li><strong>Precision</strong>: Out of all predicted positives, how many were actually correct? (Focuses on avoiding False Alarms) <span class="math display">
+\text{Precision} = \frac{TP}{TP + FP}
+</span></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>accuracy <span class="ot">&lt;-</span> <span class="fu">mean</span>(pred_class <span class="sc">==</span> df_test<span class="sc">$</span>survived)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>accuracy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8167939</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>TP <span class="ot">=</span> conf_mat[<span class="dv">1</span>,<span class="dv">1</span>]</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>FP <span class="ot">=</span> conf_mat[<span class="dv">2</span>,<span class="dv">1</span>]</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>FN <span class="ot">=</span> conf_mat[<span class="dv">1</span>,<span class="dv">2</span>]</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>TN <span class="ot">=</span> conf_mat[<span class="dv">2</span>,<span class="dv">2</span>]</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>Accuracy <span class="ot">=</span> (TP <span class="sc">+</span> TN) <span class="sc">/</span> (TP <span class="sc">+</span> TN <span class="sc">+</span> FP <span class="sc">+</span> FN)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>Recall <span class="ot">=</span> TP <span class="sc">/</span> (TP <span class="sc">+</span> FN)</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>Specificity <span class="ot">=</span> TN <span class="sc">/</span> (TN <span class="sc">+</span> FP)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>Precision <span class="ot">=</span> TP <span class="sc">/</span> (TP <span class="sc">+</span> FP)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">" Accuracy: "</span>, Accuracy, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, </span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Recall: "</span>, Recall, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, </span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Specificity: "</span>, Specificity, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Precision: "</span>, Precision)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Accuracy:  0.8167939 
+ Recall:  0.8365759 
+ Specificity:  0.7794118 
+ Precision:  0.877551</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="exercise"><span class="header-section-number">10.4</span> Exercise</h2>
+<div class="callout callout-style-default callout-note callout-titled" title="Bronchopulmonary Dysplasia (BPD) Study">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Bronchopulmonary Dysplasia (BPD) Study
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>This example is from Biostatistics Casebook (pp.&nbsp;104-119)</p>
+<p>Training samples consist of all infants at the Stanford Medical Center between 1962 and 1973 who were diagnosed with respiratory distress syndrome (RDS) and received ventilatory assistance for at least 24 hours (except one infant with incomplete records). Most of these babies were born prematurely and had underdeveloped lungs. Some breathing assistance involving elevated levels of oxygen was needed to keep the babies alive. Bronchiopulmonary dysplasia (BPD) is deterioration of lung tissue (scarring) in infants exposed to a high level of oxygen. A panel of physicians reviewed each case to determine if BPD was present.</p>
+<p>Infants who did not survive for at least 72 hours were excluded from the analysis because there was not enough time for BPD to develop. One additional infant was excluded due to incomplete records. This reduced the sample from 299 to 248 babies, including 78 with BPD and 170 without BPD. The dataset is available in the file <code>bpd.csv</code>.</p>
+<p>General background variables:</p>
+<ul>
+<li><code>Sex</code> (0=female, 1=male)</li>
+<li><code>YOB</code>: year of birth (coded from 62 to 73)</li>
+<li><code>APGAR</code>: one minute APGAR score (0 to 10 with 10 as the most healthy)</li>
+<li><code>GEST</code>: gestational age (weeks × 10)</li>
+<li><code>BWT</code>: birth weight (grams)</li>
+<li><code>AGSYM</code>: age at onset of RDS (hours × 10)</li>
+<li><code>RDS</code>: severity of initial X-ray for RDS (0 to 5=most severe)</li>
+<li><code>AGVEN</code>: Age at onset of ventilation (hours)</li>
+<li><code>VENTL</code>: total hours on the ventilator</li>
+<li><code>LOWO2</code>: hours of exposure to (21-39%) levels of oxygen</li>
+<li><code>MEDO2</code>: hours of exposure to (40-79%) levels of oxygen</li>
+<li><code>HIO2</code>: hours of exposure to (80-100%) levels of oxygen</li>
+<li><code>INTUB</code>: hours of endotracheal intubation</li>
+<li>Response variable: BPD (coded 1=yes, 2=no)</li>
+</ul>
+<p>The goal is to perform classification using the classification tree method.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="View Solution">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+View Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>First convert categorical variables like <code>sex</code> and <code>rds</code> to factors. There is no need to convert categorical variables into zero-one variables, because it would not change the tree that is produced. Read the data into a data frame and create factors.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>View Solution</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>bpdr <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"bpd.csv"</span>, <span class="at">header=</span>T)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>bpdr<span class="sc">$</span>sex <span class="ot">=</span> <span class="fu">as.factor</span>(bpdr<span class="sc">$</span>sex)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>bpdr<span class="sc">$</span>rds <span class="ot">=</span> <span class="fu">as.ordered</span>(bpdr<span class="sc">$</span>rds)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bpdr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["sex"],"name":[2],"type":["fct"],"align":["left"]},{"label":["yob"],"name":[3],"type":["int"],"align":["right"]},{"label":["apgar"],"name":[4],"type":["chr"],"align":["left"]},{"label":["gest"],"name":[5],"type":["int"],"align":["right"]},{"label":["bwt"],"name":[6],"type":["int"],"align":["right"]},{"label":["agsym"],"name":[7],"type":["int"],"align":["right"]},{"label":["rds"],"name":[8],"type":["ord"],"align":["right"]},{"label":["agven"],"name":[9],"type":["int"],"align":["right"]},{"label":["intub"],"name":[10],"type":["int"],"align":["right"]},{"label":["ventl"],"name":[11],"type":["int"],"align":["right"]},{"label":["lowo2"],"name":[12],"type":["int"],"align":["right"]},{"label":["medo2"],"name":[13],"type":["int"],"align":["right"]},{"label":["hio2"],"name":[14],"type":["int"],"align":["right"]},{"label":["bpd"],"name":[15],"type":["int"],"align":["right"]}],"data":[{"1":"5","2":"1","3":"64","4":"8","5":"400","6":"3203","7":"10","8":"1","9":"58","10":"41","11":"40","12":"79","13":"26","14":"31","15":"2","_rn_":"1"},{"1":"1","2":"0","3":"62","4":"NA","5":"370","6":"2948","7":"0","8":"0","9":"30","10":"88","11":"77","12":"102","13":"89","14":"0","15":"2","_rn_":"2"},{"1":"2","2":"0","3":"62","4":"NA","5":"360","6":"2480","7":"3","8":"1","9":"20","10":"209","11":"204","12":"7","13":"233","14":"1","15":"2","_rn_":"3"},{"1":"6","2":"1","3":"64","4":"NA","5":"320","6":"1860","7":"0","8":"2","9":"1","10":"653","11":"644","12":"0","13":"625","14":"156","15":"1","_rn_":"4"},{"1":"7","2":"1","3":"64","4":"9","5":"NA","6":"1701","7":"5","8":"2","9":"49","10":"40","11":"40","12":"0","13":"12","14":"79","15":"2","_rn_":"5"},{"1":"8","2":"0","3":"64","4":"NA","5":"310","6":"1417","7":"5","8":"5","9":"17","10":"103","11":"102","12":"0","13":"3","14":"119","15":"2","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Create a factor to distinguish the two populations with labels “BPD” and “No BPD”.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>View Solution</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>bpdr<span class="sc">$</span>y[bpdr<span class="sc">$</span>bpd<span class="sc">==</span><span class="dv">1</span>] <span class="ot">=</span> <span class="st">'BPD'</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>bpdr<span class="sc">$</span>y[bpdr<span class="sc">$</span>bpd<span class="sc">==</span><span class="dv">2</span>] <span class="ot">=</span> <span class="st">'No BPD'</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>bpdr<span class="sc">$</span>y <span class="ot">=</span> <span class="fu">as.factor</span>(bpdr<span class="sc">$</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Set a seed for starting a random number generator to generate random numbers used in crossvalidations to prune trees and estimate misclassification probabilities.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>View Solution</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4750</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>bpd.rp <span class="ot">=</span> <span class="fu">rpart</span>(y <span class="sc">~</span> sex<span class="sc">+</span>yob<span class="sc">+</span>gest<span class="sc">+</span>bwt<span class="sc">+</span>agsym<span class="sc">+</span>agven<span class="sc">+</span>intub<span class="sc">+</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>                 ventl<span class="sc">+</span>lowo2<span class="sc">+</span>medo2<span class="sc">+</span>hio2<span class="sc">+</span>rds, </span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">data=</span>bpdr, <span class="at">cp=</span><span class="fl">0.0001</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bpd.rp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+rpart(formula = y ~ sex + yob + gest + bwt + agsym + agven + 
+    intub + ventl + lowo2 + medo2 + hio2 + rds, data = bpdr, 
+    cp = 1e-04)
+  n= 248 
+
+           CP nsplit rel error    xerror       xstd
+1 0.538461538      0 1.0000000 1.0000000 0.09374569
+2 0.038461538      1 0.4615385 0.6666667 0.08218816
+3 0.025641026      3 0.3846154 0.5256410 0.07499920
+4 0.003205128      4 0.3589744 0.5128205 0.07425765
+5 0.000100000      8 0.3461538 0.5128205 0.07425765
+
+Variable importance
+medo2 intub ventl lowo2  hio2 agven   yob 
+   31    19    19    13    10     6     1 
+
+Node number 1: 248 observations,    complexity param=0.5384615
+  predicted class=No BPD  expected loss=0.3145161  P(node) =1
+    class counts:    78   170
+   probabilities: 0.315 0.685 
+  left son=2 (62 obs) right son=3 (186 obs)
+  Primary splits:
+      medo2 &lt; 183    to the right, improve=45.43011, (0 missing)
+      ventl &lt; 220.5  to the right, improve=43.28307, (1 missing)
+      intub &lt; 271    to the right, improve=39.85744, (0 missing)
+      lowo2 &lt; 437.5  to the right, improve=29.52134, (0 missing)
+      hio2  &lt; 153    to the right, improve=17.09879, (0 missing)
+  Surrogate splits:
+      intub &lt; 286.5  to the right, agree=0.871, adj=0.484, (0 split)
+      ventl &lt; 301.5  to the right, agree=0.863, adj=0.452, (0 split)
+      lowo2 &lt; 429    to the right, agree=0.831, adj=0.323, (0 split)
+      agven &lt; 64.5   to the right, agree=0.786, adj=0.145, (0 split)
+      hio2  &lt; 305    to the right, agree=0.774, adj=0.097, (0 split)
+
+Node number 2: 62 observations,    complexity param=0.02564103
+  predicted class=BPD     expected loss=0.1612903  P(node) =0.25
+    class counts:    52    10
+   probabilities: 0.839 0.161 
+  left son=4 (48 obs) right son=5 (14 obs)
+  Primary splits:
+      ventl &lt; 220.5  to the right, improve=6.034381, (1 missing)
+      intub &lt; 221.5  to the right, improve=4.680002, (0 missing)
+      hio2  &lt; 45.5   to the right, improve=4.466501, (0 missing)
+      medo2 &lt; 443.5  to the right, improve=4.181601, (0 missing)
+      lowo2 &lt; 434    to the right, improve=1.743506, (0 missing)
+  Surrogate splits:
+      intub &lt; 221.5  to the right, agree=0.984, adj=0.929, (1 split)
+      medo2 &lt; 243    to the right, agree=0.820, adj=0.214, (0 split)
+      agven &lt; 129    to the left,  agree=0.803, adj=0.143, (0 split)
+      lowo2 &lt; 1928   to the left,  agree=0.787, adj=0.071, (0 split)
+      hio2  &lt; 0.5    to the right, agree=0.787, adj=0.071, (0 split)
+
+Node number 3: 186 observations,    complexity param=0.03846154
+  predicted class=No BPD  expected loss=0.1397849  P(node) =0.75
+    class counts:    26   160
+   probabilities: 0.140 0.860 
+  left son=6 (23 obs) right son=7 (163 obs)
+  Primary splits:
+      hio2  &lt; 159.5  to the right, improve=9.500455, (0 missing)
+      ventl &lt; 223.5  to the right, improve=5.863258, (0 missing)
+      intub &lt; 229    to the right, improve=4.550538, (0 missing)
+      lowo2 &lt; 321    to the right, improve=3.948499, (0 missing)
+      yob   &lt; 68.5   to the left,  improve=2.688830, (0 missing)
+
+Node number 4: 48 observations
+  predicted class=BPD     expected loss=0.04166667  P(node) =0.1935484
+    class counts:    46     2
+   probabilities: 0.958 0.042 
+
+Node number 5: 14 observations
+  predicted class=No BPD  expected loss=0.4285714  P(node) =0.05645161
+    class counts:     6     8
+   probabilities: 0.429 0.571 
+
+Node number 6: 23 observations,    complexity param=0.03846154
+  predicted class=BPD     expected loss=0.4347826  P(node) =0.09274194
+    class counts:    13    10
+   probabilities: 0.565 0.435 
+  left son=12 (10 obs) right son=13 (13 obs)
+  Primary splits:
+      medo2 &lt; 45     to the right, improve=1.950502, (0 missing)
+      rds   splits as  LLLLRRR,    improve=1.950502, (0 missing)
+      agven &lt; 32.5   to the right, improve=1.715062, (0 missing)
+      lowo2 &lt; 4.5    to the right, improve=1.715062, (0 missing)
+      yob   &lt; 68.5   to the left,  improve=1.590062, (0 missing)
+  Surrogate splits:
+      agven &lt; 37.5   to the right, agree=0.826, adj=0.6, (0 split)
+      lowo2 &lt; 17.5   to the right, agree=0.783, adj=0.5, (0 split)
+      intub &lt; 172    to the left,  agree=0.739, adj=0.4, (0 split)
+      ventl &lt; 169.5  to the left,  agree=0.739, adj=0.4, (0 split)
+      yob   &lt; 65.5   to the left,  agree=0.696, adj=0.3, (0 split)
+
+Node number 7: 163 observations,    complexity param=0.003205128
+  predicted class=No BPD  expected loss=0.0797546  P(node) =0.6572581
+    class counts:    13   150
+   probabilities: 0.080 0.920 
+  left son=14 (13 obs) right son=15 (150 obs)
+  Primary splits:
+      lowo2 &lt; 527.5  to the right, improve=4.1181750, (0 missing)
+      ventl &lt; 250.5  to the right, improve=1.9012610, (0 missing)
+      intub &lt; 433.5  to the right, improve=1.7798600, (0 missing)
+      medo2 &lt; 82.5   to the right, improve=1.6898960, (0 missing)
+      gest  &lt; 352.5  to the left,  improve=0.5030691, (1 missing)
+  Surrogate splits:
+      intub &lt; 390    to the right, agree=0.945, adj=0.308, (0 split)
+      ventl &lt; 288.5  to the right, agree=0.939, adj=0.231, (0 split)
+
+Node number 12: 10 observations
+  predicted class=BPD     expected loss=0.2  P(node) =0.04032258
+    class counts:     8     2
+   probabilities: 0.800 0.200 
+
+Node number 13: 13 observations
+  predicted class=No BPD  expected loss=0.3846154  P(node) =0.05241935
+    class counts:     5     8
+   probabilities: 0.385 0.615 
+
+Node number 14: 13 observations
+  predicted class=No BPD  expected loss=0.4615385  P(node) =0.05241935
+    class counts:     6     7
+   probabilities: 0.462 0.538 
+
+Node number 15: 150 observations,    complexity param=0.003205128
+  predicted class=No BPD  expected loss=0.04666667  P(node) =0.6048387
+    class counts:     7   143
+   probabilities: 0.047 0.953 
+  left son=30 (41 obs) right son=31 (109 obs)
+  Primary splits:
+      ventl &lt; 146    to the right, improve=1.7369110, (0 missing)
+      intub &lt; 148.5  to the right, improve=1.4771010, (0 missing)
+      medo2 &lt; 158    to the right, improve=1.2132460, (0 missing)
+      agven &lt; 4.5    to the left,  improve=0.4336516, (0 missing)
+      rds   splits as  RRRRRLL,    improve=0.4148485, (0 missing)
+  Surrogate splits:
+      intub &lt; 146    to the right, agree=0.953, adj=0.829, (0 split)
+      lowo2 &lt; 206    to the right, agree=0.753, adj=0.098, (0 split)
+      agven &lt; 5.5    to the left,  agree=0.747, adj=0.073, (0 split)
+      medo2 &lt; 133    to the right, agree=0.747, adj=0.073, (0 split)
+      hio2  &lt; 144.5  to the right, agree=0.733, adj=0.024, (0 split)
+
+Node number 30: 41 observations,    complexity param=0.003205128
+  predicted class=No BPD  expected loss=0.1707317  P(node) =0.1653226
+    class counts:     7    34
+   probabilities: 0.171 0.829 
+  left son=60 (27 obs) right son=61 (14 obs)
+  Primary splits:
+      lowo2 &lt; 4      to the right, improve=1.2393860, (0 missing)
+      medo2 &lt; 81.5   to the right, improve=1.2393860, (0 missing)
+      agven &lt; 31     to the right, improve=1.1223610, (0 missing)
+      ventl &lt; 155    to the left,  improve=1.1223610, (0 missing)
+      yob   &lt; 69.5   to the left,  improve=0.8294531, (0 missing)
+  Surrogate splits:
+      hio2  &lt; 82.5   to the left,  agree=0.805, adj=0.429, (0 split)
+      bwt   &lt; 1078   to the right, agree=0.707, adj=0.143, (0 split)
+      agven &lt; 12.5   to the right, agree=0.707, adj=0.143, (0 split)
+      yob   &lt; 67.5   to the right, agree=0.683, adj=0.071, (0 split)
+      gest  &lt; 275    to the right, agree=0.683, adj=0.071, (0 split)
+
+Node number 31: 109 observations
+  predicted class=No BPD  expected loss=0  P(node) =0.4395161
+    class counts:     0   109
+   probabilities: 0.000 1.000 
+
+Node number 60: 27 observations,    complexity param=0.003205128
+  predicted class=No BPD  expected loss=0.2592593  P(node) =0.108871
+    class counts:     7    20
+   probabilities: 0.259 0.741 
+  left son=120 (7 obs) right son=121 (20 obs)
+  Primary splits:
+      hio2  &lt; 68.5   to the right, improve=1.8417990, (0 missing)
+      medo2 &lt; 76     to the right, improve=1.5282650, (0 missing)
+      lowo2 &lt; 99     to the left,  improve=1.4158250, (0 missing)
+      ventl &lt; 161.5  to the left,  improve=0.9259259, (0 missing)
+      intub &lt; 195    to the left,  improve=0.7879528, (0 missing)
+  Surrogate splits:
+      yob   &lt; 68.5   to the left,  agree=0.815, adj=0.286, (0 split)
+      gest  &lt; 390    to the right, agree=0.815, adj=0.286, (0 split)
+      bwt   &lt; 2976.5 to the right, agree=0.815, adj=0.286, (0 split)
+      ventl &lt; 150    to the left,  agree=0.815, adj=0.286, (0 split)
+      medo2 &lt; 170.5  to the right, agree=0.815, adj=0.286, (0 split)
+
+Node number 61: 14 observations
+  predicted class=No BPD  expected loss=0  P(node) =0.05645161
+    class counts:     0    14
+   probabilities: 0.000 1.000 
+
+Node number 120: 7 observations
+  predicted class=BPD     expected loss=0.4285714  P(node) =0.02822581
+    class counts:     4     3
+   probabilities: 0.571 0.429 
+
+Node number 121: 20 observations
+  predicted class=No BPD  expected loss=0.15  P(node) =0.08064516
+    class counts:     3    17
+   probabilities: 0.150 0.850 </code></pre>
+</div>
+</div>
+<p>Display the tree.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>View Solution</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rpart.plot</span>(bpd.rp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10-DecisionTrees_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Display the classification training errors by this tree. Print a brief description of what happens at each node</p>
+<div class="cell">
+<details class="code-fold">
+<summary>View Solution</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(bpd.rp, <span class="at">digits=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>n= 248 
+
+node), split, n, loss, yval, (yprob)
+      * denotes terminal node
+
+  1) root 248 78 No BPD (0.3145 0.6855)  
+    2) medo2&gt;=183 62 10 BPD (0.8387 0.1613)  
+      4) ventl&gt;=220 48  2 BPD (0.9583 0.0417) *
+      5) ventl&lt; 220 14  6 No BPD (0.4286 0.5714) *
+    3) medo2&lt; 183 186 26 No BPD (0.1398 0.8602)  
+      6) hio2&gt;=160 23 10 BPD (0.5652 0.4348)  
+       12) medo2&gt;=45 10  2 BPD (0.8000 0.2000) *
+       13) medo2&lt; 45 13  5 No BPD (0.3846 0.6154) *
+      7) hio2&lt; 160 163 13 No BPD (0.0798 0.9202)  
+       14) lowo2&gt;=528 13  6 No BPD (0.4615 0.5385) *
+       15) lowo2&lt; 528 150  7 No BPD (0.0467 0.9533)  
+         30) ventl&gt;=146 41  7 No BPD (0.1707 0.8293)  
+           60) lowo2&gt;=4 27  7 No BPD (0.2593 0.7407)  
+            120) hio2&gt;=68.5 7  3 BPD (0.5714 0.4286) *
+            121) hio2&lt; 68.5 20  3 No BPD (0.1500 0.8500) *
+           61) lowo2&lt; 4 14  0 No BPD (0.0000 1.0000) *
+         31) ventl&lt; 146 109  0 No BPD (0.0000 1.0000) *</code></pre>
+</div>
+</div>
+<p>Compute estimates of the misclassification probabilities</p>
+<div class="cell">
+<details class="code-fold">
+<summary>View Solution</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>bpd.prob <span class="ot">=</span> <span class="fu">predict</span>(bpd.rp)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bpd.prob)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>        BPD     No BPD
+1 0.0000000 1.00000000
+2 0.0000000 1.00000000
+3 0.4285714 0.57142857
+4 0.9583333 0.04166667
+5 0.0000000 1.00000000
+6 0.0000000 1.00000000</code></pre>
+</div>
+</div>
+<p>Make a table of classification results based on confusion matrix.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>View Solution</summary>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>conf.matrix <span class="ot">&lt;-</span> <span class="fu">table</span>(bpdr<span class="sc">$</span>y, <span class="fu">predict</span>(bpd.rp, <span class="at">type=</span><span class="st">"class"</span>))</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>conf.matrix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>        
+         BPD No BPD
+  BPD     58     20
+  No BPD   7    163</code></pre>
+</div>
+<details class="code-fold">
+<summary>View Solution</summary>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># one can also show probabilities</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(conf.matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>        
+                BPD     No BPD
+  BPD    0.23387097 0.08064516
+  No BPD 0.02822581 0.65725806</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>conf.matrix <span class="ot">&lt;-</span> <span class="fu">table</span>(bpdr<span class="sc">$</span>y, <span class="fu">predict</span>(bpd.rp, <span class="at">type=</span><span class="st">"class"</span>))</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>conf.matrix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>        
+         BPD No BPD
+  BPD     58     20
+  No BPD   7    163</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../ch9/09-ClusterAnalysis.html" class="pagination-link" aria-label="Cluster Analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Cluster Analysis</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

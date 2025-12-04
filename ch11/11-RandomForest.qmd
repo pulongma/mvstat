@@ -1,0 +1,14 @@
+---
+title: 'Model-based Clustering'
+author: 'Pulong Ma'
+pdf-engine: xelatex
+---
+
+```{r, message=FALSE,warning=FALSE, include=FALSE}
+# Preload some packages
+knitr::opts_chunk$set(echo = TRUE, message=FALSE)
+library(tidyverse)
+library(reshape2)
+library(dplyr)
+
+```

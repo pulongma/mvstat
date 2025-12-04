@@ -19,6 +19,7 @@ book:
     - ch7/07-FactorAnalysis.qmd
     - ch8/08-MDS.qmd
     - ch9/09-ClusterAnalysis.qmd
+    - ch10/10-DecisionTrees.qmd
     # - summary.qmd
     # - references.qmd
     

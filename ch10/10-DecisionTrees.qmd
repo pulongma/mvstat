@@ -1,0 +1,608 @@
+---
+title: 'Decision Trees'
+author: 'Pulong Ma'
+format: 
+  html:
+    html-math-method: katex
+    include-in-header:
+      - text: |
+          <script>
+            window.MathJax = {
+              loader: {
+                load: ['[tex]/amsmath', '[tex]/amssymb', '[tex]/amsfonts'],
+                '[tex]/color']
+              },
+              tex: {
+                packages: { '[+]': ['amsmath', 'amssymb', 'amsfonts', 'color'] }
+              }
+            };
+          </script>
+    css: custom.css
+    toc: true
+    toc_depth: 3
+    number-sections: true
+    code-fold: true
+    callout-appearance: default
+    df-print: paged
+    theme: cosmo 
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r, message=FALSE,warning=FALSE, include=FALSE}
+# Preload some packages
+knitr::opts_chunk$set(echo = TRUE, message=FALSE)
+library(tidyverse)
+library(reshape2)
+library(dplyr)
+
+```
+
+## Learning goals
+
+By the end of this section, you should be able to:
+
+-   Explain the basic idea of decision trees
+-   Understand the idea of classification tree.
+-   Define impurity measures (misclassification error, Gini index, cross-entropy).
+-   Fit and interpret a classification tree using R package `rpart`.
+-   Visualize trees and decision boundaries.
+-   Explain overfitting and why pruning / cross-validation are needed.
+
+## Introduction
+
+
+::: {.callout-note title="Supervised learning" collapse="false"}
+-   **Supervised learning**: We train the model using a dataset where we already know the correct answers (the "labels").
+-   **Training data**: A datset that is used to train (or fit) the model (in order to estimate unknown model parameters).
+-   **Testing data**: A dataset that is not used for training a model but used to evaluate the accuracy of the model.
+:::
+
+::: {.callout-note title="Decision trees" collapse="false"}
+
+*   ***Decision trees*** are essentially flowcharts of decisions that help us predict an outcome.
+*   Decision trees are *supervised learning* models used for:
+    *   Classification (predicting categories)
+    *   Regression (predicting numeric outcomes)
+*   The term ***decision tree*** refers to the general structure
+    *   A ***classification tree*** is a specific type of decision trees where the target variable is a categorical variable.
+    *   A ***regression tree*** is another specific type of decision trees where the target variable is a numerical variable.
+*   We often use ***classification and regression trees*** with the acronym ***CART*** to refer to the two types of statistical models/algorithms based on decision trees.
+*   In this course, we only focus on ***classification trees***.
+
+::: 
+
+
+## Classification Tree 
+
+### Basic Idea 
+:::::: row
+:::: {.row width="90%" height="20%"}
+::: {.callout-note title="Basic idea of a CART algorithm"}
+-   **Initialization**: All observations are in one node at the top of the tree.
+-   Recursion for each node:
+    -   Pick a binary **decision rule** based on variables.
+    -   Split a node into two child nodes based on the selected decision rule
+-   Recursion stops when no further gain is achieved, or some pre-set stopping rules are met.
+:::
+::::
+
+::: {.row width="90%" height="80%"}
+![Illustration of a CART algorithm](./figures/Trees_illustrations){width="100%" height="100%"}
+:::
+::::::
+
+::: {.callout-note title="Tree terminologies" collapse="false"}
+-   Root node: The starting point; represents the entire dataset.
+-   Internal node: A node that splits the data based on a feature test (a decision).
+-   Branch/edge: The outcome of the test (e.g., 'Yes' or 'No').
+-   Leaf node (terminal node): A node that has no descendants (child nodes).
+:::
+
+* We need to define the decision rule as the splitting criterion to split the node. In this course, we focus on the concept **Gini index** that is used in the original CART algorithm. 
+* We also need to determine when the tree stops splitting.  
+
+
+### Splitting Criterion
+
+* The CART algorithm determines the optimal split by searching for the cutoff (or split point) that yields the maximum reduction in **impurity** (or maximum information gain). 
+* This is equivalent to finding the split that results in the lowest weighted average impurity of the resulting child nodes. 
+
+
+:::{.callout-note title="Definition of Gini index" collapse="false"}
+
+**Definition**: The ***Gini index*** $G$ for a given node $m$ containing observations from $K$ classes is defined as 
+$$
+G_m:= \sum_{i=1}^K \sum_{j\neq i} p_i p_j = 1 - \sum_{i=1}^K p_i^2
+$$
+
+* $K$ is the total number of distinct classes (categories or labels) in the target variable. 
+* $p_i$ is the proportion of observations in node $m$ that belong to class $i$ with $p_1 + p_2 + \ldots + p_K = 1$.
+* The maximum value of the Gini Index occurs at $p_i = 1/K$ for all $i=1,2, \ldots, K$.
+* The minimum value of the Gini Index is 0. 
+* $G_m\approx 0$: The node is approximately perfectly pure. All observations in the node nearly belong to the same class.
+* $G_m > .5$: The node is viewed as highly impure (mixed). Observations are distributed roughly equally across multiple classes. 
+* Gini index quantifies the purity (or homogeneity) of a node in a decision tree. 
+* The Gini index, also called Gini impurity, is a measure in the construction of decision trees to evaluate how often a randomly selected element from a data set would be incorrectly labelled if it were labeled according to the distribution of the labels in the data set. 
+
+
+:::
+
+:::{.callout-note title="Determination of Split"}
+* For any potential split point $c$ on a variable $X$, we divide the data into the left-child node and the right child node. 
+* The split point $c$ is chosen to minimize the weighted Gini index 
+
+:::
+
+* For each continuous variable $x\in [c_0, c_d]$, 
+  * we divide the range of variable into $d$ intervals of width $w$ specified by $c_0, c_0 + w, c_0 + 2w, \ldots, c_d$;
+  * we then choose the cutoff (or split point) $c_i$ that maximizes the impurity of the child nodes.
+* For ordinal variables, we examine each possible cutoff.
+* For nominal variables, we put some categories in the left child and the others in the right child.
+
+
+### Working Example with the `Titanic` Data
+
+::: {.callout-note title="Working Example with the `iris` Data"}
+
+The Titanic dataset contains information about the passengers aboard the RMS Titanic, which sank after striking an iceberg on April 15, 1912, during its maiden voyage from Southampton (UK) to New York City. Out of 2,224 passengers and crew, more than 1,500 people died, making it one of the deadliest peacetime maritime disasters.
+
+We will use the `ptitanic` dataset  from the `rpart.plot` package with 1046 observations on 6 variables
+
+* `pclass`: passenger class, unordered factor: 1st 2nd 3rd
+* `survived`: died or survived
+* `sex`: male or female
+* `age`: in years
+* `sibsp`: number of siblings or spouses aboard
+* `parch`: number of parents or children aboard
+*   Goal: We want to predict `survived` based on the other 5 variables.
+
+```{r}
+#| code-fold: false
+library(rpart)
+library(rpart.plot)
+
+data(ptitanic)
+df = ptitanic
+head(df)
+```
+
+```{r}
+#| code-fold: false
+#| code-summary: "Prepare the data"
+
+df$age = as.numeric(ptitanic$age)
+df$sibsp = as.integer(ptitanic$sibsp)
+df$parch = as.integer(ptitanic$parch)
+
+```
+
+
+```{r,message=FALSE, warning=FALSE}
+#| code-fold: false
+library(GGally)
+library(dplyr)
+df %>% 
+  select(-survived) %>%
+  ggpairs()
+
+```
+
+:::
+
+
+
+
+
+::: {.callout-note title="Train/Test data" collapse="true"}
+```{r}
+#| label: iris-split
+#| code-fold: false
+set.seed(4750)
+n = nrow(df)
+frac = 0.7 # 70% for training 
+train_idx = sample(seq_len(n), size = floor(frac * n))
+
+df_train = df[train_idx, ]
+df_test = df[-train_idx, ]
+
+dim(df_train)
+dim(df_test)
+
+```
+:::
+
+::: {.callout-note title="Fit a classification tree" collapse="true"}
+```{r}
+#| code-fold: false
+#| code-summary: "Fit via `rpart` for training data"
+fit = rpart(survived ~ ., data = df_train)
+print(fit)
+```
+:::
+
+::: {.callout-note title="Visualizing the tree" collapse="true"}
+
+```{r}
+#| code-fold: false
+#| fig.cap: "Classification tree."
+g = rpart.plot(fit,
+  main = "Classification Tree (unpruned)"
+)
+
+```
+
+```{r}
+#| code-fold: false
+#| fig.cap: "Classification tree"
+g = rpart.plot(
+  fit,
+  type = 2,        # split labels on branches
+  extra = 104,     # show class, prob, and percentage of obs.
+  under = TRUE,    # show text information under the box
+  main = "Classification Tree (unpruned)"
+)
+
+```
+
+* How to read a node? 
+  *   Each node shows the predicted class (`died` or `survived`), predicted probability of survival, and the percentage of observations in the node
+  * For the root node, it shows the percentage of observations that corresponds to `survived` (here it is .38) in the first figure above. In the second figure, it shows two probabilities (`0.62, 0.38`), corresponding to two classes `died` and `survived`.  
+  * In the first figure (with default setting in `rpart.plot`), the probability shown in each node always refers to the `survived` observations. 
+  *   `.82 .18` (lowest left node): estimated probabilities for each class: `died` or `survived`
+  *   `59%` (lowest left node): percentage of training observations in that node
+
+* At each node, the algorithm searched over all predictors and possible cut points to find the split that maximally reduces node **impurity** (i.e., inhomogeneity). We will talk about this concept in what follows.
+:::
+
+::: {.callout-note title="Interpretation of splits" collapse="true"}
+
+*   **Root split** (split at tree depth 0): `sex = male`
+    *   left child: all observations with `sex = male`
+    *   right child: all observations with `sex = female`
+*   A split at tree depth 1 (on the left child): `age >= 14`
+    *   This separates remaining observations further into two classes (`died` or `survived`) with the constrain that its left child corresponds to `age >= 14` and its right child corresponds to `age < 14`.
+
+:::
+
+
+### Pruning The Tree 
+
+```{r}
+#| code-fold: false
+#| code-summary: "Fitting A Deep Tree"
+#| fig-align: "center"
+fit1 = rpart(survived ~ ., data = df_train, cp=0.00001)
+rpart.plot(fit1)
+```
+
+* As we can see, the fitted classification tree has a deeper tree structure. The question then becomes whether this deeper tree is necessary (brings benefits). 
+* Deep trees (those with large number of tree nodes) can **overfit**.  To address this issue, `rpart` uses cost-complexity pruning controlled by `cp` (complexity parameter). 
+
+
+:::{.callout-note title="overfit vs underfit" collapse=true}
+* A statistical model or machine learning model **overfits** the data if the model's error on training data is very low (often near zero) and simultaneously the model's error on testing data is much higher than the training error. Overfitting is often implied by high training accuracy and low testing accuracy. 
+* Overfitting is often a characteristics of overly complex models. In decision trees, this means the tree with too many deep branches.
+* **Underfitting** is the opposite of **overfitting**. 
+* In general, we want to build a statistical model/machine learning model that balance **model complexity** and testing accuracy.
+* This is achieved by cross-validation (CV): 
+  * CV is used during training to estimate how well the model will generalize to unseen data (testing data). 
+  * CV divides the data into training data and testing data.
+:::
+
+Let's first look at the fitting outputs from `fit1`, which gives the complexity parameter (CP) and cross-validation error. 
+```{r}
+#| code-fold: false
+#| code-summary: "CP table and cross-validation error"
+
+printcp(fit1)
+```
+
+The table includes:
+
+* `nsplit`: number of splits
+* `rel error`: training error (relative to root node)
+* `xerror`: cross-validated error
+* `xstd`: standard error of `xerror`
+
+
+
+```{r}
+#| code-fold: false
+#| code-summary: "CP plot: cross-validated error vs tree complexity"
+
+plotcp(fit1)
+```
+* **Note**: a horizontal line in the figure above is drawn 1 standard error above the minimum of the curve.  
+
+
+To select the best CP, we could use 
+```{r}
+#| code-fold: false
+#| code-summary: "Choose the best CP"
+best_cp = fit1$cptable[which.min(fit1$cptable[, "xerror"]), "CP"]
+best_cp
+```
+
+```{r}
+#| code-fold: false
+#| code-summary: "Prune the tree"
+
+fit1_pruned = prune(fit1, cp = best_cp)
+
+rpart.plot(
+  fit1_pruned,
+  main = "Pruned Classification Tree"
+)
+
+```
+
+:::{.callout-note title="How to interpte the results?" collapse="true"}
+* In general, there is a clear class boundaries due to `sex=female`, `Pclass<3`, and `Age<14`. 
+* Compared to males, females have a higher survival rate. This makes sense because
+  * Many women and children were evacuated first.
+* 1st and 2nd class passengers had much better survival chances
+  * Proximity to lifeboats
+  * Better access to upper decks
+* Children had higher survival rates 
+  * Often evacuated first with their families
+::: 
+
+
+:::{.callout-warning title="Randomness in cross-validation"}
+* The problem with reducing the `xerror` is that the cross-validation (CV) error is a random quantity. This is because CV randomly divides the data in `rpart`. 
+* There is no guarantee that if we were to fit the sequence of trees again using a different random seed that the same tree would minimize the cross-validation error. 
+* A more robust alternative to minimum cross-validation error is to use the one standard deviation rule: choose the smallest tree whose cross-validation error is within one standard error of the minimum. Depending on how we define this there are two possible choices. 
+  * The first tree whose point estimate of the cross-validation error falls within the $\pm 1$ `xstd` of the minimum. 
+  * On the other hand,  the standard error lower limit of the tree of size three is within  $+1$ `xstd` of the minimum.
+
+:::
+
+
+### Model Evaluation 
+
+For classification problems, we could evaluate the performance the model by looking at classification errors, which are defined through a ***confusion matrix***. A confusion matrix is a table that summarizes how well a classification model performs by comparing the model’s predicted classes with the actual (true) classes. 
+
+:::{.callout-note title="Confusion Matrix" collapse=false}
+* A confusion matrix is a square table where:
+  * Rows represent the true classes
+  * Columns represent the predicted classes
+* Each cell shows the number of observations that fall into that true–predicted combination.
+
+:::
+
+:::{.callout-note title="Example of Binary Confusion Matrix" collapse=false}
+Suppose a model predicts whether a passenger survived the Titanic disaster. 
+
+| **True Predicted** | **Predicted: Survived** | **Predicted: Died** |
+|-----------------------|-------------------------|----------------------|
+| **True: Survived**    | **TP** (True Positives) | **FN** (False Negatives) |
+| **True: Died**        | **FP** (False Positives)| **TN** (True Negatives)  |
+
+* **True Positive (TP)**: correctly predicted survived.
+* **True Negative (TN)**: correctly predicted died. 
+* **False Positive (FP)** (Type I error): predicted survived but actually died.  (A "false alarm")
+* **False Negative (FN)** (Type II error): predicted died but actually survived. (A "miss")
+* The table above does not require strict ordering in columns or rows. One could switch the column `Predicted: Survived` and the column `Predicted: Died` but the meaning/interpretation should also be defined appropriately.  
+:::
+
+We first show the prediction results and confusion matrix based on training data. 
+
+```{r}
+#| code-fold: false
+#| code-summary: "Confusion Matrix for Titanic Data"
+pred_class_train = predict(fit1_pruned, 
+                           type="class"  
+                           )
+conf_mat_train = table(Predicted=pred_class_train, True=df_train$survived)
+
+conf_mat_train
+```
+We can also get mis-classification errors using the following R code
+```{r}
+#| code-fold: false
+
+prob.results = predict(fit1_pruned)
+head(prob.results)
+```
+The confusion matrix can also be represented in terms of probabilities: 
+```{r}
+#| code-fold: false
+
+prop.table(table(Predicted=pred_class_train,
+                 True=df_train$survived))
+```
+
+
+
+```{r}
+#| code-fold: false
+#| code-summary: "Confusion Matrix for Titanic Data"
+pred_class = predict(fit1_pruned, newdat=df_test, type="class")
+conf_mat = table(Predicted=pred_class, True=df_test$survived)
+
+conf_mat
+```
+
+To show probabilities in confusion matrix, one can use the following code
+```{r}
+#| code-fold: false
+prop.table(conf_mat)
+```
+
+
+
+:::{.callout-note title="Common Metrics Derived from the Confusion Matrix" collapse=false}
+
+* **Accuracy**: The proportion of total predictions that were correct.
+$$
+\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
+$$
+* **Sensitivity / Recall (True Positive Rate)**: Out of all actual positives, how many did the model correctly identify? (Focuses on avoiding Misses)
+$$
+\text{Recall} = \frac{TP}{TP + FN}
+$$
+* **Specificity (True Negative Rate)**: Out of all actual negatives, how many did the model correctly identify? (The opposite of Recall, focusing on the negative class)
+$$
+\text{Specificity} = \frac{TN}{TN + FP}
+$$
+* **Precision**: Out of all predicted positives, how many were actually correct? (Focuses on avoiding False Alarms)
+$$
+\text{Precision} = \frac{TP}{TP + FP}
+$$
+
+:::
+
+```{r}
+#| code-fold: false
+
+accuracy <- mean(pred_class == df_test$survived)
+accuracy
+
+```
+
+```{r}
+#| code-fold: false 
+TP = conf_mat[1,1]
+FP = conf_mat[2,1]
+FN = conf_mat[1,2]
+TN = conf_mat[2,2]
+
+Accuracy = (TP + TN) / (TP + TN + FP + FN)
+Recall = TP / (TP + FN)
+Specificity = TN / (TN + FP)
+Precision = TP / (TP + FP)
+
+cat(" Accuracy: ", Accuracy, "\n", 
+    "Recall: ", Recall, "\n", 
+    "Specificity: ", Specificity, "\n",
+    "Precision: ", Precision)
+```
+
+
+
+
+
+## Exercise 
+
+:::{.callout-note title="Bronchopulmonary Dysplasia (BPD) Study" collapse=false}
+This example is from Biostatistics Casebook (pp. 104-119)
+
+Training samples consist of all infants at the Stanford Medical Center between 1962 and 1973 who were diagnosed with respiratory distress syndrome (RDS) and received ventilatory assistance for at least 24 hours (except one infant with incomplete records). Most of these babies were born prematurely and had underdeveloped lungs. Some breathing assistance involving elevated levels of oxygen was needed to keep the babies alive. Bronchiopulmonary dysplasia (BPD) is deterioration of lung tissue (scarring) in infants exposed to a high level of oxygen. A panel of physicians reviewed each case to determine if BPD was present.
+
+Infants who did not survive for at least 72 hours were excluded from the analysis because there was not enough time for BPD to develop. One additional infant was excluded due to incomplete records. This reduced the sample from 299 to 248 babies, including 78 with BPD and 170 without BPD. The dataset is available in the file `bpd.csv`. 
+
+General background variables:
+
+* `Sex` (0=female, 1=male) 
+* `YOB`: year of birth (coded from 62 to 73) 
+* `APGAR`: one minute APGAR score (0 to 10 with 10 as the most healthy) 
+* `GEST`: gestational age (weeks × 10) 
+* `BWT`: birth weight (grams) 
+* `AGSYM`: age at onset of RDS (hours × 10) 
+* `RDS`: severity of initial X-ray for RDS (0 to 5=most severe)
+* `AGVEN`: Age at onset of ventilation (hours) 
+* `VENTL`: total hours on the ventilator
+* `LOWO2`: hours of exposure to (21-39%) levels of oxygen 
+* `MEDO2`: hours of exposure to (40-79%) levels of oxygen
+* `HIO2`: hours of exposure to (80-100%) levels of oxygen 
+* `INTUB`: hours of endotracheal intubation
+* Response variable: BPD (coded 1=yes, 2=no)
+
+The goal is to perform classification using the classification tree method. 
+
+:::
+
+:::{.callout-note title="View Solution" collapse=true}
+First convert categorical variables like `sex` and `rds` to factors. There is no need to convert categorical variables into zero-one variables, because it would not change the tree that is produced. Read the data into a data frame and create factors.
+
+```{r}
+#| code-fold: true
+#| code-summary: "View Solution"
+
+bpdr = read.csv("bpd.csv", header=T)
+
+bpdr$sex = as.factor(bpdr$sex)
+bpdr$rds = as.ordered(bpdr$rds)
+ 
+head(bpdr)
+
+```
+
+Create a factor to distinguish the two populations with labels "BPD" and "No BPD".
+
+```{r}
+#| code-fold: true
+#| code-summary: "View Solution"
+
+bpdr$y[bpdr$bpd==1] = 'BPD'
+bpdr$y[bpdr$bpd==2] = 'No BPD'
+bpdr$y = as.factor(bpdr$y)
+
+```
+
+Set a seed for starting a random number generator to generate random numbers used in crossvalidations to prune trees and estimate misclassification probabilities.
+
+```{r}
+#| code-fold: true
+#| code-summary: "View Solution"
+
+set.seed(4750)
+ 
+bpd.rp = rpart(y ~ sex+yob+gest+bwt+agsym+agven+intub+
+                 ventl+lowo2+medo2+hio2+rds, 
+               data=bpdr, cp=0.0001)
+
+summary(bpd.rp)
+
+```
+
+Display the tree. 
+
+```{r}
+#| code-fold: true
+#| code-summary: "View Solution"
+
+rpart.plot(bpd.rp)
+```
+
+Display the classification training errors by this tree.
+Print a brief description of what happens at each node
+
+```{r}
+#| code-fold: true
+#| code-summary: "View Solution"
+print(bpd.rp, digits=3)
+```
+
+Compute estimates of the misclassification probabilities
+```{r}
+#| code-fold: true
+#| code-summary: "View Solution"
+bpd.prob = predict(bpd.rp)
+head(bpd.prob)
+
+```
+Make a table of classification results based on confusion matrix.
+
+
+```{r}
+#| code-fold: true
+#| code-summary: "View Solution"
+conf.matrix <- table(bpdr$y, predict(bpd.rp, type="class"))
+
+conf.matrix
+
+# one can also show probabilities
+prop.table(conf.matrix)
+``` 
+
+```{r}
+conf.matrix <- table(bpdr$y, predict(bpd.rp, type="class"))
+
+conf.matrix
+```
+::: 
+
